@@ -1,4 +1,4 @@
-import { RECEIVE_COURSES } from '../actions/courses'
+import { RECEIVE_COURSES, WRITE_COURSE } from '../actions/courses'
 
 
 
@@ -11,9 +11,17 @@ export default function coursesReducer (state={}, action) {
             return {
                 ...state,
                 ...action.courses
+            };
 
+        case WRITE_COURSE:
+            return {
+                ...state,
+                [action.course_data.course_gen_id] : {
+                    ...state[action.course_data.course_gen_id],
+                    [action.column]:[action.value]
+                }
 
-            }
+            };
 
 
         default:
