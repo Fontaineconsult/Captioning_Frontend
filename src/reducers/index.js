@@ -4,6 +4,8 @@ import instructorsReducer from './instructors'
 import studentsReducer from './students'
 import videosJobsReducer from './video_jobs'
 import iLearnVideoReducer from './ilearn_videos'
+import mediaReducer from './media'
+import loadingStatusReducer from './status'
 
 export default combineReducers({
 
@@ -11,6 +13,8 @@ export default combineReducers({
     instructorsReducer,
     studentsReducer,
     videosJobsReducer,
-    iLearnVideoReducer
+    iLearnVideoReducer,
+    mediaReducer,
+    loadingStatusReducer
 
 })

@@ -4,6 +4,8 @@ import {receiveInstructors} from '../instructors'
 import receiveVideos from '../video_jobs'
 import receiveStudents from '../students'
 import receiveIlearnVideos from '../ilearn_videos'
+import receiveMedia from '../media'
+import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs} from '../status'
 
 import fetch from "cross-fetch";
 
@@ -16,9 +18,11 @@ export function fetchAllCourses() {
     return dispatch => {
 
         dispatch(receiveCourses());
+        dispatch(LoadingCourses(true))
         return fetch(`${server_url}/courses?semester=sp19`)
             .then(response => response.json())
             .then(data => dispatch(receiveCourses(data)))
+            .then(dispatch(LoadingCourses(false)))
             .then(data => console.log(data))
 
     }
@@ -108,13 +112,31 @@ export function fetchIlearnVideosBySemester(semester) {
     return dispatch => {
 
         dispatch(receiveIlearnVideos());
+        dispatch(LoadingIlearnVideos(true))
 
         return fetch(`${server_url}/ilearn-videos?semester=${semester}`)
             .then(response => response.json())
             .then(data => dispatch(receiveIlearnVideos(data)))
+            .then(dispatch(LoadingIlearnVideos(false)))
             .then(data => console.log(data))
 
     }
+
+}
+
+export function fetchMediaById(id) {
+    return dispatch => {
+
+        dispatch(receiveMedia());
+
+        return fetch(`${server_url}/media?id=${id}`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveMedia(data)))
+            .then(data => console.log(data))
+
+    }
+
+
 
 }
 
