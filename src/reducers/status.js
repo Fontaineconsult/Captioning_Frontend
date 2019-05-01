@@ -2,12 +2,12 @@ import {_LOADINGCOURSES, _LOADINGILEARNVIDEOS, _LOADINGINSTRUCTORS, _LOADINGMEDI
 
 export default function loadingStatusReducer (state={
 
-    coursesLoading: false,
-    iLearnVideosLoading: false,
-    instructorsLoading: false,
-    mediaLoading: false,
-    studentsLoading: false,
-    videoJobsLoading: false,
+    coursesLoading: true,
+    iLearnVideosLoading: true,
+    instructorsLoading: true,
+    mediaLoading: true,
+    studentsLoading: true,
+    videoJobsLoading: true,
 
 }, action) {
 

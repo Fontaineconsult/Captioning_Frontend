@@ -22,7 +22,7 @@ export function fetchAllCourses() {
         return fetch(`${server_url}/courses?semester=sp19`)
             .then(response => response.json())
             .then(data => dispatch(receiveCourses(data)))
-            .then(dispatch(LoadingCourses(false)))
+            .then(() => dispatch(LoadingCourses(false)))
             .then(data => console.log(data))
 
     }
@@ -117,7 +117,7 @@ export function fetchIlearnVideosBySemester(semester) {
         return fetch(`${server_url}/ilearn-videos?semester=${semester}`)
             .then(response => response.json())
             .then(data => dispatch(receiveIlearnVideos(data)))
-            .then(dispatch(LoadingIlearnVideos(false)))
+            .then(() => dispatch(LoadingIlearnVideos(false)))
             .then(data => console.log(data))
 
     }

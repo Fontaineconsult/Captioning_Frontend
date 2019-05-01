@@ -25,7 +25,7 @@ export function updateCourse(course_gen_id, column, value) {
 
         dispatch(writeCourse(data_object));
         return fetch(`${server_url}/courses`, post_object)
-            .then(data => console.log(JSON.stringify(data.ok)))
+            .then(data => console.log(JSON.stringify(data.response)))
             .catch(error => api_failure(error))
 
 
