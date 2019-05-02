@@ -58,13 +58,13 @@ export function AddMedia(title, link, type) {
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }}
+        }};
 
     return dispatch => {
 
         dispatch(writeCourse(data_object));
         return fetch(`${server_url}/media`, post_object)
-            .then(data => console.log(JSON.stringify(data.ok)))
+            .then(data => console.log(JSON.stringify(data)))
             .catch(error => api_failure(error))
 
 

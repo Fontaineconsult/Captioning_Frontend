@@ -4,7 +4,7 @@ import {withRouter} from "react-router";
 import {AddMedia} from '../../actions/creators/putData'
 // import { Formik } from 'formik';
 
-class NewCapJobContainer extends Component {
+class NewMediaContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -13,7 +13,7 @@ class NewCapJobContainer extends Component {
             link: '',
             type: '',
 
-        };
+        }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -95,4 +95,4 @@ function mapStateToProps({state}) {
 }
 
 
-export default withRouter(connect(mapStateToProps)(NewCapJobContainer))
+export default withRouter(connect(mapStateToProps)(NewMediaContainer))

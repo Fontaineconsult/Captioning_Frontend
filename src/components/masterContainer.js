@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import ILearnItem from '../components/iLearnViewsContainer/SingleiLearnListItemView/SingleiLearnItem'
-import NewCapJobContainer from '../components/AddCapJobView/newCapJobContainer'
+import NewCapJobContainer from './AddMediaContainer/newMediaContainer'
 class MasterContainer extends Component {
 
     render() {
