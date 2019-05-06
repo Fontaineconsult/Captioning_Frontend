@@ -40,7 +40,7 @@ class NewMediaContainer extends Component {
 
         return(
             <div>
-                <p>NEW FORM CONTAINER</p>
+                <p>NEW MEDIA FORM</p>
             <form onSubmit={this.handleSubmit}>
                 <label>
                     Video Title:

@@ -1,5 +1,6 @@
 import fetch from "cross-fetch";
-import {writeCourse} from "../courses";
+
+import {addCapJob, addCapJobMedia} from '../newCapJob'
 import {api_failure} from "../../utilities/api/errors";
 
 
@@ -36,7 +37,7 @@ export function AddVideoJob(course_gen_id, title, link, type) {
 
     return dispatch => {
 
-        dispatch(writeCourse(data_object));
+        dispatch(addCapJob(data_object));
         return fetch(`${server_url}/video-jobs`, post_object)
             .then(data => console.log(JSON.stringify(data.ok)))
             .catch(error => api_failure(error))
@@ -45,7 +46,6 @@ export function AddVideoJob(course_gen_id, title, link, type) {
     }
 
 };
-
 
 export function AddMedia(title, link, type) {
 
@@ -61,13 +61,13 @@ export function AddMedia(title, link, type) {
         }};
 
     return dispatch => {
-
-        dispatch(writeCourse(data_object));
         return fetch(`${server_url}/media`, post_object)
-            .then(data => console.log(JSON.stringify(data)))
+            .then(response => response.json())
+            .then(data => dispatch(addCapJobMedia(data)))
             .catch(error => api_failure(error))
 
 
     }
 
 };
+
