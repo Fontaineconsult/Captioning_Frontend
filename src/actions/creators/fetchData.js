@@ -5,12 +5,49 @@ import receiveVideos from '../video_jobs'
 import receiveStudents from '../students'
 import receiveIlearnVideos from '../ilearn_videos'
 import receiveMedia from '../media'
+import receiveRequester from '../requester'
 import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs} from '../status'
 
 import fetch from "cross-fetch";
 
 
 const server_url = 'http://127.0.0.1:5000/api/v1/captioning';
+
+
+export function loginDiscovery(id) {
+
+    return dispatch => {
+
+        return fetch(`${server_url}/requesters?employee_id=${id}`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveRequester(data)))
+            .then(data => console.log(data))
+
+    }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 export function fetchAllCourses() {

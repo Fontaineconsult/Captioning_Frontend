@@ -7,6 +7,8 @@ import iLearnVideoReducer from './ilearn_videos'
 import mediaReducer from './media'
 import loadingStatusReducer from './status'
 import newCapJobReducer from './newCapJob'
+import requesterReducer from './requester'
+import campusOrgReducer from './campusOrgs'
 
 export default combineReducers({
 
@@ -17,6 +19,8 @@ export default combineReducers({
     iLearnVideoReducer,
     mediaReducer,
     loadingStatusReducer,
-    newCapJobReducer
+    newCapJobReducer,
+    requesterReducer,
+    campusOrgReducer
 
 })
