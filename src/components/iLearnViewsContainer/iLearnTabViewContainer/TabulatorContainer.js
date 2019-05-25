@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
-import { ReactTabulator } from 'react-tabulator'
+import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import * as tabFuncs from './TabulatorDataConstructor'
 
 const columns = [{ title: "Title", field: "title", width: 150 },
@@ -11,8 +11,13 @@ const columns = [{ title: "Title", field: "title", width: 150 },
     { title: "Due Date", field: "indicated_due_date", width: 150 },
     { title: "Link", field: "resource_link", width: 150 },
     { title: "Scan Date", field: "scan_date", width: 150 },
-    { title: "Submitted", field: "submitted_for_processing", width: 150},
+    { title: "Submitted", formatter: reactFormatter(<SimpleButton />), field: "submitted_for_processing", width: 150},
     { title: "Section", field: "page_section", width: 150 }];
+
+function SimpleButton(props) {
+    const cellData = props.cell._cell.row.data;
+    return <button onClick={() => alert(cellData.name)}>Show</button>;
+}
 
 class TabulatorContainer extends Component {
 
