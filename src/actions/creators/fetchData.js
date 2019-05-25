@@ -25,29 +25,7 @@ export function loginDiscovery(id) {
 
     }
 
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 export function fetchAllCourses() {

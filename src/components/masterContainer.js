@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
-import ILearnItem from '../components/iLearnViewsContainer/SingleiLearnListItemView/SingleiLearnItem'
+import ILearnMasterContainer from './iLearnViewsContainer/iLearnMasterContainer/iLearnMasterContainerView'
+
 import NewCapJobContainer from './AddCapJobView/newCapJobContainer'
 
 
@@ -12,10 +13,9 @@ class MasterContainer extends Component {
         return(
 
             <div>
+                <p>Master Container</p>
 
-                <p>Master Container</p>
-                <NewCapJobContainer/>
-                <p>Master Container</p>
+                <ILearnMasterContainer/>
 
 
             </div>
