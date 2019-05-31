@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Route} from 'react-router-dom'
 import {withRouter} from "react-router";
-import {fetchAllCourses, fetchInstructors, fetchVideoJobsByInstructor, fetchStudent, fetchAllStudents, fetchCoursesbyInstructorId, fetchIlearnVideosBySemester, fetchMediaById, loginDiscovery} from "./actions/creators/fetchData";
+import {fetchAllCourses, fetchInstructors, fetchVideoJobsByInstructor, fetchStudent, fetchAllStudents, fetchCoursesbyInstructorId, fetchIlearnVideosBySemester, fetchMediaById, loginDiscovery, fetchiLearnVideosByInstructorId} from "./actions/creators/fetchData";
 import {updateCourse, updateVideoJob} from "./actions/creators/postData";
 import {AddMedia} from "./actions/creators/putData";
 import MasterContainer from './components/masterContainer'
@@ -13,7 +13,7 @@ class App extends Component {
     componentDidMount() {
      this.props.dispatch(fetchAllCourses())
      // this.props.dispatch(fetchInstructors('sp19'))
-     this.props.dispatch(fetchIlearnVideosBySemester('sp19'))
+     this.props.dispatch(fetchiLearnVideosByInstructorId('910484411', "sp19"))
      // this.props.dispatch(fetchVideoJobsByInstructor('fa18', '907384821'))
      // this.props.dispatch(fetchAllStudents())
      // this.props.dispatch(fetchMediaById("True"))

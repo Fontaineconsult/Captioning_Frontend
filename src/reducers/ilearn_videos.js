@@ -1,4 +1,4 @@
-import {RECEIVE_ILEARN_VIDEOS} from "../actions/ilearn_videos";
+import {RECEIVE_ILEARN_VIDEOS, UPDATE_ILEARN_VIDEO} from "../actions/ilearn_videos";
 
 export default function IlearnVideoReducer (state={}, action) {
 
@@ -12,6 +12,15 @@ export default function IlearnVideoReducer (state={}, action) {
 
 
             };
+
+
+        case UPDATE_ILEARN_VIDEO:
+            console.log(action.ilearn_video_data)
+        return {
+            ...state,
+            // ...action.ilearn_video_data
+
+        };
 
 
         default:

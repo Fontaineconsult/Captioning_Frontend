@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.0.0-rc.0",
+    "@material-ui/icons": "^4.0.1",
     "cross-fetch": "^3.0.2",
     "formik": "^1.5.4",
     "moment": "^2.24.0",

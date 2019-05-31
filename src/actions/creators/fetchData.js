@@ -3,7 +3,7 @@ import {receiveCourses} from '../courses'
 import {receiveInstructors} from '../instructors'
 import receiveVideos from '../video_jobs'
 import receiveStudents from '../students'
-import receiveIlearnVideos from '../ilearn_videos'
+import {receiveIlearnVideos} from '../ilearn_videos'
 import receiveMedia from '../media'
 import receiveRequester from '../requester'
 import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs} from '../status'
@@ -138,6 +138,25 @@ export function fetchIlearnVideosBySemester(semester) {
     }
 
 }
+
+export function fetchiLearnVideosByInstructorId(instructor_id, semester){
+
+    return dispatch => {
+
+        dispatch(receiveIlearnVideos());
+        dispatch(LoadingIlearnVideos(true))
+
+        return fetch(`${server_url}/ilearn-videos?instructor_id=${instructor_id}&semester=${semester}`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveIlearnVideos(data)))
+            .then(() => dispatch(LoadingIlearnVideos(false)))
+            .then(data => console.log(data))
+
+    }
+
+
+}
+
 
 export function fetchMediaById(id) {
     return dispatch => {

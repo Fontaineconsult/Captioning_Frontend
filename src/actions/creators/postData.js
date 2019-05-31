@@ -1,4 +1,5 @@
 import {writeCourse} from '../courses'
+import {writeiLearnVideo} from '../ilearn_videos'
 import {api_failure} from '../../utilities/api/errors'
 
 
@@ -32,11 +33,10 @@ export function updateCourse(course_gen_id, column, value) {
     }}
 
 
-export function updateVideoJob(video_id, column, value) {
+
+export function updateiLearnVideo(course_gen_id, video_id, column, value) {
 
     let data_object = {id: video_id, column: column, value: value };
-
-
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),
@@ -47,11 +47,12 @@ export function updateVideoJob(video_id, column, value) {
     };
 
     return dispatch => {
+        console.log(post_object)
 
-        dispatch(writeCourse(data_object));
-        return fetch(`${server_url}/video-jobs`, post_object)
-            .then(data => console.log(JSON.stringify(data.response)))
-            .catch(error => api_failure(error))
+        dispatch(writeiLearnVideo(course_gen_id, data_object));
 
-
-    }}
+        return fetch(`${server_url}/ilearn-videos`, post_object)
+                .then(data => console.log(JSON.stringify(data.response)))
+                .catch(error => api_failure(error))
+    }
+}
