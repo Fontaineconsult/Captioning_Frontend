@@ -14,6 +14,22 @@ import fetch from "cross-fetch";
 const server_url = 'http://127.0.0.1:5000/api/v1/captioning';
 
 
+export function fetchCourseByCourseGenId(courseGenId){
+    return dispatch => {
+
+        dispatch(receiveCourses());
+        dispatch(LoadingCourses(true))
+        return fetch(`${server_url}/courses?course_gen_id=${courseGenId}`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveCourses(data)))
+            .then(() => dispatch(LoadingCourses(false)))
+            .then(data => console.log(data))
+
+    }
+
+
+}
+
 export function loginDiscovery(id) {
 
     return dispatch => {
@@ -28,13 +44,13 @@ export function loginDiscovery(id) {
     }
 
 
-export function fetchAllCourses() {
+export function fetchAllCourses(semester) {
 
     return dispatch => {
 
         dispatch(receiveCourses());
         dispatch(LoadingCourses(true))
-        return fetch(`${server_url}/courses?semester=sp19`)
+        return fetch(`${server_url}/courses?semester=${semester}`)
             .then(response => response.json())
             .then(data => dispatch(receiveCourses(data)))
             .then(() => dispatch(LoadingCourses(false)))
@@ -157,6 +173,23 @@ export function fetchiLearnVideosByInstructorId(instructor_id, semester){
 
 }
 
+export function fetchiLearnVideosByCourseGenId(CourseGenId){
+
+    return dispatch => {
+
+        dispatch(receiveIlearnVideos());
+        dispatch(LoadingIlearnVideos(true))
+
+        return fetch(`${server_url}/ilearn-videos?course_gen_id=${CourseGenId}`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveIlearnVideos(data)))
+            .then(() => dispatch(LoadingIlearnVideos(false)))
+            .then(data => console.log(data))
+
+    }
+
+
+}
 
 export function fetchMediaById(id) {
     return dispatch => {

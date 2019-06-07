@@ -47,7 +47,7 @@ export function updateiLearnVideo(course_gen_id, video_id, column, value) {
     };
 
     return dispatch => {
-        console.log(post_object)
+
 
         dispatch(writeiLearnVideo(course_gen_id, data_object));
 

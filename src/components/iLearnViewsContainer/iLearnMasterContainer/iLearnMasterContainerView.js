@@ -14,11 +14,13 @@ class ILearnMasterContainer extends Component {
             <div>
 
                 <p>IlearnMasterContainer</p>
+                {this.props.isLoading === true && (<p>Loading</p>)}
 
-                {Object.keys(this.props.coursesReducer).map((course, i) =>(
-                    <ILearnCourseContainer course_id={course} key={i}/>
+                {this.props.isLoading === false && (Object.keys(this.props.coursesReducer).map((course, i) =>(
+                        <ILearnCourseContainer course_id={course} key={i}/>
 
-                ))}
+                    )))}
+
 
 
 
@@ -41,9 +43,8 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
     let isLoading = loadingStatusReducer['iLearnVideosLoading'] && Object.keys(iLearnVideoReducer).length === 0;
 
     return {
-        iLearnVideoReducer,
-        isLoading,
-        coursesReducer
+        coursesReducer,
+        isLoading
     }
 }
 

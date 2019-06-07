@@ -11,16 +11,22 @@ export const datePicker = function (cell, onRendered, success, cancel, editorPar
 
     date_picker.value = moment(cell.getValue(), moment.ISO_8601).format("MM/DD/YYYY")
     onRendered(function () {
-
         date_picker.focus()
     });
 
     function successFunc() {
         success(moment(date_picker.value, moment.ISO_8601).format("MM/DD/YYYY"))
         // submit_date_update(cell);
+    }
+
+    function cancelFunc() {
+        cancel(moment(date_picker.value, moment.ISO_8601).format("MM/DD/YYYY"))
 
     }
+
     date_picker.addEventListener("change", successFunc);
+    date_picker.addEventListener("blur", cancelFunc);
+
     return date_picker
 }
 

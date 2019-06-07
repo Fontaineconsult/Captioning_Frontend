@@ -18,7 +18,8 @@ export function writeiLearnVideo(course_gen_id, ilearn_video_object) {
 
     return {
         type: UPDATE_ILEARN_VIDEO,
-        ilearn_video_object
+        ilearn_video_object,
+        course_gen_id
 
     }
 

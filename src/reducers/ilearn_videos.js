@@ -15,10 +15,10 @@ export default function IlearnVideoReducer (state={}, action) {
 
 
         case UPDATE_ILEARN_VIDEO:
-            console.log(action.ilearn_video_data)
+
         return {
             ...state,
-            // ...action.ilearn_video_data
+            [action.course_gen_id]: {...state[action.course_gen_id], [action.ilearn_video_object.id]: {...state[action.course_gen_id][action.ilearn_video_object.id], [action.ilearn_video_object.column]: action.ilearn_video_object.value}}
 
         };
 
