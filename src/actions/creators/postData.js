@@ -37,6 +37,7 @@ export function updateCourse(course_gen_id, column, value) {
 export function updateiLearnVideo(course_gen_id, video_id, column, value) {
 
     let data_object = {id: video_id, column: column, value: value };
+
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),
@@ -47,7 +48,7 @@ export function updateiLearnVideo(course_gen_id, video_id, column, value) {
     };
 
     return dispatch => {
-
+        console.log("postOBJECT", post_object)
 
         dispatch(writeiLearnVideo(course_gen_id, data_object));
 

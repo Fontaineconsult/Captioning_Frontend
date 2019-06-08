@@ -1,0 +1,7 @@
+.tabulator-row .tabulator-cell {
+    padding:10px 4px;
+}
+
+.tabulator-tableHolder {
+    max-height: 100vh !important;
+}

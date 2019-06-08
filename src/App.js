@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Route} from 'react-router-dom'
 import {withRouter} from "react-router";
-import {loginDiscovery, } from "./actions/creators/fetchData";
+import {loginDiscovery, fetchIlearnVideosBySemester, fetchAllCourses } from "./actions/creators/fetchData";
 import MasterContainer from './components/masterContainer'
 import queryString from "query-string"
 
@@ -12,7 +12,8 @@ class App extends Component {
      const query_id = queryString.parse(this.props.location.search);
      this.props.dispatch(loginDiscovery(query_id.id));
      //
-     // this.props.dispatch(fetchAllCourses("sp19"))
+     this.props.dispatch(fetchAllCourses("sp19"))
+     this.props.dispatch(fetchIlearnVideosBySemester("sp19"))
      // // this.props.dispatch(fetchInstructors('sp19'))
      //
      // this.props.dispatch(fetchiLearnVideosByInstructorId('910484411', "sp19"))

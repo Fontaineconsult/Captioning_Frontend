@@ -8,9 +8,10 @@ import * as tabFuncs from './TabulatorDataConstructor'
 import {updateiLearnVideo} from '../../../../src/actions/creators/postData'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton';
+
 import DoneIcon from '@material-ui/icons/Done';
 import RemoveIcon from '@material-ui/icons/Remove'
-import '../../../tabulator.css'
+import '../../../css/tabulator.css'
 import Tabulator from "tabulator-tables"
 
 class TabulatorContainer extends Component {
@@ -21,17 +22,32 @@ class TabulatorContainer extends Component {
     ref = null;
 
     SubmitButton = (props) => {
-        console.log(props)
         const cellData = props.cell;
 
-        if (cellData._cell.value === false) {
+        if (cellData._cell.value === false || cellData._cell.value === null) {
             return <IconButton onClick={e => this.submitCap(e,cellData)}><RemoveIcon /></IconButton>;
+
         } else {
             return <IconButton onClick={e => this.submitCap(e,cellData)}><DoneIcon /></IconButton>;
         }
 
 
     };
+
+    isCaptionedButton = (props) => {
+        const cellData = props.cell;
+
+        if (cellData._cell.value === false) {
+            return <Button color="secondary" onClick={e => this.submitCapStatus(e,cellData)}>Unavailable</Button>;
+        }
+
+        if (cellData._cell.value === true) {
+            return <Button color="primary" onClick={e => this.submitCapStatus(e,cellData)}>Available</Button>;}
+        if (cellData._cell.value === null) {
+            return <Button color="secondary" onClick={e => this.submitCapStatus(e,cellData)}>Unknown</Button>;}
+
+
+    }
 
     dataEditedFunc = (cellData) => {
         this.props.dispatch(updateiLearnVideo(this.props.course_id, cellData._cell.row.data.id, cellData._cell.column.field, cellData._cell.value))
@@ -43,27 +59,38 @@ class TabulatorContainer extends Component {
         console.log("ref table: ", this.ref.table); // this is the Tabulator table instance
         console.log("rowClick id: ${row.getData().id}", row, e);
     };
+
+    submitCapStatus = (e, cellData) => {
+        e.preventDefault()
+        let captionStatus = tabFuncs.capStatToggle2(cellData._cell.value)
+        console.log("CAPSTAT", captionStatus, cellData._cell.value)
+
+        this.props.dispatch(updateiLearnVideo(this.props.course_id, cellData._cell.row.data.id, cellData._cell.column.field, captionStatus))
+
+    };
+
     submitCap = (e,cellData) => {
         e.preventDefault()
-        let submitCapStatus = !cellData._cell.value
+        let submitCapStatus = tabFuncs.capSubmitToggle(cellData._cell.value)
         this.props.dispatch(updateiLearnVideo(this.props.course_id, cellData._cell.row.data.id, cellData._cell.column.field, submitCapStatus))
     };
 
 
 
     tableData = null
-    columns = [{ title: "Title", field: "title", width: 150 },
-        { title: "Captioned", field: "captioned", width: 150 },
-        { title: "Due Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 150 },
-        { title: "Link", field: "resource_link", width: 150 },
+    columns = [{ title: "Title", field: "title", width: 250 },
+        { title: "Captioned", field: "captioned", width: 130, formatter: reactFormatter(<this.isCaptionedButton />) },
+        { title: "Due Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 130 },
+        { title: "Link", field: "resource_link", width: 300, formatter: "link", formatterParams:{target:"_blank", urlField:'url'} },
         { title: "Scan Date", field: "scan_date", width: 150 },
-        { title: "Submitted", field: "submitted_for_processing", width: 150, formatter: reactFormatter(<this.SubmitButton />)},
-        { title: "Section", field: "page_section", width: 150 }];
+        { title: "Submitted", field: "submitted_for_processing", width: 110, formatter: reactFormatter(<this.SubmitButton />)},
+        { title: "Section", field: "page_section", width: 80 }];
 
     componentDidMount() {
         this.tableData = this.props.videosList
         this.tabulator = new Tabulator(this.el, {
             columns: this.columns,
+            layout:"fitColumns",
             data: this.props.videosList,
             className: "custom-tab-class",
             cellEdited: this.dataEditedFunc,
@@ -118,7 +145,7 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
         return {
             id: video.id,
             title: video.title,
-            captioned: tabFuncs.capStatus(video.captioned),
+            captioned: video.captioned,
             indicated_due_date: tabFuncs.showDateToggle(video.indicated_due_date),
             resource_link: video.resource_link,
             scan_date: video.scan_date,

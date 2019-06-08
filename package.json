@@ -20,7 +20,8 @@
     "react-scripts": "2.1.8",
     "react-tabulator": "^0.9.1",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^4.3.1"
   },
   "scripts": {
     "start": "react-scripts start",

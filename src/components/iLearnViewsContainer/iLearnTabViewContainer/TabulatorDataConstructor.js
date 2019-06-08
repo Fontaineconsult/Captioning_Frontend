@@ -44,6 +44,19 @@ export const capStatToggle = (cap) => ({
     "Unknown": true
 })[cap];
 
+export const capStatToggle2 = (cap) => ({
+    true: false,
+    false: true,
+    null: true
+})[cap];
+
+
+export const capSubmitToggle = (cap) => ({
+    true: false,
+    false: true,
+    null: true
+})[cap];
+
 export const capStatus = (cap) => ({
     true: "Available",
     false: "Unavailable",

@@ -13,7 +13,7 @@ class ILearnMasterContainer extends Component {
 
             <div>
 
-                <p>IlearnMasterContainer</p>
+                <p>Your iLearn Videos</p>
                 {this.props.isLoading === true && (<p>Loading</p>)}
 
                 {this.props.isLoading === false && (Object.keys(this.props.coursesReducer).map((course, i) =>(
