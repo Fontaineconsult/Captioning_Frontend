@@ -9,6 +9,7 @@ import loadingStatusReducer from './status'
 import newCapJobReducer from './newCapJob'
 import requesterReducer from './requester'
 import campusOrgReducer from './campusOrgs'
+import userPermissionReducer from './userPermission'
 
 export default combineReducers({
 
@@ -21,6 +22,7 @@ export default combineReducers({
     loadingStatusReducer,
     newCapJobReducer,
     requesterReducer,
-    campusOrgReducer
+    campusOrgReducer,
+    userPermissionReducer
 
 })

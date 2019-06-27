@@ -7,6 +7,7 @@ import {receiveIlearnVideos} from '../ilearn_videos'
 import receiveMedia from '../media'
 import receiveRequester from '../requester'
 import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs} from '../status'
+import receiveUserPermissions from '../userPermission'
 
 import fetch from "cross-fetch";
 
@@ -30,7 +31,21 @@ export function fetchCourseByCourseGenId(courseGenId){
 
 }
 
-export function loginDiscovery(id) {
+
+export function permissionDiscovery(id) {
+
+    return dispatch => {
+
+        return fetch(`${server_url}/permission?id=${id}`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveUserPermissions(data)))
+            .then(data => console.log(data))
+
+    }
+
+}
+
+export function assetDiscovery(id) {
 
     return dispatch => {
 
