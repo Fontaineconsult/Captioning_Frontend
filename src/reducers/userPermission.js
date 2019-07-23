@@ -12,7 +12,6 @@ export default function userPermissionReducer (state={}, action) {
 
             };
 
-
         default:
             return state
     }

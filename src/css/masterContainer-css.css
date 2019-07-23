@@ -1,6 +1,7 @@
 .master-container {
-
-    width: 50%;
+    max-width: 1500px;
+    width: 80vw;
     margin-right: auto;
     margin-left: auto;
 }
+

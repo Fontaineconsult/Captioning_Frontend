@@ -1,7 +1,36 @@
 .tabulator-row .tabulator-cell {
     padding:10px 4px;
+
+}
+
+
+.tabulator-cell:nth-child(2) {
+    padding-top: 4px;
+
+}
+
+
+.tabulator-cell:nth-child(7){
+
+    padding-top: 4px;
+}
+
+.tabulator-cell:nth-child(3){
+
+    padding-top: 4px;
 }
 
 .tabulator-tableHolder {
+    width: 100%;
     max-height: 100vh !important;
+}
+
+.tabulator {
+
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+
+
+
 }

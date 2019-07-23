@@ -1,0 +1,71 @@
+.courseContainer {
+
+    background-color: #f0eeee;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border-color: #b2afaf;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 2px;
+    box-shadow: 3px 3px 3px #bebbbb;
+
+}
+
+.courseUpperContainer{
+    display: flex;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+
+}
+
+
+
+.infoContainerLeft {
+    margin-right: 20px;
+
+
+
+}
+
+.courseUpperContainerRight {
+    margin-left: auto;
+    display: flex;
+    padding-top: 5px;
+
+
+}
+
+.courseUpperContainerLeft {
+
+    padding-top: 5px;
+}
+
+.iLearnContentContainer {
+    border-bottom: #9c9c9c;
+    border-left: #9c9c9c;
+    border-top: #9c9c9c;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-style: solid;
+    border-width: 1px;
+    max-height: 90vh;
+    overflow-y: auto;
+
+}
+
+.courseNoVideos {
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.courseLowerContainer {
+
+
+    display: flex;
+}
