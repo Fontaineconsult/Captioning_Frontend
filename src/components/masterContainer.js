@@ -20,13 +20,13 @@ class MasterContainer extends Component {
 
 
 
-        if (this.props.userPermissionReducer[this.props.query_id].permission_type === 'admin') {
-            this.props.dispatch(fetchAllCourses("sp19"))
-            this.props.dispatch(fetchIlearnVideosBySemester("sp19"))
+        if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'admin') {
+            this.props.dispatch(fetchAllCourses(this.props.query.semester))
+            this.props.dispatch(fetchIlearnVideosBySemester(this.props.query.semester))
         }
 
-        if (this.props.userPermissionReducer[this.props.query_id].permission_type === 'user') {
-            this.props.dispatch(assetDiscovery(this.props.query_id))
+        if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'user') {
+            this.props.dispatch(assetDiscovery(this.props.query.id))
 
         }
 
@@ -57,7 +57,8 @@ class MasterContainer extends Component {
         return(
 
             <div className={"master-container"}>
-                <p>Master Container</p>
+                <div className={"top-bar"}>DPRC WEB CRAWLER</div>
+
                 <ILearnMasterContainer/>
             </div>
 
@@ -70,6 +71,7 @@ class MasterContainer extends Component {
 
 function mapStateToProps({requesterReducer, userPermissionReducer}){
     console.log("REDERCER", requesterReducer)
+
 
     return {
         requesterReducer,

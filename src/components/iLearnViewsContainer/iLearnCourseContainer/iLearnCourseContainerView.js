@@ -3,11 +3,15 @@ import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import TabulatorContainer from '../iLearnTabViewContainer/TabulatorContainer'
 import '../../../css/courseContainer-css.css'
+import {iLearnURL} from '../../../constants'
+
 
 
 class ILearnCourseContainer extends Component {
+    ilearnPage = iLearnURL() + this.props.ilearnId;
 
     render() {
+
 
         return(
 
@@ -30,7 +34,7 @@ class ILearnCourseContainer extends Component {
 
                         <div className={"infoContainerRight"}>
                             <div><b>Semester: </b>{this.props.semester}</div>
-                            <div>ilearnID: {this.props.ilearnId}</div>
+                            <div>ilearnID: <a href={this.ilearnPage}>{this.props.ilearnId}</a> </div>
                         </div>
 
                     </div>
@@ -67,7 +71,7 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
             numStudentsEnrolled += 1;
 
             if (coursesReducer[course_id.course_id].students_enrolled[enroll].student_requests_captioning === true){
-                numStudentsEnrolled += 1
+                studentRequestsCaptioning = true
             }
 
         }

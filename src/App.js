@@ -52,10 +52,8 @@ class App extends Component {
       <div className="App">
 
 
-        <p>Hello</p>
-
           {this.props.userPass === true && (<p>You Don't Have Permission for this Content</p>)}
-          {this.props.userPass === false && (<MasterContainer query_id={this.query_id.id}/>)}
+          {this.props.userPass === false && (<MasterContainer query={this.query_id}/>)}
 
 
       </div>

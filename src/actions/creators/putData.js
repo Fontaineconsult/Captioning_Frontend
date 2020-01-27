@@ -2,9 +2,10 @@ import fetch from "cross-fetch";
 
 import {addCapJob, addCapJobMedia} from '../newCapJob'
 import {api_failure} from "../../utilities/api/errors";
+import {serverURL} from '../../constants'
 
+const server_url = serverURL();
 
-const server_url = 'http://127.0.0.1:5000/api/v1/captioning';
 
 
 export function AddVideoJob(course_gen_id, title, link, type) {

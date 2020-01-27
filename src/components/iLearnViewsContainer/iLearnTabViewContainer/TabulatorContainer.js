@@ -69,7 +69,7 @@ class TabulatorContainer extends Component {
             return <Button size="small" color="tertiary" onClick={e => this.submitCapStatus(e,cellData)}>Unknown</Button>;}
 
 
-    }
+    };
 
     dataEditedFunc = (cellData) => {
         this.props.dispatch(updateiLearnVideo(this.props.course_id, cellData._cell.row.data.id, cellData._cell.column.field, cellData._cell.value))

@@ -8,11 +8,12 @@ import receiveMedia from '../media'
 import receiveRequester from '../requester'
 import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs} from '../status'
 import receiveUserPermissions from '../userPermission'
+import {serverURL} from '../../constants'
 
 import fetch from "cross-fetch";
 
 
-const server_url = 'http://127.0.0.1:5000/api/v1/captioning';
+const server_url = serverURL();
 
 
 export function fetchCourseByCourseGenId(courseGenId){

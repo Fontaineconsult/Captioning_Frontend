@@ -1,12 +1,13 @@
 import {writeCourse} from '../courses'
 import {writeiLearnVideo} from '../ilearn_videos'
 import {api_failure} from '../../utilities/api/errors'
-
+import {serverURL} from '../../constants'
 
 import fetch from "cross-fetch";
 
 
-const server_url = 'http://127.0.0.1:5000/api/v1/captioning';
+const server_url = serverURL();
+
 
 
 export function updateCourse(course_gen_id, column, value) {
