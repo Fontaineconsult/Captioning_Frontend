@@ -21,14 +21,20 @@ class ILearnMasterContainer extends Component {
 
                 )))}
 
-                {this.props.showCourseContainer === true && (Object.keys(this.props.coursesReducer).map((course, i) =>(
+
+
+                {this.props.showCourseContainer === true && (Object.keys(this.props.requests_captioning).map((course, i) =>(
                         <ILearnCourseContainer course_id={course} key={i}/>
 
                     )))}
+                <span>
+                    <b>  -----    Captioning not requested.  -----   </b>
+                </span>
+                {this.props.showCourseContainer === true && (Object.keys(this.props.no_captioning).map((course, i) =>(
+                    <ILearnCourseContainer course_id={course} key={i}/>
+
+                )))}
                 </div>
-
-
-
 
             </div>
 
@@ -37,9 +43,6 @@ class ILearnMasterContainer extends Component {
 
 
 }
-
-
-
 
 function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReducer}) {
 
@@ -50,11 +53,38 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
     let showCourseStubs = !courseIsLoading && isLoading;
     let showCourseContainer = !courseIsLoading && !isLoading;
 
-    return {
+    let requests_captioning = {};
+    let no_captioning = {};
+
+    function capActive(element, index, array) {
+        return element.student_requests_captioning === true
+
+    }
+
+    Object.keys(coursesReducer).forEach(function(key){
+
+
+
+
+        if (coursesReducer[key].students_enrolled.some(capActive) === true) {
+            requests_captioning[key] = coursesReducer[key]
+
+        } else {
+
+            no_captioning[key] =coursesReducer[key]
+
+        }
+
+
+    });
+
+        return {
         courseIsLoading,
         coursesReducer,
         showCourseStubs,
-        showCourseContainer
+        showCourseContainer,
+            requests_captioning,
+            no_captioning
     }
 }
 
