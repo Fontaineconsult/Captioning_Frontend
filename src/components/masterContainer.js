@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import ILearnMasterContainer from './iLearnViewsContainer/iLearnMasterContainer/iLearnMasterContainerView'
+import NewMediaContainer from "./AddMediaContainer/newMediaContainer";
 import {
     assetDiscovery,
     fetchAllCourses,
@@ -21,8 +22,9 @@ class MasterContainer extends Component {
 
 
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'admin') {
-            this.props.dispatch(fetchAllCourses(this.props.query.semester))
             this.props.dispatch(fetchIlearnVideosBySemester(this.props.query.semester))
+            this.props.dispatch(fetchAllCourses(this.props.query.semester))
+
         }
 
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'user') {
@@ -44,9 +46,7 @@ class MasterContainer extends Component {
             ))
             Object.keys(this.props.requesterReducer).map(key => (
                 this.props.dispatch(fetchiLearnVideosByCourseGenId(this.props.requesterReducer[key].course_id))
-
             ))
-
 
         }
 
@@ -57,8 +57,8 @@ class MasterContainer extends Component {
         return(
 
             <div className={"master-container"}>
-                <div className={"top-bar"}>DPRC WEB CRAWLER</div>
-
+                <div className={"top-bar"}>DPRC WEB CRAWLER IS SO COOL</div>
+                <NewMediaContainer/>
                 <ILearnMasterContainer/>
             </div>
 
@@ -70,7 +70,7 @@ class MasterContainer extends Component {
 
 
 function mapStateToProps({requesterReducer, userPermissionReducer}){
-    console.log("REDERCER", requesterReducer)
+
 
 
     return {

@@ -38,22 +38,17 @@ class App extends Component {
      //    this.props.dispatch(AddMedia("Test", "www.111ur.ur..4444urcom", "link"))
 }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
 
-
-
-
-
-    }
 
     render() {
-        console.log("REDURasdasdCER", this.props.requesterReducer)
+
     return (
       <div className="App">
 
 
-          {this.props.userPass === true && (<p>You Don't Have Permission for this Content</p>)}
-          {this.props.userPass === false && (<MasterContainer query={this.query_id}/>)}
+          {this.props.permissionsLoading === true && (<p>LOADING LOADING LOADING</p>)}
+          {this.props.permissionsLoading === false & this.props.userPass === true && (<p>You Don't Have Permission for this Content</p>)}
+          {this.props.permissionsLoading === false & this.props.userPass === false && (<MasterContainer query={this.query_id}/>)}
 
 
       </div>
@@ -62,16 +57,20 @@ class App extends Component {
 }
 
 
-function mapStateToProps({state, userPermissionReducer, requesterReducer}) {
+function mapStateToProps({state, userPermissionReducer, requesterReducer, loadingStatusReducer}) {
 
     let userPass = userPermissionReducer.hasOwnProperty("message") || Object.keys(userPermissionReducer).length === 0
     let assetPass = requesterReducer.hasOwnProperty("message") || Object.keys(requesterReducer).length === 0
+    let permissionsLoading = loadingStatusReducer['userPermissionLoading']
+
 
     return {
         userPass,
         assetPass,
         userPermissionReducer,
-        requesterReducer
+        requesterReducer,
+        permissionsLoading
+
 
     }
 }

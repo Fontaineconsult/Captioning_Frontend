@@ -6,14 +6,38 @@ import receiveStudents from '../students'
 import {receiveIlearnVideos} from '../ilearn_videos'
 import receiveMedia from '../media'
 import receiveRequester from '../requester'
-import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs} from '../status'
+import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs, LoadingPermissions} from '../status'
 import receiveUserPermissions from '../userPermission'
 import {serverURL} from '../../constants'
+import {setErrorState} from '../error_state'
 
 import fetch from "cross-fetch";
 
 
 const server_url = serverURL();
+
+
+
+function checkResponse(data) {
+
+    if (data['content'] !== null) {
+        return data['content']
+    } else {
+        console.log("ERROR", data['error'])
+        // error stuff here
+    }
+}
+
+function errorHandler(response, dispatch){
+
+    if (!response.ok) {
+        response.json()
+            .then(data => console.log(data['error']['message']))
+            .then(data => dispatch(setErrorState(data['error']['message'])))
+    }
+    return response
+
+}
 
 
 export function fetchCourseByCourseGenId(courseGenId){
@@ -23,6 +47,7 @@ export function fetchCourseByCourseGenId(courseGenId){
         dispatch(LoadingCourses(true))
         return fetch(`${server_url}/courses?course_gen_id=${courseGenId}`)
             .then(response => response.json())
+            .then(data => checkResponse(data))
             .then(data => dispatch(receiveCourses(data)))
             .then(() => dispatch(LoadingCourses(false)))
             .then(data => console.log(data))
@@ -39,7 +64,9 @@ export function permissionDiscovery(id) {
 
         return fetch(`${server_url}/permission?id=${id}`)
             .then(response => response.json())
+            .then(data => checkResponse(data))
             .then(data => dispatch(receiveUserPermissions(data)))
+            .then(() => dispatch(LoadingPermissions(false)))
             .then(data => console.log(data))
 
     }
@@ -68,6 +95,7 @@ export function fetchAllCourses(semester) {
         dispatch(LoadingCourses(true))
         return fetch(`${server_url}/courses?semester=${semester}`)
             .then(response => response.json())
+            .then(data => checkResponse(data))
             .then(data => dispatch(receiveCourses(data)))
             .then(() => dispatch(LoadingCourses(false)))
             .then(data => console.log(data))
@@ -162,8 +190,9 @@ export function fetchIlearnVideosBySemester(semester) {
         dispatch(LoadingIlearnVideos(true))
 
         return fetch(`${server_url}/ilearn-videos?semester=${semester}`)
+            .then(response => errorHandler(response, dispatch))
             .then(response => response.json())
-            .then(data => dispatch(receiveIlearnVideos(data)))
+            .then(data => dispatch(receiveIlearnVideos(data['content'])))
             .then(() => dispatch(LoadingIlearnVideos(false)))
             .then(data => console.log(data))
 
@@ -198,6 +227,7 @@ export function fetchiLearnVideosByCourseGenId(CourseGenId){
 
         return fetch(`${server_url}/ilearn-videos?course_gen_id=${CourseGenId}`)
             .then(response => response.json())
+            .then(data => checkResponse(data))
             .then(data => dispatch(receiveIlearnVideos(data)))
             .then(() => dispatch(LoadingIlearnVideos(false)))
             .then(data => console.log(data))

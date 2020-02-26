@@ -6,8 +6,6 @@ export default function receiveMedia(media) {
     return {
         type: RECEIVE_MEDIA,
         media
-
-
     }
 
 

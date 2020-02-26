@@ -5,7 +5,7 @@ import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import * as tabFuncs from './TabulatorDataConstructor'
-import {updateiLearnVideo} from '../../../../src/actions/creators/postData'
+import {updateiLearnVideo} from '../../../actions/creators/putData'
 import Button from '@material-ui/core/Button'
 
 import IconButton from '@material-ui/core/IconButton';
@@ -23,8 +23,6 @@ class TabulatorContainer extends Component {
     tabulator = null;
     ref = null;
 
-
-
     SubmitButton = (props) => {
         const cellData = props.cell;
 
@@ -40,7 +38,6 @@ class TabulatorContainer extends Component {
 
     closedCaptionLink = (props) => {
         const cellData = props.cell;
-
         if (cellData._cell.row.data.captioned_link) {
             return <Tooltip title={cellData._cell.value}><Button  size="small" onClick={e => window.open(cellData._cell.value, '_blank')}>
                 <tabFuncs.ClosedCaptionIcon/>
@@ -72,7 +69,7 @@ class TabulatorContainer extends Component {
     };
 
     dataEditedFunc = (cellData) => {
-        this.props.dispatch(updateiLearnVideo(this.props.course_id, cellData._cell.row.data.id, cellData._cell.column.field, cellData._cell.value))
+        this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, cellData._cell.value))
     };
 
 
@@ -82,30 +79,34 @@ class TabulatorContainer extends Component {
         console.log("rowClick id: ${row.getData().id}", row, e);
     };
 
-    submitCapStatus = (e, cellData) => {
-        e.preventDefault()
-        let captionStatus = tabFuncs.capStatToggle2(cellData._cell.value)
-        console.log("CAPSTAT", captionStatus, cellData._cell.value)
-
-        this.props.dispatch(updateiLearnVideo(this.props.course_id, cellData._cell.row.data.id, cellData._cell.column.field, captionStatus))
-
-    };
 
     submitCap = (e,cellData) => {
+
         e.preventDefault()
-        let submitCapStatus = tabFuncs.capSubmitToggle(cellData._cell.value)
-        this.props.dispatch(updateiLearnVideo(this.props.course_id, cellData._cell.row.data.id, cellData._cell.column.field, submitCapStatus))
+        let submitCapStatus = tabFuncs.capSubmitToggle(cellData._cell.value);
+        this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, submitCapStatus))
+    };
+
+
+
+
+    submitCapStatus = (e, cellData) => {
+
+        e.preventDefault()
+        let captionStatus = tabFuncs.capStatToggle2(cellData._cell.value)
+        this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, captionStatus))
+
     };
 
 
 
     tableData = null
     columns = [
-        { title: "Title", field: "title"},
+        { title: "Title", field: "title", editor:"input"},
         { title: "Captioned", field: "captioned", width: 130, align:"center", formatter: reactFormatter(<this.isCaptionedButton />) },
         { title: "CC",  width: 75, field: "captioned_link", align:"center", formatter: reactFormatter(<this.closedCaptionLink />)},
-        { title: "Due Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 160 },
-        { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", formatterParams:{target:"_blank", urlField:'url'} },
+        { title: "Show Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 160 },
+        { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", formatterParams:{target:"_blank", urlField:'resource_link'} },
         { title: "Scan Date", align:"center", field: "scan_date", width: 105 },
         { title: "Submitted", field: "submitted_for_processing",  align:"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
         { title: "Section", field: "page_section", align:"center", width: 80 },
@@ -117,7 +118,6 @@ class TabulatorContainer extends Component {
             columns: this.columns,
             layout:"fitColumns",
             data: this.props.videosList,
-            className: "custom-tab-class",
             cellEdited: this.dataEditedFunc,
             reactiveData: true
 
@@ -125,14 +125,12 @@ class TabulatorContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log("REPLACEING")
+
         this.tabulator.replaceData(this.props.videosList)
     }
 
-
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return JSON.stringify(nextProps.videosList) !== JSON.stringify(this.props.videosList)
-
     }
 
     render() {
@@ -158,17 +156,12 @@ class TabulatorContainer extends Component {
 
 
 }
+function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReducer}, {course_gen_id, ilearnvideos}) {
 
-
-
-
-function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReducer}, videos) {
-
-    let course_id = videos.course_gen_id.course_id
-    let ilearn_videos = iLearnVideoReducer[course_id]
+    let course_id = course_gen_id
+    let ilearn_videos = ilearnvideos
 
     let formatData = (video) => {
-
         return {
             id: video.id,
             title: video.title,
@@ -179,15 +172,13 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
             scan_date: moment(video.scan_date).format('MM-DD-YY'),
             submitted_for_processing: video.submitted_for_processing,
             page_section: video.page_section,
-
-
-
         }
-
     };
 
     let videos_list = []
-    Object.keys(ilearn_videos).map((video) => (
+
+    Object.keys(ilearn_videos).forEach((video) => (
+
         videos_list.push(formatData(ilearn_videos[video]))
     ))
 

@@ -1,4 +1,10 @@
-import {_LOADINGCOURSES, _LOADINGILEARNVIDEOS, _LOADINGINSTRUCTORS, _LOADINGMEDIA, _LOADINGSTUDENTS, _LOADINGVIDEOJOBS} from "../actions/status";
+import {_LOADINGCOURSES,
+    _LOADINGILEARNVIDEOS,
+    _LOADINGINSTRUCTORS,
+    _LOADINGMEDIA,
+    _LOADINGSTUDENTS,
+    _LOADINGVIDEOJOBS,
+    _LOADINGPERMISSIONS} from "../actions/status";
 
 export default function loadingStatusReducer (state={
 
@@ -8,6 +14,8 @@ export default function loadingStatusReducer (state={
     mediaLoading: true,
     studentsLoading: true,
     videoJobsLoading: true,
+    userPermissionLoading: true
+
 
 }, action) {
 
@@ -49,6 +57,14 @@ export default function loadingStatusReducer (state={
                 ...state,
                 "videoJobsLoading": action.status,
             };
+
+        case _LOADINGPERMISSIONS:
+            return {
+                ...state,
+                "userPermissionLoading": action.status,
+
+
+            }
 
         default:
             return state

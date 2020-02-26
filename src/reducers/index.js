@@ -10,6 +10,7 @@ import newCapJobReducer from './newCapJob'
 import requesterReducer from './requester'
 import campusOrgReducer from './campusOrgs'
 import userPermissionReducer from './userPermission'
+import errorsReducer from './error_states'
 
 export default combineReducers({
 
@@ -23,6 +24,6 @@ export default combineReducers({
     newCapJobReducer,
     requesterReducer,
     campusOrgReducer,
-    userPermissionReducer
-
+    userPermissionReducer,
+    errorsReducer
 })

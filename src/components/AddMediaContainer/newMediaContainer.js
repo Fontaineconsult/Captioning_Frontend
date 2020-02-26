@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
-import {AddMedia} from '../../actions/creators/putData'
+import {AddMedia} from '../../actions/creators/postData'
 // import { Formik } from 'formik';
 
 class NewMediaContainer extends Component {
