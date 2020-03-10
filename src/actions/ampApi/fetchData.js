@@ -4,12 +4,14 @@ import {receiveInstructors} from '../instructors'
 import receiveVideos from '../video_jobs'
 import receiveStudents from '../students'
 import {receiveIlearnVideos} from '../ilearn_videos'
-import receiveMedia from '../media'
+import {receiveMedia} from '../media'
 import receiveRequester from '../requester'
-import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs, LoadingPermissions} from '../status'
+import receiveRequesterResources from '../requests'
+import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs, LoadingPermissions, LoadingRequests} from '../status'
 import receiveUserPermissions from '../userPermission'
 import {serverURL} from '../../constants'
 import {setErrorState} from '../error_state'
+import {receiveMediaSearch} from '../mediaSearch'
 
 import fetch from "cross-fetch";
 
@@ -28,17 +30,26 @@ function checkResponse(data) {
     }
 }
 
-function errorHandler(response, dispatch){
+
+function errorHandler(response, dispatch, error_id){
 
     if (!response.ok) {
         response.json()
-            .then(data => console.log(data['error']['message']))
-            .then(data => dispatch(setErrorState(data['error']['message'])))
+            .then(data => dispatch(setErrorState(data['error']['message'], error_id)))
+    }
+    return response
+}
+
+
+function responseHandler(response, dispatch, reducer, unique_id) {
+
+    if (response.ok) {
+        response.json()
+            .then(data => dispatch(reducer(data['content'], unique_id)))
     }
     return response
 
 }
-
 
 export function fetchCourseByCourseGenId(courseGenId){
     return dispatch => {
@@ -81,11 +92,19 @@ export function assetDiscovery(id) {
             .then(response => response.json())
             .then(data => dispatch(receiveRequester(data)))
             .then(data => console.log(data))
-
     }
+}
 
+export function allAssetDiscovery() {
+
+    return dispatch => {
+
+        return fetch(`${server_url}/requesters?employee_id=all`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveRequester(data['content'])))
+            .then(data => console.log(data))
     }
-
+}
 
 export function fetchAllCourses(semester) {
 
@@ -183,19 +202,15 @@ export function fetchInstructors(semester) {
 
 
 export function fetchIlearnVideosBySemester(semester) {
-
     return dispatch => {
-
         dispatch(receiveIlearnVideos());
         dispatch(LoadingIlearnVideos(true))
-
         return fetch(`${server_url}/ilearn-videos?semester=${semester}`)
             .then(response => errorHandler(response, dispatch))
             .then(response => response.json())
             .then(data => dispatch(receiveIlearnVideos(data['content'])))
             .then(() => dispatch(LoadingIlearnVideos(false)))
             .then(data => console.log(data))
-
     }
 
 }
@@ -221,27 +236,21 @@ export function fetchiLearnVideosByInstructorId(instructor_id, semester){
 export function fetchiLearnVideosByCourseGenId(CourseGenId){
 
     return dispatch => {
-
         dispatch(receiveIlearnVideos());
         dispatch(LoadingIlearnVideos(true))
-
         return fetch(`${server_url}/ilearn-videos?course_gen_id=${CourseGenId}`)
             .then(response => response.json())
             .then(data => checkResponse(data))
             .then(data => dispatch(receiveIlearnVideos(data)))
             .then(() => dispatch(LoadingIlearnVideos(false)))
             .then(data => console.log(data))
-
     }
-
 
 }
 
 export function fetchMediaById(id) {
     return dispatch => {
-
         dispatch(receiveMedia());
-
         return fetch(`${server_url}/media?id=${id}`)
             .then(response => response.json())
             .then(data => dispatch(receiveMedia(data)))
@@ -249,7 +258,46 @@ export function fetchMediaById(id) {
 
     }
 
+}
 
+export function fetchMediaBySourceUrl(url, unique_id) {
+
+    return dispatch => {
+        dispatch(LoadingMedia(true))
+        return fetch(`${server_url}/media?source_url=${url}`)
+            .then(response => errorHandler(response, dispatch, unique_id), error => {console.log(error)})
+            .then(response => responseHandler(response, dispatch, receiveMediaSearch, unique_id))
+
+
+    }
+}
+
+// export function fetchMediaBySourceUrl(url) {
+//
+//     return dispatch => {
+//         dispatch(LoadingMedia(true))
+//         return fetch(`${server_url}/media?source_url=${url}`)
+//             .then(response => response.json())
+//             .then(data => dispatch(receiveMedia(data['content'])))
+//             .then(data => console.log(data))
+//             .catch(error => console.log(error))
+//             .then(() => dispatch(LoadingMedia(false)))
+//
+//     }
+// }
+//
+//
+
+
+export function fetchEmployeeRequests(employee_id) {
+
+    return dispatch => {
+        dispatch(LoadingRequests(true));
+        return fetch(`${server_url}/captioning-requests?employee_id=${employee_id}`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveRequesterResources(data['content'])))
+            .then(() => dispatch(LoadingRequests(false)))
+    }
 
 }
 

@@ -11,6 +11,9 @@ import requesterReducer from './requester'
 import campusOrgReducer from './campusOrgs'
 import userPermissionReducer from './userPermission'
 import errorsReducer from './error_states'
+import requestsReducer from './requests'
+import tempJobsFormReducer from "./tempJobsForm";
+import mediaSearchReducer from "./currentVideoSearch";
 
 export default combineReducers({
 
@@ -25,5 +28,9 @@ export default combineReducers({
     requesterReducer,
     campusOrgReducer,
     userPermissionReducer,
-    errorsReducer
+    errorsReducer,
+    requestsReducer,
+    tempJobsFormReducer,
+    mediaSearchReducer
+
 })

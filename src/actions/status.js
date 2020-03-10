@@ -4,7 +4,8 @@ export const _LOADINGINSTRUCTORS = 'LOADING_INSTRUCTORS';
 export const _LOADINGMEDIA = 'LOADING_MEDIA';
 export const _LOADINGSTUDENTS = 'LOADING_STUDENTS';
 export const _LOADINGVIDEOJOBS = 'LOADING_VIDEO_JOBS';
-export const _LOADINGPERMISSIONS = 'LOADING_PERMISSIONS'
+export const _LOADINGPERMISSIONS = 'LOADING_PERMISSIONS';
+export const _LOADINGREQUESTS = '_LOADINGREQUESTS';
 
 export function LoadingCourses(status) {
 
@@ -62,13 +63,21 @@ export function LoadingVideoJobs(status) {
 
 export function LoadingPermissions(status) {
 
-    return {
-        type: _LOADINGPERMISSIONS,
-        status
+        return {
+            type: _LOADINGPERMISSIONS,
+            status
+
+        }
 
     }
 
 
+export function LoadingRequests(status) {
 
+    return {
+        type: _LOADINGREQUESTS,
+        status
+
+    }
 
 }

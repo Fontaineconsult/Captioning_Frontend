@@ -15,7 +15,7 @@ export function addCapJobMedia(media) {
 export function addCapJob(job) {
 
     return {
-        type: ADD_CAP_JOB_MEDIA,
+        type: ADD_CAP_JOB,
         job
 
     }

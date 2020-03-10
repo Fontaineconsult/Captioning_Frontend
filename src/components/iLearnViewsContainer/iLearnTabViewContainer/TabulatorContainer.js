@@ -5,7 +5,7 @@ import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import * as tabFuncs from './TabulatorDataConstructor'
-import {updateiLearnVideo} from '../../../actions/creators/putData'
+import {updateiLearnVideo} from '../../../actions/ampApi/putData'
 import Button from '@material-ui/core/Button'
 
 import IconButton from '@material-ui/core/IconButton';

@@ -1,4 +1,4 @@
-import {RECEIVE_MEDIA} from "../actions/media";
+import {RECEIVE_MEDIA, ADD_MEDIA} from "../actions/media";
 
 export default function mediaReducer (state={}, action) {
 
@@ -13,6 +13,12 @@ export default function mediaReducer (state={}, action) {
 
             };
 
+        case ADD_MEDIA:
+            return {
+                ...state,
+                ...action.media
+
+            }
 
         default:
             return state

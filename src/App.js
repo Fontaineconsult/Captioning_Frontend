@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Route} from 'react-router-dom'
 import {withRouter} from "react-router";
-import {assetDiscovery, fetchIlearnVideosBySemester, fetchAllCourses, permissionDiscovery } from "./actions/creators/fetchData";
+import {assetDiscovery, fetchIlearnVideosBySemester, fetchAllCourses, permissionDiscovery } from "./actions/ampApi/fetchData";
 import MasterContainer from './components/masterContainer'
 import queryString from "query-string"
 
@@ -35,7 +35,7 @@ class App extends Component {
      // this.props.dispatch(updateCourse("fa18AAS35001", "comments", "BLLsssssYRGGGGGGG"))
 
 
-     //    this.props.dispatch(AddMedia("Test", "www.111ur.ur..4444urcom", "link"))
+     //    this.props.dispatch(AddMediaToJob("Test", "www.111ur.ur..4444urcom", "link"))
 }
 
 

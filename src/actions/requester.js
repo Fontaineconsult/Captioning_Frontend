@@ -7,7 +7,6 @@ export default function receiveRequesterResources(requester) {
         type: RECEIVE_REQUESTER_RESOURCES,
         requester
 
-
     }
 
 
