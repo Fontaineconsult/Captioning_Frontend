@@ -20,6 +20,11 @@
     padding-top: 4px;
 }
 
+.tabulator-cell:nth-child(9){
+
+    padding-top: 4px;
+}
+
 .tabulator-tableHolder {
     width: 100%;
     max-height: 100vh !important;
@@ -27,10 +32,14 @@
 
 .tabulator {
 
-    width: 100%;
+    /*width: 100%;*/
     margin-left: 10px;
     margin-right: 10px;
 
+}
 
 
+.tabMainContainer {
+
+    width: 100%;
 }

@@ -7,7 +7,7 @@ import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import * as tabFuncs from './TabulatorDataConstructor'
 import {updateiLearnVideo} from '../../../actions/ampApi/putData'
 import Button from '@material-ui/core/Button'
-
+import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from '@material-ui/core/IconButton';
 import DoneIcon from '@material-ui/icons/Done';
 import RemoveIcon from '@material-ui/icons/Remove'
@@ -15,13 +15,37 @@ import '../../../css/tabulator.css'
 import Tabulator from "tabulator-tables"
 import moment from 'moment'
 import Tooltip from '@material-ui/core/Tooltip';
+import TabToolBar from "./tabToolBar";
+
 
 class TabulatorContainer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected_rows: []
+        }
+
+        this.el = React.createRef();
+        this.tabulator = null;
+        this.ref = null;
 
 
-    el = React.createRef();
-    tabulator = null;
-    ref = null;
+        this.SubmitButton = this.SubmitButton.bind(this);
+        this.closedCaptionLink = this.closedCaptionLink.bind(this);
+        this.isCaptionedButton = this.isCaptionedButton.bind(this);
+        this.dataEditedFunc = this.dataEditedFunc.bind(this);
+        this.cellClick = this.cellClick.bind(this);
+        this.submitCap = this.submitCap.bind(this);
+        this.submitCapStatus = this.submitCapStatus.bind(this);
+        this.checkBoxFunction = this.checkBoxFunction.bind(this);
+        this.cellClick = this.cellClick.bind(this)
+
+
+
+    };
+
+
+
 
     SubmitButton = (props) => {
         const cellData = props.cell;
@@ -51,10 +75,8 @@ class TabulatorContainer extends Component {
             return ''
         }};
 
-
-
-
     isCaptionedButton = (props) => {
+
         const cellData = props.cell;
         if (cellData._cell.value === false) {
             return <Button  size="small" color="secondary" onClick={e => this.submitCapStatus(e,cellData)}>Unavailable</Button>;
@@ -72,13 +94,10 @@ class TabulatorContainer extends Component {
         this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, cellData._cell.value))
     };
 
-
-
     cellClick = (e, row) => {
         console.log("ref table: ", this.ref.table); // this is the Tabulator table instance
         console.log("rowClick id: ${row.getData().id}", row, e);
     };
-
 
     submitCap = (e,cellData) => {
 
@@ -86,9 +105,6 @@ class TabulatorContainer extends Component {
         let submitCapStatus = tabFuncs.capSubmitToggle(cellData._cell.value);
         this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, submitCapStatus))
     };
-
-
-
 
     submitCapStatus = (e, cellData) => {
 
@@ -98,9 +114,41 @@ class TabulatorContainer extends Component {
 
     };
 
+    isChecked = (props) => {
+        return  <Checkbox size="small"  onClick={e => this.checkBoxFunction(e, props)}/>
+    };
+
+    checkBoxFunction = (e, cellData) => {
 
 
-    tableData = null
+        if (e.type === "click") {
+
+            if (cellData.cell._cell.row.modules.select.selected === false) {
+                cellData.cell._cell.table.selectRow(cellData.cell._cell.row.data.id);
+
+                let test = cellData.cell._cell.table.getSelectedData()
+                console.log(test)
+                this.setState({selected_rows: test})
+
+            } else {
+                cellData.cell._cell.table.deselectRow(cellData.cell._cell.row.data.id);
+
+                let test = cellData.cell._cell.table.getSelectedData()
+                console.log(test)
+                this.setState({selected_rows: test})
+
+
+            }
+
+
+
+        }
+
+    };
+
+
+
+
     columns = [
         { title: "Title", field: "title", editor:"input"},
         { title: "Captioned", field: "captioned", width: 130, align:"center", formatter: reactFormatter(<this.isCaptionedButton />) },
@@ -110,6 +158,7 @@ class TabulatorContainer extends Component {
         { title: "Scan Date", align:"center", field: "scan_date", width: 105 },
         { title: "Submitted", field: "submitted_for_processing",  align:"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
         { title: "Section", field: "page_section", align:"center", width: 80 },
+        { title: "Select", width:60, align:"center", formatter: reactFormatter(<this.isChecked />)},
         ];
 
     componentDidMount() {
@@ -119,24 +168,35 @@ class TabulatorContainer extends Component {
             layout:"fitColumns",
             data: this.props.videosList,
             cellEdited: this.dataEditedFunc,
-            reactiveData: true
+            reactiveData: true,
+
 
         })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-
+        console.log("DA STATE", this.state)
         this.tabulator.replaceData(this.props.videosList)
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return JSON.stringify(nextProps.videosList) !== JSON.stringify(this.props.videosList)
+        console.log("ZERG", this.state, nextState, this.state.selected_rows.length !== nextState.selected_rows.length)
+        return this.state.selected_rows.length !== nextState.selected_rows.length || JSON.stringify(nextProps.videosList) !== JSON.stringify(this.props.videosList)
     }
 
     render() {
-
+        console.log(this.state.selected_rows)
         return(
-            <div ref={el => (this.el = el)} />
+            <div className={"tabMainContainer"}>
+                <div className={"tabUpperContainer"}>
+                    <TabToolBar selected_rows={this.state.selected_rows}/>
+                </div>
+
+                <div className={"tabLowerContainer"}>
+                    <div ref={el => (this.el = el)} />
+                </div>
+
+            </div>
             // <div>
             //
             //     {/*<ReactTabulator*/}
@@ -156,6 +216,11 @@ class TabulatorContainer extends Component {
 
 
 }
+
+
+
+
+
 function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReducer}, {course_gen_id, ilearnvideos}) {
 
     let course_id = course_gen_id
