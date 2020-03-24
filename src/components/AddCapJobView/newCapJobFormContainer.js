@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import {AddMediaToJob} from '../../actions/ampApi/postData'
-import {addJobInfoToTempJob} from '../../actions/tempJobsForm'
+import {addJobInfoToTempJob, completeTempJob, addMediaToTempJobNoId} from '../../actions/tempJobsForm'
+import PreparedJobsContainer from './preparedJobsContainer'
 import { v4 as uuidv4 } from 'uuid';
 import Select from "react-select";
 import DatePicker from 'react-date-picker';
@@ -24,7 +25,7 @@ class NewCapJobFormContainer extends Component {
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.createTempJob = this.createTempJob.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.handleSetDate = this.handleSetDate.bind(this);
     }
@@ -43,7 +44,8 @@ class NewCapJobFormContainer extends Component {
                             delivery_format: this.state.delivery_format,
                             comments: this.state.comments,
                             employee_id: employee_id,
-                            requester_id: requester_id};
+                            requester_id: requester_id,
+                            };
 
         this.props.dispatch(addJobInfoToTempJob(this.props.transaction_id, reducer_obj))
 
@@ -64,15 +66,22 @@ class NewCapJobFormContainer extends Component {
             [name]: value
         });
     }
-    handleSubmit(event){
-        let media_id = this.props.mediaSearchReducer[this.props.transaction_id].id;
+    createTempJob(event){
+
+        console.log(event)
         event.preventDefault();
 
-        this.props.dispatch(AddVideoJob(this.state.requester_id,
-                                        this.state.show_date,
-                                        media_id,
-                                        this.state.output_format,
-                                        this.state.comments))
+        if (this.props.mediaSearchReducer[this.props.transaction_id]) {
+            console.log("MEDIA EXISTS")
+            if (Object.keys(this.props.tempJobsFormReducer[this.props.transaction_id].video).length === 0) {
+                console.log("Keys is 0")
+                this.props.dispatch(addMediaToTempJobNoId(this.props.transaction_id, this.props.mediaSearchReducer[this.props.transaction_id]))
+            }
+        }
+
+        // this.props.dispatch(addMediaToTempJob(this.props.transaction_id, this.props.mediaSearchReducer[this.props.transaction_id]))
+        this.props.dispatch(completeTempJob(this.props.transaction_id, true))
+
 
     }
     render() {
@@ -80,7 +89,7 @@ class NewCapJobFormContainer extends Component {
         return(
             <div>
                 <p>NEW JOB FORM</p>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.createTempJob}>
                     <label>
                         Show Date:
                         <DatePicker name="show_date" value={this.state.show_date} onChange={this.handleSetDate}/>
@@ -104,8 +113,10 @@ class NewCapJobFormContainer extends Component {
                         </select>
                     </label>
                     <Select value={this.state.course} options={this.props.courses_list} onChange={this.handleSelectChange}/>
-                    <button onClick={this.handleSubmit}>Add Request</button>
+                    <button onClick={this.createTempJob}>Add Request</button>
+
                 </form>
+                <PreparedJobsContainer/>
             </div>
 
         )
@@ -114,7 +125,7 @@ class NewCapJobFormContainer extends Component {
 
 }
 
-function mapStateToProps({coursesReducer, mediaSearchReducer, tempJobReducer, requesterReducer}, {transaction_id}) {
+function mapStateToProps({coursesReducer, mediaSearchReducer, tempJobsFormReducer, requesterReducer}, {transaction_id}) {
 
     let courses_list = Object.keys(coursesReducer).map(current_course => {
 
@@ -129,7 +140,7 @@ function mapStateToProps({coursesReducer, mediaSearchReducer, tempJobReducer, re
         coursesReducer,
         transaction_id,
         courses_list,
-        tempJobReducer,
+        tempJobsFormReducer,
         mediaSearchReducer,
         requesterReducer
     }

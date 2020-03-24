@@ -43,3 +43,16 @@
 
     width: 100%;
 }
+
+.ignore-video {
+
+    background-color: #808385 !important;;
+
+}
+
+
+.unselectable {
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    user-select: none;
+}

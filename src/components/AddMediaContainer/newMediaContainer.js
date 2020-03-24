@@ -36,18 +36,39 @@ class NewMediaContainer extends Component {
             [name]: value
         });
     }
-    handleSubmit(event){
-        this.props.dispatch(AddMediaToJob(this.state.title, this.state.source_location, this.state.type, this.props.transaction_id));
-        event.preventDefault();
+    handleSubmit(event) {
+
+        if (this.state.title === '') {
+            event.preventDefault();
+            alert("Add a Title")
+
+
+        } else if (this.state.title !== '') {
+            console.log("BEGEGSEGSEGESGESGSEG")
+            event.preventDefault();
+            this.props.dispatch(AddMediaToJob(this.state.title, this.state.source_location, this.state.type, this.props.transaction_id));
+
+
+        }
 
 
     }
 
-
-
     componentDidMount() {
 
-        this.setState({source_location: this.props.transaction_link})
+        if (!this.props.errorsReducer[this.props.transaction_id]) {
+            this.setState({source_location: this.props.transaction_link,
+                title: this.props.mediaSearchReducer[this.props.transaction_id].title})
+
+
+        } else {
+
+
+            this.setState({source_location: this.props.transaction_link}
+            )
+        }
+
+
         console.log("PROPSSS", this.props.mediaSearchReducer)
         // this.setState({source_location: this.props.mediaSearchReducer[this.props.transaction_id].source_url,
         //                     title: this.props.mediaSearchReducer[this.props.transaction_id].title

@@ -13,7 +13,7 @@ import userPermissionReducer from './userPermission'
 import errorsReducer from './error_states'
 import requestsReducer from './requests'
 import tempJobsFormReducer from "./tempJobsForm";
-import mediaSearchReducer from "./currentVideoSearch";
+import mediaSearchReducer from "./currentMediaSearch";
 
 export default combineReducers({
 

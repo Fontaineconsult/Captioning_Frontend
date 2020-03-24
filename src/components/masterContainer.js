@@ -66,8 +66,8 @@ class MasterContainer extends Component {
             <div className={"master-container"}>
                 <div className={"top-bar"}>DPRC WEB CRAWLER IS SO COOL</div>
 
-                {/*<MediaMasterContainer/>*/}
-                <ILearnMasterContainer/>
+                <MediaMasterContainer/>
+                {/*<ILearnMasterContainer/>*/}
             </div>
 
         )

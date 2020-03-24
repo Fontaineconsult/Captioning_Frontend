@@ -1,7 +1,7 @@
 import * as moment from 'moment'
 import React, { Component } from 'react';
 
-export const datePicker = function (cell, onRendered, success, cancel, editorParams) {
+export const datePicker = function (cell, onRendered, success, cancel, editorParams, isSelected) {
 
     let date_picker = document.createElement("input");
     date_picker.setAttribute("id", "date_picker");
@@ -28,7 +28,12 @@ export const datePicker = function (cell, onRendered, success, cancel, editorPar
     date_picker.addEventListener("change", successFunc);
     date_picker.addEventListener("blur", cancelFunc);
 
-    return date_picker
+
+    return date_picker.value
+
+
+
+
 }
 
 export const showDateToggle = function (show_date) {

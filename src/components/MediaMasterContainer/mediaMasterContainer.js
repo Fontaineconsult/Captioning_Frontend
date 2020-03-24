@@ -7,7 +7,7 @@ import NewMediaContainer from "../AddMediaContainer/newMediaContainer";
 import { v1 as uuidv1 } from 'uuid';
 import SubmissionForm from "./SubmissionForm";
 import {addTempJob} from "../../actions/tempJobsForm";
-
+import {clearMediaSearch} from '../../actions/mediaSearch'
 
 class MediaMasterContainer extends Component {
 
@@ -38,7 +38,12 @@ class MediaMasterContainer extends Component {
         }
 
 
-        if (this.state.link === "") {this.setState({transaction_id: ''})}
+        if (this.state.link === "") {
+            this.setState({transaction_id: ''})
+            this.props.dispatch(clearMediaSearch())
+
+
+        }
 
     }
     checkError(){
@@ -46,6 +51,8 @@ class MediaMasterContainer extends Component {
     }
 
     createJob(event){
+
+
         if (!this.state.transaction_id) {this.setState({transaction_id : uuidv1()})}
         if (this.state.link !== '') {
             this.props.dispatch(addTempJob(this.state.transaction_id))
@@ -79,13 +86,10 @@ class MediaMasterContainer extends Component {
         }
     }
 
-
-
-
     render() {
         return(
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.createTempJob}>
                     <label>
                         Source Link:
                         <input
@@ -97,7 +101,7 @@ class MediaMasterContainer extends Component {
                             onBlur={this.checkURL}/>
                     </label>
                 </form>
-                {this.state.link && <button onClick={this.createJob}>Create Request</button>}
+                {<button onClick={this.createJob}>Create Request</button>}
                 {this.checkError() && noItemFound()}
                 {this.props.mediaSearchReducer[this.state.transaction_id] && mediaInfoDisplay(this.props.mediaSearchReducer[this.state.transaction_id])}
                 {this.state.request_active && <SubmissionForm transaction_link = {this.state.transaction_link} transaction_id = {this.state.transaction_id} />}

@@ -6,7 +6,7 @@ import {api_failure} from "../../utilities/api/errors";
 import {serverURL} from '../../constants'
 import {LoadingIlearnVideos,LoadingMedia, LoadingVideoJobs} from "../status";
 import {addMediaToTempJob} from "../tempJobsForm"
-
+import {receiveMediaSearch} from '../mediaSearch'
 
 const server_url = serverURL();
 
@@ -62,9 +62,10 @@ export function AddMediaToJob(title, link, type, temp_id) {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/media`, post_object)
             .then(response => response.json())
-            .then(data => dispatch(addMediaToTempJob(temp_id, data['content'])))
+            .then(data => {dispatch(receiveMediaSearch(data['content'], temp_id),
+                                    dispatch(addMediaToTempJob(temp_id, data['content'])))})
             .then(() => dispatch(LoadingMedia(false)))
-            .catch(error => api_failure(error))
+
 
 
     }

@@ -40,21 +40,32 @@ class TabulatorContainer extends Component {
         this.checkBoxFunction = this.checkBoxFunction.bind(this);
         this.cellClick = this.cellClick.bind(this)
 
-
-
     };
-
-
-
 
     SubmitButton = (props) => {
         const cellData = props.cell;
+        let disabled = this.state.selected_rows.length > 0
+
 
         if (cellData._cell.value === false || cellData._cell.value === null) {
-            return <IconButton size="small" onClick={e => this.submitCap(e,cellData)}><RemoveIcon /></IconButton>;
+            if (disabled) {
+                return <IconButton size="small" disabled><RemoveIcon /></IconButton>;
+
+            } else {
+                return <IconButton size="small" onClick={e => this.submitCap(e,cellData)}><RemoveIcon /></IconButton>;
+            }
 
         } else {
-            return <IconButton size="small" onClick={e => this.submitCap(e,cellData)}><DoneIcon /></IconButton>;
+
+
+            if (disabled) {
+                return <IconButton size="small" disabled><DoneIcon /></IconButton>;
+
+            } else {
+                return <IconButton size="small" onClick={e => this.submitCap(e,cellData)}><DoneIcon /></IconButton>;
+
+            }
+
         }
 
 
@@ -78,19 +89,39 @@ class TabulatorContainer extends Component {
     isCaptionedButton = (props) => {
 
         const cellData = props.cell;
+        let disabled = this.state.selected_rows.length > 0
+
         if (cellData._cell.value === false) {
-            return <Button  size="small" color="secondary" onClick={e => this.submitCapStatus(e,cellData)}>Unavailable</Button>;
+            if (disabled) {
+                return <Button  size="small" color="secondary" disabled >Unavailable</Button>;
+            } else {
+                return <Button  size="small" color="secondary" onClick={e => this.submitCapStatus(e,cellData)}>Unavailable</Button>;
+            }
         }
 
         if (cellData._cell.value === true) {
-            return <Button size="small" color="primary" onClick={e => this.submitCapStatus(e,cellData)}>Available</Button>;}
+
+            if (disabled) {
+                return <Button  size="small" color="primary" disabled >Available</Button>;
+            } else {
+                return <Button  size="small" color="primary" onClick={e => this.submitCapStatus(e,cellData)}>Available</Button>;
+            }
+        }
+
         if (cellData._cell.value === null) {
-            return <Button size="small" color="tertiary" onClick={e => this.submitCapStatus(e,cellData)}>Unknown</Button>;}
+
+            if (disabled) {
+                return <Button  size="small" color="tertiary" disabled >Unknown</Button>;
+            } else {
+                return <Button  size="small" color="tertiary" onClick={e => this.submitCapStatus(e,cellData)}>Unknown</Button>;
+            }
+        }
 
 
     };
 
     dataEditedFunc = (cellData) => {
+
         this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, cellData._cell.value))
     };
 
@@ -108,14 +139,30 @@ class TabulatorContainer extends Component {
 
     submitCapStatus = (e, cellData) => {
 
-        e.preventDefault()
-        let captionStatus = tabFuncs.capStatToggle2(cellData._cell.value)
+        e.preventDefault();
+        let captionStatus = tabFuncs.capStatToggle2(cellData._cell.value);
         this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, captionStatus))
 
     };
 
     isChecked = (props) => {
-        return  <Checkbox size="small"  onClick={e => this.checkBoxFunction(e, props)}/>
+        console.log("PRRROPPPSSS", props)
+
+        if (props.cell._cell.row.modules.hasOwnProperty("select")) {
+            if (props.cell._cell.row.modules.select.selected === false){
+
+                return  <Checkbox size="small" onClick={e => this.checkBoxFunction(e, props)}/>
+
+            } else {
+
+                return  <Checkbox size="small" checked onClick={e => this.checkBoxFunction(e, props)}/>
+            }
+        } else {
+            return  <Checkbox size="small" onClick={e => this.checkBoxFunction(e, props)}/>
+
+
+        }
+
     };
 
     checkBoxFunction = (e, cellData) => {
@@ -126,66 +173,88 @@ class TabulatorContainer extends Component {
             if (cellData.cell._cell.row.modules.select.selected === false) {
                 cellData.cell._cell.table.selectRow(cellData.cell._cell.row.data.id);
 
-                let test = cellData.cell._cell.table.getSelectedData()
-                console.log(test)
+                let test = cellData.cell._cell.table.getSelectedData();
                 this.setState({selected_rows: test})
 
             } else {
                 cellData.cell._cell.table.deselectRow(cellData.cell._cell.row.data.id);
 
-                let test = cellData.cell._cell.table.getSelectedData()
-                console.log(test)
+                let test = cellData.cell._cell.table.getSelectedData();
                 this.setState({selected_rows: test})
 
-
             }
-
-
 
         }
 
     };
-
-
-
 
     columns = [
         { title: "Title", field: "title", editor:"input"},
         { title: "Captioned", field: "captioned", width: 130, align:"center", formatter: reactFormatter(<this.isCaptionedButton />) },
         { title: "CC",  width: 75, field: "captioned_link", align:"center", formatter: reactFormatter(<this.closedCaptionLink />)},
         { title: "Show Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 160 },
-        { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", formatterParams:{target:"_blank", urlField:'resource_link'} },
+        { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
         { title: "Scan Date", align:"center", field: "scan_date", width: 105 },
         { title: "Submitted", field: "submitted_for_processing",  align:"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
         { title: "Section", field: "page_section", align:"center", width: 80 },
-        { title: "Select", width:60, align:"center", formatter: reactFormatter(<this.isChecked />)},
+        { title: "Select", width:60, align:"center",  formatter: reactFormatter(<this.isChecked />)},
         ];
 
     componentDidMount() {
-        this.tableData = this.props.videosList
+        this.tableData = this.props.videosList;
         this.tabulator = new Tabulator(this.el, {
             columns: this.columns,
             layout:"fitColumns",
             data: this.props.videosList,
             cellEdited: this.dataEditedFunc,
             reactiveData: true,
+            rowFormatter:function (row) {
+                if(row.getData().ignore_video === true) {
+                    row.getElement().classList.remove("tabulator-selectable")
+                    row.getElement().classList.add("ignore-video")
 
+                }
+
+            },
+            initialFilter: [{field:"invalid_link", type:"!=", value:true}]
 
         })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log("DA STATE", this.state)
-        this.tabulator.replaceData(this.props.videosList)
+
+        if (JSON.stringify(prevProps.videosList) !== JSON.stringify(this.props.videosList)) {
+            this.tabulator.replaceData(this.props.videosList)
+
+        }
+        let row_ids = this.state.selected_rows.map(row => {
+            return row.id
+        });
+        this.tabulator.selectRow(row_ids)
+        this.tabulator.redraw()
+
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log("ZERG", this.state, nextState, this.state.selected_rows.length !== nextState.selected_rows.length)
-        return this.state.selected_rows.length !== nextState.selected_rows.length || JSON.stringify(nextProps.videosList) !== JSON.stringify(this.props.videosList)
+
+        let next_rows = nextState.selected_rows.map(row => {
+            return row.id
+        });
+
+        let cur_rows = this.state.selected_rows.map(row => {
+            return row.id
+        });
+
+        let updateOnSelect = next_rows.length !== cur_rows.length
+        let updateOnDataChange = JSON.stringify(nextProps.videosList) !== JSON.stringify(this.props.videosList)
+
+
+
+        return updateOnSelect || updateOnDataChange
     }
 
     render() {
-        console.log(this.state.selected_rows)
+
         return(
             <div className={"tabMainContainer"}>
                 <div className={"tabUpperContainer"}>
@@ -214,17 +283,12 @@ class TabulatorContainer extends Component {
         )
     }
 
-
 }
-
-
-
-
 
 function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReducer}, {course_gen_id, ilearnvideos}) {
 
-    let course_id = course_gen_id
-    let ilearn_videos = ilearnvideos
+    let course_id = course_gen_id;
+    let ilearn_videos = ilearnvideos;
 
     let formatData = (video) => {
         return {
@@ -237,13 +301,15 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
             scan_date: moment(video.scan_date).format('MM-DD-YY'),
             submitted_for_processing: video.submitted_for_processing,
             page_section: video.page_section,
+            ignore_video: video.ignore_video,
+            invalid_link: video.invalid_link
+
         }
     };
 
-    let videos_list = []
+    let videos_list = [];
 
     Object.keys(ilearn_videos).forEach((video) => (
-
         videos_list.push(formatData(ilearn_videos[video]))
     ))
 

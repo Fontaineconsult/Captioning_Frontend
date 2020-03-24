@@ -1,5 +1,6 @@
 export const ADD_CAP_JOB_MEDIA = 'ADD_CAP_JOB_MEDIA';
 export const ADD_CAP_JOB = 'ADD_CAP_JOB';
+export const ADD_TEMP_CAP_JOB = 'ADD_TEMP_CAP_JOB';
 
 export function addCapJobMedia(media) {
 

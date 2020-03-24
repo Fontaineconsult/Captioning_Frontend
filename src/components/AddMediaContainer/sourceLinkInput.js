@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import {fetchMediaBySourceUrl} from '../../actions/ampApi/fetchData'
+import {clearMediaSearch} from '../../actions/mediaSearch'
 import { v1 as uuidv1 } from 'uuid';
 
 
-
+// DONT DONT DONT DONT WRITE TO THIS
 
 class SourceURLInput extends Component {
 
@@ -20,11 +21,22 @@ class SourceURLInput extends Component {
         this.checkError = this.checkError.bind(this)
     }
     checkURL(event) {
+        event.preventDefault();
+        console.log(this.state.link)
         if (this.state.link !== ''){
             this.state.error_id = uuidv1();
             this.props.dispatch(fetchMediaBySourceUrl(this.state.link, this.state.error_id))
         }
+
+        if (this.state.link === '') {
+            console.log("GEERRRRERERERERERERERE")
+            this.props.dispatch(clearMediaSearch())
+        }
+
+
+
     }
+
     checkError(){
         return !!this.props.errorsReducer[this.state.error_id];
     }
@@ -32,7 +44,8 @@ class SourceURLInput extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        console.log(target)
+        console.log("TARGET", event)
+        console.log(this.state)
         this.setState({
             [name]: value
         });
@@ -41,9 +54,9 @@ class SourceURLInput extends Component {
     render() {
         return(
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.createTempJob}>
                     <label>
-                        Source Link:
+                        Source Linkasdasd:
                         <input
                             name="link"
                             type='text'
