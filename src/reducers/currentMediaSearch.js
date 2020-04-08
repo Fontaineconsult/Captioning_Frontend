@@ -7,12 +7,18 @@ export default function mediaSearchReducer (state={}, action) {
         case RECEIVE_MEDIA_SEARCH:
             let key = Object.keys(action.media);
             return {
+                ...state,
                 [action.unique_id]: action.media[key[0]]
             };
 
 
         case CLEAR_MEDIA_SEARCH:
-            return {};
+            return Object.keys(state).reduce((accumulator, element) => {
+                if (element !== action.transaction_id) {
+                    accumulator[element] = state[element]
+                }
+                return accumulator
+            }, {});
 
         default:
             return state

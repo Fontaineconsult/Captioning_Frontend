@@ -2,7 +2,8 @@ export const START_TEMP_CAP_JOB = 'START_TEMP_CAP_JOB';
 export const ADD_MEDIA_TO_TEMP_JOB = 'ADD_MEDIA_TO_TEMP_JOB';
 export const ADD_JOB_INFO_TO_TEMP_JOB = 'ADD_JOB_INFO_TO_TEMP_JOB';
 export const COMPLETE_TEMP_CAP_JOB = 'COMPLETE_TEMP_CAP_JOB';
-export const ADD_MEDIA_TO_TEMP_JOB_NO_ID ="ADD_MEDIA_TO_TEMP_JOB_NO_ID"
+export const ADD_MEDIA_TO_TEMP_JOB_NO_ID = "ADD_MEDIA_TO_TEMP_JOB_NO_ID"
+export const CLEAR_TEMP_CAP_JOBS = "CLEAR_TEMP_CAP_JOBS"
 
 
 
@@ -49,7 +50,6 @@ export function addJobInfoToTempJob(temp_id, job_info) {
 
 }
 
-
 export function completeTempJob(temp_id, created) {
 
     return {
@@ -58,5 +58,16 @@ export function completeTempJob(temp_id, created) {
         created
 
     }
+
+}
+
+
+export function clearTempCapJobs() {
+
+    return {
+        type: CLEAR_TEMP_CAP_JOBS,
+
+    }
+
 
 }

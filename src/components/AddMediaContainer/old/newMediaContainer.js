@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
-import {AddMediaToJob} from '../../actions/ampApi/postData'
-import {fetchMediaBySourceUrl} from '../../actions/ampApi/fetchData'
+import {addMediaToDBandTempJob} from '../../../actions/ampApi/postData'
+import {fetchMediaBySourceUrl} from '../../../actions/ampApi/fetchData'
 import Select from 'react-select'
 // import { Formik } from 'formik';
 import SourceURLInput from './sourceLinkInput'
@@ -46,7 +46,7 @@ class NewMediaContainer extends Component {
         } else if (this.state.title !== '') {
             console.log("BEGEGSEGSEGESGESGSEG")
             event.preventDefault();
-            this.props.dispatch(AddMediaToJob(this.state.title, this.state.source_location, this.state.type, this.props.transaction_id));
+            this.props.dispatch(addMediaToDBandTempJob(this.state.title, this.state.source_location, this.state.type, this.props.transaction_id));
 
 
         }
@@ -60,19 +60,12 @@ class NewMediaContainer extends Component {
             this.setState({source_location: this.props.transaction_link,
                 title: this.props.mediaSearchReducer[this.props.transaction_id].title})
 
-
         } else {
-
-
             this.setState({source_location: this.props.transaction_link}
             )
         }
-
-
         console.log("PROPSSS", this.props.mediaSearchReducer)
-        // this.setState({source_location: this.props.mediaSearchReducer[this.props.transaction_id].source_url,
-        //                     title: this.props.mediaSearchReducer[this.props.transaction_id].title
-        // })
+
 
     }
 

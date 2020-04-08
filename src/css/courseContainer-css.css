@@ -69,3 +69,9 @@
 
     display: flex;
 }
+
+
+.list {
+
+height: calc(100vh - 210px)
+}

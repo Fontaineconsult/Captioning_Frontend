@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
-import {AddMediaToJob} from '../../actions/ampApi/postData'
-import {addJobInfoToTempJob, completeTempJob, addMediaToTempJobNoId} from '../../actions/tempJobsForm'
-import PreparedJobsContainer from './preparedJobsContainer'
+import {addMediaToDBandTempJob} from '../../../actions/ampApi/postData'
+import {addJobInfoToTempJob, completeTempJob, addMediaToTempJobNoId} from '../../../actions/tempJobsForm'
+import PreparedJobsContainer from '../preparedJobsContainer'
 import { v4 as uuidv4 } from 'uuid';
 import Select from "react-select";
 import DatePicker from 'react-date-picker';
-import {addCapJob} from "../../actions/newCapJob";
+import {addCapJob} from "../../../actions/newCapJob";
 // import { Formik } from 'formik';
-import {AddVideoJob} from  "../../actions/ampApi/postData"
+import {AddVideoJob} from "../../../actions/ampApi/postData"
 
 class NewCapJobFormContainer extends Component {
 
@@ -128,11 +128,6 @@ class NewCapJobFormContainer extends Component {
 function mapStateToProps({coursesReducer, mediaSearchReducer, tempJobsFormReducer, requesterReducer}, {transaction_id}) {
 
     let courses_list = Object.keys(coursesReducer).map(current_course => {
-
-
-
-
-
         return {value: current_course , label: current_course,}
     });
 

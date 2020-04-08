@@ -30,9 +30,7 @@ class PreparedJobsContainer extends Component {
         {title: "Show Date", field: "show_date"},
         {title: "Delivery Format", field: "delivery_format"}
 
-
     ];
-
 
     render() {
 
@@ -44,7 +42,6 @@ class PreparedJobsContainer extends Component {
 
         )
     }
-
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {

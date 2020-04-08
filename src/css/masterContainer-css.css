@@ -1,7 +1,13 @@
 .master-container {
     max-width: 1500px;
     width: 80vw;
+    height: 95vh;
+    min-width: 1200px;
     margin-right: auto;
     margin-left: auto;
+    border-bottom-color: #282c34;
+    border-width: 1px;
+    border-style: solid;
+    overflow: hidden;
 }
 

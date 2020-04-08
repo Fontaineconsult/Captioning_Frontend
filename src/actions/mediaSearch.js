@@ -12,10 +12,10 @@ export function receiveMediaSearch(media, unique_id) {
 }
 
 
-export function clearMediaSearch() {
+export function clearMediaSearch(transaction_id) {
     return {
         type: CLEAR_MEDIA_SEARCH,
-        action: true
+        transaction_id
 
     }
 

@@ -1,4 +1,4 @@
-import {RECEIVE_MEDIA, ADD_MEDIA} from "../actions/media";
+import {RECEIVE_MEDIA, ADD_MEDIA, ADD_MEDIA_FROM_CAP_JOBS} from "../actions/media";
 
 export default function mediaReducer (state={}, action) {
 
@@ -19,6 +19,16 @@ export default function mediaReducer (state={}, action) {
                 ...action.media
 
             }
+
+        case ADD_MEDIA_FROM_CAP_JOBS:
+            console.log("ADDING MEDIA FROM CAP JO", action.media)
+            return {
+                ...state,
+                ...action.media
+
+            }
+
+
 
         default:
             return state

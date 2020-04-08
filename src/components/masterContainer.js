@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
-import ILearnMasterContainer from './iLearnViewsContainer/iLearnMasterContainer/iLearnMasterContainerView'
-import MediaMasterContainer from "./MediaMasterContainer/mediaMasterContainer";
-
+import NavigationMasterContainer from "./componentNavigator/navigationMasterContainer";
+import NewJobMasterContainer from "./AddCapJobView/newJobMasterContainer"
+import JobManagementMasterContainer from "./JobManagementContainer/JobManagementMasterContainer"
+import IlearnMasterContainer from "./iLearnViewsContainer/iLearnViewContainers/iLearnAllCoursesView"
 
 import {
     assetDiscovery,
@@ -15,7 +16,8 @@ import {
 } from "../actions/ampApi/fetchData";
 import '../css/masterContainer-css.css'
 
-import NewCapJobContainer from './AddCapJobView/newCapJobContainer'
+import NewCapJobContainer from './AddCapJobView/old/newCapJobContainer'
+
 
 
 class MasterContainer extends Component {
@@ -25,8 +27,9 @@ class MasterContainer extends Component {
 
 
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'admin') {
-            this.props.dispatch(fetchIlearnVideosBySemester(this.props.query.semester))
             this.props.dispatch(allAssetDiscovery())
+            this.props.dispatch(fetchIlearnVideosBySemester(this.props.query.semester))
+
             this.props.dispatch(fetchAllCourses(this.props.query.semester))
 
 
@@ -64,10 +67,9 @@ class MasterContainer extends Component {
         return(
 
             <div className={"master-container"}>
-                <div className={"top-bar"}>DPRC WEB CRAWLER IS SO COOL</div>
+                <div className={"top-bar"}>Master Container</div>
+                <NavigationMasterContainer query={this.props.query}/>
 
-                <MediaMasterContainer/>
-                {/*<ILearnMasterContainer/>*/}
             </div>
 
         )
@@ -77,13 +79,14 @@ class MasterContainer extends Component {
 }
 
 
-function mapStateToProps({requesterReducer, userPermissionReducer}){
+function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer}, {query}){
 
 
 
     return {
         requesterReducer,
-        userPermissionReducer
+        userPermissionReducer,
+        query
 
     }
 

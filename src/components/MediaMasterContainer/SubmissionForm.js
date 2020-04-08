@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import NewCapJobFormContainer from "../AddCapJobView/newCapJobFormContainer";
-import NewMediaContainer from "../AddMediaContainer/newMediaContainer";
+import NewCapJobFormContainer from "../AddCapJobView/old/newCapJobFormContainer";
+import NewMediaContainer from "../AddMediaContainer/old/newMediaContainer";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 

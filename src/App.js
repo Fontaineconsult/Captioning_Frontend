@@ -35,7 +35,7 @@ class App extends Component {
      // this.props.dispatch(updateCourse("fa18AAS35001", "comments", "BLLsssssYRGGGGGGG"))
 
 
-     //    this.props.dispatch(AddMediaToJob("Test", "www.111ur.ur..4444urcom", "link"))
+     //    this.props.dispatch(addMediaToDBandTempJob("Test", "www.111ur.ur..4444urcom", "link"))
 }
 
 

@@ -1,10 +1,10 @@
 import * as api from '../../utilities/api/api_access'
 import {receiveCourses} from '../courses'
 import {receiveInstructors} from '../instructors'
-import receiveVideos from '../video_jobs'
+import {receiveCapJobs} from '../existingVideoJobs'
 import receiveStudents from '../students'
 import {receiveIlearnVideos} from '../ilearn_videos'
-import {receiveMedia} from '../media'
+import {receiveMedia, addMediaFromCapJobs} from '../media'
 import receiveRequester from '../requester'
 import receiveRequesterResources from '../requests'
 import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs, LoadingPermissions, LoadingRequests} from '../status'
@@ -12,6 +12,7 @@ import receiveUserPermissions from '../userPermission'
 import {serverURL} from '../../constants'
 import {setErrorState} from '../error_state'
 import {receiveMediaSearch} from '../mediaSearch'
+import { v1 as uuidv1 } from 'uuid';
 
 import fetch from "cross-fetch";
 
@@ -35,18 +36,20 @@ function errorHandler(response, dispatch, error_id){
 
     if (!response.ok) {
         response.json()
-            .then(data => dispatch(setErrorState(data['error']['message'], error_id)))
+            .then(data => dispatch(setErrorState(data['error']['message'], data['request_payload'], error_id)))
     }
     return response
 }
 
 
-function responseHandler(response, dispatch, reducer, unique_id) {
+function responseHandler(response, dispatch, reducer, unique_id, statusReducer) {
 
     if (response.ok) {
         response.json()
-            .then(data => dispatch(reducer(data['content'], unique_id)))
+            .then(data => { reducer.forEach(cur_reducer => {dispatch(cur_reducer(data['content'], unique_id))})})
+            .then(data => dispatch(statusReducer(false)))
     }
+
     return response
 
 }
@@ -98,10 +101,11 @@ export function assetDiscovery(id) {
 export function allAssetDiscovery() {
 
     return dispatch => {
-
+        dispatch(LoadingRequests(true))
         return fetch(`${server_url}/requesters?employee_id=all`)
             .then(response => response.json())
             .then(data => dispatch(receiveRequester(data['content'])))
+            .then(data => dispatch(LoadingRequests(false)))
             .then(data => console.log(data))
     }
 }
@@ -139,16 +143,16 @@ export function fetchCoursesbyInstructorId(instructor_id) {
 
 }
 
-export function fetchVideoJobsByInstructor(semester, instructor_id) {
+export function fetchAllVideoJobsBySemester(semester) {
+
+    let error_id = uuidv1()
 
     return dispatch => {
-
-        dispatch(receiveVideos());
-        return fetch(`${server_url}/video-jobs?semester=${semester}&instructor_id=${instructor_id}`)
-            .then(response => response.json())
-            .then(data => dispatch(receiveVideos(data)))
+        dispatch(LoadingVideoJobs(true))
+        return fetch(`${server_url}/video-jobs?semester=${semester}&requester_id=all`)
+            .then(response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
+            .then(response => (responseHandler(response, dispatch, [receiveCapJobs, addMediaFromCapJobs], error_id, LoadingVideoJobs)))
             .then(data => console.log(data))
-
     }
 
 
@@ -266,7 +270,7 @@ export function fetchMediaBySourceUrl(url, unique_id) {
         dispatch(LoadingMedia(true))
         return fetch(`${server_url}/media?source_url=${url}`)
             .then(response => errorHandler(response, dispatch, unique_id), error => {console.log(error)})
-            .then(response => responseHandler(response, dispatch, receiveMediaSearch, unique_id))
+            .then(response => responseHandler(response, dispatch, [receiveMediaSearch], unique_id, LoadingMedia))
 
 
     }

@@ -4,15 +4,51 @@ import {withRouter} from "react-router";
 import ILearnCourseContainer from '../../iLearnViewsContainer/iLearnCourseContainer/iLearnCourseContainerView'
 import ILearnCourseLoadingContainer from '../../iLearnViewsContainer/iLearnCourseContainer/iLearnCourseLoadingContainerView'
 import '../../../css/courseContainer-css.css'
+import { List, AutoSizer, CellMeasurer, CellMeasurerCache} from "react-virtualized";
 
-class ILearnMasterContainer extends Component {
+class ILearnAllCoursesView extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.cache = new CellMeasurerCache({
+            fixedWidth: true,
+            defaultHeight: 200
+        })
+
+    }
+    ilearnVideoRowCount = Object.keys(this.props.requests_captioning).length
+    captioningCourses = Object.keys(this.props.requests_captioning)
+
+
+    renderRow = (index, key, style, parent) => {
+
+        return(
+
+            <CellMeasurer
+                key={index.key}
+                cache={this.cache}
+                parent={index.parent}
+                columnIndex={0}
+                rowIndex={index.index}
+            >
+                <div style={index.style} className="row">
+                    <div className="content">
+                        <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos}
+                                               course_id={this.captioningCourses[index.index]}
+                                               key={this.captioningCourses[index.index]}/>
+                    </div>
+                </div>
+
+            </CellMeasurer>
+        )
+    }
 
     render() {
 
         return(
 
             <div>
-
                 <p>Your iLearn Videos</p>
 
                 <div className={"iLearnContentContainer"}>
@@ -20,25 +56,47 @@ class ILearnMasterContainer extends Component {
                     <ILearnCourseLoadingContainer course_id={course} key={i}/>
                 )))}
 
-                {this.props.showCourseContainer === true && (Object.keys(this.props.requests_captioning).map((course, i) =>(
+                <div className="list">
 
-                        <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos} course_id={course} key={i}/>
-                    )))}
+                    <AutoSizer>
+                        {
+                            ({ width, height }) => {
+                                return <List
+                                    width={width}
+                                    height={height}
+                                    deferredMeasurementCache={this.cache}
+                                    rowHeight={this.cache.rowHeight}
+                                    rowRenderer={this.renderRow}
+                                    rowCount={this.ilearnVideoRowCount}
+                                    overscanRowCount={1} />
+                            }
+                        }
+                    </AutoSizer>
+
+                    {/*{this.props.showCourseContainer === true && (Object.keys(this.props.requests_captioning).map((course, i) =>(*/}
+
+                    {/*    <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos} course_id={course} key={i}/>*/}
+
+                    {/*)))}*/}
+
+                </div>
+
                 <span>
                     <b>  -----    Captioning not requested.  -----   </b>
                 </span>
+                {/*<div>*/}
+                {/*    {this.props.showCourseContainer === true && (Object.keys(this.props.no_captioning).map((course, i) =>(*/}
+                {/*        <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos} course_id={course} key={i}/>*/}
 
-                {this.props.showCourseContainer === true && (Object.keys(this.props.no_captioning).map((course, i) =>(
-                    <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos} course_id={course} key={i}/>
+                {/*    )))}*/}
+                {/*</div>*/}
 
-                )))}
                 </div>
             </div>
         )
     }
 
 }
-
 function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReducer}) {
 
 
@@ -53,9 +111,7 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
     let iLearnVideosSearchTemp = {...iLearnVideoReducer}
     let courseilearnVideos = {}
 
-
     // build ilearn-videos dict
-
     Object.keys(coursesReducer).forEach(courseKey => {
         courseilearnVideos[courseKey] = {};
 
@@ -73,15 +129,12 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
     });
 
-
     function capActive(element, index, array) {
         return element.student_requests_captioning === true
 
     }
 
     let showCourseContainer = !courseIsLoading && !isLoading && Object.keys(courseilearnVideos).length > 0;
-
-
 
     Object.keys(coursesReducer).forEach(function(key){
 
@@ -94,7 +147,6 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
 
     });
-
         return {
         courseIsLoading,
         coursesReducer,
@@ -107,4 +159,4 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 }
 
 
-export default withRouter(connect(mapStateToProps)(ILearnMasterContainer))
+export default withRouter(connect(mapStateToProps)(ILearnAllCoursesView))

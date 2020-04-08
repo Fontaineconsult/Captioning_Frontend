@@ -2,7 +2,8 @@ import {START_TEMP_CAP_JOB,
     ADD_MEDIA_TO_TEMP_JOB,
     ADD_JOB_INFO_TO_TEMP_JOB,
     COMPLETE_TEMP_CAP_JOB,
-    ADD_MEDIA_TO_TEMP_JOB_NO_ID} from "../actions/tempJobsForm";
+    ADD_MEDIA_TO_TEMP_JOB_NO_ID,
+    CLEAR_TEMP_CAP_JOBS} from "../actions/tempJobsForm";
 
 
 export default function tempJobsFormReducer (state={}, action) {
@@ -63,6 +64,11 @@ export default function tempJobsFormReducer (state={}, action) {
 
 
             };
+
+        case CLEAR_TEMP_CAP_JOBS:
+            return {};
+
+
 
 
         default:

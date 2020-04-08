@@ -3,6 +3,7 @@ import {writeiLearnVideo} from '../ilearn_videos'
 import {api_failure} from '../../utilities/api/errors'
 import {serverURL} from '../../constants'
 import { batch } from 'react-redux'
+import {updateCapJob} from '../existingVideoJobs'
 import {LoadingIlearnVideos} from '../status'
 import fetch from "cross-fetch";
 
@@ -67,6 +68,41 @@ export function updateiLearnVideo(video_id, column, value) {
 }
 
 
+export function updateVideoJob(job_id, column, value){
+
+    let data_object = {id: job_id, column: column, value: value };
+
+    let put_object = {
+        method: 'PUT',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    };
+
+    console.log(put_object)
+
+    return (dispatch, getState) => {
+
+        return fetch(`${server_url}/video-jobs`, put_object)
+            .then(response => response.json())
+
+            .then(data => {console.log("farts", data)})
+            .then(data => dispatch(updateCapJob(job_id, column, value)))
+            .catch(error => console.log(error))
+    }
+
+
+
+
+}
+
+
+
+
+
+
 export function updateiLearnVideoBatch(video_ids, column, value) {
     let data_objects = video_ids.map(id => {
         return {
@@ -78,6 +114,8 @@ export function updateiLearnVideoBatch(video_ids, column, value) {
             dispatch_payload: {id: id, column: column, value: value }
         };
     });
+
+
     return (dispatch, getState) => {
         dispatch(LoadingIlearnVideos(true))
         batch(() => {

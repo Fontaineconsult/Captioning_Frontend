@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
-import TabulatorContainer from '../iLearnTabViewContainer/TabulatorContainer'
+import TabulatorContainer from '../iLearnTabulatorViewContainer/TabulatorContainer'
 import '../../../css/courseContainer-css.css'
 import {iLearnURL} from '../../../constants'
 

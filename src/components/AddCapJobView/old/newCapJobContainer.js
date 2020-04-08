@@ -2,7 +2,7 @@
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import React, { Component } from "react";
-import NewMediaContainer from '../AddMediaContainer/newMediaContainer'
+import NewMediaContainer from '../../AddMediaContainer/old/newMediaContainer'
 import NewCapJobFormContainer from './newCapJobFormContainer'
 
 class NewCapJobContainer extends Component {
