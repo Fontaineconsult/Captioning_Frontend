@@ -19,7 +19,7 @@ class JobManagementMasterContainer extends Component {
     componentDidMount() {
 
 
-        this.props.dispatch(fetchAllVideoJobsBySemester(this.props.query.semester))
+
 
     }
 
@@ -29,7 +29,7 @@ class JobManagementMasterContainer extends Component {
         return (
 
 
-            <div className="JobManagementMasterContainer">
+            <div className="ContentManagementMasterContainer">
                 <JobManagementControlContainer jobsLoading={this.props.jobsLoading}/>
             </div>
 

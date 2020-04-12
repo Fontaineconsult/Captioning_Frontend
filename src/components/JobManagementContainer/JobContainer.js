@@ -5,24 +5,21 @@ import mediaReducer from "../../reducers/media";
 import JobMediaDisplayContainer from "./JobMediaDisplayContainer"
 import {updateVideoJob} from "../../actions/ampApi/putData"
 import jobContainer from "../../css/jobContainer.css"
-
-
-const tempStyle = {
-
-    height: '100px'
-
-}
+import AstControls from "./astControls"
+import AmaraControls from "./amaraControls";
+import moment from 'moment'
 
 class JobContainer extends Component {
 
     constructor(props) {
         super(props);
+        this.prev_value = undefined;
         this.state = {
             comments: '',
             job_status: 'Queued',
             output_format: '',
             priority: false,
-            request_date: Date(),
+            request_date:  Date(),
             show_date: Date(),
             delivered_date: Date(),
             requester_id: '',
@@ -30,18 +27,22 @@ class JobContainer extends Component {
             transcripts_only: false,
             employee_email: '',
             employee_first_name:'',
-            employee_last_name:''
+            employee_last_name:'',
+            ast_job_id: 'Not Used'
         };
 
         this.updateState = this.updateState.bind(this)
         this.dispatchInput = this.dispatchInput.bind(this)
+        this.saveCurrentValue = this.saveCurrentValue.bind(this)
     }
 
     updateState(event){
+
         const target = event.target;
         const value = target.name === 'priority' || target.name === 'rush_service_used' || target.name === 'transcripts_only' ? target.checked : target.value;
         const name = target.name;
 
+        this.prev_value = this.state[name]
         this.setState({
             [name]: value
         });
@@ -49,7 +50,19 @@ class JobContainer extends Component {
     }
 
     dispatchInput(event) {
-        this.props.dispatch(updateVideoJob(this.props.jobId, event.target.name, this.state[event.target.name]))
+        const target = event.target;
+        if (target.value !== this.prev_value) {
+            this.props.dispatch(updateVideoJob(this.props.jobId, event.target.name, this.state[event.target.name]))
+
+        }
+    }
+
+    saveCurrentValue(event) {
+
+        const target = event.target;
+        const name = target.name;
+        this.prev_value = this.state[name]
+
     }
 
     componentDidMount() {
@@ -60,17 +73,16 @@ class JobContainer extends Component {
             job_status: r.job_status,
             output_format: r.output_format,
             priority: r.priority,
-            request_date: r.request_date,
-            show_date: r.show_date,
-            delivered_date: r.delivered_date,
+            request_date: moment(r.request_date).format("MMM Do YYYY"),
+            show_date: moment(r.show_date).format("MMM Do YYYY"),
+            delivered_date: moment(r.delivered_date).format("MMM Do YY"),
             requester_id: r.requester_id,
             rush_service_used: r.rush_service_used,
             transcripts_only: r.transcripts_only,
+            ast_job_id: r.ast_job_id,
             employee_email: c.course_instructor.employee_email,
             employee_first_name: c.course_instructor.employee_first_name,
             employee_last_name: c.course_instructor.employee_last_name
-
-
         })
 
     }
@@ -79,87 +91,121 @@ class JobContainer extends Component {
 
         return (
             <div className="job-container">
-                <br/>
-                Job Container
-                <div>Requester Course: {this.props.requester_course_id}</div>
-                <div>Instructor: {this.state.employee_first_name} {this.state.employee_last_name} </div>
-                <div>Email: {this.state.employee_email}</div>
-                <div style={tempStyle}>
-                    <form>
+
+                <div className="upperJobContainer">
+                    <div className="upperJobContainerLeft">
+                        <div>Requester: {this.props.requester_course_id}</div>
+                    </div>
+                    <div className="upperJobContainerRight">
+                        <div className="upperJobContainerRightContent"><label>Instructor </label>{this.state.employee_first_name} {this.state.employee_last_name} </div>
+                        <div className="upperJobContainerRightContent"><label>Email </label> {this.state.employee_email}</div>
+                        <div className="upperJobContainerRightContent"><label>RID </label> {this.state.requester_id}</div>
+                    </div>
+                </div>
+                <div className="lowerJobContainer">
+                    <div className="lowerJobContainerLeft">
+                        <form className="lowerJobContainerLeftForm">
+                                <div className="upperJobContainerLeftContent">
+                                    <label className="upperJobContainerLeftLabel">
+                                        <div>Job Status</div>
+                                            <select className="upperJobContainerLeftContentInput" name="job_status" onChange={this.updateState} onBlur={this.dispatchInput} onFocus={this.saveCurrentValue} value={this.state.job_status}>
+                                                <option value="Queued">Queued</option>
+                                                <option value="Captioning">Captioning</option>
+                                                <option value="Ready">Ready</option>
+                                                <option value="Delivered">Delivered</option>
+                                                <option value="On Hold">On Hold</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                            </select>
+                                    </label>
+                                </div>
+                                <div className="upperJobContainerLeftContent">
+                                    <label className="upperJobContainerLeftLabel">
+                                        <div>Output Format</div>
+
+                                    <select className="upperJobContainerLeftContentInput" name="output_format" onFocus={this.saveCurrentValue} onChange={this.updateState} onBlur={this.dispatchInput} value={this.state.output_format}>
+                                        <option value="Amara">Amara</option>
+                                        <option value=".SRT">.SRT</option>
+                                        <option value="File">File</option>
+
+                                    </select>
+
+                                    </label>
+                                </div>
+                            <div className="upperJobContainerLeftContent">
+                                <label className="upperJobContainerLeftLabel">
+                                    <div>Request Date</div>
+                                    <input className="upperJobContainerLeftContentInput" type="input" name="request_date"  onFocus={this.saveCurrentValue} value={this.state.request_date} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                                </label>
+                            </div>
+                            <div className="upperJobContainerLeftContent">
+                                <label className="upperJobContainerLeftLabel">
+                                    <div>Show Date</div>
+                                    <input className="upperJobContainerLeftContentInput" type="input" name="show_date" onFocus={this.saveCurrentValue} value={this.state.show_date} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                                </label>
+                            </div>
+                            <div className="upperJobContainerLeftContent">
+                                <label className="upperJobContainerLeftLabel">
+                                    <div>Delivered Dat</div>
+                                    <input className="upperJobContainerLeftContentInput" type="input" name="delivered_date" onFocus={this.saveCurrentValue} value={this.state.delivered_date} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="lowerJobContainerRight">
+                        <div className="jobMediaContainer">
+                            {this.props.mediaReducer[this.props.mediaId]  && <JobMediaDisplayContainer mediaId={this.props.mediaId}/>}
+                        </div>
+                    </div>
+                    <div className="commentsContainer">
                         <label>
                             Comments
-                            <input type="input" name="comments" value={this.state.comments} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                            <textarea className="commentsInput" type="input" name="comments"  onFocus={this.saveCurrentValue} value={this.state.comments} onBlur={this.dispatchInput} onChange={this.updateState}/>
                         </label>
-
-                        <label>
-                            Job Status
-                            <select name="job_status" onChange={this.updateState} onBlur={this.dispatchInput} value={this.state.job_status}>
-                                <option value="Queued">Queued</option>
-                                <option value="Captioning">Captioning</option>
-                                <option value="Ready">Ready</option>
-                                <option value="Delivered">Delivered</option>
-                                <option value="On Hold">On Hold</option>
-                                <option value="Cancelled">Cancelled</option>
-                            </select>
-                        </label>
-                        <label>
-                            Output Format
-                            <input type="input" name="output_format" value={this.state.output_format} onBlur={this.dispatchInput} onChange={this.updateState}/>
-                        </label>
-
+                    </div>
+                </div>
+                <div className="jobControlsBar">
+                    <form>
                         <label>
                             Priority
-                            <input type="checkbox" name="priority" checked={this.state.priority} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                            <input type="checkbox" name="priority" checked={this.state.priority} onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
                         </label>
-                        <label>
-                            Request Date
-                            <input type="input" name="request_date" value={this.state.request_date} onBlur={this.dispatchInput} onChange={this.updateState}/>
-                        </label>
-                        <label>
-                            Show Date
-                            <input type="input" name="show_date" value={this.state.show_date} onBlur={this.dispatchInput} onChange={this.updateState}/>
-                        </label>
-                        <label>
-                            Delivered Date
-                            <input type="input" name="show_date" value={this.state.delivered_date} onBlur={this.dispatchInput} onChange={this.updateState}/>
-                        </label>
-                        <label>
-                            Requester ID
-                            <div>{this.state.requester_id}</div>
-                        </label>
+
 
                         <label>
                             Rush Service
-                            <input type="checkbox" name="rush_service_used" checked={this.state.rush_service_used} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                            <input type="checkbox" name="rush_service_used" checked={this.state.rush_service_used}  onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
                         </label>
                         <label>
                             Transcripts Requested
-                            <input type="checkbox" name="transcripts_only" checked={this.state.transcripts_only} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                            <input type="checkbox" name="transcripts_only" checked={this.state.transcripts_only}  onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
                         </label>
 
                     </form>
-                    <div>
-                        {this.props.mediaReducer[this.props.mediaId]  && <JobMediaDisplayContainer mediaId={this.props.mediaId}/>}
+                </div>
+                <div className="pluginControlsContainer">
+                    <div className="pluginContainer">
+                        <AstControls id={this.state.ast_job_id} />
                     </div>
+                    <div className="pluginContainer">
+                        <AmaraControls/>
+                    </div>
+
                 </div>
             </div>
 
         )
 
-
     }
-
 
 }
 
 
 function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, requesterReducer, coursesReducer}, {props, jobId}) {
     let job = videosJobsReducer[jobId];
-
     let mediaId  = job.media.id;
-    console.log("REQUESTER ID", job.requester_id, requesterReducer[job.requester_id])
-    let requester_course_id = requesterReducer[job.requester_id].course.course_gen_id
+    let requester_course_id = requesterReducer[job.requester_id].course_id
     let course = coursesReducer[requester_course_id]
+
 
     return {
 

@@ -22,8 +22,17 @@ class AddJobControlContainer extends Component {
 
         return (
 
-            <div>
-                <div>Add Job    Add Media    Edit Media</div>
+            <div className="ContentManagementMasterContainer">
+
+                <div className="control-bar">
+                    <div className="controlButton">
+                        Add Job
+                    </div >
+                    <div className="controlButton" >
+                        Edit Media
+                    </div>
+
+                </div>
                 <div>
                     <NewJobMasterContainer/>
                 </div>

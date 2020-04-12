@@ -21,9 +21,21 @@ class IlearnManagementControlContainer extends Component {
     render() {
 
         return (
-
-            <div>
-                <div>Active Courses    Inactive Courses    New Videos    Search</div>
+            <div className="ContentManagementMasterContainer">
+                <div className="control-bar">
+                    <div className="controlButton">
+                        Active Courses
+                    </div >
+                    <div className="controlButton" >
+                        Inactive Courses
+                    </div>
+                    <div className="controlButton">
+                        New Videos
+                    </div >
+                    <div className="controlButton" >
+                        Search
+                    </div>
+                </div>
                 <div>
                     <ILearnAllCoursesView/>
                 </div>

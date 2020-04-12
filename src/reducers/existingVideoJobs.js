@@ -9,21 +9,17 @@ export default function videosJobsReducer (state={}, action) {
             return {
                 ...state,
                 ...action.videos
-
-
             };
 
         case UPDATE_VIDEO_JOBS: {
             //job_id, column, value
+
             return {
                 ...state,
-                [action.job_id]:  {...state[action.job_id], ...state[action.job_id][action.column]=action.value}
+                [action.job_id]:  {...state[action.job_id], [action.column]: action.value
+                }
             }
-
-
         }
-
-
 
         default:
             return state

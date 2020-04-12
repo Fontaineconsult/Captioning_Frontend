@@ -5,6 +5,14 @@ import NavigationMasterContainer from "./componentNavigator/navigationMasterCont
 import NewJobMasterContainer from "./AddCapJobView/newJobMasterContainer"
 import JobManagementMasterContainer from "./JobManagementContainer/JobManagementMasterContainer"
 import IlearnMasterContainer from "./iLearnViewsContainer/iLearnViewContainers/iLearnAllCoursesView"
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+
+
 
 import {
     assetDiscovery,
@@ -12,7 +20,7 @@ import {
     fetchCourseByCourseGenId,
     fetchiLearnVideosByCourseGenId,
     fetchIlearnVideosBySemester,
-    allAssetDiscovery
+    allAssetDiscovery, fetchAllVideoJobsBySemester
 } from "../actions/ampApi/fetchData";
 import '../css/masterContainer-css.css'
 
@@ -59,6 +67,7 @@ class MasterContainer extends Component {
             }
 
         }
+        this.props.dispatch(fetchAllVideoJobsBySemester(this.props.query.semester))
 
     }
 
@@ -68,7 +77,9 @@ class MasterContainer extends Component {
 
             <div className={"master-container"}>
                 <div className={"top-bar"}>Master Container</div>
-                <NavigationMasterContainer query={this.props.query}/>
+                <Route path='/captioning'><NavigationMasterContainer query={this.props.query}/></Route>
+
+
 
             </div>
 

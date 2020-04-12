@@ -9,7 +9,7 @@ class JobMediaDisplayContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            captioned_media: "Not Set"
+            captioned_url: "Not Set"
 
         };
     }
@@ -29,26 +29,31 @@ class JobMediaDisplayContainer extends Component {
     render() {
 
         return (
-
-
-            <div className="capJobMediaView">
+            <div className="capJobMediaContainer">
                 <div>
                     <form>
-                        <label>
-                            Captioned URL
-                            <input type='input' name='captioned_url' value={this.state.captioned_url}/>
-                        </label>
-                        <label>
-                            Title
-                            <input type='input' name='title' value={this.state.title}/>
-                        </label>
-                        <label>
-                            Source URL
-                            <input type='input' name='source_url' value={this.state.source_url}/>
-                        </label>
-
-
-
+                        <div className="capJobMediaContentContainer">
+                            <div className="mediaContentDescriptor">
+                                Title:
+                            </div>
+                            <div>{this.state.title}</div>
+                        </div>
+                        <div className="capJobMediaContentContainer">
+                            <div className="mediaContentDescriptor">
+                                Source URL:
+                            </div>
+                            <div>{this.state.source_url}</div>
+                        </div>
+                        <div className="capJobMediaContentContainer">
+                            <label className="capJobMediaContentContainer">
+                                <div className="mediaContentDescriptor">
+                                    Captioned URL:
+                                </div>
+                                <div>
+                                    <input type='input' name='captioned_url' value={this.state.captioned_url}/>
+                                </div>
+                            </label>
+                        </div>
                     </form>
                 </div>
 
@@ -69,7 +74,6 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
 
     return {
         media
-
 
     }
 }

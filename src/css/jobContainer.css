@@ -1,6 +1,166 @@
 .job-container {
-
-
     margin-right: 10px;
     margin-left: 10px;
+    margin-bottom: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #282c34;
+    padding-left: 5px;
+    padding-right: 5px;
+    box-shadow: 3px 3px 2px #808385;
+
+
+}
+
+.job-container:first-child{
+    margin-top: 3px;
+
+}
+
+
+.upperJobContainer {
+
+    display: flex;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+
+
+}
+
+
+.filtersOuterContainer {
+    display: flex;
+
+
+}
+
+
+.controlBarNavButtons {
+
+    display: flex;
+
+}
+
+.jobManagementFilters {
+
+
+    display: flex;
+
+}
+
+.lowerJobContainer {
+
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.jobMediaContainer {
+
+
+
+}
+.mediaContentDescriptor {
+    margin-right: 10px;
+
+
+}
+
+.pluginControlsContainer {
+
+    display: flex;
+    margin-bottom: 10px;
+
+}
+
+.capJobMediaContainer {
+
+
+
+}
+
+.capJobMediaContentContainer {
+
+    display: flex;
+    margin-bottom: 5px;
+    padding-right: 10px;
+
+}
+
+.pluginContainer{
+
+width: 50%;
+
+}
+
+.upperJobContainerRight {
+    display: flex;
+    margin-left: auto;
+
+}
+
+.jobControlsBar {
+
+    margin-bottom: 10px;
+
+
+}
+
+
+.upperJobContainerLeftContent {
+    margin-bottom: 3px;
+
+}
+.upperJobContainerLeftLabel {
+    display: inline-flex;
+    width: 100%;
+}
+
+.upperJobContainerRightContent{
+
+    margin-left: 10px;
+
+}
+
+.commentsContainer {
+    width: 15%;
+
+}
+
+.commentsInput {
+    height: 100%;
+    resize: none;
+
+}
+
+.lowerJobContainer {
+
+    display: flex;
+    border-top-color: #282c34;
+    border-top-width: 1px;
+    border-top-style: solid;
+    padding-top: 5px;
+
+}
+
+.lowerJobContainerLeft {
+    margin-right: 5px;
+    width: 20%
+}
+
+.lowerJobContainerRight {
+    border-left: #282c34;
+    border-left-style: solid;
+    border-left-width: 2px;
+    width: 65%;
+    padding-left: 5px;
+}
+
+
+
+.upperJobContainerLeftContentInput {
+    width: 100px;
+    margin-left: auto;
+
 }

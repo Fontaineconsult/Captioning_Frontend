@@ -16,7 +16,7 @@ class NewJobFormContainer extends Component {
         this.state = {
             comments: "",
             show_date: new Date(),
-            delivery_format: "URL (Amara.org)"
+            delivery_format: "Amara"
 
         };
         this.addJobInfo = this.addJobInfo.bind(this);
@@ -36,7 +36,7 @@ class NewJobFormContainer extends Component {
 
         console.log(event)
         let requester_ids = Object.keys(this.props.requesterReducer);
-        let requester_id = requester_ids.find(x => this.props.requesterReducer[x].course.course_gen_id === this.props.current_course)
+        let requester_id = requester_ids.find(x => this.props.requesterReducer[x].course_id === this.props.current_course)
         let employee_id = this.props.coursesReducer[this.props.current_course].employee_id;
 
 
@@ -82,7 +82,7 @@ class NewJobFormContainer extends Component {
                 this.setState({
                     comments: '',
                     show_date: new Date(),
-                    delivery_format: "URL (Amara.org)"
+                    delivery_format: "Amara"
                 })
             }
         }
@@ -113,7 +113,7 @@ class NewJobFormContainer extends Component {
                     <label>
                         Output:
                         <select name="delivery_format" value={this.state.delivery_format} onChange={this.handleInputChange}>
-                            <option value="URL (Amara.org)">URL (Amara.org)</option>
+                            <option value="Amara">URL (Amara.org)</option>
                             <option value="SRT">Caption File (.SRT)</option>
                             <option value="Video File">Video File (.mp4)</option>
                         </select>

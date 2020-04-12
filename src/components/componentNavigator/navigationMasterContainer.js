@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    NavLink,
+    LinkButton
+} from "react-router-dom";
 
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
@@ -7,6 +14,7 @@ import JobManagementMasterContainer from "../JobManagementContainer/JobManagemen
 import '../../css/NavMaster.css'
 import IlearnManagementControlContainer from "../iLearnViewsContainer/iLearnNavBar/IlearnManagementControlContainer";
 import AddJobControlContainer from "../AddCapJobView/AddJobControlContainer"
+import {fetchAllVideoJobsBySemester} from "../../actions/ampApi/fetchData";
 
 
 
@@ -26,8 +34,6 @@ class NavigationMasterContainer extends Component {
     }
 
     selectNavigator(event) {
-        console.log(event.target.id, event.target.id === "addJob")
-
         this.setState({
             jobManagerActive: event.target.id === "JobManager",
             addJobActive: event.target.id === "addJob",
@@ -35,54 +41,64 @@ class NavigationMasterContainer extends Component {
 
         })
 
-
     }
 
-
     render() {
-
+        console.log("DSFSDFSDF",this.state)
         return (
             <div className="NavigationMasterContainer">
                 <div className="NavUpperContainer">
                     <div className="NavControlContainer">
-                        <div id="JobManager" role="button" className="navButton" onClick={this.selectNavigator}>
-                            Job Manager
+                        <div id="jobManager" role="button" className="navButton">
+                            <NavLink
+                                to={{pathname: "/captioning/job-manager",
+                                    search: this.props.location.search,
+
+                                }}>Job Manager</NavLink>
                         </div>
-                        <div id="addJob" role="button" className="navButton" onClick={this.selectNavigator}>
-                            Add Job
+                        <div id="addJob" role="button" className="navButton">
+                            <NavLink
+                                to={{pathname: "/captioning/add-job",
+                                    search: this.props.location.search,
+
+                                }}>Add Job</NavLink>
                         </div>
                         <div id="iLearnScraper" role="button" className="navButton" onClick={this.selectNavigator}>
-                            iLearn Scraper
-                        </div>
+                            <NavLink
+                                to={{pathname: "/captioning/ilearn-scraper",
+                                    search: this.props.location.search,
 
+                                }}>iLearn Scraper</NavLink>
+
+                        </div>
                     </div>
                 </div>
-                <div class="navContent">
-                    {this.state.jobManagerActive & this.props.isLoaded &&  <JobManagementMasterContainer query={this.props.query}/>}
-                    {this.state.addJobActive && <AddJobControlContainer/>}
-                    {this.state.iLearnScraperActive && <IlearnManagementControlContainer/>}
+                <div className="navContent">
+                    <Switch>
+                        <Route path="/captioning/job-manager">{this.props.isLoaded &&  <JobManagementMasterContainer query={this.props.query}/>}</Route>
+                        <Route path="/captioning/add-job">{<AddJobControlContainer query={this.props.query}/>}</Route>
+                        <Route path="/captioning/ilearn-scraper">{<IlearnManagementControlContainer/>}</Route>
+
+                    </Switch>
+
+
+                    {/*{this.state.addJobActive && <AddJobControlContainer/>}*/}
+                    {/*{this.state.iLearnScraperActive && <IlearnManagementControlContainer/>}*/}
 
                 </div>
-
-
-
             </div>
 
         )
     }
-
 }
 
 function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer}, {query}) {
 
-
-    let isLoaded = !loadingStatusReducer.userRequestsLoading
-
+    let isLoaded = !loadingStatusReducer.userRequestsLoading && !loadingStatusReducer.coursesLoading
     return {
         query,
         isLoaded
     }
 }
-
 
 export default withRouter(connect(mapStateToProps)(NavigationMasterContainer))
