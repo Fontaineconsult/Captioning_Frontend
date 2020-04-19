@@ -20,7 +20,7 @@ import {
     fetchCourseByCourseGenId,
     fetchiLearnVideosByCourseGenId,
     fetchIlearnVideosBySemester,
-    allAssetDiscovery, fetchAllVideoJobsBySemester
+    allAssetDiscovery, fetchAllVideoJobsBySemester, fetchAllOrgs, fetchAllEmployees
 } from "../actions/ampApi/fetchData";
 import '../css/masterContainer-css.css'
 
@@ -35,10 +35,11 @@ class MasterContainer extends Component {
 
 
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'admin') {
-            this.props.dispatch(allAssetDiscovery())
+            this.props.dispatch(allAssetDiscovery(this.props.query.semester))
             this.props.dispatch(fetchIlearnVideosBySemester(this.props.query.semester))
-
             this.props.dispatch(fetchAllCourses(this.props.query.semester))
+            this.props.dispatch(fetchAllOrgs())
+            this.props.dispatch(fetchAllEmployees())
 
 
         }

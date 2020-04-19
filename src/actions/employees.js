@@ -1,11 +1,11 @@
-export const RECEIVE_INSTRUCTORS = 'RECEIVE_INSTRUCTORS';
+export const RECEIVE_EMPLOYEES = 'RECEIVE_EMPLOYEES';
 export const WRITE_INSTRUCTORS = 'WRITE_INSTRUCTORS';
 
-export function receiveInstructors(instructors) {
+export function receiveEmployees(employees) {
 
     return {
-        type: RECEIVE_INSTRUCTORS,
-        instructors
+        type: RECEIVE_EMPLOYEES,
+        employees
 
     }
 

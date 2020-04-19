@@ -14,6 +14,7 @@ class NewJobFormContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
             comments: "",
             show_date: new Date(),
             delivery_format: "Amara"
@@ -35,16 +36,17 @@ class NewJobFormContainer extends Component {
     addJobInfo(event) {
 
         console.log(event)
-        let requester_ids = Object.keys(this.props.requesterReducer);
-        let requester_id = requester_ids.find(x => this.props.requesterReducer[x].course_id === this.props.current_course)
-        let employee_id = this.props.coursesReducer[this.props.current_course].employee_id;
+
+        // let requester_ids = Object.keys(this.props.requesterReducer);
+        // let requester_id = requester_ids.find(x => this.props.requesterReducer[x].course_id === this.props.current_course)
 
 
-        let reducer_obj = {show_date: this.state.show_date,
+
+        let reducer_obj = {
+            show_date: this.state.show_date,
             delivery_format: this.state.delivery_format,
             comments: this.state.comments,
-            employee_id: employee_id,
-            requester_id: requester_id,
+            requester_id: this.props.requesterId,
         };
 
         this.props.dispatch(addJobInfoToTempJob(this.props.transaction_id, reducer_obj))
@@ -52,27 +54,16 @@ class NewJobFormContainer extends Component {
 
     }
 
-
     handleInputChange(event) {
-
-
-
         const target = event.target;
         const value = target.value;
         const name = target.name;
-
         if (!this.props.isLocked) {
-
-
             this.setState({
                 [name]: value
             });
-
         }
-
-
     }
-
 
     componentDidUpdate(prevProps, prevState, snapshot) {
 
@@ -82,44 +73,61 @@ class NewJobFormContainer extends Component {
                 this.setState({
                     comments: '',
                     show_date: new Date(),
-                    delivery_format: "Amara"
+                    delivery_format: "Amara",
+                    requester_id: this.props.requesterId
                 })
             }
         }
     }
-
 
     render() {
 
         return (
 
             <div>
-                <p>NEW JOB FORM ASFDASDASD</p>
-                <form>
-                    <label>
-                        Show Date:
-                        <DatePicker name="show_date" value={this.state.show_date} onChange={this.handleSetDate}/>
-                    </label>
-                    <br />
-                    <label>
-                        Comments:
-                        <input
-                            name="comments"
-                            type='text'
-                            value={this.state.comments}
-                            onChange={this.handleInputChange} />
-                    </label>
-                    <br />
-                    <label>
-                        Output:
-                        <select name="delivery_format" value={this.state.delivery_format} onChange={this.handleInputChange}>
-                            <option value="Amara">URL (Amara.org)</option>
-                            <option value="SRT">Caption File (.SRT)</option>
-                            <option value="Video File">Video File (.mp4)</option>
-                        </select>
-                    </label>
+                <form className="jobForm">
+
+                    <div className="jobFormLeft">
+                        <div>
+                            <label>
+                                Show Date:
+                                <DatePicker name="show_date" value={this.state.show_date} onChange={this.handleSetDate}/>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label>
+                                Output:
+                                <select name="delivery_format" value={this.state.delivery_format} onChange={this.handleInputChange}>
+                                    <option value="Amara">URL (Amara.org)</option>
+                                    <option value="SRT">Caption File (.SRT)</option>
+                                    <option value="Video File">Video File (.mp4)</option>
+                                </select>
+                            </label>
+                        </div>
+
+                    </div>
+                    <div className="jobFormRight">
+                        <label>
+                            <textarea
+                                className="jobFormComments"
+                                placeholder="comments"
+                                name="comments"
+                                type='text'
+                                value={this.state.comments}
+                                onChange={this.handleInputChange} />
+                        </label>
+                    </div>
+
+
+
+
+
+
                 </form>
-                <Button size="small"  onClick={e => this.addJobInfo(e)}>Complete Request</Button>
+
+
+                <Button size="small"  variant="contained" onClick={e => this.addJobInfo(e)} disabled={this.props.formDisabled}>Complete Request</Button>
             </div>
 
         )
@@ -127,9 +135,8 @@ class NewJobFormContainer extends Component {
 
 }
 
-function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tempJobsFormReducer, requesterReducer}, {props, current_course, isLocked}) {
-
-
+function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tempJobsFormReducer, requesterReducer}, {props, requesterId, isLocked}) {
+    let formDisabled = requesterId === "";
 
     return {
         mediaSearchReducer,
@@ -139,7 +146,8 @@ function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tem
         coursesReducer,
         props,
         isLocked,
-        current_course
+        requesterId,
+        formDisabled
     }
 }
 

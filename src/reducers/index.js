@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import coursesReducer from './courses'
-import instructorsReducer from './instructors'
+import employeesReducer from './employees'
 import studentsReducer from './students'
 import videosJobsReducer from './existingVideoJobs'
 import iLearnVideoReducer from './ilearn_videos'
@@ -18,7 +18,7 @@ import mediaSearchReducer from "./currentMediaSearch";
 export default combineReducers({
 
     coursesReducer,
-    instructorsReducer,
+    employeesReducer,
     studentsReducer,
     videosJobsReducer,
     iLearnVideoReducer,

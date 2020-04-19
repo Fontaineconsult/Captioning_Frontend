@@ -5,7 +5,6 @@ import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import { ReactTabulator, reactFormatter } from 'react-tabulator'
-
 import Tabulator from "tabulator-tables"
 
 
@@ -36,7 +35,7 @@ class PreparedJobsContainer extends Component {
 
         return(
 
-            <div>
+            <div className="preparedJobsContainer">
                 <div ref={el => (this.el = el)} />
             </div>
 
@@ -69,7 +68,6 @@ class PreparedJobsContainer extends Component {
 function mapStateToProps({tempJobsFormReducer}, {props}) {
 
     let formatData = (videoJob) => {
-        console.log("VideoJob", videoJob)
 
         return {
             id: videoJob.meta.transaction_id,
@@ -85,7 +83,7 @@ function mapStateToProps({tempJobsFormReducer}, {props}) {
         if (tempJobsFormReducer[videoJob].meta.created === true) {
             video_job_list.push(formatData(tempJobsFormReducer[videoJob]))
         }
-    })
+    });
 
     return {
         videoJobsList: video_job_list,

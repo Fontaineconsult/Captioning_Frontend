@@ -15,7 +15,6 @@ class NewMediaContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            current_course: '',
             title: '',
             cap_location: '',
             source_location: '',
@@ -34,7 +33,6 @@ class NewMediaContainer extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        console.log(target)
 
         if (!this.props.isLocked) {
 
@@ -99,53 +97,73 @@ class NewMediaContainer extends Component {
 
 
     render() {
-        console.log("DA ID", this.state, this.props.mediaSearchReducer[this.props.transaction_id], this.props.errorsReducer[this.props.transaction_id] )
         return(
-            <div>
-                <p>NEW MEDIA FORM</p>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Source Location
-                        <input
-                            name="source_location"
-                            type='text'
-                            size="50"
-                            value={this.state.source_location}
-                            onChange={this.handleInputChange}
-                            onBlur={this.checkSourceUrl}/>
-                    </label>
-                    <label>
-                        Video Title:
-                        <input
-                            name="title"
-                            type='text'
-                            size="50"
-                            value={this.state.title}
-                            onChange={this.handleInputChange}/>
+            <div className="addMediaContainer">
 
-                    </label>
-                    <br />
-                    <label>
-                        Video Type:
-                        <select name="type" value={this.state.type} onChange={this.handleInputChange}>
-                            <option value="URL">URL</option>
-                            <option value="File">File</option>
-                        </select>
-                    </label>
-                    <label>
-                        Submit
-                        <input
-                            name="submit"
-                            type="submit"
-                            onClick={this.addNewMediaToJob}
-                        />
-                    </label>
-                </form>
+                <div className="videoFormContainer">
 
 
-                {this.props.mediaSearchReducer[this.props.transaction_id]  && < MediaDisplayContainer transaction_id = {this.props.transaction_id}/>}
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="videoInputs">
 
-                {this.props.errorsReducer[this.props.transaction_id]  && < MediaDisplayContainer transaction_id = {this.props.transaction_id}/>}
+                            <label className="newJobLabel">
+                                Source Location
+                                <input
+                                    placeholder="e.x., https://www.youtube.com/watch?v=AAssk2N_oPk"
+                                    className="addJobInput"
+                                    name="source_location"
+                                    type='text'
+                                    size="50"
+                                    value={this.state.source_location}
+                                    onChange={this.handleInputChange}
+                                    onBlur={this.checkSourceUrl}/>
+                            </label>
+                            <label className="newJobLabel">
+                                Video Title
+                                <input
+                                    className="addJobInput"
+                                    name="title"
+                                    type='text'
+                                    size="50"
+                                    value={this.state.title}
+                                    onChange={this.handleInputChange}/>
+
+                            </label>
+
+
+
+
+
+                        </div>
+
+
+                        <div className="videoInputs inputsLower">
+                            <label>
+                                Video Type:
+                                <select name="type" value={this.state.type} onChange={this.handleInputChange}>
+                                    <option value="URL">URL</option>
+                                    <option value="File">File</option>
+                                </select>
+                            </label>
+
+                                <input
+                                    className="videoInputsSubmit"
+                                    name="submit"
+                                    type="submit"
+                                    onClick={this.addNewMediaToJob}
+                                />
+
+
+
+                        </div>
+                    </form>
+
+
+                </div>
+
+
+
+
 
             </div>
 
@@ -153,7 +171,6 @@ class NewMediaContainer extends Component {
     }
 
     componentDidMount() {
-        this.setState({current_course: this.props.current_course})
     }
 
 
@@ -164,7 +181,6 @@ class NewMediaContainer extends Component {
         if (prevProps.transaction_id !== this.props.transaction_id) {
             if (this.props.transaction_id === '') {
                 this.setState({
-                    current_course: '',
                     title: '',
                     cap_location: '',
                     source_location: '',
@@ -182,7 +198,7 @@ class NewMediaContainer extends Component {
 
 
 
-function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {transaction_id, transaction_link, current_course, isLocked}) {
+function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {transaction_id, transaction_link, isLocked}) {
 
 
 
@@ -192,7 +208,6 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
         tempJobsFormReducer,
         transaction_id,
         transaction_link,
-        current_course,
         isLocked
 
     }

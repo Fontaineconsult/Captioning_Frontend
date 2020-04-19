@@ -4,8 +4,12 @@ import {connect} from "react-redux";
 import { v1 as uuidv1 } from 'uuid';
 import Button from '@material-ui/core/Button'
 import NewMediaContainer from "../AddMediaContainer/AddMediaContainer";
-import {addTempJob, completeTempJob} from "../../actions/tempJobsForm";
+import {addTempJob, completeTempJob, clearTempCapJobs} from "../../actions/tempJobsForm";
+import {clearMediaSearch} from "../../actions/mediaSearch"
+import {removeErrorState} from "../../actions/error_state"
 import NewJobFormContainer from "./newJobFormContainer"
+import MediaDisplayContainer from "../AddMediaContainer/mediaDisplayContainer";
+import '../../css/addJobContainer.css'
 
 class JobPrepContainer extends Component {
 
@@ -18,6 +22,7 @@ class JobPrepContainer extends Component {
 
         this.createTransaction = this.createTransaction.bind(this)
         this.finalizeTransaction = this.finalizeTransaction.bind(this)
+        this.clearTransaction = this.clearTransaction.bind(this)
     }
 
     createTransaction (event) {
@@ -28,6 +33,18 @@ class JobPrepContainer extends Component {
         this.props.dispatch(addTempJob(transaction_id))
 
     }
+
+    clearTransaction(event){
+        this.setState({
+            transaction_id:''
+        })
+
+        this.props.dispatch(clearTempCapJobs())
+        this.props.dispatch(clearMediaSearch())
+        this.props.dispatch(removeErrorState())
+
+    }
+
 
     finalizeTransaction (){
 
@@ -40,9 +57,7 @@ class JobPrepContainer extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         if (this.props.tempJobsFormReducer[this.state.transaction_id]) {
-            console.log("It exists")
             if (this.props.tempJobsFormReducer[this.state.transaction_id].meta.created === true) {
-                console.log("updating transaction id")
                 this.setState({
                     transaction_id: ''
                 })
@@ -56,23 +71,49 @@ class JobPrepContainer extends Component {
 
 
     render() {
+        let buttonDisabled = this.props.formDisabled ? "disabled": null;
 
         let isLocked = this.state.transaction_id === '';
 
         return (
 
-            <div>
-                JobPrepContainer
+            <div className="jobPrepMasterContainer">
+                <div className="jobPrepButtons">
 
-                <Button size="small"  onClick={e => this.createTransaction(e)}>Add Request</Button>
-                <NewMediaContainer current_course = {this.props.currentCourse}
-                                   transaction_id = {this.state.transaction_id}
-                                   isLocked = {isLocked}
-                />
-                <NewJobFormContainer current_course = {this.props.currentCourse}
-                                     transaction_id = {this.state.transaction_id}
-                                     isLocked = {isLocked}
-                />
+                    <Button size="small" variant="contained"  onClick={e => this.createTransaction(e)} disabled={this.props.formDisabled}>Add Request</Button>
+                    <Button size='small' variant="contained" onClick={e => this.clearTransaction(e)} buttonDisabled disabled={this.props.formDisabled}>Clear</Button>
+
+                </div>
+                <div className="jobPrepContainer">
+
+                    <div className="jobPrepContainerLeft">
+                        <div className="newMediaOuterContainer">
+
+                            <NewMediaContainer
+                                               transaction_id = {this.state.transaction_id}
+                                               isLocked = {isLocked}
+                            />
+                        </div>
+                        <div className="newJobFormOuterContainer">
+                            <NewJobFormContainer requesterId = {this.props.requesterId}
+                                                 transaction_id = {this.state.transaction_id}
+                                                 isLocked = {isLocked}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="jobPrepContainerRight">
+                        <div className="videoSearchFeedbackContainer">
+                            <MediaDisplayContainer transaction_id = {this.state.transaction_id}/>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
 
 
 
@@ -83,7 +124,12 @@ class JobPrepContainer extends Component {
 
 }
 
-function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {props}) {
+
+
+
+function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {requesterId}) {
+
+    let formDisabled = requesterId === "";
 
 
 
@@ -91,7 +137,8 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
         mediaSearchReducer,
         errorsReducer,
         tempJobsFormReducer,
-        props
+
+        formDisabled
     }
 }
 

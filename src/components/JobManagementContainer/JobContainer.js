@@ -68,6 +68,7 @@ class JobContainer extends Component {
     componentDidMount() {
         let r = this.props.job
         let c = this.props.course
+        let e = this.props.employee
         this.setState({
             comments: r.comments,
             job_status: r.job_status,
@@ -80,9 +81,9 @@ class JobContainer extends Component {
             rush_service_used: r.rush_service_used,
             transcripts_only: r.transcripts_only,
             ast_job_id: r.ast_job_id,
-            employee_email: c.course_instructor.employee_email,
-            employee_first_name: c.course_instructor.employee_first_name,
-            employee_last_name: c.course_instructor.employee_last_name
+            employee_email: e.employee_email,
+            employee_first_name: e.employee_first_name,
+            employee_last_name: e.employee_last_name
         })
 
     }
@@ -94,10 +95,10 @@ class JobContainer extends Component {
 
                 <div className="upperJobContainer">
                     <div className="upperJobContainerLeft">
-                        <div>Requester: {this.props.requester_course_id}</div>
+                        <div>Requester Resource: {this.props.requesterResource}</div>
                     </div>
                     <div className="upperJobContainerRight">
-                        <div className="upperJobContainerRightContent"><label>Instructor </label>{this.state.employee_first_name} {this.state.employee_last_name} </div>
+                        <div className="upperJobContainerRightContent"><label>Requester </label>{this.state.employee_first_name} {this.state.employee_last_name} </div>
                         <div className="upperJobContainerRightContent"><label>Email </label> {this.state.employee_email}</div>
                         <div className="upperJobContainerRightContent"><label>RID </label> {this.state.requester_id}</div>
                     </div>
@@ -200,11 +201,40 @@ class JobContainer extends Component {
 }
 
 
-function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, requesterReducer, coursesReducer}, {props, jobId}) {
+function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, requesterReducer, coursesReducer, employeesReducer, campusOrgReducer}, {props, jobId}) {
     let job = videosJobsReducer[jobId];
     let mediaId  = job.media.id;
-    let requester_course_id = requesterReducer[job.requester_id].course_id
-    let course = coursesReducer[requester_course_id]
+
+    // let course = coursesReducer[requesterResource]
+    let employee = '';
+    let requesterResource = '';
+
+
+    if (requesterReducer[job.requester_id].course_id !== null) {
+        requesterResource = requesterReducer[job.requester_id].course_id
+    } else {
+        requesterResource = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
+
+    }
+
+
+
+
+
+
+
+
+    if (employeesReducer[requesterReducer[job.requester_id].employee_id] !== undefined) {
+         employee = employeesReducer[requesterReducer[job.requester_id].employee_id]
+
+    } else {
+         employee = employeesReducer[requesterReducer[job.requester_id].org_employee_id]
+    }
+
+
+
+    console.log("EMMPLOYEEEEE", employee)
+
 
 
     return {
@@ -216,8 +246,8 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
         mediaReducer,
         mediaId,
         jobId,
-        requester_course_id,
-        course
+        employee,
+        requesterResource
 
 
     }

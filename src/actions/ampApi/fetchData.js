@@ -1,6 +1,6 @@
 import * as api from '../../utilities/api/api_access'
 import {receiveCourses} from '../courses'
-import {receiveInstructors} from '../instructors'
+import {receiveEmployees} from '../employees'
 import {receiveCapJobs} from '../existingVideoJobs'
 import receiveStudents from '../students'
 import {receiveIlearnVideos} from '../ilearn_videos'
@@ -12,6 +12,8 @@ import receiveUserPermissions from '../userPermission'
 import {serverURL} from '../../constants'
 import {setErrorState} from '../error_state'
 import {receiveMediaSearch} from '../mediaSearch'
+import {receiveCampusOrgs} from '../campusOrgs'
+
 import { v1 as uuidv1 } from 'uuid';
 
 import fetch from "cross-fetch";
@@ -98,11 +100,11 @@ export function assetDiscovery(id) {
     }
 }
 
-export function allAssetDiscovery() {
+export function allAssetDiscovery(semester) {
 
     return dispatch => {
         dispatch(LoadingRequests(true))
-        return fetch(`${server_url}/requesters?employee_id=all`)
+        return fetch(`${server_url}/requesters?employee_id=all&semester=${semester}`)
             .then(response => response.json())
             .then(data => dispatch(receiveRequester(data['content'])))
             .then(data => dispatch(LoadingRequests(false)))
@@ -190,19 +192,7 @@ export function fetchAllStudents() {
 }
 
 
-export function fetchInstructors(semester) {
 
-    return dispatch => {
-
-        dispatch(receiveInstructors());
-        return fetch(`${server_url}/instructors?semester=${semester}`)
-            .then(response => response.json())
-            .then(data => dispatch(receiveInstructors(data)))
-            .then(data => console.log(data))
-
-    }
-
-}
 
 
 export function fetchIlearnVideosBySemester(semester) {
@@ -276,21 +266,30 @@ export function fetchMediaBySourceUrl(url, unique_id) {
     }
 }
 
-// export function fetchMediaBySourceUrl(url) {
-//
-//     return dispatch => {
-//         dispatch(LoadingMedia(true))
-//         return fetch(`${server_url}/media?source_url=${url}`)
-//             .then(response => response.json())
-//             .then(data => dispatch(receiveMedia(data['content'])))
-//             .then(data => console.log(data))
-//             .catch(error => console.log(error))
-//             .then(() => dispatch(LoadingMedia(false)))
-//
-//     }
-// }
-//
-//
+
+export function fetchAllOrgs() {
+    return dispatch => {
+        return fetch(`${server_url}/campus_orgs`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveCampusOrgs(data['content'])))
+            .then(data => console.log(data))
+
+    }
+
+
+}
+
+export function fetchAllEmployees() {
+
+    return dispatch => {
+        return fetch(`${server_url}/employees?employee_id=all`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveEmployees(data['content'])))
+            .then(data => console.log(data))
+    }
+
+}
+
 
 
 export function fetchEmployeeRequests(employee_id) {

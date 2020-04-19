@@ -71,6 +71,28 @@ class NavigationMasterContainer extends Component {
                                 }}>iLearn Scraper</NavLink>
 
                         </div>
+                        <div id="autoCaptioner" role="button" className="navButton" onClick={this.selectNavigator}>
+                            <NavLink
+                                to={{pathname: "/captioning/auto-captioner",
+                                    search: this.props.location.search,
+
+                                }}>Auto Captioner</NavLink>
+
+                        </div>
+                        <div id="autoExplorer" role="button" className="navButton" onClick={this.selectNavigator}>
+                            <NavLink
+                                to={{pathname: "/captioning/content-explorer",
+                                    search: this.props.location.search,
+
+                                }}>Content Manager</NavLink>
+                        </div>
+                        <div id="email" role="button" className="navButton" onClick={this.selectNavigator}>
+                            <NavLink
+                                to={{pathname: "/captioning/email",
+                                    search: this.props.location.search,
+
+                                }}>Email</NavLink>
+                        </div>
                     </div>
                 </div>
                 <div className="navContent">

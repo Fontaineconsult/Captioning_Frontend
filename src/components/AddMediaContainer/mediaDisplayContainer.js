@@ -10,41 +10,43 @@ class MediaDisplayContainer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
-    }
+        this.state = {
+            itemFound: false,
+            itemNotFound: false,
+            startedSearch: false
+        };
 
-    componentDidMount() {
-
-        if (this.props.mediaSearchReducer[this.props.transaction_id]) {
-            this.setState({
-
-                title: this.props.mediaSearchReducer[this.props.transaction_id].title,
-                source_location: this.props.mediaSearchReducer[this.props.transaction_id].source_location,
-                caption_location: this.props.mediaSearchReducer[this.props.transaction_id].captioned_link,
-                item_available: this.props.mediaSearchReducer[this.props.transaction_id],
-                item_unavailable: this.props.errorsReducer[this.props.transaction_id]
-
-            })
-        }
-
-        if (this.props.errorsReducer[this.props.transaction_id]) {
-
-            this.setState({
-                source_location: this.props.errorsReducer[this.props.transaction_id].request_payload.source_url,
-                item_available: this.props.mediaSearchReducer[this.props.transaction_id],
-                item_unavailable: this.props.errorsReducer[this.props.transaction_id]
-
-            })
-        }
 
     }
+
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+        let compare = {
+            itemFound: this.props.itemFound,
+            itemNotFound: this.props.itemNotFound,
+            startedSearch: this.props.startedSearch
+        }
+        if (JSON.stringify(compare) !== JSON.stringify(this.state)) {
+                this.setState({
+                    itemFound: this.props.itemFound,
+                    itemNotFound: this.props.itemNotFound,
+                    startedSearch: this.props.startedSearch
+                })
+
+            }
+
+    }
+
 
     render() {
+        console.log("DA STATE", this.state)
 
         return(
-           <div>
-               {this.state.item_available &&  <MediaInfoDisplay props={this.state}/>}
-               {this.state.item_unavailable &&  <NoItemFound title={this.state.source_location}/>}
+           <div className="videoSearchFeedbackInnerContainer">
+               {!this.state.startedSearch && <EmptySearchContainer/>}
+               {this.state.startedSearch && this.state.itemFound &&  <MediaInfoDisplay source={this.props.mediaSearchReducer[this.props.transaction_id]}/>}
+               {this.state.startedSearch && this.state.itemNotFound &&  <NoItemFound source={this.props.errorsReducer[this.props.transaction_id]}/>}
            </div>
         )
     }
@@ -55,30 +57,70 @@ class MediaDisplayContainer extends Component {
 
 
 function MediaInfoDisplay(props) {
-    console.log(props)
-    return (<div>
-        <h2>{props.props.title}</h2>
-        {props.props.captioned_link ? <a href={props.props.captioned_link}>{props.props.captioned_link}</a> : <span>No captioned version provided</span>}
+
+
+    let title = props.source ? props.source.title : '';
+    let source_url = props.source ? props.source.source_url : '';
+    let captioned_url = props.source ? props.source.captioned_url : undefined;
+
+    console.log("PPRROOPPPSSSS", props)
+
+    return (<div className="feedbackSlug">
+        <div>{title}</div>
+        <br></br>
+        <div>
+            <div>Source URL</div>
+            <div><a href={source_url}>{source_url}</a></div>
+
+        </div>
+            <br></br>
+        <div>
+            <div>Captioned URL</div>
+            <div>{captioned_url ? <a href={captioned_url}>{captioned_url}</a> : <span>No captioned version provided</span>}</div>
+
+        </div>
+
     </div>)
 
 }
 
 function NoItemFound(props){
-    return <h2>{props.title} not found</h2>
+    return <div className="feedbackSlug">{props.source_url} not found</div>
 }
 
 
+function EmptySearchContainer() {
 
+    return (<div className="feedbackSlug">
+        Enter a video source
+
+    </div>)
+
+}
 
 
 function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {transaction_id, transaction_link}) {
+
+    let itemFound = mediaSearchReducer.hasOwnProperty(transaction_id);
+    let itemNotFound = errorsReducer.hasOwnProperty(transaction_id);
+    let startedSearch = itemFound || itemNotFound;
+
+
+
+
+
+
+
 
     return {
         mediaSearchReducer,
         errorsReducer,
         tempJobsFormReducer,
         transaction_id,
-        transaction_link
+        transaction_link,
+        itemFound,
+        itemNotFound,
+        startedSearch
 
     }
 }

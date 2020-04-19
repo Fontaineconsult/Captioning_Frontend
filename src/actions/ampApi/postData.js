@@ -78,19 +78,26 @@ export function AddVideoJobBatch(jobsReducer) {
 
     let data_objects = Object.keys(jobsReducer).map(job => {
         let currentJob = jobsReducer[job]
-        let data_object = { 'requester_id': currentJob.job_info.requester_id,
-            'show_date': currentJob.job_info.show_date,
-            'media_id': currentJob.video.id,
-            'output_format': currentJob.job_info.delivery_format,
-            'comments': currentJob.job_info.comments}
-        return {
-            method: 'POST',
-            body: JSON.stringify(data_object),
-            headers: {
-            'Content-Type': 'application/json'
-        }
+        if (currentJob.meta.created === true) {
+
+            let data_object = { 'requester_id': currentJob.job_info.requester_id.requester_id,
+                'show_date': currentJob.job_info.show_date,
+                'media_id': currentJob.video.id,
+                'output_format': currentJob.job_info.delivery_format,
+                'comments': currentJob.job_info.comments}
+            return {
+                method: 'POST',
+                body: JSON.stringify(data_object),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+
+            }
+
 
         }
+
+
     });
 
     return (dispatch, getState) => {
