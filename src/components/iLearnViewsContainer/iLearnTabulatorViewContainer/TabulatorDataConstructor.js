@@ -28,8 +28,7 @@ export const datePicker = function (cell, onRendered, success, cancel, editorPar
     date_picker.addEventListener("change", successFunc);
     date_picker.addEventListener("blur", cancelFunc);
 
-
-    return date_picker.value
+    return date_picker
 
 
 
@@ -37,7 +36,8 @@ export const datePicker = function (cell, onRendered, success, cancel, editorPar
 }
 
 export const showDateToggle = function (show_date) {
-    if (show_date == null){
+    console.log('SHOWDATE', show_date)
+    if (show_date === null || show_date === "Please enter show date"){
         return "Please enter show date"
     } else {
         return moment(show_date).format("MM/DD/YYYY")

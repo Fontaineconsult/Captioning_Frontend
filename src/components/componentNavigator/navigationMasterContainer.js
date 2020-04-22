@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import {
-    BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     NavLink,
-    LinkButton
+
 } from "react-router-dom";
 
 import {withRouter} from "react-router";
@@ -14,7 +12,7 @@ import JobManagementMasterContainer from "../JobManagementContainer/JobManagemen
 import '../../css/NavMaster.css'
 import IlearnManagementControlContainer from "../iLearnViewsContainer/iLearnNavBar/IlearnManagementControlContainer";
 import AddJobControlContainer from "../AddCapJobView/AddJobControlContainer"
-import {fetchAllVideoJobsBySemester} from "../../actions/ampApi/fetchData";
+
 
 
 
@@ -44,7 +42,6 @@ class NavigationMasterContainer extends Component {
     }
 
     render() {
-        console.log("DSFSDFSDF",this.state)
         return (
             <div className="NavigationMasterContainer">
                 <div className="NavUpperContainer">

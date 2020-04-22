@@ -80,9 +80,10 @@ export function AddVideoJobBatch(jobsReducer) {
         let currentJob = jobsReducer[job]
         if (currentJob.meta.created === true) {
 
-            let data_object = { 'requester_id': currentJob.job_info.requester_id.requester_id,
+            let data_object = {
+                'requester_id':  parseInt(currentJob.job_info.requester_id, 10),
                 'show_date': currentJob.job_info.show_date,
-                'media_id': currentJob.video.id,
+                'media_id': parseInt(currentJob.video.id, 10),
                 'output_format': currentJob.job_info.delivery_format,
                 'comments': currentJob.job_info.comments}
             return {

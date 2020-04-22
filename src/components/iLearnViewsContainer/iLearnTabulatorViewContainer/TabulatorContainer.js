@@ -23,7 +23,7 @@ class TabulatorContainer extends Component {
         super(props);
         this.state = {
             selected_rows: []
-        }
+        };
 
         this.el = React.createRef();
         this.tabulator = null;
@@ -146,7 +146,6 @@ class TabulatorContainer extends Component {
     };
 
     isChecked = (props) => {
-        console.log("PRRROPPPSSS", props)
 
         if (props.cell._cell.row.modules.hasOwnProperty("select")) {
             if (props.cell._cell.row.modules.select.selected === false){
@@ -187,6 +186,9 @@ class TabulatorContainer extends Component {
         }
 
     };
+
+
+
 
     columns = [
         { title: "Title", field: "title", editor:"input"},
@@ -230,7 +232,7 @@ class TabulatorContainer extends Component {
         let row_ids = this.state.selected_rows.map(row => {
             return row.id
         });
-        this.tabulator.selectRow(row_ids)
+        this.tabulator.selectRow(row_ids);
         this.tabulator.redraw()
 
     }
@@ -258,7 +260,7 @@ class TabulatorContainer extends Component {
         return(
             <div className={"tabMainContainer"}>
                 <div className={"tabUpperContainer"}>
-                    <TabToolBar selected_rows={this.state.selected_rows}/>
+                    <TabToolBar course_gen_id = {this.props.course_id} selected_rows={this.state.selected_rows}/>
                 </div>
 
                 <div className={"tabLowerContainer"}>
@@ -266,20 +268,6 @@ class TabulatorContainer extends Component {
                 </div>
 
             </div>
-            // <div>
-            //
-            //     {/*<ReactTabulator*/}
-            //         {/*ref={ref => (this.ref = ref)}*/}
-            //         {/*columns={this.columns}*/}
-            //         {/*data={this.props.videosList}*/}
-            //         {/*className="custom-tab-class"*/}
-            //         {/*cellEdited ={this.dataEditedFunc}*/}
-            //
-            //     {/*/>*/}
-            //
-            //
-            // </div>
-
         )
     }
 

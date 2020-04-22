@@ -3,7 +3,8 @@ import {START_TEMP_CAP_JOB,
     ADD_JOB_INFO_TO_TEMP_JOB,
     COMPLETE_TEMP_CAP_JOB,
     ADD_MEDIA_TO_TEMP_JOB_NO_ID,
-    CLEAR_TEMP_CAP_JOBS} from "../actions/tempJobsForm";
+    CLEAR_TEMP_CAP_JOBS,
+    UPDATE_TEMP_CAP_JOBS_FORM_JOBS} from "../actions/tempJobsForm";
 
 
 export default function tempJobsFormReducer (state={}, action) {
@@ -19,9 +20,7 @@ export default function tempJobsFormReducer (state={}, action) {
 
         case ADD_MEDIA_TO_TEMP_JOB:
 
-
             let key = Object.keys(action.media_info);
-            console.log("AAACCTIONNN", action)
             return {
                 ...state,
 
@@ -32,8 +31,6 @@ export default function tempJobsFormReducer (state={}, action) {
 
         case ADD_MEDIA_TO_TEMP_JOB_NO_ID:
 
-
-            console.log("AAACCTIONNN", action)
             return {
                 ...state,
 
@@ -47,6 +44,24 @@ export default function tempJobsFormReducer (state={}, action) {
                 ...state,
                 [action.temp_id]: {video: {...state[action.temp_id].video}, job_info: action.job_info,  meta:{...state[action.temp_id].meta}}
             };
+
+
+        case UPDATE_TEMP_CAP_JOBS_FORM_JOBS:
+            console.log("ACTION", action)
+
+
+            return {
+                ...state,
+                [action.temp_id]: {
+
+                    video: {...state[action.temp_id].video},
+                    job_info: {...state[action.temp_id].job_info, [action.job_info.column]:action.job_info.value},
+                    meta: {...state[action.temp_id].meta}
+
+                }
+
+            };
+
 
 
         case COMPLETE_TEMP_CAP_JOB:
@@ -67,7 +82,6 @@ export default function tempJobsFormReducer (state={}, action) {
 
         case CLEAR_TEMP_CAP_JOBS:
             return {};
-
 
 
 

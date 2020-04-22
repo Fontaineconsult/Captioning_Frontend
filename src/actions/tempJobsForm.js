@@ -3,7 +3,8 @@ export const ADD_MEDIA_TO_TEMP_JOB = 'ADD_MEDIA_TO_TEMP_JOB';
 export const ADD_JOB_INFO_TO_TEMP_JOB = 'ADD_JOB_INFO_TO_TEMP_JOB';
 export const COMPLETE_TEMP_CAP_JOB = 'COMPLETE_TEMP_CAP_JOB';
 export const ADD_MEDIA_TO_TEMP_JOB_NO_ID = "ADD_MEDIA_TO_TEMP_JOB_NO_ID"
-export const CLEAR_TEMP_CAP_JOBS = "CLEAR_TEMP_CAP_JOBS"
+export const CLEAR_TEMP_CAP_JOBS = "CLEAR_TEMP_CAP_JOBS";
+export const UPDATE_TEMP_CAP_JOBS_FORM_JOBS = "UPDATE_TEMP_CAP_JOBS_FORM_JOBS";
 
 
 
@@ -29,7 +30,6 @@ export function addMediaToTempJob(temp_id, media_info) {
 
 
 export function addMediaToTempJobNoId(temp_id, media_info) {
-    console.log(temp_id, media_info)
     return {
         type: ADD_MEDIA_TO_TEMP_JOB_NO_ID,
         temp_id,
@@ -49,6 +49,20 @@ export function addJobInfoToTempJob(temp_id, job_info) {
     }
 
 }
+
+export function updateTempJobsFormJobsInfo(temp_id, job_info) {
+    return {
+
+        type: UPDATE_TEMP_CAP_JOBS_FORM_JOBS,
+        temp_id,
+        job_info
+
+
+    }
+
+
+}
+
 
 export function completeTempJob(temp_id, created) {
 
