@@ -5,7 +5,9 @@ import Select from "react-select";
 import PreparedJobsContainer from "./preparedJobsContainer";
 import JobPrepContainer from "./JobPrepContainer";
 import {AddVideoJobBatch} from '../../actions/ampApi/postData'
-import {clearTempCapJobs} from '../../actions/tempJobsForm'
+import {clearTempCapJobs} from '../../actions/tempJobsForm';
+import {clearMediaSearch} from "../../actions/mediaSearch";
+import {removeErrorState} from "../../actions/error_state";
 import Button from "@material-ui/core/Button";
 
 
@@ -32,11 +34,15 @@ class NewJobMasterContainer extends Component {
 
     }
 
-    componentDidMount() {
+    componentWillUnmount() {
 
-
+        this.props.dispatch(clearTempCapJobs())
+        this.props.dispatch(clearMediaSearch())
+        this.props.dispatch(removeErrorState())
 
     }
+
+
 
 
     render() {

@@ -6,7 +6,9 @@ import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import Tabulator from "tabulator-tables"
 import {datePicker, showDateToggle} from "../iLearnViewsContainer/iLearnTabulatorViewContainer/TabulatorDataConstructor"
-import {updateTempJobsFormJobsInfo} from "../../actions/tempJobsForm"
+import {updateTempJobsFormJobsInfo, removeJobfromTempCapJobs} from "../../actions/tempJobsForm"
+import { ReactTabulator, reactFormatter } from 'react-tabulator'
+
 
 
 
@@ -19,6 +21,7 @@ class PreparedJobsContainer extends Component {
         this.tabulator = null;
         this.ref = null;
         this.dataEditedFunc = this.dataEditedFunc.bind(this)
+        this.removeItem = this.removeItem.bind(this)
     }
 
     buildTabulator() {
@@ -38,23 +41,32 @@ class PreparedJobsContainer extends Component {
 
     }
 
+    removeItem(e, cell) {
+
+        let transaction_id = cell._cell.row.data.id;
+        this.props.dispatch(removeJobfromTempCapJobs(transaction_id))
+
+    }
+
 
     dataEditedFunc = (cellData) => {
         this.props.dispatch(updateTempJobsFormJobsInfo(cellData._cell.row.data.id, {"column":cellData._cell.column.field, "value": cellData._cell.value}))
     };
 
     columns = [
-
+        {title:"Remove", field:"remove", align:'center', width:60, formatter:"buttonCross", cellClick:(e, cell) => this.removeItem(e, cell)},
+        {title:"Requester", width:150, field:"requester_name"},
         {title: "Title", field: "video_title"},
         {title: "URL", field: "video_url"},
-        {title: "Show Date", editor:datePicker, field: "show_date"},
-        {title: "Delivery Format", editor:"select", field: "delivery_format", editorParams:{"Amara": "Amara",
+        {title: "Show Date", editor:datePicker, width:120, field: "show_date"},
+        {title: "Delivery Format", editor:"select", width:80, field: "delivery_format", editorParams:{"Amara": "Amara",
                                                                                             "SRT":"SRT",
-                                                                                            "Video File":"Video File"}}
+                                                                                            "Video File":"Video File"}},
+
     ];
 
     render() {
-        console.log("ERRMEERRR", this.el)
+
         return(
 
             <div className="preparedJobsContainer">
@@ -73,11 +85,6 @@ class PreparedJobsContainer extends Component {
         // this.tabulator.replaceData(this.props.videoJobsList)
     }
 
-    componentDidMount() {
-
-
-
-    }
 
 }
 
@@ -92,12 +99,28 @@ function EmptyContainer() {
 
 }
 
-function mapStateToProps({tempJobsFormReducer}, {props}) {
+function mapStateToProps({tempJobsFormReducer, requesterReducer, campusOrgReducer}, {props}) {
+
+    let findRequesterName = (requester_id) => {
+
+        if (requesterReducer[requester_id].course_id) {
+            return requesterReducer[requester_id].course_id
+
+        } else {
+            return campusOrgReducer[requesterReducer[requester_id].campus_org_id].organization_name
+
+        }
+
+
+
+    };
+
 
     let formatData = (videoJob) => {
 
         return {
             id: videoJob.meta.transaction_id,
+            requester_name: findRequesterName(videoJob.meta.requester_id),
             video_title: videoJob.video.title,
             video_url: videoJob.video.source_url,
             show_date: showDateToggle(videoJob.job_info.show_date),

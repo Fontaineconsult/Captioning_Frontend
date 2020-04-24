@@ -39,6 +39,19 @@ class MediaDisplayContainer extends Component {
     }
 
 
+    componentDidMount() {
+
+
+        this.setState({
+            itemFound: this.props.itemFound,
+            itemNotFound: this.props.itemNotFound,
+            startedSearch: this.props.startedSearch
+        })
+
+
+    }
+
+
     render() {
 
 
@@ -63,7 +76,6 @@ function MediaInfoDisplay(props) {
     let source_url = props.source ? props.source.source_url : '';
     let captioned_url = props.source ? props.source.captioned_url : undefined;
 
-    console.log("PPRROOPPPSSSS", props)
 
     return (<div className="feedbackSlug">
         <div>{title}</div>
@@ -111,14 +123,14 @@ function EmptySearchContainer() {
 
 
 function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {transaction_id, transaction_link}) {
-
+    console.log("TRANSACTION", transaction_id)
     let itemFound = mediaSearchReducer.hasOwnProperty(transaction_id);
     let itemNotFound = errorsReducer.hasOwnProperty(transaction_id);
     let startedSearch = itemFound || itemNotFound;
 
 
 
-
+    console.log("DS", itemFound)
 
 
 

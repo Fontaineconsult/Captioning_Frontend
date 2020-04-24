@@ -107,7 +107,20 @@ class NewMediaContainer extends Component {
                 <div className="videoFormContainer">
                     <form onSubmit={this.handleSubmit}>
                         <div className="videoInputs">
+                            <label className="newJobLabel">
+                                Video Type:
+                                <Select
+                                    disabled={this.props.inputsDisabled}
+                                    className="videoType"
+                                    name="type"
+                                    onChange={this.handleInputChange}
+                                    value={this.state.type}
 
+                                >
+                                    <MenuItem value={'URL'}>URL</MenuItem>
+                                    <MenuItem value={"SFSU Box"}>SFSU Box</MenuItem>
+                                </Select>
+                            </label>
                             <label className="newJobLabel">
                                 Source Location
                                 <Input
@@ -140,20 +153,9 @@ class NewMediaContainer extends Component {
                         </div>
 
                         <div className="videoInputs inputsLower">
-                            <label>
-                                Video Type:
-                                <Select
-                                    disabled={this.props.inputsDisabled}
-                                    name="type"
-                                    onChange={this.handleInputChange}
-                                    value={this.state.type}
 
-                                >
-                                    <MenuItem value={'URL'}>URL</MenuItem>
-                                    <MenuItem value={"SFSU Box"}>SFSU Box</MenuItem>
-                                </Select>
-                            </label>
                                 <div className="mediaSubmitButton">
+                                    {!this.props.videoSelected && !this.props.submitDisabled && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={true}>Add Video</Button>}
                                     {this.props.inError && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={!this.props.submitDisabled} onClick={this.addNewMediaToJob}>Add Video</Button>}
                                     {this.props.inMedia && !this.props.videoSelected && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={!this.props.submitDisabled} onClick={this.addNewMediaToJob}>Use Video</Button>}
                                     {this.props.videoSelected && <Button size="small" color="primary"  variant="contained" name="submit"  type="submit" disabled={true}>Video Selected</Button>}

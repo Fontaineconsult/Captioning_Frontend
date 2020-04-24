@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import {addJobInfoToTempJob, completeTempJob} from "../../actions/tempJobsForm";
 import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
+import TextField from '@material-ui/core/TextField';
 import addJobsContainer from "../iLearnViewsContainer/iLearnTabulatorViewContainer/addJobsContainer";
 import Section from "react-virtualized/dist/commonjs/Collection/Section";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -100,21 +101,21 @@ class NewJobFormContainer extends Component {
                                     onChange={this.handleInputChange}
                                     disabled={!this.props.formEnabled}
                                     name="delivery_format"
-
                                 >
                                     <MenuItem value={'Amara'}>Amara</MenuItem>
                                     <MenuItem value={"SRT"}>SRT</MenuItem>
                                     <MenuItem value={"Video File"}>Video File</MenuItem>
                                 </Select>
-
-
                             </label>
                         </div>
                     </div>
                     <div className="jobFormRight">
                         <label>
-                            <textarea
+                            <TextField
                                 className="jobFormComments"
+                                multiline
+                                rows={7}
+
                                 placeholder="comments"
                                 name="comments"
                                 disabled={!this.props.formEnabled}
@@ -124,7 +125,6 @@ class NewJobFormContainer extends Component {
                     </div>
 
                 </form>
-
                 <Button size="small"  variant="contained" onClick={e => this.addJobInfo(e)} disabled={!this.props.formEnabled}>Complete Request</Button>
             </div>
 

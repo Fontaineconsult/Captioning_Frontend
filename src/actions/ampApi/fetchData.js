@@ -34,11 +34,12 @@ function checkResponse(data) {
 }
 
 
-function errorHandler(response, dispatch, error_id){
+function errorHandler(response, dispatch, error_id, statusReducer){
 
     if (!response.ok) {
         response.json()
             .then(data => dispatch(setErrorState(data['error']['message'], data['request_payload'], error_id)))
+            .then(data => dispatch(statusReducer(false)))
     }
     return response
 }
@@ -151,6 +152,7 @@ export function fetchAllVideoJobsBySemester(semester) {
 
     return dispatch => {
         dispatch(LoadingVideoJobs(true))
+        dispatch(LoadingMedia(false))
         return fetch(`${server_url}/video-jobs?semester=${semester}&requester_id=all`)
             .then(response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
             .then(response => (responseHandler(response, dispatch, [receiveCapJobs, addMediaFromCapJobs], error_id, LoadingVideoJobs)))
@@ -259,7 +261,7 @@ export function fetchMediaBySourceUrl(url, unique_id) {
     return dispatch => {
         dispatch(LoadingMedia(true))
         return fetch(`${server_url}/media?source_url=${url}`)
-            .then(response => errorHandler(response, dispatch, unique_id), error => {console.log(error)})
+            .then(response => errorHandler(response, dispatch, unique_id, LoadingMedia), error => {console.log(error)})
             .then(response => responseHandler(response, dispatch, [receiveMediaSearch], unique_id, LoadingMedia))
 
 

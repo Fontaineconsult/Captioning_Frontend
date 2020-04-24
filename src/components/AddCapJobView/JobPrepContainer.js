@@ -5,6 +5,7 @@ import { v1 as uuidv1 } from 'uuid';
 import Button from '@material-ui/core/Button'
 import NewMediaContainer from "../AddMediaContainer/AddMediaContainer";
 import {addTempJob, completeTempJob, clearIncompleteTempCapJobs} from "../../actions/tempJobsForm";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {clearMediaSearch} from "../../actions/mediaSearch"
 import {removeErrorState} from "../../actions/error_state"
 import NewJobFormContainer from "./newJobFormContainer"
@@ -42,8 +43,8 @@ class JobPrepContainer extends Component {
         })
 
         this.props.dispatch(clearIncompleteTempCapJobs())
-        this.props.dispatch(clearMediaSearch())
-        this.props.dispatch(removeErrorState())
+        this.props.dispatch(clearMediaSearch(this.state.transaction_id))
+        this.props.dispatch(removeErrorState(this.state.transaction_id))
 
     }
 
@@ -108,7 +109,11 @@ class JobPrepContainer extends Component {
 
                     <div className="jobPrepContainerRight">
                         <div className="videoSearchFeedbackContainer">
-                            <MediaDisplayContainer transaction_id = {this.state.transaction_id}/>
+                            {this.props.mediaSearchLoading ? <CircularProgress/>
+                            : <MediaDisplayContainer transaction_id = {this.state.transaction_id}/>
+                            }
+
+
                         </div>
 
                     </div>
@@ -125,8 +130,8 @@ class JobPrepContainer extends Component {
 
 
 
-function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {requesterId}) {
-
+function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer, loadingStatusReducer}, {requesterId}) {
+    let mediaSearchLoading = loadingStatusReducer.mediaLoading
     let formDisabled = requesterId === ""
 
 
@@ -140,12 +145,14 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
 
 
     return {
+        loadingStatusReducer,
         mediaSearchReducer,
         errorsReducer,
         tempJobsFormReducer,
         clearDisabled,
         formDisabled,
-        requesterId
+        requesterId,
+        mediaSearchLoading
     }
 }
 

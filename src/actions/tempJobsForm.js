@@ -6,6 +6,7 @@ export const ADD_MEDIA_TO_TEMP_JOB_NO_ID = "ADD_MEDIA_TO_TEMP_JOB_NO_ID"
 export const CLEAR_TEMP_CAP_JOBS = "CLEAR_TEMP_CAP_JOBS";
 export const CLEAR_INCOMPLETE_TEMP_CAP_JOBS = "CLEAR_INCOMPLETE_TEMP_CAP_JOBS";
 export const UPDATE_TEMP_CAP_JOBS_FORM_JOBS = "UPDATE_TEMP_CAP_JOBS_FORM_JOBS";
+export const  REMOVE_ITEM_FROM_TEMP_CAP_JOBS = "REMOVE_ITEM_FROM_TEMP_CAP_JOBS"
 
 
 
@@ -77,8 +78,20 @@ export function completeTempJob(temp_id, created) {
 
 }
 
+export function removeJobfromTempCapJobs(transaction_id) {
+
+    return {
+        type: REMOVE_ITEM_FROM_TEMP_CAP_JOBS,
+        transaction_id: transaction_id
+
+    }
+
+}
+
 
 export function clearIncompleteTempCapJobs() {
+
+
 
     return {
         type: CLEAR_INCOMPLETE_TEMP_CAP_JOBS,
