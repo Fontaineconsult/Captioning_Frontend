@@ -2,10 +2,13 @@ import DatePicker from 'react-date-picker';
 import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import Select from "react-select";
+
 import {addJobInfoToTempJob, completeTempJob} from "../../actions/tempJobsForm";
 import Button from "@material-ui/core/Button";
+import Select from "@material-ui/core/Select";
 import addJobsContainer from "../iLearnViewsContainer/iLearnTabulatorViewContainer/addJobsContainer";
+import Section from "react-virtualized/dist/commonjs/Collection/Section";
+import MenuItem from "@material-ui/core/MenuItem";
 
 class NewJobFormContainer extends Component {
 
@@ -85,21 +88,28 @@ class NewJobFormContainer extends Component {
                         <div>
                             <label>
                                 Show Date:
-                                <DatePicker name="show_date" value={this.state.show_date} onChange={this.handleSetDate}/>
+                                <DatePicker disabled={!this.props.formEnabled} name="show_date" value={this.state.show_date} onChange={this.handleSetDate}/>
                             </label>
                         </div>
 
                         <div>
                             <label>
                                 Output:
-                                <select name="delivery_format" value={this.state.delivery_format} onChange={this.handleInputChange}>
-                                    <option value="Amara">URL (Amara.org)</option>
-                                    <option value="SRT">Caption File (.SRT)</option>
-                                    <option value="Video File">Video File (.mp4)</option>
-                                </select>
+                                <Select
+                                    value={this.state.delivery_format}
+                                    onChange={this.handleInputChange}
+                                    disabled={!this.props.formEnabled}
+                                    name="delivery_format"
+
+                                >
+                                    <MenuItem value={'Amara'}>Amara</MenuItem>
+                                    <MenuItem value={"SRT"}>SRT</MenuItem>
+                                    <MenuItem value={"Video File"}>Video File</MenuItem>
+                                </Select>
+
+
                             </label>
                         </div>
-
                     </div>
                     <div className="jobFormRight">
                         <label>
@@ -107,7 +117,7 @@ class NewJobFormContainer extends Component {
                                 className="jobFormComments"
                                 placeholder="comments"
                                 name="comments"
-                                type='text'
+                                disabled={!this.props.formEnabled}
                                 value={this.state.comments}
                                 onChange={this.handleInputChange} />
                         </label>

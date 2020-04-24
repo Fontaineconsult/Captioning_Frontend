@@ -68,7 +68,6 @@ class JobPrepContainer extends Component {
             return false
         }
 
-
     }
 
 
@@ -116,12 +115,6 @@ class JobPrepContainer extends Component {
 
                 </div>
 
-
-
-
-
-
-
             </div>
 
         )
@@ -135,7 +128,14 @@ class JobPrepContainer extends Component {
 function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {requesterId}) {
 
     let formDisabled = requesterId === ""
-    let clearDisabled = Object.keys(tempJobsFormReducer).length === 0
+
+
+
+    let clearDisabled = Object.keys(tempJobsFormReducer).filter(job => {
+        return tempJobsFormReducer[job].meta.created === false
+
+
+    }).length === 0
 
 
 
