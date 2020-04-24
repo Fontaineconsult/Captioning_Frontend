@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import {addMediaToDBandTempJob} from '../../actions/ampApi/postData'
 import {fetchMediaBySourceUrl} from '../../actions/ampApi/fetchData'
-
+import Button from "@material-ui/core/Button";
+import Hidden from '@material-ui/core/Hidden';
 import MediaDisplayContainer from './mediaDisplayContainer'
 import {removeErrorState} from '../../actions/error_state'
 import {clearMediaSearch} from '../../actions/mediaSearch'
 import {addMediaToTempJob, addMediaToTempJobNoId} from "../../actions/tempJobsForm";
+import addJobsContainer from "../iLearnViewsContainer/iLearnTabulatorViewContainer/addJobsContainer";
 
 
 class NewMediaContainer extends Component {
@@ -58,7 +60,6 @@ class NewMediaContainer extends Component {
 
     addNewMediaToJob(event) {
         event.preventDefault();
-
         if (!this.props.isLocked) {
             event.preventDefault();
 
@@ -73,6 +74,7 @@ class NewMediaContainer extends Component {
 
                     if (this.state.title !== '') {
                         event.preventDefault();
+
                         this.props.dispatch(removeErrorState(this.props.transaction_id));
                         this.props.dispatch(clearMediaSearch(this.props.transaction_id));
                         this.props.dispatch(addMediaToDBandTempJob(this.state.title, this.state.source_location, this.state.type, this.props.transaction_id));
@@ -95,14 +97,10 @@ class NewMediaContainer extends Component {
         }
     }
 
-
     render() {
         return(
             <div className="addMediaContainer">
-
                 <div className="videoFormContainer">
-
-
                     <form onSubmit={this.handleSubmit}>
                         <div className="videoInputs">
 
@@ -114,6 +112,7 @@ class NewMediaContainer extends Component {
                                     name="source_location"
                                     type='text'
                                     size="50"
+                                    maxLength="150"
                                     value={this.state.source_location}
                                     onChange={this.handleInputChange}
                                     onBlur={this.checkSourceUrl}/>
@@ -125,17 +124,12 @@ class NewMediaContainer extends Component {
                                     name="title"
                                     type='text'
                                     size="50"
+                                    maxLength="128"
                                     value={this.state.title}
                                     onChange={this.handleInputChange}/>
 
                             </label>
-
-
-
-
-
                         </div>
-
 
                         <div className="videoInputs inputsLower">
                             <label>
@@ -145,25 +139,15 @@ class NewMediaContainer extends Component {
                                     <option value="File">File</option>
                                 </select>
                             </label>
-
-                                <input
-                                    className="videoInputsSubmit"
-                                    name="submit"
-                                    type="submit"
-                                    onClick={this.addNewMediaToJob}
-                                />
-
-
-
+                                <div className="mediaSubmitButton">
+                                    {this.props.inError && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={!this.props.submitDisabled} onClick={this.addNewMediaToJob}>Add Video</Button>}
+                                    {this.props.inMedia && !this.props.videoSelected && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={!this.props.submitDisabled} onClick={this.addNewMediaToJob}>Use Video</Button>}
+                                    {this.props.videoSelected && <Button size="small" color="primary"  variant="contained" name="submit"  type="submit" disabled={true}>Video Selected</Button>}
+                                </div>
                         </div>
                     </form>
 
-
                 </div>
-
-
-
-
 
             </div>
 
@@ -199,16 +183,32 @@ class NewMediaContainer extends Component {
 
 
 function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {transaction_id, transaction_link, isLocked}) {
+    let videoSelected = false;
+
+    let submitDisabled = mediaSearchReducer.hasOwnProperty(transaction_id) || errorsReducer.hasOwnProperty(transaction_id)
+
+    if (tempJobsFormReducer[transaction_id]) {
+
+        videoSelected = tempJobsFormReducer[transaction_id].video.hasOwnProperty("id")
+    }
 
 
+    let inError = errorsReducer.hasOwnProperty(transaction_id);
+    let inMedia = mediaSearchReducer.hasOwnProperty(transaction_id);
 
+
+    console.log("videoSelected", videoSelected)
     return {
         mediaSearchReducer,
         errorsReducer,
         tempJobsFormReducer,
         transaction_id,
         transaction_link,
-        isLocked
+        isLocked,
+        submitDisabled,
+        inError,
+        inMedia,
+        videoSelected
 
     }
 }

@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import { v1 as uuidv1 } from 'uuid';
 import Button from '@material-ui/core/Button'
 import NewMediaContainer from "../AddMediaContainer/AddMediaContainer";
-import {addTempJob, completeTempJob, clearTempCapJobs} from "../../actions/tempJobsForm";
+import {addTempJob, completeTempJob, clearIncompleteTempCapJobs} from "../../actions/tempJobsForm";
 import {clearMediaSearch} from "../../actions/mediaSearch"
 import {removeErrorState} from "../../actions/error_state"
 import NewJobFormContainer from "./newJobFormContainer"
@@ -25,12 +25,14 @@ class JobPrepContainer extends Component {
         this.clearTransaction = this.clearTransaction.bind(this)
     }
 
+
+
     createTransaction (event) {
         let transaction_id = uuidv1()
         this.setState({
             transaction_id:transaction_id
         });
-        this.props.dispatch(addTempJob(transaction_id))
+        this.props.dispatch(addTempJob(transaction_id, this.props.requesterId.requester_id))
 
     }
 
@@ -39,7 +41,7 @@ class JobPrepContainer extends Component {
             transaction_id:''
         })
 
-        this.props.dispatch(clearTempCapJobs())
+        this.props.dispatch(clearIncompleteTempCapJobs())
         this.props.dispatch(clearMediaSearch())
         this.props.dispatch(removeErrorState())
 
@@ -71,17 +73,20 @@ class JobPrepContainer extends Component {
 
 
     render() {
-        let buttonDisabled = this.props.formDisabled ? "disabled": null;
-
+        let formDisabled = (this.props.requesterId === "" || this.props.tempJobsFormReducer.hasOwnProperty(this.state.transaction_id))
         let isLocked = this.state.transaction_id === '';
 
         return (
 
             <div className="jobPrepMasterContainer">
                 <div className="jobPrepButtons">
+                    <div className="jobPrepButton">
+                        <Button size="small" variant="contained" onClick={e => this.createTransaction(e)} disabled={formDisabled}>Add Request</Button>
+                    </div>
+                    <div className="jobPrepButton">
+                        <Button size='small' variant="contained"  onClick={e => this.clearTransaction(e)}  disabled={this.props.clearDisabled}>Clear</Button>
+                    </div>
 
-                    <Button size="small" variant="contained"  onClick={e => this.createTransaction(e)} disabled={this.props.formDisabled}>Add Request</Button>
-                    <Button size='small' variant="contained" onClick={e => this.clearTransaction(e)} buttonDisabled disabled={this.props.formDisabled}>Clear</Button>
 
                 </div>
                 <div className="jobPrepContainer">
@@ -129,7 +134,8 @@ class JobPrepContainer extends Component {
 
 function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {requesterId}) {
 
-    let formDisabled = requesterId === "";
+    let formDisabled = requesterId === ""
+    let clearDisabled = Object.keys(tempJobsFormReducer).length === 0
 
 
 
@@ -137,8 +143,9 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
         mediaSearchReducer,
         errorsReducer,
         tempJobsFormReducer,
-
-        formDisabled
+        clearDisabled,
+        formDisabled,
+        requesterId
     }
 }
 

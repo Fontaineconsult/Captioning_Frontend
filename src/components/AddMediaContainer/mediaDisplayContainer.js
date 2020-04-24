@@ -26,7 +26,7 @@ class MediaDisplayContainer extends Component {
             itemFound: this.props.itemFound,
             itemNotFound: this.props.itemNotFound,
             startedSearch: this.props.startedSearch
-        }
+        };
         if (JSON.stringify(compare) !== JSON.stringify(this.state)) {
                 this.setState({
                     itemFound: this.props.itemFound,
@@ -40,7 +40,7 @@ class MediaDisplayContainer extends Component {
 
 
     render() {
-        console.log("DA STATE", this.state)
+
 
         return(
            <div className="videoSearchFeedbackInnerContainer">
@@ -76,7 +76,18 @@ function MediaInfoDisplay(props) {
             <br></br>
         <div>
             <div>Captioned URL</div>
-            <div>{captioned_url ? <a href={captioned_url}>{captioned_url}</a> : <span>No captioned version provided</span>}</div>
+            <div>{captioned_url ? <div>
+                <div>
+                    <a href={captioned_url}>{captioned_url}</a>
+                </div>
+                <div>
+                    <br></br>
+                    Download: <a href=" ">.SRT</a> | <a href=" ">Transcript</a>
+                </div>
+            </div>
+
+                : <span>No captioned version provided</span>}</div>
+
 
         </div>
 

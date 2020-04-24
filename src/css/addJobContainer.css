@@ -31,6 +31,10 @@
     width: 50%;
 }
 
+.jobPrepButton {
+
+    margin-right: 15px;
+}
 
 .videoInputsSubmit {
 
@@ -79,11 +83,18 @@ width:100%
 }
 
 .jobPrepButtons {
-    margin-bottom: 5px;
+    display: flex;
+    margin-bottom: 15px;
     margin-top: 10px;
 
 }
 
+.mediaSubmitButton{
+
+    margin-left: auto;
+    margin-right: 5px;
+
+}
 .jobForm {
     margin-right: 5px ;
     margin-top: 10px;
@@ -117,5 +128,26 @@ width:100%
 .preparedJobsContainer{
 
     margin-top: 20px;
+
+}
+
+.emptyCreatedJobsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75px;
+    background-color: #eae6e5;
+    border-radius: 4px;
+
+
+}
+
+.emptyCreatedJobsContainerText {
+    margin: auto;
+}
+
+.submitJobsButton {
+
+    margin-top: 15px;
 
 }

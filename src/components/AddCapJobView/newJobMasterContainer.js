@@ -6,11 +6,7 @@ import PreparedJobsContainer from "./preparedJobsContainer";
 import JobPrepContainer from "./JobPrepContainer";
 import {AddVideoJobBatch} from '../../actions/ampApi/postData'
 import {clearTempCapJobs} from '../../actions/tempJobsForm'
-import MediaDisplayContainer from "../AddMediaContainer/mediaDisplayContainer";
 import Button from "@material-ui/core/Button";
-
-
-
 
 
 class NewJobMasterContainer extends Component {
@@ -36,27 +32,30 @@ class NewJobMasterContainer extends Component {
 
     }
 
+    componentDidMount() {
+
+
+
+    }
+
+
     render() {
-
         return (
-
             <div className="newJobMasterContainer">
-
                 <div className="requesterSelector">
                     <form className="requesterSelectorForm">
                         <label className="newJobLabel">
                             Select Requester
-                            <Select className="selector" value={this.state.formValue} options={this.props.courses_list} onChange={this.applyRequesterId}/>
+                            <Select className="selector" isDisabled={this.props.disableSelector} value={this.state.formValue} options={this.props.courses_list} onChange={this.applyRequesterId}/>
                         </label>
                     </form>
                 </div>
-
                 <JobPrepContainer requesterId = {this.state.formValue}/>
-
                 <PreparedJobsContainer />
+                <div className="submitJobsButton">
+                    <Button size="small"  variant="contained" onClick={this.submitJobs} disabled={!this.props.enableSubmit}>{this.props.totalJobs === 0 ? ("No Jobs Added") : ("Submit Jobs") } </Button>
 
-
-                <Button size="small"  variant="contained" onClick={this.submitJobs} disabled={this.props.disableSubmit}>Submit Jobs</Button>
+                </div>
     </div>
 
         )
@@ -68,8 +67,19 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
 
     let courseIds = [];
     let campusOrgs = [];
-    let disableSubmit = Object.keys(tempJobsFormReducer).length === 0;
+    let totalJobs = Object.keys(tempJobsFormReducer).filter(job => {
+        return tempJobsFormReducer[job].meta.created === true
+    }).length;
 
+
+    let enableSubmit = Object.keys(tempJobsFormReducer).some(item =>{
+        return tempJobsFormReducer[item].meta.created === true
+    });
+
+    let disableSelector = Object.keys(tempJobsFormReducer).some(job =>{
+        return tempJobsFormReducer[job].meta.created === false
+
+    })
 
     if (Object.keys(campusOrgReducer).length > 0 &&  Object.keys(coursesReducer).length > 0) {
         courseIds = Object.keys(coursesReducer).map(currentCourse => {
@@ -99,9 +109,7 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
 
     }
 
-
     let courses_list = [...courseIds, ...campusOrgs]
-
 
 
     return {
@@ -109,7 +117,9 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
         errorsReducer,
         tempJobsFormReducer,
         courses_list,
-        disableSubmit
+        enableSubmit,
+        disableSelector,
+        totalJobs
     }
 }
 

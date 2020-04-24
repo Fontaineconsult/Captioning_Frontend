@@ -27,9 +27,7 @@ function responseHandler(response, dispatch, reducer, unique_id, statusReducer) 
     if (response.ok) {
         response.json()
             .then(data => {reducer.forEach(
-
                 cur_reducer => {
-                    console.log("REEEEDUCER", reducer);
                     dispatch(cur_reducer(data['content'], unique_id))})})
             .then(data => dispatch(statusReducer(false)))
     }
@@ -92,12 +90,8 @@ export function AddVideoJobBatch(jobsReducer) {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-
             }
-
-
         }
-
 
     });
 
@@ -121,8 +115,6 @@ export function AddVideoJobBatch(jobsReducer) {
 
 export function addMediaToDBandTempJob(title, link, type, temp_id) {
 
-
-    console.log("INPUTS", title, link, type, temp_id)
     let data_object = { title:title, source_url:link, media_type: type};
 
     let post_object = {
@@ -132,7 +124,6 @@ export function addMediaToDBandTempJob(title, link, type, temp_id) {
             'Content-Type': 'application/json'
         }};
 
-    console.log("POSTOBJ", post_object)
     return dispatch => {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/media`, post_object)

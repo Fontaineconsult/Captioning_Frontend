@@ -50,7 +50,6 @@ class NavigationMasterContainer extends Component {
                             <NavLink
                                 to={{pathname: "/captioning/job-manager",
                                     search: this.props.location.search,
-
                                 }}>Job Manager</NavLink>
                         </div>
                         <div id="addJob" role="button" className="navButton">
@@ -89,6 +88,12 @@ class NavigationMasterContainer extends Component {
                                     search: this.props.location.search,
 
                                 }}>Email</NavLink>
+                        </div>
+                        <div id="email" role="button" className="navButton" onClick={this.selectNavigator}>
+                            <NavLink
+                                to={{pathname: "/captioning/users",
+                                    search: this.props.location.search,
+                                }}>Users</NavLink>
                         </div>
                     </div>
                 </div>

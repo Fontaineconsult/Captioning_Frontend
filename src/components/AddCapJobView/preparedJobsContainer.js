@@ -4,10 +4,8 @@ import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
-import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import Tabulator from "tabulator-tables"
 import {datePicker, showDateToggle} from "../iLearnViewsContainer/iLearnTabulatorViewContainer/TabulatorDataConstructor"
-import {updateiLearnVideo} from "../../actions/ampApi/putData";
 import {updateTempJobsFormJobsInfo} from "../../actions/tempJobsForm"
 
 
@@ -17,21 +15,33 @@ class PreparedJobsContainer extends Component {
 
     constructor(props) {
         super(props);
-
-
         this.el = React.createRef();
         this.tabulator = null;
         this.ref = null;
         this.dataEditedFunc = this.dataEditedFunc.bind(this)
     }
 
+    buildTabulator() {
+
+        if (this.props.videoJobsList.length > 0) {
+            this.tabulator = new Tabulator(this.el, {
+                columns: this.columns,
+                layout:"fitColumns",
+                data: this.props.videoJobsList,
+                reactiveData: true,
+                cellEdited: this.dataEditedFunc,
+
+            })
+            this.tabulator.replaceData(this.props.videoJobsList)
+
+        }
+
+    }
+
+
     dataEditedFunc = (cellData) => {
         this.props.dispatch(updateTempJobsFormJobsInfo(cellData._cell.row.data.id, {"column":cellData._cell.column.field, "value": cellData._cell.value}))
     };
-
-
-
-
 
     columns = [
 
@@ -44,35 +54,41 @@ class PreparedJobsContainer extends Component {
     ];
 
     render() {
-
+        console.log("ERRMEERRR", this.el)
         return(
 
             <div className="preparedJobsContainer">
-                <div ref={el => (this.el = el)} />
+
+                {this.props.videoJobsList.length === 0 && <EmptyContainer/>}
+                {this.props.videoJobsList.length > 0 && <div ref={el => (this.el = el)} />}
+
             </div>
 
         )
     }
 
-
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log("IT UPDATED", this.props.videoJobsList)
-        this.tabulator.replaceData(this.props.videoJobsList)
+        this.buildTabulator()
+        //
+        // this.tabulator.replaceData(this.props.videoJobsList)
     }
 
     componentDidMount() {
 
-        this.tabulator = new Tabulator(this.el, {
-            columns: this.columns,
-            layout:"fitColumns",
-            data: this.props.videoJobsList,
-            reactiveData: true,
-            cellEdited: this.dataEditedFunc,
 
-        })
 
     }
 
+}
+
+
+
+function EmptyContainer() {
+
+    return (<div className="emptyCreatedJobsContainer">
+        <div className="emptyCreatedJobsContainerText"><div style={{'text-align': 'center'}}>No Jobs Created</div><div>Select Requester To Begin</div></div>
+
+    </div>)
 
 }
 
@@ -91,7 +107,7 @@ function mapStateToProps({tempJobsFormReducer}, {props}) {
 
 
     let video_job_list = [];
-    console.log("REDEREDER", tempJobsFormReducer)
+
     Object.keys(tempJobsFormReducer).forEach((videoJob) => {
 
         if (tempJobsFormReducer[videoJob].meta.created === true) {
@@ -99,7 +115,6 @@ function mapStateToProps({tempJobsFormReducer}, {props}) {
         }
     });
 
-    console.log("MAPSTATE", video_job_list)
     return {
 
         videoJobsList: video_job_list,

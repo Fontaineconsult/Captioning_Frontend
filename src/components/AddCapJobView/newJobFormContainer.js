@@ -5,8 +5,7 @@ import {connect} from "react-redux";
 import Select from "react-select";
 import {addJobInfoToTempJob, completeTempJob} from "../../actions/tempJobsForm";
 import Button from "@material-ui/core/Button";
-
-
+import addJobsContainer from "../iLearnViewsContainer/iLearnTabulatorViewContainer/addJobsContainer";
 
 class NewJobFormContainer extends Component {
 
@@ -36,17 +35,12 @@ class NewJobFormContainer extends Component {
     addJobInfo(event) {
 
         console.log(event)
-
-        // let requester_ids = Object.keys(this.props.requesterReducer);
-        // let requester_id = requester_ids.find(x => this.props.requesterReducer[x].course_id === this.props.current_course)
-
-
-
+        console.log("SDFGDSFGSDF", this.props.requesterId)
         let reducer_obj = {
             show_date: this.state.show_date,
             delivery_format: this.state.delivery_format,
             comments: this.state.comments,
-            requester_id: this.props.requesterId,
+            requester_id: this.props.requesterId.requester_id,
         };
 
         this.props.dispatch(addJobInfoToTempJob(this.props.transaction_id, reducer_obj))
@@ -119,15 +113,9 @@ class NewJobFormContainer extends Component {
                         </label>
                     </div>
 
-
-
-
-
-
                 </form>
 
-
-                <Button size="small"  variant="contained" onClick={e => this.addJobInfo(e)} disabled={this.props.formDisabled}>Complete Request</Button>
+                <Button size="small"  variant="contained" onClick={e => this.addJobInfo(e)} disabled={!this.props.formEnabled}>Complete Request</Button>
             </div>
 
         )
@@ -135,8 +123,13 @@ class NewJobFormContainer extends Component {
 
 }
 
-function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tempJobsFormReducer, requesterReducer}, {props, requesterId, isLocked}) {
-    let formDisabled = requesterId === "";
+function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tempJobsFormReducer, requesterReducer}, {props, requesterId,transaction_id, isLocked}) {
+    let formEnabled = transaction_id in tempJobsFormReducer;
+    if (formEnabled) {
+            if (tempJobsFormReducer[transaction_id].hasOwnProperty('video')) {
+                formEnabled = tempJobsFormReducer[transaction_id].video.hasOwnProperty('id');
+            }
+        }
 
     return {
         mediaSearchReducer,
@@ -147,7 +140,7 @@ function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tem
         props,
         isLocked,
         requesterId,
-        formDisabled
+        formEnabled
     }
 }
 

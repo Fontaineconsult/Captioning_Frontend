@@ -9,20 +9,8 @@ import {AddVideoJobBatch} from "../../../actions/ampApi/postData"
 import {clearTempCapJobs} from "../../../actions/tempJobsForm"
 import {clearMediaSearch} from "../../../actions/mediaSearch";
 
-function rand() {
-    return Math.round(Math.random() * 20) - 10;
-}
 
-function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
 
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
 
 const useStyles = theme => ({
     paper: {
@@ -57,10 +45,6 @@ class AddJobModal extends Component {
         this.props.dispatch(AddVideoJobBatch(this.props.tempJobsFormReducer));
         this.props.dispatch(clearMediaSearch());
         this.props.dispatch(clearTempCapJobs())
-
-
-
-
 
     }
 

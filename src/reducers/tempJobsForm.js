@@ -4,7 +4,8 @@ import {START_TEMP_CAP_JOB,
     COMPLETE_TEMP_CAP_JOB,
     ADD_MEDIA_TO_TEMP_JOB_NO_ID,
     CLEAR_TEMP_CAP_JOBS,
-    UPDATE_TEMP_CAP_JOBS_FORM_JOBS} from "../actions/tempJobsForm";
+    UPDATE_TEMP_CAP_JOBS_FORM_JOBS,
+    CLEAR_INCOMPLETE_TEMP_CAP_JOBS} from "../actions/tempJobsForm";
 
 
 export default function tempJobsFormReducer (state={}, action) {
@@ -14,7 +15,7 @@ export default function tempJobsFormReducer (state={}, action) {
         case START_TEMP_CAP_JOB:
             return {
                 ...state,
-                [action.temp_id]: {video:{}, job_info:{}, meta:{'created': false, transaction_id: action.temp_id}}
+                [action.temp_id]: {video:{}, job_info:{}, meta:{'created': false, transaction_id: action.temp_id, requester_id: action.requester_id}}
 
             };
 
@@ -47,8 +48,6 @@ export default function tempJobsFormReducer (state={}, action) {
 
 
         case UPDATE_TEMP_CAP_JOBS_FORM_JOBS:
-            console.log("ACTION", action)
-
 
             return {
                 ...state,
@@ -61,7 +60,6 @@ export default function tempJobsFormReducer (state={}, action) {
                 }
 
             };
-
 
 
         case COMPLETE_TEMP_CAP_JOB:
@@ -79,6 +77,17 @@ export default function tempJobsFormReducer (state={}, action) {
 
 
             };
+
+        case CLEAR_INCOMPLETE_TEMP_CAP_JOBS:
+
+            return Object.keys(state).reduce((accumulator, element) => {
+                if (Object.keys(state[element].job_info).length > 0) {
+                    accumulator[element] = state[element]
+                }
+                return accumulator
+            }, {});
+
+
 
         case CLEAR_TEMP_CAP_JOBS:
             return {};
