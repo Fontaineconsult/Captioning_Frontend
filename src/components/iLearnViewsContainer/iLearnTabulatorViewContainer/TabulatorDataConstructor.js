@@ -36,7 +36,7 @@ export const datePicker = function (cell, onRendered, success, cancel, editorPar
 }
 
 export const showDateToggle = function (show_date) {
-    console.log('SHOWDATE', show_date)
+
     if (show_date === null || show_date === "Please enter show date"){
         return "Please enter show date"
     } else {

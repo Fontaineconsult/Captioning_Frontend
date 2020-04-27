@@ -48,6 +48,7 @@ class MasterContainer extends Component {
             this.props.dispatch(assetDiscovery(this.props.query.id))
 
         }
+        this.props.dispatch(fetchAllVideoJobsBySemester(this.props.query.semester))
 
 
 
@@ -68,7 +69,9 @@ class MasterContainer extends Component {
             }
 
         }
-        this.props.dispatch(fetchAllVideoJobsBySemester(this.props.query.semester))
+
+
+
 
     }
 

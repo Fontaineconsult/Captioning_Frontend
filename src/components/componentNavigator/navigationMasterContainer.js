@@ -48,9 +48,9 @@ class NavigationMasterContainer extends Component {
                     <div className="NavControlContainer">
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
-                                to={{pathname: "/captioning/job-manager",
-                                    search: this.props.location.search,
-                                }}>Job Manager</NavLink>
+                            to={{pathname: "/captioning/job-manager",
+                                search: this.props.location.search,
+                            }}>Job Manager</NavLink>
                         </div>
                         <div id="addJob" role="button" className="navButton">
                             <NavLink
@@ -61,7 +61,7 @@ class NavigationMasterContainer extends Component {
                         </div>
                         <div id="iLearnScraper" role="button" className="navButton" onClick={this.selectNavigator}>
                             <NavLink
-                                to={{pathname: "/captioning/ilearn-scraper",
+                                to={{pathname: "/captioning/ilearn-scraper/active-courses",
                                     search: this.props.location.search,
 
                                 }}>iLearn Scraper</NavLink>

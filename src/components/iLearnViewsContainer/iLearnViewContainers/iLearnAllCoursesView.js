@@ -5,20 +5,94 @@ import ILearnCourseContainer from '../../iLearnViewsContainer/iLearnCourseContai
 import ILearnCourseLoadingContainer from '../../iLearnViewsContainer/iLearnCourseContainer/iLearnCourseLoadingContainerView'
 import '../../../css/courseContainer-css.css'
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache} from "react-virtualized";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class ILearnAllCoursesView extends Component {
 
     constructor(props) {
         super(props);
 
-        this.cache = new CellMeasurerCache({
-            fixedWidth: true,
-            defaultHeight: 200
-        })
+        this.state = {
+            cache: new CellMeasurerCache({
+                fixedWidth: true,
+                defaultHeight: 200
+            })
+
+
+        };
+
 
     }
-    ilearnVideoRowCount = Object.keys(this.props.requests_captioning).length
-    captioningCourses = Object.keys(this.props.requests_captioning)
+
+    componentDidMount() {
+
+        if (this.props.studentActive === true) {
+
+
+            this.setState({
+                cache: new CellMeasurerCache({
+                    fixedWidth: true,
+                    defaultHeight: 200
+                }),
+                ilearnVideoRowCount: Object.keys(this.props.requests_captioning).length,
+                captioningCourses: Object.keys(this.props.requests_captioning)
+
+            })
+
+        } else {
+
+            this.setState({
+                cache: new CellMeasurerCache({
+                    fixedWidth: true,
+                    defaultHeight: 200
+                }),
+                ilearnVideoRowCount:Object.keys(this.props.no_captioning).length,
+                captioningCourses:Object.keys(this.props.no_captioning)
+
+            })
+
+
+        }
+
+
+
+    }
+
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+
+        if (this.props.studentActive !== prevProps.studentActive) {
+
+            if (this.props.studentActive === true) {
+
+
+                this.setState({
+                    cache: new CellMeasurerCache({
+                        fixedWidth: true,
+                        defaultHeight: 200
+                    }),
+                    ilearnVideoRowCount: Object.keys(this.props.requests_captioning).length,
+                    captioningCourses: Object.keys(this.props.requests_captioning)
+
+                })
+
+            } else {
+
+                this.setState({
+                    cache: new CellMeasurerCache({
+                        fixedWidth: true,
+                        defaultHeight: 200
+                    }),
+                    ilearnVideoRowCount:Object.keys(this.props.no_captioning).length,
+                    captioningCourses:Object.keys(this.props.no_captioning)
+
+                })
+
+            }
+        }
+
+    }
 
 
     renderRow = (index, key, style, parent) => {
@@ -27,7 +101,7 @@ class ILearnAllCoursesView extends Component {
 
             <CellMeasurer
                 key={index.key}
-                cache={this.cache}
+                cache={this.state.cache}
                 parent={index.parent}
                 columnIndex={0}
                 rowIndex={index.index}
@@ -35,8 +109,8 @@ class ILearnAllCoursesView extends Component {
                 <div style={index.style} className="row">
                     <div className="content">
                         <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos}
-                                               course_id={this.captioningCourses[index.index]}
-                                               key={this.captioningCourses[index.index]}/>
+                                               course_id={this.state.captioningCourses[index.index]}
+                                               key={this.state.captioningCourses[index.index]}/>
                     </div>
                 </div>
 
@@ -45,65 +119,56 @@ class ILearnAllCoursesView extends Component {
     }
 
     render() {
-
+        console.log("SHOW COURSE STUBS", this.props.showCourseStubs, this.state.cache)
         return(
 
             <div>
-                <p>Your iLearn Videos</p>
+                <p>Your iLearn Videos {this.props.showCourseStubs} ||</p>
 
                 <div className={"iLearnContentContainer"}>
-                {this.props.showCourseStubs === true  && (Object.keys(this.props.coursesReducer).map((course, i) =>(
-                    <ILearnCourseLoadingContainer course_id={course} key={i}/>
-                )))}
+                {this.props.showCourseStubs  && <CircularProgress/>}
+                    {!this.props.showCourseStubs && (
 
-                <div className="list">
+                        <div className="list">
 
-                    <AutoSizer>
-                        {
-                            ({ width, height }) => {
-                                return <List
-                                    width={width}
-                                    height={height}
-                                    deferredMeasurementCache={this.cache}
-                                    rowHeight={this.cache.rowHeight}
-                                    rowRenderer={this.renderRow}
-                                    rowCount={this.ilearnVideoRowCount}
-                                    overscanRowCount={1} />
-                            }
-                        }
-                    </AutoSizer>
+                            <AutoSizer>
+                                {
+                                    ({ width, height }) => {
+                                        return <List
+                                            width={width}
+                                            height={height}
+                                            deferredMeasurementCache={this.state.cache}
+                                            rowHeight={this.state.cache.rowHeight}
+                                            rowRenderer={this.renderRow}
+                                            rowCount={this.state.ilearnVideoRowCount}
+                                            overscanRowCount={1} />
+                                    }
+                                }
+                            </AutoSizer>
+                        </div>
 
-                    {/*{this.props.showCourseContainer === true && (Object.keys(this.props.requests_captioning).map((course, i) =>(*/}
 
-                    {/*    <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos} course_id={course} key={i}/>*/}
+                    )}
 
-                    {/*)))}*/}
-
-                </div>
-
-                <span>
-                    <b>  -----    Captioning not requested.  -----   </b>
-                </span>
-                {/*<div>*/}
-                {/*    {this.props.showCourseContainer === true && (Object.keys(this.props.no_captioning).map((course, i) =>(*/}
-                {/*        <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos} course_id={course} key={i}/>*/}
-
-                {/*    )))}*/}
-                {/*</div>*/}
 
                 </div>
             </div>
         )
     }
 
+
+
 }
-function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReducer}) {
+
+
+function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReducer}, {studentActive})  {
+
 
 
 
     let courseIsLoading = loadingStatusReducer['coursesLoading'] && Object.keys(coursesReducer).length === 0;
     let isLoading = loadingStatusReducer['iLearnVideosLoading'] && Object.keys(iLearnVideoReducer).length === 0;
-    let showCourseStubs = !courseIsLoading && isLoading;
+    let showCourseStubs = courseIsLoading || isLoading;
 
     let requests_captioning = {};
     let no_captioning = {};
@@ -147,6 +212,7 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
 
     });
+
         return {
         courseIsLoading,
         coursesReducer,
@@ -154,7 +220,8 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
         showCourseContainer,
         requests_captioning,
         no_captioning,
-        courseilearnVideos
+        courseilearnVideos,
+        studentActive
     }
 }
 
