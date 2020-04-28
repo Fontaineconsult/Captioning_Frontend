@@ -18,13 +18,11 @@ class AddJobsiLearnContainer extends Component {
 
     }
 
-
-
     componentDidMount() {
         this.props.selected_rows.forEach(row => {
-            console.log(row)
+            console.log(this.props.requester_id)
             let id = uuidv1()
-            this.props.dispatch(addTempJob(id))
+            this.props.dispatch(addTempJob(id, this.props.requester_id))
             this.props.dispatch(addMediaToDBandTempJob(row.title, row.resource_link, 'URL', id))
 
             let requester_id = Object.keys(this.props.requesterReducer).find(requester => {
@@ -44,12 +42,7 @@ class AddJobsiLearnContainer extends Component {
 
         });
 
-
-
-
-        console.log("MOUNT", this.props.course_gen_id, this.props.selected_rows)
     }
-
 
     componentWillUnmount() {
 
@@ -59,12 +52,6 @@ class AddJobsiLearnContainer extends Component {
 
     }
 
-
-    componentDidUpdate() {
-
-        console.log("UPDATE")
-
-    }
 
     render() {
 
@@ -81,17 +68,23 @@ class AddJobsiLearnContainer extends Component {
 }
 
 
-
-
-
 function mapStateToProps({coursesReducer, requesterReducer}, {course_gen_id, selected_rows}) {
+
+    let requester_id = Object.keys(requesterReducer).find(requester => {
+        if (requesterReducer[requester].course_id === course_gen_id) {
+            return requesterReducer[requester].id
+
+        }
+
+    })
 
 
     return {
         requesterReducer,
         coursesReducer,
         course_gen_id,
-        selected_rows
+        selected_rows,
+        requester_id
     }
 }
 

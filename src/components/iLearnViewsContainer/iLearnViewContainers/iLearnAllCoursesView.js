@@ -119,7 +119,6 @@ class ILearnAllCoursesView extends Component {
     }
 
     render() {
-        console.log("SHOW COURSE STUBS", this.props.showCourseStubs, this.state.cache)
         return(
 
             <div>

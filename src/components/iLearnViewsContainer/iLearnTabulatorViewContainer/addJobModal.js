@@ -42,6 +42,7 @@ class AddJobModal extends Component {
     }
 
     submitVideoJobs() {
+        console.log("DID THIS GET CALLLLLEED")
         this.props.dispatch(AddVideoJobBatch(this.props.tempJobsFormReducer));
         this.props.dispatch(clearMediaSearch());
         this.props.dispatch(clearTempCapJobs())
@@ -75,18 +76,6 @@ class AddJobModal extends Component {
 
     };
 
-    componentWillUnmount() {
-
-
-
-    }
-
-
-    componentDidUpdate() {
-
-
-
-    }
 
     render() {
 
