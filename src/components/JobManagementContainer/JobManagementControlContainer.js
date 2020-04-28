@@ -7,7 +7,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 import videosJobsReducer from "../../reducers/existingVideoJobs";
 import {customStyles} from './selectCustomStyle'
 import moment from "moment"
-import ReactCSSTransitionGroup from 'react-transition-group';
+import {CSSTransition, TransitionGroup}  from 'react-transition-group';
+import jobContainer from '../../css/jobContainer.css'
 
 class JobManagementControlContainer extends Component {
 
@@ -73,8 +74,18 @@ class JobManagementControlContainer extends Component {
     }
 
     render() {
-        console.log(this.state)
 
+
+        let items = this.state.videoJobs.length > 0 ? this.state.videoJobs.map(job => (
+
+            <CSSTransition classNames="item" timeout={200} key={job.id}>
+                <JobContainer key={job.id} jobId={job.id}/>
+            </CSSTransition>
+            )
+        ) : (<div key="1">No Videos</div>)
+
+
+        console.log("ITEMS", items)
         return (
 
             <div className="JobManagementControlContainer">
@@ -143,9 +154,17 @@ class JobManagementControlContainer extends Component {
 
                 </div>
                 <div className="contentContainer">
-                    {!this.props.jobsLoading && this.state.videoJobs.map(job => (
-                        <JobContainer key={job.id} jobId={job.id}/>
-                    ))}
+
+
+                    <TransitionGroup
+                    >{items}
+                    </TransitionGroup>
+
+
+
+
+
+
                 </div>
             </div>
         )

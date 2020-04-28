@@ -34,8 +34,8 @@ export const customStyles = {
         ...provided,
         minHeight: '1px',
         height: '19px',
-        'margin-top': 'auto',
-        'margin-bottom': 'auto'
+        marginTop: 'auto',
+        marginBottom: 'auto'
     }),
     clearIndicator: (provided) => ({
         ...provided,
@@ -56,6 +56,6 @@ export const customStyles = {
     }),
     placeholder: (provided) => ({
         ...provided,
-        "font-size": "15px"
+        fontSize: "15px"
     }),
 };
