@@ -9,6 +9,7 @@
     border-width: 1px;
     border-style: solid;
     overflow: hidden;
+    font-size: 15px;
 }
 
 .top-bar {

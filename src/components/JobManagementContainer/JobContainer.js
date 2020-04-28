@@ -67,7 +67,6 @@ class JobContainer extends Component {
 
     componentDidMount() {
         let r = this.props.job
-        let c = this.props.course
         let e = this.props.employee
         this.setState({
             comments: r.comments,
@@ -91,15 +90,15 @@ class JobContainer extends Component {
     render() {
 
         return (
-            <div className="job-container">
+            <div className="job-container" tabIndex={0}>
 
                 <div className="upperJobContainer">
                     <div className="upperJobContainerLeft">
-                        <div>Requester Resource: {this.props.requesterResource}</div>
+                        <div tabIndex={0}>Requester Resource: {this.props.requesterResource}</div>
                     </div>
                     <div className="upperJobContainerRight">
-                        <div className="upperJobContainerRightContent"><label>Requester </label>{this.state.employee_first_name} {this.state.employee_last_name} </div>
-                        <div className="upperJobContainerRightContent"><label>Email </label> {this.state.employee_email}</div>
+                        <div tabIndex={0} className="upperJobContainerRightContent"><label>Requester </label>{this.state.employee_first_name} {this.state.employee_last_name} </div>
+                        <div tabIndex={0} className="upperJobContainerRightContent"><label>Email </label> {this.state.employee_email}</div>
                         <div className="upperJobContainerRightContent"><label>RID </label> {this.state.requester_id}</div>
                     </div>
                 </div>
@@ -232,8 +231,6 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
     }
 
 
-
-    console.log("EMMPLOYEEEEE", employee)
 
 
 

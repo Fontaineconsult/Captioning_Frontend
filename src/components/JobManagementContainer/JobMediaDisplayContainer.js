@@ -33,16 +33,16 @@ class JobMediaDisplayContainer extends Component {
                 <div>
                     <form>
                         <div className="capJobMediaContentContainer">
-                            <div className="mediaContentDescriptor">
-                                Title:
+                            <div tabIndex={0} className="mediaContentDescriptor">
+                                Title: {this.state.title}
                             </div>
-                            <div>{this.state.title}</div>
+
                         </div>
                         <div className="capJobMediaContentContainer">
-                            <div className="mediaContentDescriptor">
-                                Source URL:
+                            <div tabIndex={0} className="mediaContentDescriptor">
+                                Source URL: <a href={this.state.source_url}>{this.state.source_url}</a>
                             </div>
-                            <div>{this.state.source_url}</div>
+
                         </div>
                         <div className="capJobMediaContentContainer">
                             <label className="capJobMediaContentContainer">

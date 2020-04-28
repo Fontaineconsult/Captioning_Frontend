@@ -31,7 +31,8 @@
 
 .filtersOuterContainer {
     display: flex;
-
+    margin-top: 3px;
+    margin-bottom: 3px;
 
 }
 
@@ -137,6 +138,31 @@ width: 50%;
 
 }
 
+.filtersMainContainer {
+
+    height: 65px;
+    margin-left: 3px;
+    margin-right: 3px;
+    border-bottom: #282c34;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+
+}
+
+
+.filterSelectors {
+
+    height: 30px
+
+}
+
+.filterTitles {
+    font-size: 13px !important;
+    margin-top: 3px;
+
+
+}
+
 .lowerJobContainer {
 
     display: flex;
@@ -169,7 +195,6 @@ width: 50%;
 }
 
 .requesterFilterContainer {
-    width: 200px;
-    height: 50px
+margin-right: 5px;
 
 }

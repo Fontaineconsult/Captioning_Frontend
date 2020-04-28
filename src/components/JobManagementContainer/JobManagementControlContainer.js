@@ -5,59 +5,75 @@ import JobContainer from "./JobContainer";
 import Select from "react-select";
 import ClearIcon from '@material-ui/icons/Clear';
 import videosJobsReducer from "../../reducers/existingVideoJobs";
-
-
-
-
+import {customStyles} from './selectCustomStyle'
+import moment from "moment"
+import ReactCSSTransitionGroup from 'react-transition-group';
 
 class JobManagementControlContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            videoJobs: this.props.videosJobsReducer,
+            videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key]),
             courseIds: {},
             filterSelectedCourse: '',
+            job_status_value: '',
+            order_by_value: ''
         };
 
         this.reductionFilter = this.reductionFilter.bind(this);
         this.removeFilters = this.removeFilters.bind(this);
+        this.orderByFilter = this.orderByFilter.bind(this)
     }
 
-
-    removeFilters() {
-
-        this.setState({
-            videoJobs: this.props.videosJobsReducer
-
-        })
-
+    removeFilters(event) {
+        console.log(event.type)
+        if (event.charCode  === 13 || event.type === 'click') {
+            this.setState({
+                videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key]),
+                job_status_value: '',
+                order_by_value: '',
+                filterSelectedCourse: '',
+            })
+        }
     }
-
     reductionFilter(value, key) {
 
-        console.log("value", value, "key", key)
-        console.log("SDFDSF", value[key])
-
-        let filter = Object.keys(this.props.videosJobsReducer).reduce((accumulator, element) => {
-            console.log(this.props.videosJobsReducer[element][key], value[key], this.props.videosJobsReducer[element][key] === value[key])
-            if (this.props.videosJobsReducer[element][key] === value[key]) {
-                accumulator[element] = this.props.videosJobsReducer[element]
+        let filter = this.state.videoJobs.reduce((accumulator, element) => {
+            console.log(element, key, element[key], value[key])
+            if (element[key] === value[key]) {
+                accumulator.push(element)
             }
             return accumulator
-        }, {});
-        this.setState({videoJobs:filter})
+        }, []);
+
+        switch (key) {
+            case "job_status":
+                this.setState({videoJobs:filter,
+                                    job_status_value: value
+
+                });
+                break;
+            case "requester_id":
+                this.setState({videoJobs:filter,
+                    filterSelectedCourse: value
+
+                });
+                break
+        }
+
     }
 
-
-    componentDidMount() {
-
-        // let requester_id = requester_ids.find(x => this.props.requesterReducer[x].course_id === this.props.current_course)
-
+    orderByFilter(value, key) {
+        let filter = this.state.videoJobs.sort((a,b) => moment(b[key]) -  moment(a[key]))
+        this.setState({
+            videoJobs:filter,
+            order_by_value: value
+        })
     }
 
     render() {
-
+        console.log(this.state)
 
         return (
 
@@ -65,45 +81,70 @@ class JobManagementControlContainer extends Component {
                 <div className="control-bar">
                     <div className="controlBarNavButtons">
                         <div className="controlButton">
-                            Courses
+                            Current Jobs
                         </div >
-                        <div className="controlButton" >
-                            Filters
-                        </div>
-                        <div className="controlButton">
-                            Videos
-                        </div>
-
                     </div>
+                </div>
+                <div className="filtersMainContainer">
                     <div className="jobManagementFilters">
                         <div className="filtersOuterContainer">
                             <div className="requesterFilterContainer">
-                                <Select
-                                        options={[
-                                        {value:"Queued", label:"Queued", job_status:"Queued"},
-                                        {value:"Captioning", label:"Captioning",job_status:"Captioning"},
-                                        {value:"Ready", label:"Ready", job_status:"Ready"},
-                                        {value:"Delivered", label:"Delivered", job_status:"Delivered"},
-                                        {value:"Cancelled", label:"Cancelled", job_status:"Cancelled"},
-                                        {value:"On Hold", label:"On Hold", job_status:"On Hold"},
-                                    ]}
-                                        onChange={(value, key, event) => this.reductionFilter(value, 'job_status')}/>
+                                <label>
+                                    <div className="filterTitles">Job Status</div>
+                                    <Select styles={customStyles}
+                                            options={[
+                                                {value:"Queued", label:"Queued", job_status:"Queued"},
+                                                {value:"Captioning", label:"Captioning",job_status:"Captioning"},
+                                                {value:"Ready", label:"Ready", job_status:"Ready"},
+                                                {value:"Delivered", label:"Delivered", job_status:"Delivered"},
+                                                {value:"Cancelled", label:"Cancelled", job_status:"Cancelled"},
+                                                {value:"On Hold", label:"On Hold", job_status:"On Hold"},
+                                            ]}
+                                            value={this.state.job_status_value}
+                                            onChange={(value, key, event) => this.reductionFilter(value, 'job_status')}/>
+                                </label>
                             </div>
                             <div className="requesterFilterContainer">
-                                <Select
-                                    options={this.props.courseSelectorContent}
 
-                                    onChange={(value, key, event) => this.reductionFilter(value, 'requester_id')}/>
+                                <label>
+                                    <div className="filterTitles">Requester</div>
+                                    <Select
+                                        styles={customStyles}
+                                        options={this.props.courseSelectorContent}
+                                        value={this.state.filterSelectedCourse}
+                                        onChange={(value, key, event) => this.reductionFilter(value, 'requester_id')}/>
+                                </label>
+
+                            </div>
+                            <div className="requesterFilterContainer">
+
+                                <label>
+                                    <div className="filterTitles">Order By</div>
+                                    <Select
+                                        styles={customStyles}
+                                        value={this.state.order_by_value}
+                                        options={[
+                                            {value:"request_date", label:"Request Date", date:"request_date"},
+                                            {value:"show_date", label:"Show Date", date:"show_date"},
+                                            {value:"delivered_date", label:"Delivered Date", date:"delivered_date"},
+
+                                        ]}
+
+                                        onChange={(value, key, event) => this.orderByFilter(value, value.date)}/>
+                                </label>
+
                             </div>
                             <div>
-                                <ClearIcon onClick={this.removeFilters}  />
+                                <ClearIcon tabIndex={0} onKeyPress={this.removeFilters} onClick={this.removeFilters}  />
                             </div>
                         </div>
                     </div>
+
+
                 </div>
                 <div className="contentContainer">
-                    {!this.props.jobsLoading && Object.keys(this.state.videoJobs).map(job => (
-                        <JobContainer key={job} jobId={job}/>
+                    {!this.props.jobsLoading && this.state.videoJobs.map(job => (
+                        <JobContainer key={job.id} jobId={job.id}/>
                     ))}
                 </div>
             </div>
@@ -117,6 +158,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
 
     let requester = {};
     let courseSelectorContent = {};
+    let videoJobReducerKeys = Object.keys(videosJobsReducer)
 
     if (Object.keys(requesterReducer).length > 0 && Object.keys(videosJobsReducer).length > 0) {
 
