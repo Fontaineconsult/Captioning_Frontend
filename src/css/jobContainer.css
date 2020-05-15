@@ -78,11 +78,12 @@
 
 }
 
-.capJobMediaContainer {
+.jobContentContainer {
 
-
+    height: 90% !important;
 
 }
+
 
 .capJobMediaContentContainer {
 
@@ -140,7 +141,7 @@ width: 50%;
 
 .filtersMainContainer {
 
-    height: 65px;
+    height: 6%;
     margin-left: 3px;
     margin-right: 3px;
     border-bottom: #282c34;

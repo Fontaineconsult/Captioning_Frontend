@@ -269,6 +269,19 @@ export function fetchMediaBySourceUrl(url, unique_id) {
 }
 
 
+export function fetchMediaByShaHash(hash, unique_id) {
+
+    return dispatch => {
+        dispatch(LoadingMedia(true))
+        return fetch(`${server_url}/media?sha_256_hash=${hash}`)
+            .then(response => errorHandler(response, dispatch, unique_id, LoadingMedia), error => {console.log(error)})
+            .then(response => responseHandler(response, dispatch, [receiveMediaSearch], unique_id, LoadingMedia))
+
+
+    }
+}
+
+
 export function fetchAllOrgs() {
     return dispatch => {
         return fetch(`${server_url}/campus_orgs`)
@@ -287,6 +300,7 @@ export function fetchAllEmployees() {
         return fetch(`${server_url}/employees?employee_id=all`)
             .then(response => response.json())
             .then(data => dispatch(receiveEmployees(data['content'])))
+            .then(() => dispatch(LoadingInstructors(false)))
             .then(data => console.log(data))
     }
 

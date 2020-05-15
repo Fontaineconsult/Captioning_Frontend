@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import {addMediaToDBandTempJob} from '../../actions/ampApi/postData'
-import {fetchMediaBySourceUrl} from '../../actions/ampApi/fetchData'
+import {fetchMediaBySourceUrl, fetchMediaByShaHash} from '../../actions/ampApi/fetchData'
 import Button from "@material-ui/core/Button";
 import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
@@ -14,7 +14,8 @@ import {clearMediaSearch} from '../../actions/mediaSearch'
 import {addMediaToTempJob, addMediaToTempJobNoId} from "../../actions/tempJobsForm";
 import addJobsContainer from "../iLearnViewsContainer/iLearnTabulatorViewContainer/addJobsContainer";
 import Section from "react-virtualized/dist/commonjs/Collection/Section";
-
+import md5 from 'crypto-js/md5'
+import CryptoJS from 'crypto-js'
 
 class NewMediaContainer extends Component {
 
@@ -30,18 +31,15 @@ class NewMediaContainer extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.checkSourceUrl = this.checkSourceUrl.bind(this);
         this.addNewMediaToJob = this.addNewMediaToJob.bind(this)
+        this.handleFileSubmit = this.handleFileSubmit.bind(this)
 
     }
 
     handleInputChange(event) {
-
-        console.log("EVENNNTTTT", event.target.value)
         const target = event.target;
         const value = target.value;
         const name = target.name;
-
         if (!this.props.isLocked) {
-
             this.setState({
                 [name]: value
             });
@@ -50,6 +48,25 @@ class NewMediaContainer extends Component {
 
 
     }
+
+    handleFileSubmit(event) {
+
+        this.props.dispatch(removeErrorState(this.props.transaction_id));
+        this.props.dispatch(clearMediaSearch(this.props.transaction_id));
+
+        let userData = new FormData()
+        let fileReader = new FileReader()
+        fileReader.onload = (completionEvent) => {
+
+            let wordArray = CryptoJS.lib.WordArray.create(fileReader.result)
+            let fileHash = CryptoJS.SHA256(wordArray).toString()
+            this.props.dispatch(fetchMediaByShaHash(fileHash, this.props.transaction_id))
+        }
+        fileReader.readAsArrayBuffer(event.target.files[0])
+
+
+    }
+
     checkSourceUrl(event) {
 
         this.props.dispatch(removeErrorState(this.props.transaction_id));
@@ -67,41 +84,77 @@ class NewMediaContainer extends Component {
         if (!this.props.isLocked) {
             event.preventDefault();
 
-            if (this.state.source_location === '' ||  this.state.type === '') {
-                event.preventDefault();
-                alert("Missing Input")
 
+            if (this.state.type === 'URL') {
+                if (this.state.source_location === '') {
+                    event.preventDefault();
+                    alert("Missing Input")
+                } else {
+                    if (!this.props.mediaSearchReducer[this.props.transaction_id]) {
 
-            } else {
+                        if (this.state.title !== '') {
+                            event.preventDefault();
 
-                if (!this.props.mediaSearchReducer[this.props.transaction_id]) {
+                            this.props.dispatch(removeErrorState(this.props.transaction_id));
+                            this.props.dispatch(clearMediaSearch(this.props.transaction_id));
+                            this.props.dispatch(addMediaToDBandTempJob(this.state.title, this.state.source_location, this.state.type, this.props.transaction_id));
 
-                    if (this.state.title !== '') {
-                        event.preventDefault();
+                        } else {
+                            event.preventDefault();
+                            alert("Add a title")
 
+                        }
+                    } else {
+                        this.setState({
+                            title: this.props.mediaSearchReducer[this.props.transaction_id].title
+                        })
+                        this.props.dispatch(addMediaToTempJobNoId(this.props.transaction_id, this.props.mediaSearchReducer[this.props.transaction_id]))
                         this.props.dispatch(removeErrorState(this.props.transaction_id));
                         this.props.dispatch(clearMediaSearch(this.props.transaction_id));
-                        this.props.dispatch(addMediaToDBandTempJob(this.state.title, this.state.source_location, this.state.type, this.props.transaction_id));
-
-                    } else {
-                        event.preventDefault();
-                        alert("Add a title")
 
                     }
-                } else {
-                    this.setState({
-                        title: this.props.mediaSearchReducer[this.props.transaction_id].title
-                    })
-                    this.props.dispatch(addMediaToTempJobNoId(this.props.transaction_id, this.props.mediaSearchReducer[this.props.transaction_id]))
-                    this.props.dispatch(removeErrorState(this.props.transaction_id));
-                    this.props.dispatch(clearMediaSearch(this.props.transaction_id));
-
                 }
             }
+            if (this.state.type === 'File') {
+
+
+
+            }
+            if (this.state.type === 'SFSU Box') {
+
+            }
+
         }
     }
 
     render() {
+        let SourceInput
+        if (this.state.type === "URL") {
+            SourceInput = <Input
+                placeholder="e.x., https://www.youtube.com/watch?v=AAssk2N_oPk"
+                className="addJobInput"
+                name="source_location"
+                type='text'
+                size="50"
+                maxLength="150"
+                required={true}
+                disabled={this.props.inputsDisabled}
+                value={this.state.source_location}
+                onChange={this.handleInputChange}
+                onBlur={this.checkSourceUrl}/>
+        } else if (this.state.type === "File") {
+            SourceInput = <Input
+                className="addJobInput"
+                accept="video/*"
+                name="videoFile"
+                type="file"
+                onChange={this.handleFileSubmit}
+                required={true}
+                disabled={this.props.inputsDisabled}
+            />
+        }
+
+
         return(
             <div className="addMediaContainer">
                 <div className="videoFormContainer">
@@ -115,26 +168,15 @@ class NewMediaContainer extends Component {
                                     name="type"
                                     onChange={this.handleInputChange}
                                     value={this.state.type}
-
                                 >
                                     <MenuItem value={'URL'}>URL</MenuItem>
-                                    <MenuItem value={"SFSU Box"}>SFSU Box</MenuItem>
+                                    <MenuItem value={"File"}>File</MenuItem>
                                 </Select>
                             </label>
+
                             <label className="newJobLabel">
                                 Source Location
-                                <Input
-                                    placeholder="e.x., https://www.youtube.com/watch?v=AAssk2N_oPk"
-                                    className="addJobInput"
-                                    name="source_location"
-                                    type='text'
-                                    size="50"
-                                    maxLength="150"
-                                    required={true}
-                                    disabled={this.props.inputsDisabled}
-                                    value={this.state.source_location}
-                                    onChange={this.handleInputChange}
-                                    onBlur={this.checkSourceUrl}/>
+                                {SourceInput}
                             </label>
                             <label className="newJobLabel">
                                 Video Title
@@ -169,6 +211,8 @@ class NewMediaContainer extends Component {
 
         )
     }
+
+
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {

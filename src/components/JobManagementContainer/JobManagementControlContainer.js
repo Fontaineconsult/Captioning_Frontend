@@ -140,7 +140,6 @@ class JobManagementControlContainer extends Component {
                                             {value:"delivered_date", label:"Delivered Date", date:"delivered_date"},
 
                                         ]}
-
                                         onChange={(value, key, event) => this.orderByFilter(value, value.date)}/>
                                 </label>
 
@@ -153,7 +152,7 @@ class JobManagementControlContainer extends Component {
 
 
                 </div>
-                <div className="contentContainer">
+                <div className="contentContainer jobContentContainer">
 
 
                     <TransitionGroup
