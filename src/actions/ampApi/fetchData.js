@@ -13,6 +13,8 @@ import {serverURL} from '../../constants'
 import {setErrorState} from '../error_state'
 import {receiveMediaSearch} from '../mediaSearch'
 import {receiveCampusOrgs} from '../campusOrgs'
+import {addMediaToTempJob} from '../tempJobsForm'
+
 
 import { v1 as uuidv1 } from 'uuid';
 
@@ -320,5 +322,18 @@ export function fetchEmployeeRequests(employee_id) {
 
 }
 
+export function reFetchMediaAfterUpload(media_id, unique_id) {
+    // Refetch the media query to get new upload info and add the media info to the current temp job
+
+    return dispatch => {
+        dispatch(LoadingRequests(true));
+        return fetch(`${server_url}/media?id=${media_id}`)
+            .then(response => errorHandler(response, dispatch, unique_id, LoadingMedia), error => {console.log(error)})
+            .then(response => responseHandler(response, dispatch, [addMediaToTempJob], unique_id, LoadingMedia))
 
 
+    }
+
+
+
+}

@@ -7,7 +7,7 @@ export const CLEAR_TEMP_CAP_JOBS = "CLEAR_TEMP_CAP_JOBS";
 export const CLEAR_INCOMPLETE_TEMP_CAP_JOBS = "CLEAR_INCOMPLETE_TEMP_CAP_JOBS";
 export const UPDATE_TEMP_CAP_JOBS_FORM_JOBS = "UPDATE_TEMP_CAP_JOBS_FORM_JOBS";
 export const  REMOVE_ITEM_FROM_TEMP_CAP_JOBS = "REMOVE_ITEM_FROM_TEMP_CAP_JOBS"
-
+export const  UPDATE_TEMP_JOBS_UPLOAD_STATE = "UPDATE_TEMP_JOBS_UPLOAD_STATE"
 
 
 export function addTempJob(temp_id, requester_id) {
@@ -20,7 +20,7 @@ export function addTempJob(temp_id, requester_id) {
 
 }
 
-export function addMediaToTempJob(temp_id, media_info) {
+export function addMediaToTempJob(media_info, temp_id) {
 
     return {
         type: ADD_MEDIA_TO_TEMP_JOB,
@@ -65,6 +65,18 @@ export function updateTempJobsFormJobsInfo(temp_id, job_info) {
 
 
 }
+
+export function updateTempJobsUploadState(temp_id, upload_state) {
+    return {
+
+        type: UPDATE_TEMP_JOBS_UPLOAD_STATE,
+        temp_id,
+        upload_state
+
+    }
+
+}
+
 
 
 export function completeTempJob(temp_id, created) {

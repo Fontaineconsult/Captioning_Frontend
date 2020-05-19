@@ -125,8 +125,12 @@ class NewJobFormContainer extends Component {
                     </div>
 
                 </form>
-                <Button size="small"  variant="contained" onClick={e => this.addJobInfo(e)} disabled={!this.props.formEnabled}>Complete Request</Button>
+
+
+                <Button size="small"  variant="contained" onClick={e => this.addJobInfo(e)} disabled={!this.props.submitButtonEnabled}>Complete Request</Button>
+
             </div>
+
 
         )
     }
@@ -135,11 +139,43 @@ class NewJobFormContainer extends Component {
 
 function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tempJobsFormReducer, requesterReducer}, {props, requesterId,transaction_id, isLocked}) {
     let formEnabled = transaction_id in tempJobsFormReducer;
+    let submitButtonEnabled = false
+    let filePresent = false
+
+    // Controls the submit but disabled feature
+    if (tempJobsFormReducer.hasOwnProperty(transaction_id)) {
+            if (tempJobsFormReducer[transaction_id].hasOwnProperty('video')) {
+                if (tempJobsFormReducer[transaction_id].video.hasOwnProperty('id')) {
+                    console.log("FAARRTSSS")
+                    if (tempJobsFormReducer[transaction_id].video.media_type === 'File') {
+                        submitButtonEnabled = tempJobsFormReducer[transaction_id].video.media_objects.some(item => {
+
+                                return item.associated_files.sha_256_hash === tempJobsFormReducer[transaction_id].video.sha_256_hash
+
+                            }
+                        )}
+
+                    if (tempJobsFormReducer[transaction_id].video.media_type === 'URL') {
+                        submitButtonEnabled = true
+
+                    }
+                }
+            }
+
+    }
+
+
+
+
+
+
     if (formEnabled) {
             if (tempJobsFormReducer[transaction_id].hasOwnProperty('video')) {
                 formEnabled = tempJobsFormReducer[transaction_id].video.hasOwnProperty('id');
             }
         }
+
+    console.log("SUBBMITTT", submitButtonEnabled)
 
     return {
         mediaSearchReducer,
@@ -150,7 +186,9 @@ function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tem
         props,
         isLocked,
         requesterId,
-        formEnabled
+        formEnabled,
+        filePresent,
+        submitButtonEnabled
     }
 }
 

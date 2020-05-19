@@ -2,7 +2,7 @@ import fetch from "cross-fetch";
 import {api_failure} from "../../utilities/api/errors";
 import {serverURL} from '../../constants'
 import {LoadingIlearnVideos,LoadingMedia, LoadingVideoJobs} from "../status";
-import {addMediaToTempJob} from "../tempJobsForm"
+import {addMediaToTempJob, updateTempJobsUploadState} from "../tempJobsForm"
 import {receiveMediaSearch} from '../mediaSearch'
 import { batch } from 'react-redux'
 import {setErrorState} from "../error_state";
@@ -10,13 +10,21 @@ import {receiveCapJobs} from "../existingVideoJobs";
 import {addMediaFromCapJobs} from "../media";
 import {v1 as uuidv1} from "uuid";
 
+import {reFetchMediaAfterUpload} from './fetchData'
+
+
 const server_url = serverURL();
 
 function errorHandler(response, dispatch, error_id){
 
     if (!response.ok) {
         response.json()
-            .then(data => dispatch(setErrorState(data['error']['message'], data['request_payload'], error_id)))
+            .then(data => (
+                dispatch(setErrorState(data['error']['error_message'], data['request_payload'], error_id)),
+                alert(data['error']['error_message']))
+
+            )
+
     }
     return response
 }
@@ -115,7 +123,16 @@ export function AddVideoJobBatch(jobsReducer) {
 
 export function addMediaToDBandTempJob(title, link, type, temp_id) {
 
-    let data_object = { title:title, source_url:link, media_type: type};
+    let data_object
+    if (type === 'URL') {
+        data_object = { title:title, source_url:link, media_type: type};
+
+    }
+    if (type === 'File') {
+
+        data_object = {title:title, sha_256_hash:link, media_type: type};
+    }
+
 
     let post_object = {
         method: 'POST',
@@ -124,17 +141,49 @@ export function addMediaToDBandTempJob(title, link, type, temp_id) {
             'Content-Type': 'application/json'
         }};
 
+
     return dispatch => {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/media`, post_object)
-            .then(response => response.json())
-            .then(data => {dispatch(receiveMediaSearch(data['content'], temp_id),
-                                    dispatch(addMediaToTempJob(temp_id, data['content'])))})
-            .then(() => dispatch(LoadingMedia(false)))
+            .then(response => errorHandler(response, dispatch, temp_id), error => {
+                console.log(error)
+            })
+            .then(response => {
+                responseHandler(response, dispatch, [receiveMediaSearch, addMediaToTempJob], temp_id, LoadingMedia)
+            })
+        }
 
 
 
-    }
+
 
 };
 
+export function uploadVideoWithMediaId(video, media_id, temp_id) {
+
+    // imports fetch statement to fetch new media info after upload. Directly updates tempJobstate
+    let post_object = {
+        method: 'POST',
+        body: video,
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+
+    return dispatch => {
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/services/upload/file?media_id=${media_id}`, post_object)
+            .then(response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})
+            .then(response => {
+                dispatch(updateTempJobsUploadState(temp_id, true),
+                dispatch(LoadingMedia(false)))
+                dispatch(reFetchMediaAfterUpload(media_id, temp_id))
+            })
+
+
+
+
+
+
+}
+}
