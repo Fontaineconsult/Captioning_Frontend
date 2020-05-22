@@ -83,12 +83,12 @@ class JobContainer extends Component {
             employee_email: e.employee_email,
             employee_first_name: e.employee_first_name,
             employee_last_name: e.employee_last_name
+
         })
 
     }
 
     render() {
-
         return (
             <div className="job-container" tabIndex={0}>
 
@@ -184,7 +184,7 @@ class JobContainer extends Component {
                 </div>
                 <div className="pluginControlsContainer">
                     <div className="pluginContainer">
-                        <AstControls id={this.state.ast_job_id} />
+                        <AstControls ast_jobs={this.props.job.ast_jobs} media_id = {this.props.job.media.id} />
                     </div>
                     <div className="pluginContainer">
                         <AmaraControls/>
@@ -208,20 +208,12 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
     let employee = '';
     let requesterResource = '';
 
-
     if (requesterReducer[job.requester_id].course_id !== null) {
         requesterResource = requesterReducer[job.requester_id].course_id
     } else {
         requesterResource = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
 
     }
-
-
-
-
-
-
-
 
     if (employeesReducer[requesterReducer[job.requester_id].employee_id] !== undefined) {
          employee = employeesReducer[requesterReducer[job.requester_id].employee_id]

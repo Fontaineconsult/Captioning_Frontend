@@ -6,7 +6,7 @@ import {addMediaToTempJob, updateTempJobsUploadState} from "../tempJobsForm"
 import {receiveMediaSearch} from '../mediaSearch'
 import { batch } from 'react-redux'
 import {setErrorState} from "../error_state";
-import {receiveCapJobs} from "../existingVideoJobs";
+import {receiveCapJobs, addNewAstJob} from "../existingVideoJobs";
 import {addMediaFromCapJobs} from "../media";
 import {v1 as uuidv1} from "uuid";
 
@@ -152,23 +152,17 @@ export function addMediaToDBandTempJob(title, link, type, temp_id) {
                 responseHandler(response, dispatch, [receiveMediaSearch, addMediaToTempJob], temp_id, LoadingMedia)
             })
         }
-
-
-
-
-
 };
 
 export function uploadVideoWithMediaId(video, media_id, temp_id) {
 
-    // imports fetch statement to fetch new media info after upload. Directly updates tempJobstate
+    // imports fetch statement to fetch new media info after file upload. Directly updates tempJobstate
     let post_object = {
         method: 'POST',
         body: video,
         headers: {
             'Content-Type': 'application/json'
         }};
-
 
     return dispatch => {
         dispatch(LoadingMedia(true));
@@ -179,11 +173,31 @@ export function uploadVideoWithMediaId(video, media_id, temp_id) {
                 dispatch(LoadingMedia(false)))
                 dispatch(reFetchMediaAfterUpload(media_id, temp_id))
             })
+}
+}
 
+export function addAstJobToCaptioningJob(job_id, temp_id) {
 
+    let post_object = {
+        method: 'POST',
+        body: {'jobid': job_id},
+        headers: {
+            'Content-Type': 'application/json'
+        }};
 
-
+    return dispatch => {
+        dispatch(LoadingVideoJobs(true));
+        return fetch(`${server_url}/ast-jobs`, post_object)
+            .then(response => errorHandler(response, dispatch, temp_id), error => {
+                console.log(error)
+            })
+            .then(response => {
+                responseHandler(response, dispatch, [addNewAstJob], temp_id, LoadingVideoJobs)
+            })
+    }
 
 
 }
-}
+
+
+

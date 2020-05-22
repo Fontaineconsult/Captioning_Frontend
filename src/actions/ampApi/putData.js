@@ -32,17 +32,13 @@ export function updateCourse(course_gen_id, column, value) {
         headers: {
             'Content-Type': 'application/json'
         }
-
     };
-
     return dispatch => {
 
         dispatch(writeCourse(data_object));
         return fetch(`${server_url}/courses`, put_object)
             .then(data => console.log(JSON.stringify(data.response)))
             .catch(error => api_failure(error))
-
-
     }}
 
 
@@ -56,7 +52,6 @@ export function updateiLearnVideo(video_id, column, value) {
         headers: {
             'Content-Type': 'application/json'
         }
-
     };
     return (dispatch, getState) => {
         dispatch(writeiLearnVideo(video_id, data_object));
@@ -80,27 +75,14 @@ export function updateVideoJob(job_id, column, value){
         }
 
     };
-
-    console.log(put_object)
-
     return (dispatch, getState) => {
-
         return fetch(`${server_url}/video-jobs`, put_object)
             .then(response => response.json())
-
             .then(data => {console.log("farts", data)})
             .then(data => dispatch(updateCapJob(job_id, column, value)))
             .catch(error => console.log(error))
     }
-
-
-
-
 }
-
-
-
-
 
 
 export function updateiLearnVideoBatch(video_ids, column, value) {
@@ -119,7 +101,6 @@ export function updateiLearnVideoBatch(video_ids, column, value) {
     return (dispatch, getState) => {
         dispatch(LoadingIlearnVideos(true))
         batch(() => {
-
             data_objects.forEach(object => {
                 console.log(object)
                 dispatch(writeiLearnVideo(object.dispatch_payload.id, object.dispatch_payload));
@@ -127,13 +108,9 @@ export function updateiLearnVideoBatch(video_ids, column, value) {
                     .then(response => response.json())
                     .then(data => {console.log("farts", data)})
                     .catch(error => console.log(error))
-
             })
-
-
-
-
         })
         dispatch(LoadingIlearnVideos(false))
     }
 }
+

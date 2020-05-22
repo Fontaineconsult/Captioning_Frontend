@@ -75,6 +75,7 @@
 
     display: flex;
     margin-bottom: 10px;
+    height: 40px;
 
 }
 
@@ -213,4 +214,13 @@ margin-right: 5px;
 .item-exit-active {
     opacity: 0;
     transition: opacity 200ms ease-in;
+}
+
+.astControls {
+    display: flex
+
+}
+
+.tabulator-header {
+    height: 0;
 }

@@ -1,4 +1,4 @@
-import {RECEIVE_VIDEO_JOBS, UPDATE_VIDEO_JOBS} from "../actions/existingVideoJobs";
+import {RECEIVE_VIDEO_JOBS, UPDATE_VIDEO_JOBS, ADD_NEW_AST_JOB} from "../actions/existingVideoJobs";
 
 export default function videosJobsReducer (state={}, action) {
 
@@ -20,6 +20,18 @@ export default function videosJobsReducer (state={}, action) {
                 }
             }
         }
+
+        case ADD_NEW_AST_JOB: {
+
+            return {
+                ...state,
+                [action.job_id]: {...state[action.job_id], ast_jobs: [...action.astJob]
+                }
+
+            }
+
+        }
+
 
         default:
             return state
