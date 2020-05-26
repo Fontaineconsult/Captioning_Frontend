@@ -119,4 +119,4 @@ function mapStateToProps({tempJobsFormReducer}, {course_gen_id, selected_rows}) 
     }
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(useStyles, { withTheme: true })(AddJobModal))  )
+export default withRouter(connect(mapStateToProps)(withStyles(useStyles, { withTheme: true })(AddJobModal)))

@@ -25,12 +25,15 @@ export function updateCapJob(job_id, column, value) {
     }
 }
 
-export function addNewAstJob(job_id, astJob) {
+export function addNewAstJob(astJob, unique_id) {
 
+    let caption_job_id = astJob[Object.keys(astJob)[0]].caption_job_id
+    let ast_job = astJob[Object.keys(astJob)[0]]
+    console.log("DERJPNB", ast_job, caption_job_id)
     return {
         type: ADD_NEW_AST_JOB,
-        job_id,
-        astJob
+        job_id: caption_job_id,
+        astJob: ast_job
 
     }
 }

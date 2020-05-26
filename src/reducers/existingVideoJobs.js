@@ -25,7 +25,10 @@ export default function videosJobsReducer (state={}, action) {
 
             return {
                 ...state,
-                [action.job_id]: {...state[action.job_id], ast_jobs: [...action.astJob]
+                [action.job_id]: {...state[action.job_id], ast_jobs:
+
+                        [ ...state[action.job_id].ast_jobs, action.astJob]
+
                 }
 
             }

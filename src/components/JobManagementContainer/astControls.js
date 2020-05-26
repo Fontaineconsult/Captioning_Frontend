@@ -7,25 +7,11 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import moment from 'moment'
-import {
-    datePicker,
-    showDateToggle
-} from "../iLearnViewsContainer/iLearnTabulatorViewContainer/TabulatorDataConstructor";
+import Modal from '@material-ui/core/Modal';
+import AstModalContainer from "./astConfirmModal";
+
 import {astJobURL} from "../../constants";
 
-function AstJobItem(props) {
-
-
-    return(
-        <div>
-
-        </div>
-
-    )
-
-
-
-}
 
 class AstJobControlMenu extends Component {
 
@@ -98,7 +84,6 @@ class AstJobControlMenu extends Component {
 
     }
 
-
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         let data = []
@@ -124,13 +109,11 @@ class AstJobControlMenu extends Component {
 
     }
 
-
     render() {
 
         return (
 
             <div>
-
                 <ReactTabulator data={this.state.data} columns={this.columns}/>
             </div>
 
@@ -142,7 +125,6 @@ class AstJobControlMenu extends Component {
 }
 
 
-
 class AstControls extends Component {
 
     constructor(props) {
@@ -151,16 +133,12 @@ class AstControls extends Component {
             expanded: false
 
         };
-        this.createAstJob = this.createAstJob.bind(this)
+
         this.shrinkView = this.shrinkView.bind(this)
         this.expandView = this.expandView.bind(this)
     }
 
-    createAstJob(event) {
 
-        console.log(event)
-
-    }
 
     expandView() {
         this.setState({
@@ -181,15 +159,7 @@ class AstControls extends Component {
         return (
             <div className="astControls">
                 <div>
-                    <Button
-                        style={{maxHeight: '25px', padding:'0px 3px'}}
-                        variant="contained"
-                        name={"creatAstJob"}
-                        onClick={this.createAstJob}
-                        title={"Send to Ast"}
-
-                    >AST</Button>
-
+                    <AstModalContainer job_id={this.props.job_id}/>
                 </div>
                 <div onMouseEnter={this.expandView} onMouseLeave={this.shrinkView} tabIndex={0}>
                     {this.props.hasJobs && <AstJobControlMenu expanded={this.state.expanded} ast_jobs={this.props.ast_jobs}/>}
@@ -206,12 +176,13 @@ class AstControls extends Component {
 
 
 
-function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {ast_jobs, media_id}) {
+function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {ast_jobs, media_id, job_id}) {
     let hasJobs = Object.keys(ast_jobs).length > 0
 
     return {
         hasJobs,
-        ast_jobs
+        ast_jobs,
+        job_id
 
     }
 }
