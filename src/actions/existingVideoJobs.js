@@ -1,6 +1,7 @@
 export const RECEIVE_VIDEO_JOBS = 'RECEIVE_VIDEO_JOBS';
 export const UPDATE_VIDEO_JOBS = 'UPDATE_VIDEO_JOBS';
 export const ADD_NEW_AST_JOB = 'ADD_NEW_AST_JOB';
+export const ADD_AST_ID_TO_AST_JOB = 'ADD_AST_ID_TO_AST_JOB'
 
 // used to manage existing jobs retreived from DB
 
@@ -39,3 +40,15 @@ export function addNewAstJob(astJob, unique_id) {
 }
 
 
+export function initASTJob(unique_ast_job_id, ast_job_id, job_id) {
+
+    return {
+        type: ADD_AST_ID_TO_AST_JOB,
+        unique_ast_job_id,
+        ast_job_id,
+        job_id
+    }
+
+
+
+}

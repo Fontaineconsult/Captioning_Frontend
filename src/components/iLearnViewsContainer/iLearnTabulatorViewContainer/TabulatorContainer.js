@@ -187,9 +187,6 @@ class TabulatorContainer extends Component {
 
     };
 
-
-
-
     columns = [
         { title: "Title", field: "title", editor:"input"},
         { title: "Captioned", field: "captioned", width: 130, align:"center", formatter: reactFormatter(<this.isCaptionedButton />) },

@@ -4,7 +4,8 @@ import {api_failure} from '../../utilities/api/errors'
 import {serverURL} from '../../constants'
 import { batch } from 'react-redux'
 import {updateCapJob} from '../existingVideoJobs'
-import {LoadingIlearnVideos} from '../status'
+import {LoadingIlearnVideos, LoadingVideoJobs} from '../status'
+import {initASTJob} from '../existingVideoJobs'
 import fetch from "cross-fetch";
 
 
@@ -114,3 +115,25 @@ export function updateiLearnVideoBatch(video_ids, column, value) {
     }
 }
 
+export function initializeASTJob(ast_job_id, job_id) {
+    console.log(ast_job_id)
+    let data_object = {"ast-job-id": ast_job_id};
+
+    let put_object = {
+        method: 'PUT',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }}
+
+    return (dispatch) => {
+        dispatch(LoadingVideoJobs(true))
+        return fetch(`${server_url}/ast-jobs`, put_object)
+            .then(response => response.json())
+            .then(data => dispatch(initASTJob(data['content']['echo'], ast_job_id, job_id)))
+            .then(data => dispatch(LoadingVideoJobs(false)))
+            .catch(error => console.log(error))
+        }
+
+
+}

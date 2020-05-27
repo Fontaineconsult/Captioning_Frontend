@@ -28,7 +28,6 @@ class JobManagementControlContainer extends Component {
     }
 
     removeFilters(event) {
-        console.log(event.type)
         if (event.charCode  === 13 || event.type === 'click') {
             this.setState({
                 videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key]),
@@ -41,7 +40,6 @@ class JobManagementControlContainer extends Component {
     reductionFilter(value, key) {
 
         let filter = this.state.videoJobs.reduce((accumulator, element) => {
-            console.log(element, key, element[key], value[key])
             if (element[key] === value[key]) {
                 accumulator.push(element)
             }
@@ -183,9 +181,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         let requester_ids = Object.keys(videosJobsReducer).map(x => {
             return videosJobsReducer[x].requester_id
         });
-        console.log("DER IDS", requester_ids)
         requester = requester_ids.reduce((accumulator, element) => {
-            console.log("DER ELEMENT", element)
             accumulator[element] = {id: requesterReducer[element].id, course_id: requesterReducer[element].course_id}
             return accumulator
 

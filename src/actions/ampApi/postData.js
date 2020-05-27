@@ -44,7 +44,6 @@ function responseHandler(response, dispatch, reducer, unique_id, statusReducer) 
 
 }
 
-
 export function AddVideoJob(requester_id, show_date, media_id, output_format, comments) {
     let data_object = { 'requester_id': requester_id,
                         'show_date': show_date,
@@ -76,7 +75,6 @@ export function AddVideoJob(requester_id, show_date, media_id, output_format, co
     }
 
 };
-
 
 export function AddVideoJobBatch(jobsReducer) {
 

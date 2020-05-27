@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import {addAstJobToCaptioningJob} from '../../actions/ampApi/postData'
 import Button from "@material-ui/core/Button";
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
 import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import moment from 'moment'
-import Modal from '@material-ui/core/Modal';
 import AstModalContainer from "./astConfirmModal";
+import {initializeASTJob} from "../../actions/ampApi/putData"
 
 import {astJobURL} from "../../constants";
 
@@ -19,6 +16,21 @@ class AstJobControlMenu extends Component {
         super(props);
         this.state = {data: []};
         this.formatData = this.formatData.bind(this)
+        this.astJobFormatter = this.astJobFormatter.bind(this)
+        this.initASTJob = this.initASTJob.bind(this)
+
+    }
+
+    initASTJob(ast_job_id, job_id) {
+        this.props.dispatch(initializeASTJob(ast_job_id, job_id))
+
+
+    }
+
+    astJobFormatter = (props) => {
+        let ast_job_id = props.cell._cell.row.data.id
+        return(<Button onClick={e => this.initASTJob(ast_job_id, this.props.job_id)}>Init</Button>)
+
 
     }
 
@@ -26,7 +38,7 @@ class AstJobControlMenu extends Component {
         {title:"Status", width:120, field:"status"},
         {title: "Speed", width:80, field: "speed"},
         {title: "Added On", width:100, field: "added_date"},
-        {title: "Ast Url", width:80, field: "ast_link", formatter: "link"}
+        {title: "Ast Url", width:80, field: "ast_link", formatter: reactFormatter(<this.astJobFormatter/>)}
     ];
 
     formatData(astVideoJob) {
@@ -50,10 +62,7 @@ class AstJobControlMenu extends Component {
             astJobLink = `${astJobURL()}${astVideoJob.ast_id}`
         } else {
             astJobLink = "N/A"
-
         }
-
-
 
         return {
             id: astVideoJob.id,
@@ -118,10 +127,7 @@ class AstJobControlMenu extends Component {
             </div>
 
         )
-
     }
-
-
 }
 
 
@@ -162,7 +168,7 @@ class AstControls extends Component {
                     <AstModalContainer job_id={this.props.job_id}/>
                 </div>
                 <div onMouseEnter={this.expandView} onMouseLeave={this.shrinkView} tabIndex={0}>
-                    {this.props.hasJobs && <AstJobControlMenu expanded={this.state.expanded} ast_jobs={this.props.ast_jobs}/>}
+                    {this.props.hasJobs && <AstJobControlMenu job_id={this.props.job_id} dispatch={this.props.dispatch} expanded={this.state.expanded} ast_jobs={this.props.ast_jobs}/>}
                     {!this.props.hasJobs && <div>No Jobs</div> }
                 </div>
             </div>
