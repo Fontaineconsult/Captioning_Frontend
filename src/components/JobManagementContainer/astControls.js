@@ -28,8 +28,19 @@ class AstJobControlMenu extends Component {
     }
 
     astJobFormatter = (props) => {
+
         let ast_job_id = props.cell._cell.row.data.id
-        return(<Button onClick={e => this.initASTJob(ast_job_id, this.props.job_id)}>Init</Button>)
+        let ast_status = props.cell._cell.row.data.ast_link
+
+        if (ast_status === null) {
+            return(<Button onClick={e => this.initASTJob(ast_job_id, this.props.job_id)}>Init</Button>)
+        }
+        if (ast_status) {
+            return(<Button onClick={e => window.open(ast_status)}>Job</Button>)
+
+        }
+
+
 
 
     }
@@ -61,7 +72,7 @@ class AstJobControlMenu extends Component {
         if (astVideoJob.ast_id) {
             astJobLink = `${astJobURL()}${astVideoJob.ast_id}`
         } else {
-            astJobLink = "N/A"
+            astJobLink = null
         }
 
         return {
@@ -153,6 +164,7 @@ class AstControls extends Component {
     }
 
     shrinkView() {
+
         this.setState({
             expanded: false
 
@@ -168,7 +180,7 @@ class AstControls extends Component {
                     <AstModalContainer job_id={this.props.job_id}/>
                 </div>
                 <div onMouseEnter={this.expandView} onMouseLeave={this.shrinkView} tabIndex={0}>
-                    {this.props.hasJobs && <AstJobControlMenu job_id={this.props.job_id} dispatch={this.props.dispatch} expanded={this.state.expanded} ast_jobs={this.props.ast_jobs}/>}
+                    {this.props.hasJobs && <AstJobControlMenu  job_id={this.props.job_id} dispatch={this.props.dispatch} expanded={this.state.expanded} ast_jobs={this.props.ast_jobs}/>}
                     {!this.props.hasJobs && <div>No Jobs</div> }
                 </div>
             </div>
@@ -177,9 +189,6 @@ class AstControls extends Component {
     }
 
 }
-
-
-
 
 
 function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {ast_jobs, media_id, job_id}) {
