@@ -3,6 +3,7 @@ import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import mediaReducer from "../../reducers/media";
 import JobMediaDisplayContainer from "./JobMediaDisplayContainer"
+import MediaContentContainer from "./jobMediaContentContainer"
 import {updateVideoJob} from "../../actions/ampApi/putData"
 import jobContainer from "../../css/jobContainer.css"
 import AstControls from "./astControls"
@@ -154,6 +155,11 @@ class JobContainer extends Component {
                     <div className="lowerJobContainerRight">
                         <div className="jobMediaContainer">
                             {this.props.mediaReducer[this.props.mediaId]  && <JobMediaDisplayContainer mediaId={this.props.mediaId}/>}
+                        </div>
+                        <div className="joMediaContentContainer">
+                            <MediaContentContainer mediaId={this.props.mediaId}/>
+
+
                         </div>
                     </div>
                     <div className="commentsContainer">

@@ -14,7 +14,7 @@ import {setErrorState} from '../error_state'
 import {receiveMediaSearch} from '../mediaSearch'
 import {receiveCampusOrgs} from '../campusOrgs'
 import {addMediaToTempJob} from '../tempJobsForm'
-
+import  download  from 'downloadjs';
 
 import { v1 as uuidv1 } from 'uuid';
 
@@ -330,10 +330,27 @@ export function reFetchMediaAfterUpload(media_id, unique_id) {
         return fetch(`${server_url}/media?id=${media_id}`)
             .then(response => errorHandler(response, dispatch, unique_id, LoadingMedia), error => {console.log(error)})
             .then(response => responseHandler(response, dispatch, [addMediaToTempJob], unique_id, LoadingMedia))
-
-
     }
 
+}
 
+export function downloadCaptionFile(item_id, media_id) {
+
+
+    return dispatch => {
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/services/download/caption?item_id=${item_id}&media_id=${media_id}`)
+            .then(function(response){
+                console.log(response.headers, response.headers.get('X-Something'))
+                let filename = response.headers.get('Content-Disposition').split("filename=")[1]
+                response.blob().then(
+                    function (blob) {
+                        download(blob, response.headers.get('Content-Disposition').split("filename=")[1], 'text/srt')
+                    }
+                )
+            })
+            .then(blob => dispatch(LoadingMedia(false)))
+
+    }
 
 }
