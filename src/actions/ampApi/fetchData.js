@@ -338,6 +338,7 @@ export function downloadCaptionFile(item_id, media_id) {
 
 
     return dispatch => {
+
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/download/caption?item_id=${item_id}&media_id=${media_id}`)
             .then(function(response){
@@ -350,7 +351,6 @@ export function downloadCaptionFile(item_id, media_id) {
                 )
             })
             .then(blob => dispatch(LoadingMedia(false)))
-
     }
 
 }

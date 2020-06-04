@@ -224,3 +224,14 @@ margin-right: 5px;
 .tabulator-header {
     height: 0;
 }
+
+.mediaContentContainer {
+    display: flex;
+
+
+}
+
+.mediaContentSelectors {
+
+    display: flex;
+}

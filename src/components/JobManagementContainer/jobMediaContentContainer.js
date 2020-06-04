@@ -4,10 +4,13 @@ import {connect} from "react-redux";
 import Select from "react-select";
 import {customStyles} from "./selectCustomStyle";
 import GetAppIcon from '@material-ui/icons/GetApp';
+import PublishIcon from '@material-ui/icons/Publish';
 import Button from "@material-ui/core/Button";
 import {downloadCaptionFile} from '../../actions/ampApi/fetchData'
+import {uploadCaptionFileWithMediaId, uploadMediaFromJobView} from "../../actions/ampApi/postData"
 import { saveAs } from 'file-saver';
-
+import green from "@material-ui/core/colors/green";
+import {v1 as uuidv1} from "uuid";
 
 class MediaContentContainer extends Component {
 
@@ -15,45 +18,169 @@ class MediaContentContainer extends Component {
         super(props);
         this.state = {
             captionFiles: this.props.captionFiles,
-            captionSelectValue: '',
-            mediaFiles: []
+            caption_select: '',
+            media_select: '',
+            mediaFiles: this.props.mediaFiles,
+            capFileUpload:"",
+            mediaFileUpload:"",
+            cap_temp_id: "",
+            media_temp_id:""
 
         };
 
         this.downloadCaption = this.downloadCaption.bind(this)
-        this.updateState = this.updateState.bind(this)
+        this.updateCapSelectState = this.updateCapSelectState.bind(this)
+        this.setCaptionFile = this.setCaptionFile.bind(this)
+        this.uploadCaptionFile = this.uploadCaptionFile.bind(this)
+        this.updateMediaSelectState = this.updateMediaSelectState.bind(this)
+        this.downloadMedia = this.downloadMedia.bind(this)
+        this.setMediaFile = this.setMediaFile.bind(this)
+        this.uploadMediaFile = this.uploadMediaFile.bind(this)
     }
 
-    downloadCaption(event) {
-        // saveAs('http://localhost:5000/api/v2/captioning/services/download/caption?item_id=6&media_id=826', "test.srt")
-        console.log(this.state.captionSelectValue)
-        //
-        this.props.dispatch(downloadCaptionFile(this.state.captionSelectValue.caption_id, this.props.mediaId))
+    // Cap select methods
 
-    }
-
-
-    updateState(event){
-
-        console.log(event)
+    downloadCaption() {
+        this.props.dispatch(downloadCaptionFile(this.state.caption_select.caption_id, this.props.mediaId))
         this.setState({
-            captionSelectValue: event
+            capFileUpload:""
+        })
+    }
+
+    setCaptionFile(event) {
+
+        document.getElementById('captionUpload').click();
+        document.getElementById('captionUpload').onchange = () => {
+
+            let fileReader = new FileReader()
+            fileReader.readAsArrayBuffer(document.getElementById('captionUpload').files[0])
+            let fileToSend = new FormData()
+            fileToSend.append(document.getElementById('captionUpload').files[0].name,
+                document.getElementById('captionUpload').files[0])
+
+            this.setState({
+                capFileUpload:fileToSend,
+                cap_temp_id: uuidv1()
+            });
+        }
+
+    }
+
+    uploadCaptionFile(event) {
+
+        this.props.dispatch(uploadCaptionFileWithMediaId(this.state.capFileUpload, this.props.mediaId, this.state.cap_temp_id))
+
+    }
+
+    // file select methods
+
+    downloadMedia() {
+        this.props.dispatch(downloadCaptionFile(this.state.caption_select.caption_id, this.props.mediaId))
+    }
+
+    setMediaFile(event) {
+
+        document.getElementById('mediaFileUpload').click();
+        document.getElementById('mediaFileUpload').onchange = () => {
+
+            let fileReader = new FileReader()
+            fileReader.readAsArrayBuffer(document.getElementById('mediaFileUpload').files[0])
+            let fileToSend = new FormData()
+            fileToSend.append(document.getElementById('mediaFileUpload').files[0].name,
+                document.getElementById('mediaFileUpload').files[0])
+
+            this.setState({
+                mediaFileUpload:fileToSend,
+                cap_temp_id: uuidv1()
+            });
+        }
+
+    }
+
+    uploadMediaFile(event) {
+
+        this.props.dispatch(uploadMediaFromJobView(this.state.mediaFileUpload, this.props.mediaId, this.state.cap_temp_id))
+        this.setState({
+            mediaFileUpload:""
+        })
+
+
+    }
+
+    //
+
+    updateCapSelectState(event){
+        this.setState({
+            caption_select: event
+        });
+
+    }
+
+    updateMediaSelectState(event){
+        this.setState({
+            media_select: event
         });
 
     }
 
     render() {
-        console.log(this.state.captionFiles)
+
+        let downloadDisabled = this.state.caption_select === ''
+
         return (
             <div className="mediaContentContainer">
-                <Select
-                    name="caption_select"
-                    onChange={this.updateState}
-                    styles={customStyles}
-                    value={this.state.captionSelectValue}
-                    options={this.state.captionFiles
-                    }/>
-               <Button onClick={this.downloadCaption}><GetAppIcon/></Button>
+
+                <div className={"mediaContentSelectors"}>
+                    <div>
+
+                        <label style={{display: "block", fontSize: '12px'}} form={"caption_select"}>Caption Files</label>
+                        <Select
+                            style={{display: "block"}}
+                            name="caption_select"
+                            onChange={this.updateCapSelectState}
+                            styles={customStyles}
+                            value={this.state.caption_select}
+                            options={this.state.captionFiles
+                            }/>
+                    </div>
+                    <div>
+                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"caption_select"}>Download</label>
+                        <Button disabled={downloadDisabled} onClick={this.downloadCaption}><GetAppIcon fontSize="small"/></Button>
+                        <input id='captionUpload' type='file' accept="text/*" hidden={true}/>
+                    </div>
+                    <div>
+                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"caption_select"}>Upload</label>
+                        {this.state.capFileUpload === "" && <Button onClick={this.setCaptionFile}><PublishIcon color="primary" fontSize="small"/></Button>}
+                        {this.state.capFileUpload !== "" && <Button onClick={this.uploadCaptionFile}><PublishIcon style={{ color: green[500] }} fontSize="small"/></Button>}
+                    </div>
+                </div>
+                <div className={"mediaContentSelectors"}>
+                    <div>
+                        <label style={{display: "block", fontSize: '12px'}} form={"caption_select"}>Media Files</label>
+                        <Select
+                            name="media_select"
+                            onChange={this.updateMediaSelectState}
+                            styles={customStyles}
+                            value={this.state.media_select}
+                            options={this.state.mediaFiles
+                            }/>
+                    </div>
+                    <div>
+                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"caption_select"}>Download</label>
+                        <Button style={{marginRight: "4px"}} disabled={downloadDisabled} onClick={this.downloadMedia}><GetAppIcon fontSize="small"/></Button>
+                        <input id='mediaFileUpload' type='file' accept="video/*" hidden={true}/>
+                    </div>
+                    <div>
+                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"caption_select"}>Upload</label>
+                        {this.state.mediaFileUpload === "" && <Button onClick={this.setMediaFile}><PublishIcon color="primary" fontSize="small"/></Button>}
+                        {this.state.mediaFileUpload !== "" && <Button onClick={this.uploadMediaFile}><PublishIcon style={{ color: green[500] }} fontSize="small"/></Button>}
+                    </div>
+
+
+
+                </div>
+
+
             </div>
 
         )
@@ -64,11 +191,13 @@ class MediaContentContainer extends Component {
 function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {mediaId}) {
 
     let captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
+        console.log("DLKFJGSDKLJG", mediaId, mediaReducer[mediaId], mediaReducer[mediaId].media_objects)
         if (currentValue.associated_captions !== null) {
             accumulator.push({caption_id:currentValue.associated_captions.id, value:currentValue.associated_captions.file_name, label:currentValue.associated_captions.file_name, association_id:currentValue.id})
         }
         return accumulator
     },[])
+
     let mediaFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
         if (currentValue.associated_files !== null) {
             accumulator.push({file_id:currentValue.associated_files.id, value:currentValue.associated_files.file_name, label:currentValue.associated_files.file_name, association_id:currentValue.id})

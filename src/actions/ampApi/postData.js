@@ -7,7 +7,7 @@ import {receiveMediaSearch} from '../mediaSearch'
 import { batch } from 'react-redux'
 import {setErrorState} from "../error_state";
 import {receiveCapJobs, addNewAstJob} from "../existingVideoJobs";
-import {addMediaFromCapJobs} from "../media";
+import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia} from "../media";
 import {v1 as uuidv1} from "uuid";
 
 import {reFetchMediaAfterUpload} from './fetchData'
@@ -172,6 +172,58 @@ export function uploadVideoWithMediaId(video, media_id, temp_id) {
                 dispatch(reFetchMediaAfterUpload(media_id, temp_id))
             })
 }
+}
+
+
+export function uploadMediaFromJobView(video, media_id, temp_id) {
+
+    // imports fetch statement to fetch new media info after file upload. Directly updates tempJobstate
+    let post_object = {
+        method: 'POST',
+        body: video,
+        headers: {
+            'Content-Type': "video/mp4"
+        }};
+
+    return dispatch => {
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/services/upload/file?media_id=${media_id}`, post_object)
+            .then(response => {if (response.ok){
+                fetch(`${server_url}/media-objects?media_id=${media_id}`).then(
+                    response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})
+                    .then(
+                        response => {responseHandler(response, dispatch, [addMediaFileToMedia], temp_id, LoadingMedia)}
+                    )
+            } else {alert("Something went wrong with upload")} } )
+    }
+}
+
+
+export function uploadCaptionFileWithMediaId(captionFile, media_id, temp_id) {
+
+    let post_object = {
+        method: 'POST',
+        body: captionFile,
+        headers: {
+            'Content-Type': "application/x-subrip"
+        }};
+
+
+
+    return dispatch => {
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/services/upload/caption?media_id=${media_id}`, post_object)
+            .then(response => {if (response.ok){
+                fetch(`${server_url}/media-objects?media_id=${media_id}`).then(
+                    response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})
+                    .then(
+                        response => {responseHandler(response, dispatch, [addCaptionFileToMedia], temp_id, LoadingMedia)}
+
+                    )
+            } else {alert("Something went wrong with upload")} } )
+
+    }
+
 }
 
 export function addAstJobToCaptioningJob(job_id, rate, temp_id) {

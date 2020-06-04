@@ -118,6 +118,7 @@ class NewMediaContainer extends Component {
     checkIfFileExists(event) {
 
             let fileReader = new FileReader()
+
             fileReader.onload = (completionEvent) => {
                 let slicedFile = fileReader.result.slice(0, 1024)
                 let wordArray = CryptoJS.lib.WordArray.create(slicedFile)
@@ -131,14 +132,13 @@ class NewMediaContainer extends Component {
                 })
 
             }
+
             fileReader.readAsArrayBuffer(event.target.files[0])
             let fileToSend = new FormData()
             fileToSend.append(event.target.files[0].name ,event.target.files[0])
             this.setState({
                 fileToSend: fileToSend,
             })
-
-
 
     }
 

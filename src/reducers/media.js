@@ -1,4 +1,4 @@
-import {RECEIVE_MEDIA, ADD_MEDIA, ADD_MEDIA_FROM_CAP_JOBS} from "../actions/media";
+import {RECEIVE_MEDIA, ADD_MEDIA, ADD_MEDIA_FROM_CAP_JOBS, ADD_CAP_FILE_TO_MEDIA, ADD_MEDIA_FILE_TO_MEDIA} from "../actions/media";
 
 export default function mediaReducer (state={}, action) {
 
@@ -21,10 +21,39 @@ export default function mediaReducer (state={}, action) {
             }
 
         case ADD_MEDIA_FROM_CAP_JOBS:
-            console.log("ADDING MEDIA FROM CAP JO", action.media)
+
             return {
                 ...state,
                 ...action.media
+
+            }
+
+
+        case ADD_CAP_FILE_TO_MEDIA:
+
+
+            let newObjectAssignments = Object.keys(action.captionFile).reduce((accumulator, element) => {
+
+                accumulator.push(action.captionFile[element])
+                return accumulator
+                },[])
+
+            return {
+                ...state,
+                [action.mediaId]:{...state[action.mediaId], media_objects: newObjectAssignments}
+
+            }
+
+        case ADD_MEDIA_FILE_TO_MEDIA:
+
+            let newMediaObjectAssignments = Object.keys(action.mediaFile).reduce((accumulator, element) => {
+                accumulator.push(action.mediaFile[element])
+                return accumulator
+            },[])
+
+            return {
+                ...state,
+                [action.mediaId]:{...state[action.mediaId], media_objects: newMediaObjectAssignments}
 
             }
 
