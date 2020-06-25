@@ -8,7 +8,6 @@ import PublishIcon from '@material-ui/icons/Publish';
 import Button from "@material-ui/core/Button";
 import {downloadCaptionFile} from '../../actions/ampApi/fetchData'
 import {uploadCaptionFileWithMediaId, uploadMediaFromJobView} from "../../actions/ampApi/postData"
-import { saveAs } from 'file-saver';
 import green from "@material-ui/core/colors/green";
 import {v1 as uuidv1} from "uuid";
 
@@ -104,7 +103,6 @@ class MediaContentContainer extends Component {
             mediaFileUpload:""
         })
 
-
     }
 
     //
@@ -175,12 +173,7 @@ class MediaContentContainer extends Component {
                         {this.state.mediaFileUpload === "" && <Button onClick={this.setMediaFile}><PublishIcon color="primary" fontSize="small"/></Button>}
                         {this.state.mediaFileUpload !== "" && <Button onClick={this.uploadMediaFile}><PublishIcon style={{ color: green[500] }} fontSize="small"/></Button>}
                     </div>
-
-
-
                 </div>
-
-
             </div>
 
         )

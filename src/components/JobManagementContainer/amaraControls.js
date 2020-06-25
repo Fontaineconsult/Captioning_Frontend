@@ -15,9 +15,10 @@ class AmaraControls extends Component {
     }
 
     render() {
+        console.log("GGEERRGG", this.props.amaraResource)
         return (
             <div className="astControls">
-                AMARA CONTROLS GO HERE
+                {this.props.amaraResource.url}
             </div>
 
         )
@@ -26,9 +27,10 @@ class AmaraControls extends Component {
 }
 
 
-function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {jobsLoading}) {
+function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {amaraResource}) {
 
     return {
+        amaraResource
 
     }
 }

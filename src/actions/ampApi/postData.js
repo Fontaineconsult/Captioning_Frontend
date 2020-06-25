@@ -159,12 +159,13 @@ export function uploadVideoWithMediaId(video, media_id, temp_id) {
         method: 'POST',
         body: video,
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': "video/mp4",
+            'media_id': media_id
         }};
 
     return dispatch => {
         dispatch(LoadingMedia(true));
-        return fetch(`${server_url}/services/upload/file?media_id=${media_id}`, post_object)
+        return fetch(`${server_url}/services/upload/file`, post_object)
             .then(response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})
             .then(response => {
                 dispatch(updateTempJobsUploadState(temp_id, true),
@@ -182,12 +183,13 @@ export function uploadMediaFromJobView(video, media_id, temp_id) {
         method: 'POST',
         body: video,
         headers: {
-            'Content-Type': "video/mp4"
+            'Content-Type': "video/mp4",
+            'media_id': media_id
         }};
 
     return dispatch => {
         dispatch(LoadingMedia(true));
-        return fetch(`${server_url}/services/upload/file?media_id=${media_id}`, post_object)
+        return fetch(`${server_url}/services/upload/file}`, post_object)
             .then(response => {if (response.ok){
                 fetch(`${server_url}/media-objects?media_id=${media_id}`).then(
                     response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})

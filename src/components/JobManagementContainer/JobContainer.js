@@ -7,7 +7,7 @@ import MediaContentContainer from "./jobMediaContentContainer"
 import {updateVideoJob} from "../../actions/ampApi/putData"
 import jobContainer from "../../css/jobContainer.css"
 import AstControls from "./astControls"
-import AmaraControls from "./amaraControls";
+import AmaraControls from "./amaraControlsContainer";
 import moment from 'moment'
 
 class JobContainer extends Component {
@@ -193,7 +193,7 @@ class JobContainer extends Component {
                         <AstControls job_id={this.props.jobId} ast_jobs={this.props.job.ast_jobs} media_id = {this.props.job.media.id} />
                     </div>
                     <div className="pluginContainer">
-                        <AmaraControls/>
+                        <AmaraControls media_id={this.props.mediaId}/>
                     </div>
 
                 </div>
