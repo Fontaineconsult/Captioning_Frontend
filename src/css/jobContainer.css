@@ -232,6 +232,11 @@ margin-right: 5px;
 }
 
 .mediaContentSelectors {
-
+    width: 50%;
     display: flex;
+}
+
+.amaraControls {
+    display: flex;
+
 }

@@ -1,4 +1,4 @@
-import {RECEIVE_MEDIA, ADD_MEDIA, ADD_MEDIA_FROM_CAP_JOBS, ADD_CAP_FILE_TO_MEDIA, ADD_MEDIA_FILE_TO_MEDIA} from "../actions/media";
+import {RECEIVE_MEDIA, ADD_MEDIA, ADD_MEDIA_FROM_CAP_JOBS, ADD_CAP_FILE_TO_MEDIA, ADD_MEDIA_FILE_TO_MEDIA, UPDATE_MEDIA} from "../actions/media";
 
 export default function mediaReducer (state={}, action) {
 
@@ -25,6 +25,15 @@ export default function mediaReducer (state={}, action) {
             return {
                 ...state,
                 ...action.media
+
+            }
+
+
+        case UPDATE_MEDIA:
+
+            return {
+                ...state,
+                [action.mediaId]:{...action.media[action.mediaId]}
 
             }
 

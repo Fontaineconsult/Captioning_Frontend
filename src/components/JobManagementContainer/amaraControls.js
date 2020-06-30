@@ -15,10 +15,16 @@ class AmaraControls extends Component {
     }
 
     render() {
-        console.log("GGEERRGG", this.props.amaraResource)
         return (
-            <div className="astControls">
-                {this.props.amaraResource.url}
+            <div className="amaraControls">
+                <div>
+                    <a target="_blank" href={this.props.amaraResource.url}>{this.props.amaraResource.url}</a>
+                </div>
+
+                <div className="amaraCapStatus">
+                    <div>Uploaded: {this.props.amaraResource.captions_uploaded ? ("True") : ("False")}</div>
+                    <div>Complete: {this.props.amaraResource.captions_uploaded ? ("True") : ("False")}</div>
+                </div>
             </div>
 
         )

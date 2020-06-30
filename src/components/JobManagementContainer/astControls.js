@@ -6,7 +6,6 @@ import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import moment from 'moment'
 import AstModalContainer from "./astConfirmModal";
 import {initializeASTJob} from "../../actions/ampApi/putData"
-
 import {astJobURL} from "../../constants";
 
 
@@ -31,7 +30,6 @@ class AstJobControlMenu extends Component {
 
         let ast_job_id = props.cell._cell.row.data.id
         let ast_status = props.cell._cell.row.data.ast_link
-
         if (ast_status === null) {
             return(<Button onClick={e => this.initASTJob(ast_job_id, this.props.job_id)}>Init</Button>)
         }
@@ -107,7 +105,6 @@ class AstJobControlMenu extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         let data = []
-
         if (prevProps.expanded !== this.props.expanded) {
 
             if (!this.props.expanded) {
@@ -119,14 +116,12 @@ class AstJobControlMenu extends Component {
                         data.push(this.formatData(this.props.ast_jobs[item]))
                     }
                 )
-
             }
             this.setState({
                 data:data
             })
 
         }
-
     }
 
     render() {
@@ -154,8 +149,6 @@ class AstControls extends Component {
         this.shrinkView = this.shrinkView.bind(this)
         this.expandView = this.expandView.bind(this)
     }
-
-
 
     expandView() {
         this.setState({

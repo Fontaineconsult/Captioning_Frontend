@@ -3,6 +3,8 @@ export const ADD_MEDIA = 'ADD_MEDIA';
 export const ADD_MEDIA_FROM_CAP_JOBS = 'ADD_MEDIA_FROM_CAP_JOBS'
 export const ADD_CAP_FILE_TO_MEDIA = 'ADD_CAP_FILE_TO_MEDIA'
 export const ADD_MEDIA_FILE_TO_MEDIA = 'ADD_MEDIA_FILE_TO_MEDIA'
+export const UPDATE_MEDIA = 'UPDATE_MEDIA'
+
 
 export function receiveMedia(media) {
 
@@ -67,3 +69,18 @@ export function addMediaFileToMedia(mediaFile) {
         mediaId
 
     }}
+
+
+export function updateMedia(media) {
+
+    let mediaId = Object.keys(media)[0]
+
+    return {
+        type: UPDATE_MEDIA,
+        media,
+        mediaId
+
+    }
+
+
+}

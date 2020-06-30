@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Select from "react-select";
-import {customStyles} from "./selectCustomStyle";
+import {mediaSelectCustomStyles} from "./selectCustomStyle";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
 import Button from "@material-ui/core/Button";
@@ -136,7 +136,7 @@ class MediaContentContainer extends Component {
                             style={{display: "block"}}
                             name="caption_select"
                             onChange={this.updateCapSelectState}
-                            styles={customStyles}
+                            styles={mediaSelectCustomStyles}
                             value={this.state.caption_select}
                             options={this.state.captionFiles
                             }/>
@@ -158,7 +158,7 @@ class MediaContentContainer extends Component {
                         <Select
                             name="media_select"
                             onChange={this.updateMediaSelectState}
-                            styles={customStyles}
+                            styles={mediaSelectCustomStyles}
                             value={this.state.media_select}
                             options={this.state.mediaFiles
                             }/>

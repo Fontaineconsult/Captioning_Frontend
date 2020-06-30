@@ -7,7 +7,7 @@ import {receiveMediaSearch} from '../mediaSearch'
 import { batch } from 'react-redux'
 import {setErrorState} from "../error_state";
 import {receiveCapJobs, addNewAstJob} from "../existingVideoJobs";
-import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia} from "../media";
+import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia, updateMedia} from "../media";
 import {v1 as uuidv1} from "uuid";
 
 import {reFetchMediaAfterUpload} from './fetchData'
@@ -39,7 +39,6 @@ function responseHandler(response, dispatch, reducer, unique_id, statusReducer) 
                     dispatch(cur_reducer(data['content'], unique_id))})})
             .then(data => dispatch(statusReducer(false)))
     }
-
     return response
 
 }
@@ -175,7 +174,6 @@ export function uploadVideoWithMediaId(video, media_id, temp_id) {
 }
 }
 
-
 export function uploadMediaFromJobView(video, media_id, temp_id) {
 
     // imports fetch statement to fetch new media info after file upload. Directly updates tempJobstate
@@ -199,7 +197,6 @@ export function uploadMediaFromJobView(video, media_id, temp_id) {
             } else {alert("Something went wrong with upload")} } )
     }
 }
-
 
 export function uploadCaptionFileWithMediaId(captionFile, media_id, temp_id) {
 
@@ -251,5 +248,70 @@ export function addAstJobToCaptioningJob(job_id, rate, temp_id) {
 
 }
 
+export function createAmaraResource(media_id, file_id) {
+
+    let error_id = uuidv1()
+    let post_object
+    if (file_id === undefined) {
+
+        post_object = {
+            method: "POST",
+            body: JSON.stringify({"action": "create-amara-resource", "media_id": media_id}),
+            headers: {
+                'Content-Type': 'application/json'
+            }};
+
+    } else {
+
+        post_object = {
+            method: "POST",
+            body: JSON.stringify({"action": "create-amara-resource", "media_id": media_id, "file_id": file_id}),
+            headers: {
+                'Content-Type': 'application/json'
+            }};
+    }
 
 
+    return dispatch => {
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/services/amara`, post_object)
+            .then(response => {if (response.ok){
+                fetch(`${server_url}/media?id=${media_id}`).then(
+                    response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
+                    .then(
+                        response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
+
+                    )
+            } else {alert("Something went wrong with upload")} } )
+
+    }
+
+
+}
+
+
+export function addSRTtoAmaraResource(caption_id, amara_id, media_id) {
+    let error_id = uuidv1()
+    let post_object = {
+        method: "POST",
+        body: JSON.stringify({"action": "attach-amara-caption", "caption_id": caption_id, "amara_id": amara_id}),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+    console.log(caption_id, amara_id, media_id)
+
+    return dispatch => {
+
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/services/amara`, post_object)
+            .then(response => {if (response.ok){
+                fetch(`${server_url}/media?id=${media_id}`).then(
+                    response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
+                    .then(
+                        response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
+
+                    )
+            } else {alert("Something went wrong with upload")} } )
+
+}}
