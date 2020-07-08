@@ -30,7 +30,7 @@ class AddJobsiLearnContainer extends Component {
             });
 
             let reducer_obj = {
-                show_date: moment(row.indicated_due_date, "MM/DD/YYYY", true).isValid() ? row.indicated_due_date : null,
+                show_date: moment(row.indicated_due_date, "MM/DD/YYYY", true).isValid() ? row.indicated_due_date : moment().add(2,'days'),
                 delivery_format: "Amara",
                 comments: "Added from iLearn Page",
                 requester_id: requester_id,
