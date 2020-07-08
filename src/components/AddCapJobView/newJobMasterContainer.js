@@ -90,7 +90,7 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
     })
 
     if (loadingStatusReducer['instructorsLoading'] === false) {
-        if (Object.keys(campusOrgReducer).length > 0 &&  Object.keys(coursesReducer).length > 0) {
+        if (Object.keys(coursesReducer).length > 0) {
             courseIds = Object.keys(coursesReducer).map(currentCourse => {
                 return  Object.keys(requesterReducer).reduce((accumulator, currentRequester) => {
                     if (requesterReducer[currentRequester].course_id === currentCourse) {
@@ -102,19 +102,24 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
                     return accumulator
                 },[])
             });
-            campusOrgs = Object.keys(campusOrgReducer).map(currentOrg => {
-                return Object.keys(requesterReducer).reduce((accumulator, currentRequester) => {
-                    if (requesterReducer[currentRequester].campus_org_id === parseInt(currentOrg, 10)) {
-                        const org = {requester_id: requesterReducer[currentRequester].id,
-                            label: campusOrgReducer[currentOrg].organization_name + " | " + employeesReducer[requesterReducer[currentRequester].org_employee_id].employee_first_name + " " + employeesReducer[requesterReducer[currentRequester].org_employee_id].employee_last_name,
-                            value:campusOrgReducer[currentOrg].organization_name}
-                        accumulator.push(org)
-                    }
-                    return accumulator
+
+            if (Object.keys(campusOrgReducer).length > 0) {
+
+                campusOrgs = Object.keys(campusOrgReducer).map(currentOrg => {
+                    return Object.keys(requesterReducer).reduce((accumulator, currentRequester) => {
+                        if (requesterReducer[currentRequester].campus_org_id === parseInt(currentOrg, 10)) {
+                            const org = {requester_id: requesterReducer[currentRequester].id,
+                                label: campusOrgReducer[currentOrg].organization_name + " | " + employeesReducer[requesterReducer[currentRequester].org_employee_id].employee_first_name + " " + employeesReducer[requesterReducer[currentRequester].org_employee_id].employee_last_name,
+                                value:campusOrgReducer[currentOrg].organization_name}
+                            accumulator.push(org)
+                        }
+                        return accumulator
+                    },[])
+                }).reduce((accumulator, currentOrg) => {
+                    return accumulator.concat(currentOrg)
                 },[])
-            }).reduce((accumulator, currentOrg) => {
-                return accumulator.concat(currentOrg)
-            },[])
+
+            }
 
         }
 
