@@ -44,7 +44,6 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
 
     let amaraResource = mediaReducer[media_id].captioned_resources[0]
 
-    console.log("ZPPPRRROOO", amaraResource)
     return {
 
         amaraResource

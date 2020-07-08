@@ -80,7 +80,6 @@ class AstModalContainer extends Component {
     }
 
     createAstJob(event) {
-        console.log(event)
 
     }
 

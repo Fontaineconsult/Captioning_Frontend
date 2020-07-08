@@ -4,6 +4,7 @@ export const ADD_MEDIA_FROM_CAP_JOBS = 'ADD_MEDIA_FROM_CAP_JOBS'
 export const ADD_CAP_FILE_TO_MEDIA = 'ADD_CAP_FILE_TO_MEDIA'
 export const ADD_MEDIA_FILE_TO_MEDIA = 'ADD_MEDIA_FILE_TO_MEDIA'
 export const UPDATE_MEDIA = 'UPDATE_MEDIA'
+export const UPDATE_MEDIA_DEEP = 'UPDATE_MEDIA_DEEP'
 
 
 export function receiveMedia(media) {
@@ -25,6 +26,8 @@ export function addMedia(media) {
 
 
 }
+
+
 
 export function addMediaFromCapJobs(capJobs) {
 
@@ -82,5 +85,16 @@ export function updateMedia(media) {
 
     }
 
+}
+
+export function updateMediaDeep(media_id, key, value) {
+
+    return {
+        type: UPDATE_MEDIA_DEEP,
+        media_id,
+        key,
+        value
+
+    }
 
 }

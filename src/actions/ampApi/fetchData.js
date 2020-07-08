@@ -9,7 +9,7 @@ import receiveRequester from '../requester'
 import receiveRequesterResources from '../requests'
 import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs, LoadingPermissions, LoadingRequests} from '../status'
 import receiveUserPermissions from '../userPermission'
-import {serverURL} from '../../constants'
+import {endpoint} from '../../constants'
 import {setErrorState} from '../error_state'
 import {receiveMediaSearch} from '../mediaSearch'
 import {receiveCampusOrgs} from '../campusOrgs'
@@ -21,7 +21,7 @@ import { v1 as uuidv1 } from 'uuid';
 import fetch from "cross-fetch";
 
 
-const server_url = serverURL();
+const server_url = endpoint();
 
 
 
@@ -127,9 +127,7 @@ export function fetchAllCourses(semester) {
             .then(data => dispatch(receiveCourses(data)))
             .then(() => dispatch(LoadingCourses(false)))
             .then(data => console.log(data))
-
     }
-
 
 }
 
@@ -144,8 +142,6 @@ export function fetchCoursesbyInstructorId(instructor_id) {
             .then(data => console.log(data))
 
     }
-
-
 }
 
 export function fetchAllVideoJobsBySemester(semester) {
@@ -156,12 +152,10 @@ export function fetchAllVideoJobsBySemester(semester) {
         dispatch(LoadingVideoJobs(true))
         dispatch(LoadingMedia(false))
         return fetch(`${server_url}/video-jobs?semester=${semester}&requester_id=all`)
-            .then(response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
+            .then(response => errorHandler(response, dispatch, error_id, LoadingVideoJobs), error => {console.log(error)})
             .then(response => (responseHandler(response, dispatch, [receiveCapJobs, addMediaFromCapJobs], error_id, LoadingVideoJobs)))
             .then(data => console.log(data))
     }
-
-
 }
 
 
@@ -176,8 +170,6 @@ export function fetchStudent(student_id) {
             .then(data => console.log(data))
 
     }
-
-
 }
 
 export function fetchAllStudents() {
@@ -192,23 +184,20 @@ export function fetchAllStudents() {
 
     }
 
-
 }
 
 
-
-
-
 export function fetchIlearnVideosBySemester(semester) {
+    let error_id = uuidv1()
     return dispatch => {
         dispatch(receiveIlearnVideos());
         dispatch(LoadingIlearnVideos(true))
         return fetch(`${server_url}/ilearn-videos?semester=${semester}`)
-            .then(response => errorHandler(response, dispatch))
-            .then(response => response.json())
-            .then(data => dispatch(receiveIlearnVideos(data['content'])))
-            .then(() => dispatch(LoadingIlearnVideos(false)))
+            .then(response => errorHandler(response, dispatch, error_id, LoadingIlearnVideos), error => {console.log(error)})
+            .then(response => (responseHandler(response, dispatch, [receiveIlearnVideos], error_id, LoadingIlearnVideos)))
             .then(data => console.log(data))
+
+
     }
 
 }
@@ -227,7 +216,6 @@ export function fetchiLearnVideosByInstructorId(instructor_id, semester){
             .then(data => console.log(data))
 
     }
-
 
 }
 

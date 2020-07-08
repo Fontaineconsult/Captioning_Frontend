@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {fileDownloadUrl} from '../../constants'
-
+import CaptionResourceContainer from './captionResourceContainer'
 
 class JobMediaDisplayContainer extends Component {
 
@@ -51,9 +51,7 @@ class JobMediaDisplayContainer extends Component {
                                 <div className="mediaContentDescriptor">
                                     Captioned URL:
                                 </div>
-                                <div>
-                                    <input type='input' name='captioned_url' value={this.state.captioned_url}/>
-                                </div>
+                                {/*<CaptionResourceContainer media_id={this.props.mediaId}/>*/}
                             </label>
                         </div>
                     </form>
@@ -94,7 +92,8 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
     return {
         media,
         fileObject,
-        download_url
+        download_url,
+        mediaId
 
     }
 }

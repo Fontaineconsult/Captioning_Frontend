@@ -1,7 +1,8 @@
 import {writeCourse} from '../courses'
+import {updateMediaDeep} from '../media'
 import {writeiLearnVideo} from '../ilearn_videos'
 import {api_failure} from '../../utilities/api/errors'
-import {serverURL} from '../../constants'
+import {endpoint} from '../../constants'
 import { batch } from 'react-redux'
 import {updateCapJob} from '../existingVideoJobs'
 import {LoadingIlearnVideos, LoadingVideoJobs} from '../status'
@@ -9,7 +10,7 @@ import {initASTJob} from '../existingVideoJobs'
 import fetch from "cross-fetch";
 
 
-const server_url = serverURL();
+const server_url = endpoint();
 
 
 function checkResponse(data) {
@@ -22,6 +23,30 @@ function checkResponse(data) {
 
     }
 }
+
+
+
+export function updateMedia(media_id, column, value) {
+
+    let data_object = { id: media_id, column: column, value: value };
+
+    let put_object = {
+        method: 'PUT',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    return dispatch => {
+
+        dispatch(updateMediaDeep(data_object));
+        return fetch(`${server_url}/media`, put_object)
+            .then(data => console.log(JSON.stringify(data.response)))
+            .catch(error => api_failure(error))
+    }}
+
+
+
 
 export function updateCourse(course_gen_id, column, value) {
 

@@ -12,6 +12,7 @@ import {
     Link
 } from "react-router-dom";
 
+import {devServerUrl} from '../constants'
 
 
 import {
@@ -80,11 +81,11 @@ class MasterContainer extends Component {
         return(
 
             <div className={"master-container"}>
-                <div className={"top-bar"}>Master Container</div>
+                <div className={"top-bar"}>
+                    <div>Master Container</div>
+                    <a href={`/authentication/logout`}>logout</a>
+                </div>
                 <Route path='/captioning'><NavigationMasterContainer query={this.props.query}/></Route>
-
-
-
             </div>
 
         )

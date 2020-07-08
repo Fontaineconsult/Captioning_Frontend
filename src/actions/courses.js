@@ -24,3 +24,5 @@ export function writeCourse(course_data) {
 
 
 }
+
+

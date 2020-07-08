@@ -184,7 +184,6 @@ function mapStateToProps({mediaReducer}, {media_id}) {
     let media_obj = mediaReducer[media_id]
 
     let captionFiles = mediaReducer[media_id].media_objects.reduce((accumulator, currentValue) => {
-        console.log("DLKFJGSDKLJG", media_id, mediaReducer[media_id], mediaReducer[media_id].media_objects)
         if (currentValue.associated_captions !== null) {
             accumulator.push({caption_id:currentValue.associated_captions.id, value:currentValue.associated_captions.file_name, label:currentValue.associated_captions.file_name, association_id:currentValue.id})
         }

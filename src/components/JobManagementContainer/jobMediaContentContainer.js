@@ -184,7 +184,6 @@ class MediaContentContainer extends Component {
 function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {mediaId}) {
 
     let captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
-        console.log("DLKFJGSDKLJG", mediaId, mediaReducer[mediaId], mediaReducer[mediaId].media_objects)
         if (currentValue.associated_captions !== null) {
             accumulator.push({caption_id:currentValue.associated_captions.id, value:currentValue.associated_captions.file_name, label:currentValue.associated_captions.file_name, association_id:currentValue.id})
         }

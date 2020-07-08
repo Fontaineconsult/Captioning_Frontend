@@ -1,6 +1,6 @@
 import fetch from "cross-fetch";
 import {api_failure} from "../../utilities/api/errors";
-import {serverURL} from '../../constants'
+import {endpoint} from '../../constants'
 import {LoadingIlearnVideos,LoadingMedia, LoadingVideoJobs} from "../status";
 import {addMediaToTempJob, updateTempJobsUploadState} from "../tempJobsForm"
 import {receiveMediaSearch} from '../mediaSearch'
@@ -13,7 +13,7 @@ import {v1 as uuidv1} from "uuid";
 import {reFetchMediaAfterUpload} from './fetchData'
 
 
-const server_url = serverURL();
+const server_url = endpoint();
 
 function errorHandler(response, dispatch, error_id){
 
