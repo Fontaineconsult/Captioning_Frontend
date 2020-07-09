@@ -14,6 +14,7 @@
     "@babel/register": "^7.8.3",
     "@material-ui/core": "^4.0.0-rc.0",
     "@material-ui/icons": "^4.0.1",
+    "@material-ui/pickers": "^3.2.10",
     "batch": "^0.6.1",
     "cross-fetch": "^3.0.2",
     "crypto-js": "^4.0.0",

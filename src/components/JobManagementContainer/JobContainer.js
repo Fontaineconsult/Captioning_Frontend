@@ -9,6 +9,7 @@ import jobContainer from "../../css/jobContainer.css"
 import AstControls from "./astControls"
 import AmaraControls from "./amaraControlsContainer";
 import moment from 'moment'
+import DatePicker from 'react-date-picker';
 
 class JobContainer extends Component {
 
@@ -35,10 +36,32 @@ class JobContainer extends Component {
         this.updateState = this.updateState.bind(this)
         this.dispatchInput = this.dispatchInput.bind(this)
         this.saveCurrentValue = this.saveCurrentValue.bind(this)
+        this.handleSetDate = this.handleSetDate.bind(this)
+        this.saveCurrentDateValue = this.saveCurrentDateValue.bind(this)
+        this.dispatchDateInput = this.dispatchDateInput.bind(this)
     }
 
-    updateState(event){
+    handleSetDate(value, name) {
 
+
+        this.setState({[name]: value})
+    }
+
+    saveCurrentDateValue(value, name) {
+
+        this.prev_value = this.state[name]
+
+    }
+
+    dispatchDateInput(value, name) {
+        if (value !== this.prev_value) {
+            this.props.dispatch(updateVideoJob(this.props.jobId, name, this.state[name]))
+        }
+    }
+
+
+    updateState(event){
+        console.log(event)
         const target = event.target;
         const value = target.name === 'priority' || target.name === 'rush_service_used' || target.name === 'transcripts_only' ? target.checked : target.value;
         const name = target.name;
@@ -74,9 +97,9 @@ class JobContainer extends Component {
             job_status: r.job_status,
             output_format: r.output_format,
             priority: r.priority,
-            request_date: moment(r.request_date).format("MMM Do YYYY"),
-            show_date: moment(r.show_date).format("MMM Do YYYY"),
-            delivered_date: moment(r.delivered_date).format("MMM Do YY"),
+            request_date: r.request_date,
+            show_date: r.show_date,
+            delivered_date: r.delivered_date ,
             requester_id: r.requester_id,
             rush_service_used: r.rush_service_used,
             transcripts_only: r.transcripts_only,
@@ -90,6 +113,7 @@ class JobContainer extends Component {
     }
 
     render() {
+
         return (
             <div className="job-container" tabIndex={0}>
 
@@ -133,21 +157,48 @@ class JobContainer extends Component {
                                     </label>
                                 </div>
                             <div className="upperJobContainerLeftContent">
+
                                 <label className="upperJobContainerLeftLabel">
                                     <div>Request Date</div>
-                                    <input className="upperJobContainerLeftContentInput" type="input" name="request_date"  onFocus={this.saveCurrentValue} value={this.state.request_date} onBlur={this.dispatchInput} onChange={this.updateState}/>
+
+                                    <DatePicker className="upperJobContainerLeftContentInput"
+                                                name="request_date"
+                                                clearIcon={null}
+                                                calendarIcon={null}
+                                                onFocus={(date) => this.saveCurrentDateValue(date, "request_date")}
+                                                value={new Date(this.state.request_date)}
+                                                onBlur={(date) => this.dispatchDateInput(date,"request_date")}
+                                                onChange={(date)=> this.handleSetDate(date, 'request_date')}
+                                                />
                                 </label>
                             </div>
                             <div className="upperJobContainerLeftContent">
                                 <label className="upperJobContainerLeftLabel">
                                     <div>Show Date</div>
-                                    <input className="upperJobContainerLeftContentInput" type="input" name="show_date" onFocus={this.saveCurrentValue} value={this.state.show_date} onBlur={this.dispatchInput} onChange={this.updateState}/>
+
+                                    <DatePicker className="upperJobContainerLeftContentInput"
+                                                name="show_date"
+                                                clearIcon={null}
+                                                calendarIcon={null}
+                                                onFocus={(date) => this.saveCurrentDateValue(date, "show_date")}
+                                                value={new Date(this.state.show_date)}
+                                                onBlur={(date) => this.dispatchDateInput(date,"show_date")}
+                                                onChange={(date)=> this.handleSetDate(date, 'show_date')}
+                                    />
                                 </label>
                             </div>
                             <div className="upperJobContainerLeftContent">
                                 <label className="upperJobContainerLeftLabel">
-                                    <div>Delivered Dat</div>
-                                    <input className="upperJobContainerLeftContentInput" type="input" name="delivered_date" onFocus={this.saveCurrentValue} value={this.state.delivered_date} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                                    <div>Delivered Date</div>
+                                    <DatePicker className="upperJobContainerLeftContentInput"
+                                                name="delivered_date"
+                                                clearIcon={null}
+                                                calendarIcon={null}
+                                                onFocus={(date) => this.saveCurrentDateValue(date, "delivered_date")}
+                                                value={new Date(this.state.delivered_date)}
+                                                onBlur={(date) => this.dispatchDateInput(date,"delivered_date")}
+                                                onChange={(date)=> this.handleSetDate(date, 'delivered_date')}
+                                    />
                                 </label>
                             </div>
                         </form>

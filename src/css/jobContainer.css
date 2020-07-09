@@ -193,6 +193,7 @@ width: 50%;
 .upperJobContainerLeftContentInput {
     width: 100px;
     margin-left: auto;
+    font-size:13px !important
 
 }
 
@@ -238,5 +239,10 @@ margin-right: 5px;
 
 .amaraControls {
     display: flex;
+
+}
+
+.reactDatePickerCustom {
+
 
 }
