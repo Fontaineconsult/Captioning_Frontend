@@ -9,13 +9,14 @@ import {customStyles} from './selectCustomStyle'
 import moment from "moment"
 import {CSSTransition, TransitionGroup}  from 'react-transition-group';
 import jobContainer from '../../css/jobContainer.css'
+import {LoadingVideoJobs} from "../../actions/status";
 
 class JobManagementControlContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key]),
+            videoJobs: [],
             courseIds: {},
             filterSelectedCourse: '',
             job_status_value: '',
@@ -71,17 +72,57 @@ class JobManagementControlContainer extends Component {
         })
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+        if (this.state.videoJobs.length !== Object.keys(this.props.videosJobsReducer).length) {
+
+            this.setState({
+                videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key])
+
+            })
+        }
+
+
+    }
+
+    componentDidMount() {
+
+        this.setState({
+            videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key])
+        })
+
+    }
+
+
     render() {
 
+        console.log("ITTEEMMSSS", this.state.videoJobs, this.props)
 
-        let items = this.state.videoJobs.length > 0 ? this.state.videoJobs.map(job => (
+        let items = []
+        if (!this.props.videoJobsLoading) {
 
-            <CSSTransition classNames="item" timeout={200} key={job.id}>
-                <JobContainer key={job.id} jobId={job.id}/>
-            </CSSTransition>
-            )
-        ) : (<div key="1">No Videos</div>)
+            if (this.state.videoJobs.length > 0) {
 
+                items = this.state.videoJobs.map(function(item, index){
+
+                    if (this.props.videosJobsReducer[item.id] !== undefined) {
+                        console.log("UNNDEFINNEEDDDDDDDD", this.props.videosJobsReducer[item.id])
+                        return (
+                            <CSSTransition classNames="item" timeout={200} key={item.id}>
+                                <JobContainer key={item.id} jobId={item.id}/>
+                            </CSSTransition>
+                        )
+                    }
+                },this)
+            }
+
+            if (items.length === 0) {
+                items = <div key="1">No Videos</div>
+            }
+
+
+
+        }
 
 
         return (
@@ -205,7 +246,8 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         requesterReducer,
         coursesReducer,
         requester,
-        courseSelectorContent
+        courseSelectorContent,
+        videoJobsLoading: loadingStatusReducer.videoJobsLoading
 
     }
 }

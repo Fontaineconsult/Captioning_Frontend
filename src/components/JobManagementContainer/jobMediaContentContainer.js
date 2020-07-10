@@ -183,19 +183,28 @@ class MediaContentContainer extends Component {
 
 function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {mediaId}) {
 
-    let captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
-        if (currentValue.associated_captions !== null) {
-            accumulator.push({caption_id:currentValue.associated_captions.id, value:currentValue.associated_captions.file_name, label:currentValue.associated_captions.file_name, association_id:currentValue.id})
-        }
-        return accumulator
-    },[])
+    let captionFiles
+    let mediaFiles
 
-    let mediaFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
-        if (currentValue.associated_files !== null) {
-            accumulator.push({file_id:currentValue.associated_files.id, value:currentValue.associated_files.file_name, label:currentValue.associated_files.file_name, association_id:currentValue.id})
-        }
-        return accumulator
-    },[])
+    if (mediaReducer.length > 0){
+
+
+        captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
+            if (currentValue.associated_captions !== null) {
+                accumulator.push({caption_id:currentValue.associated_captions.id, value:currentValue.associated_captions.file_name, label:currentValue.associated_captions.file_name, association_id:currentValue.id})
+            }
+            return accumulator
+        },[])
+
+        mediaFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
+            if (currentValue.associated_files !== null) {
+                accumulator.push({file_id:currentValue.associated_files.id, value:currentValue.associated_files.file_name, label:currentValue.associated_files.file_name, association_id:currentValue.id})
+            }
+            return accumulator
+        },[])
+
+
+    }
 
 
     return {

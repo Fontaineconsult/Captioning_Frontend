@@ -41,6 +41,7 @@ class MasterContainer extends Component {
             this.props.dispatch(fetchAllCourses(this.props.query.semester))
             this.props.dispatch(fetchAllOrgs())
             this.props.dispatch(fetchAllEmployees())
+            this.props.dispatch(fetchAllVideoJobsBySemester(this.props.query.semester))
 
 
         }
@@ -49,13 +50,14 @@ class MasterContainer extends Component {
             this.props.dispatch(assetDiscovery(this.props.query.id))
 
         }
-        this.props.dispatch(fetchAllVideoJobsBySemester(this.props.query.semester))
+
 
 
 
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'user') {
             if (Object.keys(this.props.requesterReducer).length !== Object.keys(prevProps.requesterReducer).length) {
 

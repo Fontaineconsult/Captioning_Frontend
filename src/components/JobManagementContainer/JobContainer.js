@@ -4,12 +4,14 @@ import {connect} from "react-redux";
 import mediaReducer from "../../reducers/media";
 import JobMediaDisplayContainer from "./JobMediaDisplayContainer"
 import MediaContentContainer from "./jobMediaContentContainer"
-import {updateVideoJob} from "../../actions/ampApi/putData"
+import {updateVideoJob, deleteVideoJob} from "../../actions/ampApi/putData"
 import jobContainer from "../../css/jobContainer.css"
 import AstControls from "./astControls"
 import AmaraControls from "./amaraControlsContainer";
-import moment from 'moment'
 import DatePicker from 'react-date-picker';
+import ClearIcon from '@material-ui/icons/Clear';
+
+
 
 class JobContainer extends Component {
 
@@ -39,6 +41,17 @@ class JobContainer extends Component {
         this.handleSetDate = this.handleSetDate.bind(this)
         this.saveCurrentDateValue = this.saveCurrentDateValue.bind(this)
         this.dispatchDateInput = this.dispatchDateInput.bind(this)
+        this.deleteRecord = this.deleteRecord.bind(this)
+    }
+
+
+    deleteRecord(event) {
+
+        if (window.confirm("Are you sure you want to delete this record?")) {
+            this.props.dispatch(deleteVideoJob(this.props.jobId, "deleted", true))
+
+        }
+
     }
 
     handleSetDate(value, name) {
@@ -58,7 +71,6 @@ class JobContainer extends Component {
             this.props.dispatch(updateVideoJob(this.props.jobId, name, this.state[name]))
         }
     }
-
 
     updateState(event){
         console.log(event)
@@ -125,6 +137,7 @@ class JobContainer extends Component {
                         <div tabIndex={0} className="upperJobContainerRightContent"><label>Requester </label>{this.state.employee_first_name} {this.state.employee_last_name} </div>
                         <div tabIndex={0} className="upperJobContainerRightContent"><label>Email </label> {this.state.employee_email}</div>
                         <div className="upperJobContainerRightContent"><label>RID </label> {this.state.requester_id}</div>
+                        <div><ClearIcon onClick={this.deleteRecord}/></div>
                     </div>
                 </div>
                 <div className="lowerJobContainer">
@@ -259,25 +272,38 @@ class JobContainer extends Component {
 
 function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, requesterReducer, coursesReducer, employeesReducer, campusOrgReducer}, {props, jobId}) {
     let job = videosJobsReducer[jobId];
-    let mediaId  = job.media.id;
+
+    let mediaId = ''
+    if (job !== undefined){mediaId = job.media.id}
+
+
 
     // let course = coursesReducer[requesterResource]
     let employee = '';
     let requesterResource = '';
 
-    if (requesterReducer[job.requester_id].course_id !== null) {
-        requesterResource = requesterReducer[job.requester_id].course_id
-    } else {
-        requesterResource = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
+
+    if (job !== undefined){
+
+        if (requesterReducer[job.requester_id].course_id !== null) {
+            requesterResource = requesterReducer[job.requester_id].course_id
+        } else {
+            requesterResource = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
+
+        }
+        if (employeesReducer[requesterReducer[job.requester_id].employee_id] !== undefined) {
+            employee = employeesReducer[requesterReducer[job.requester_id].employee_id]
+
+        } else {
+            employee = employeesReducer[requesterReducer[job.requester_id].org_employee_id]
+        }
+
+
+
 
     }
 
-    if (employeesReducer[requesterReducer[job.requester_id].employee_id] !== undefined) {
-         employee = employeesReducer[requesterReducer[job.requester_id].employee_id]
 
-    } else {
-         employee = employeesReducer[requesterReducer[job.requester_id].org_employee_id]
-    }
 
 
 

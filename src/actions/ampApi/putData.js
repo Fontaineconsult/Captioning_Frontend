@@ -4,7 +4,7 @@ import {writeiLearnVideo} from '../ilearn_videos'
 import {api_failure} from '../../utilities/api/errors'
 import {endpoint} from '../../constants'
 import { batch } from 'react-redux'
-import {updateCapJob} from '../existingVideoJobs'
+import {updateCapJob, deleteCapJob} from '../existingVideoJobs'
 import {LoadingIlearnVideos, LoadingVideoJobs} from '../status'
 import {initASTJob} from '../existingVideoJobs'
 import fetch from "cross-fetch";
@@ -83,7 +83,6 @@ export function updateiLearnVideo(video_id, column, value) {
         dispatch(writeiLearnVideo(video_id, data_object));
         return fetch(`${server_url}/ilearn-videos`, put_object)
                 .then(response => response.json())
-                .then(data => {console.log("farts", data)})
                 .catch(error => console.log(error))
     }
 }
@@ -104,11 +103,35 @@ export function updateVideoJob(job_id, column, value){
     return (dispatch, getState) => {
         return fetch(`${server_url}/video-jobs`, put_object)
             .then(response => response.json())
-            .then(data => {console.log("farts", data)})
             .then(data => dispatch(updateCapJob(job_id, column, value)))
             .catch(error => console.log(error))
     }
 }
+
+export function deleteVideoJob(job_id, column, value){
+
+    let data_object = {id: job_id, column: column, value: value };
+
+    let put_object = {
+        method: 'PUT',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    };
+
+    return (dispatch, getState) => {
+        dispatch(LoadingVideoJobs(true))
+        return fetch(`${server_url}/video-jobs`, put_object)
+            .then(response => response.json())
+            .then(data => dispatch(deleteCapJob(job_id)))
+            .then(data => dispatch(LoadingVideoJobs(false)))
+            .catch(error => console.log(error))
+    }
+}
+
+
 
 
 export function updateiLearnVideoBatch(video_ids, column, value) {

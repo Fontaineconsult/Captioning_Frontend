@@ -2,6 +2,7 @@ export const RECEIVE_VIDEO_JOBS = 'RECEIVE_VIDEO_JOBS';
 export const UPDATE_VIDEO_JOBS = 'UPDATE_VIDEO_JOBS';
 export const ADD_NEW_AST_JOB = 'ADD_NEW_AST_JOB';
 export const ADD_AST_ID_TO_AST_JOB = 'ADD_AST_ID_TO_AST_JOB'
+export const DELETE_CAP_JOB = 'DELETE_CAP_JOB'
 
 // used to manage existing jobs retreived from DB
 
@@ -22,6 +23,18 @@ export function updateCapJob(job_id, column, value) {
         job_id,
         column,
         value
+
+    }
+}
+
+
+export function deleteCapJob(job_id) {
+
+
+    return {
+        type: DELETE_CAP_JOB,
+        job_id: String(job_id),
+
 
     }
 }
