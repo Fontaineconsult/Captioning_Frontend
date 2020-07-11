@@ -186,7 +186,9 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
     let captionFiles
     let mediaFiles
 
-    if (mediaReducer.length > 0){
+    if (loadingStatusReducer.mediaLoading === false) {
+
+
 
 
         captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
@@ -196,7 +198,9 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
             return accumulator
         },[])
 
+        console.log("DSFSDFSDF", mediaReducer[mediaId].media_objects)
         mediaFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
+            console.log(currentValue.associated_files)
             if (currentValue.associated_files !== null) {
                 accumulator.push({file_id:currentValue.associated_files.id, value:currentValue.associated_files.file_name, label:currentValue.associated_files.file_name, association_id:currentValue.id})
             }
@@ -204,7 +208,10 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
         },[])
 
 
+
     }
+
+
 
 
     return {

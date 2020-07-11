@@ -78,10 +78,8 @@ class JobManagementControlContainer extends Component {
 
             this.setState({
                 videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key])
-
             })
         }
-
 
     }
 
@@ -92,11 +90,7 @@ class JobManagementControlContainer extends Component {
         })
 
     }
-
-
     render() {
-
-        console.log("ITTEEMMSSS", this.state.videoJobs, this.props)
 
         let items = []
         if (!this.props.videoJobsLoading) {
@@ -106,7 +100,6 @@ class JobManagementControlContainer extends Component {
                 items = this.state.videoJobs.map(function(item, index){
 
                     if (this.props.videosJobsReducer[item.id] !== undefined) {
-                        console.log("UNNDEFINNEEDDDDDDDD", this.props.videosJobsReducer[item.id])
                         return (
                             <CSSTransition classNames="item" timeout={200} key={item.id}>
                                 <JobContainer key={item.id} jobId={item.id}/>
@@ -120,11 +113,7 @@ class JobManagementControlContainer extends Component {
                 items = <div key="1">No Videos</div>
             }
 
-
-
         }
-
-
         return (
 
             <div className="JobManagementControlContainer">
@@ -239,6 +228,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         }, []);
 
     }
+
 
     return {
         videosJobsReducer,
