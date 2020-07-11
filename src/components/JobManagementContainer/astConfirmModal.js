@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import {withStyles} from "@material-ui/core/styles";
 import {addAstJobToCaptioningJob} from "../../actions/ampApi/postData"
 import { v1 as uuidv1 } from 'uuid';
+import astModal from "../../css/astModal.css"
 
 const useStyles = theme => ({
     paper: {
@@ -99,6 +100,7 @@ class AstModalContainer extends Component {
         return(
 
             <div style={this.state.modalStyle} className={this.props.classes.paper}>
+                <div className={"astModalTitle"}>Create AST Job</div>
 
                 <div>
                     <form>
@@ -112,8 +114,7 @@ class AstModalContainer extends Component {
                             </select>
                         </label>
                         <label>
-                            Create New AST Job
-                            <Button onClick={this.submitJobtoDB}>Create AST Job</Button>
+                            <Button onClick={this.submitJobtoDB}>Init Job</Button>
                         </label>
                     </form>
                     Create AST Job
