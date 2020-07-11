@@ -6,7 +6,7 @@ import {mediaSelectCustomStyles} from "./selectCustomStyle";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
 import Button from "@material-ui/core/Button";
-import {downloadCaptionFile} from '../../actions/ampApi/fetchData'
+import {downloadCaptionFile, downloadMediaFile} from '../../actions/ampApi/fetchData'
 import {uploadCaptionFileWithMediaId, uploadMediaFromJobView} from "../../actions/ampApi/postData"
 import green from "@material-ui/core/colors/green";
 import {v1 as uuidv1} from "uuid";
@@ -74,7 +74,7 @@ class MediaContentContainer extends Component {
     // file select methods
 
     downloadMedia() {
-        this.props.dispatch(downloadCaptionFile(this.state.caption_select.caption_id, this.props.mediaId))
+        this.props.dispatch(downloadMediaFile(this.state.media_select.file_id, this.props.mediaId))
     }
 
     setMediaFile(event) {
@@ -90,7 +90,7 @@ class MediaContentContainer extends Component {
 
             this.setState({
                 mediaFileUpload:fileToSend,
-                cap_temp_id: uuidv1()
+                media_temp_id: uuidv1()
             });
         }
 
@@ -123,7 +123,9 @@ class MediaContentContainer extends Component {
 
     render() {
 
-        let downloadDisabled = this.state.caption_select === ''
+        let downloadCCDisabled = this.state.caption_select === ''
+        let downloadMediaDisabled = this.state.media_select === ''
+        console.log(this.state)
 
         return (
             <div className="mediaContentContainer">
@@ -143,7 +145,7 @@ class MediaContentContainer extends Component {
                     </div>
                     <div>
                         <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"caption_select"}>Download</label>
-                        <Button disabled={downloadDisabled} onClick={this.downloadCaption}><GetAppIcon fontSize="small"/></Button>
+                        <Button disabled={downloadCCDisabled} onClick={this.downloadCaption}><GetAppIcon fontSize="small"/></Button>
                         <input id='captionUpload' type='file' accept="text/*" hidden={true}/>
                     </div>
                     <div>
@@ -154,7 +156,7 @@ class MediaContentContainer extends Component {
                 </div>
                 <div className={"mediaContentSelectors"}>
                     <div>
-                        <label style={{display: "block", fontSize: '12px'}} form={"caption_select"}>Media Files</label>
+                        <label style={{display: "block", fontSize: '12px'}} form={"media_select"}>Media Files</label>
                         <Select
                             name="media_select"
                             onChange={this.updateMediaSelectState}
@@ -164,12 +166,12 @@ class MediaContentContainer extends Component {
                             }/>
                     </div>
                     <div>
-                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"caption_select"}>Download</label>
-                        <Button style={{marginRight: "4px"}} disabled={downloadDisabled} onClick={this.downloadMedia}><GetAppIcon fontSize="small"/></Button>
+                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"media_select"}>Download</label>
+                        <Button style={{marginRight: "4px"}} disabled={downloadMediaDisabled} onClick={this.downloadMedia}><GetAppIcon fontSize="small"/></Button>
                         <input id='mediaFileUpload' type='file' accept="video/*" hidden={true}/>
                     </div>
                     <div>
-                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"caption_select"}>Upload</label>
+                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"media_select"}>Upload</label>
                         {this.state.mediaFileUpload === "" && <Button onClick={this.setMediaFile}><PublishIcon color="primary" fontSize="small"/></Button>}
                         {this.state.mediaFileUpload !== "" && <Button onClick={this.uploadMediaFile}><PublishIcon style={{ color: green[500] }} fontSize="small"/></Button>}
                     </div>

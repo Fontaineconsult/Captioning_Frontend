@@ -342,3 +342,25 @@ export function downloadCaptionFile(item_id, media_id) {
     }
 
 }
+
+
+export function downloadMediaFile(item_id, media_id) {
+
+
+    return dispatch => {
+
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/services/download/file?item_id=${item_id}&media_id=${media_id}`)
+            .then(function(response){
+                console.log(response.headers, response.headers.get('X-Something'))
+                let filename = response.headers.get('Content-Disposition').split("filename=")[1]
+                response.blob().then(
+                    function (blob) {
+                        download(blob, response.headers.get('Content-Disposition').split("filename=")[1], 'text/srt')
+                    }
+                )
+            })
+            .then(blob => dispatch(LoadingMedia(false)))
+    }
+
+}
