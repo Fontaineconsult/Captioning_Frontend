@@ -29,7 +29,6 @@ function errorHandler(response, dispatch, error_id){
     return response
 }
 
-
 function responseHandler(response, dispatch, reducer, unique_id, statusReducer) {
 
     if (response.ok) {
@@ -289,7 +288,6 @@ export function createAmaraResource(media_id, file_id) {
 
 }
 
-
 export function addSRTtoAmaraResource(caption_id, amara_id, media_id) {
     let error_id = uuidv1()
     let post_object = {
@@ -310,8 +308,32 @@ export function addSRTtoAmaraResource(caption_id, amara_id, media_id) {
                     response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
                     .then(
                         response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
-
                     )
             } else {alert("Something went wrong with upload")} } )
 
 }}
+
+export function sendVideoExtractRequest(media_id, url, format) {
+    let error_id = uuidv1()
+    let data_object = { media_id:media_id, url:url, format:format};
+
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+    return dispatch => {
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/services/extract`, post_object)
+            .then(response => {if (response.ok){
+                fetch(`${server_url}/media?id=${media_id}`).then(
+                    response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
+                    .then(
+                        response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
+                    )
+            } else {alert("Something went wrong with upload")} } )
+
+    }
+};

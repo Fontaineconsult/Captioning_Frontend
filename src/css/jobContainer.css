@@ -242,7 +242,22 @@ margin-right: 5px;
 
 }
 
-.reactDatePickerCustom {
+.extractorButtonsContainer{
+    display: flex;
+    margin-right: 0;
+    margin-left: auto;
+
+}
+
+.extractorButton{
+    display: flex;
+    margin-right: 10px;
+
+}
+.extractorLabel {
+    margin-right: 5px;
+    text-align: center;
+    vertical-align: middle;
 
 
 }

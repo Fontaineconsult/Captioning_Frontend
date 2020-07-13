@@ -11,8 +11,8 @@ class CaptionResourceContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            captioned_url: "Not Set",
-            captionResources: ""
+            captioned_url: {value:"None", label:"No Caption Resource"},
+            captionResources: []
 
         };
 
@@ -38,12 +38,12 @@ class CaptionResourceContainer extends Component {
         if (this.props.media.primary_caption_resource_id !== null) {
 
             let primaryCapResource =  this.props.mediaReducer[this.props.media_id].captioned_resources.filter(item => {
-                console.log("OTTEMMMM", item)
+
                 if (item.id === this.props.media.primary_caption_resource_id) {
+
                     return {value:this.props.media.primary_caption_resource_id,
                             label:this.props.media.captioned_resources[this.props.media.primary_caption_resource_id].url}
                 }
-
             })
 
             this.setState({
@@ -53,10 +53,7 @@ class CaptionResourceContainer extends Component {
 
         }
 
-
-
     }
-
 
     render() {
 
@@ -82,8 +79,11 @@ class CaptionResourceContainer extends Component {
 
 function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {media_id}) {
     let media = mediaReducer[media_id]
+    let captionResources
 
-    let captionResources = mediaReducer[media_id].captioned_resources.reduce((accumulator, currentValue) => {
+    console.log("ZPPRR{{S", mediaReducer[media_id].captioned_resources)
+
+    captionResources = mediaReducer[media_id].captioned_resources.reduce((accumulator, currentValue) => {
 
         if (currentValue.amara_id !== null){
 
