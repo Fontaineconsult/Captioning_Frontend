@@ -261,3 +261,15 @@ margin-right: 5px;
 
 
 }
+
+.caption_resource_container {
+    display: flex;
+
+}
+
+.addCapResource {
+
+    margin-right: 0;
+    margin-left: auto;
+
+}

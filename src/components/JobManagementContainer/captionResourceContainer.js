@@ -4,6 +4,9 @@ import {connect} from "react-redux";
 import Select from "react-select";
 import {captionResourceSelectCustomStyles} from "./selectCustomStyle";
 import {updateMedia} from "../../actions/ampApi/putData"
+import IconButton from "@material-ui/core/IconButton";
+import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 
 class CaptionResourceContainer extends Component {
@@ -17,6 +20,12 @@ class CaptionResourceContainer extends Component {
         };
 
         this.updatePrimaryCapResource = this.updatePrimaryCapResource.bind(this)
+        this.addCapResource = this.addCapResource.bind(this)
+
+    }
+
+    addCapResource() {
+        console.log("ADD RESOURCE")
 
     }
 
@@ -50,9 +59,7 @@ class CaptionResourceContainer extends Component {
                 captioned_url: primaryCapResource,
                 captionResources:this.props.captionResources
             })
-
         }
-
     }
 
     render() {
@@ -69,37 +76,29 @@ class CaptionResourceContainer extends Component {
                         options={this.state.captionResources
                         }/>
                 </div>
+
+                <div className={"addCapResource"}>
+                    <AddCircleIcon disabled={false} name={"extract_video"} size={"small"} onClick={this.addCapResource}><AddCircleIcon fontSize={"small"}/></AddCircleIcon>
+                </div>
             </div>
         )
     }
-
-
 }
-
 
 function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {media_id}) {
     let media = mediaReducer[media_id]
     let captionResources
 
-    console.log("ZPPRR{{S", mediaReducer[media_id].captioned_resources)
-
     captionResources = mediaReducer[media_id].captioned_resources.reduce((accumulator, currentValue) => {
-
         if (currentValue.amara_id !== null){
-
             accumulator.push({
                 value:currentValue.id,
                 label:currentValue.amara_resource.url,
                })
-
-
         }
 
         return accumulator
     },[])
-
-
-
 
     return {
         media,

@@ -8,6 +8,8 @@ import {addAstJobToCaptioningJob} from "../../actions/ampApi/postData"
 import { v1 as uuidv1 } from 'uuid';
 import astModal from "../../css/astModal.css"
 
+import Select from "react-select";
+
 const useStyles = theme => ({
     paper: {
         position: 'absolute',
@@ -31,6 +33,9 @@ class AstModalContainer extends Component {
             setOpen: false,
             modalStyle: this.getModalStyle(),
             rate: "T",
+            file_id: "",
+            file_select: this.props.media_files
+
 
         };
         this.handleOpen = this.handleOpen.bind(this);
@@ -40,6 +45,7 @@ class AstModalContainer extends Component {
         this.modalContent = this.modalContent.bind(this)
         this.submitJobtoDB = this.submitJobtoDB.bind(this)
         this.updateState = this.updateState.bind(this)
+        this.updateMediaSelect = this.updateMediaSelect.bind(this)
 
     }
 
@@ -76,23 +82,31 @@ class AstModalContainer extends Component {
     submitJobtoDB(event) {
 
         event.preventDefault()
-        this.props.dispatch(addAstJobToCaptioningJob(this.props.job_id, this.state.rate, this.state.temp_id))
-
+        this.props.dispatch(addAstJobToCaptioningJob(this.props.job_id,
+            this.state.rate,
+            this.state.temp_id,
+            this.state.file_id.value))
     }
 
     createAstJob(event) {
 
+
     }
 
     updateState(event){
-
         const target = event.target;
         const value = target.value;
         const name = target.name;
-
         this.setState({
             [name]: value
         });
+
+    }
+
+    updateMediaSelect(value) {
+        this.setState({
+            file_id: value
+        })
 
     }
 
@@ -104,6 +118,12 @@ class AstModalContainer extends Component {
 
                 <div>
                     <form>
+                        <label>
+                            Select Media
+                            <Select value={this.state.file_id} onChange={this.updateMediaSelect} options={this.state.file_select}/>
+                        </label>
+
+
                         <label>
                             Rate
                             <select name="rate" value={this.state.rate} onChange={this.updateState}>
@@ -134,7 +154,6 @@ class AstModalContainer extends Component {
 
     }
 
-
     render() {
 
         return(
@@ -158,11 +177,21 @@ class AstModalContainer extends Component {
 }
 
 
-function mapStateToProps({state}, {job_id}) {
+function mapStateToProps({mediaReducer, videosJobsReducer, loadingStatusReducer}, {job_id}) {
+    let media_files
 
+    if (loadingStatusReducer.videoJobsLoading === false) {
+
+        media_files = mediaReducer[videosJobsReducer[job_id].media.id].media_objects.reduce((accumulator, element) => {
+            if (element.associated_files !== null){
+                accumulator.push({value: element.associated_files.id, label: element.associated_files.file_name})
+            }
+            return accumulator
+        },[])
+    }
 
     return {
-        state,
+        media_files,
         job_id
     }
 }

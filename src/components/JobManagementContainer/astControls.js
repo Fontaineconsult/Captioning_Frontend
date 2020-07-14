@@ -38,9 +38,6 @@ class AstJobControlMenu extends Component {
 
         }
 
-
-
-
     }
 
     columns = [
@@ -61,9 +58,9 @@ class AstJobControlMenu extends Component {
                 let dateA = new Date(a.added_date), dateB = new Date(b.added_date);
                 return dateA - dateB;
             })[0];
+
             status = newest['ast_status']
             date = newest['added_date']
-
         }
 
         let astJobLink
@@ -93,7 +90,6 @@ class AstJobControlMenu extends Component {
                     data.push(this.formatData(this.props.ast_jobs[item]))
                 }
             )
-
         }
 
         this.setState({
@@ -183,7 +179,6 @@ class AstControls extends Component {
 
 }
 
-
 function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {ast_jobs, media_id, job_id}) {
     let hasJobs = Object.keys(ast_jobs).length > 0
 
@@ -194,9 +189,6 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
 
     }
 }
-
-
-
 
 
 export default withRouter(connect(mapStateToProps)(AstControls))

@@ -224,11 +224,11 @@ export function uploadCaptionFileWithMediaId(captionFile, media_id, temp_id) {
 
 }
 
-export function addAstJobToCaptioningJob(job_id, rate, temp_id) {
+export function addAstJobToCaptioningJob(job_id, rate, temp_id, file_id) {
 
     let post_object = {
         method: "POST",
-        body: JSON.stringify({"jobid": job_id, "ast_rush": rate}),
+        body: JSON.stringify({"jobid": job_id, "ast_rush": rate, file_id: file_id}),
         headers: {
             "Content-Type": "application/json"
         }};
