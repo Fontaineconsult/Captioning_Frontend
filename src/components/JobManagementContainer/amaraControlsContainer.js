@@ -46,7 +46,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
     if (loadingStatusReducer.mediaLoading === false) {
 
         amaraResource = mediaReducer[media_id].captioned_resources[0]
-        console.log("DSFSDFDSFSDFSDFSDF", amaraResource)
+
 
 
     }
