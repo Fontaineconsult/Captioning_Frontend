@@ -42,11 +42,14 @@ class AmaraControlsContainer extends Component {
 
 function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {media_id}) {
     let amaraResource
-    if (mediaReducer.length > 0) {
+
+    if (loadingStatusReducer.mediaLoading === false) {
+
         amaraResource = mediaReducer[media_id].captioned_resources[0]
+        console.log("DSFSDFDSFSDFSDFSDF", amaraResource)
+
 
     }
-
 
 
     return {
