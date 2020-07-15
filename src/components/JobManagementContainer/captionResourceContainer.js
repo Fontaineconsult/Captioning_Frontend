@@ -15,7 +15,7 @@ class CaptionResourceContainer extends Component {
         super(props);
         this.state = {
             captioned_url: {value:"None", label:"No Caption Resource"},
-            captionResources: []
+            captionResources: this.props.captionResources
 
         };
 
@@ -56,8 +56,7 @@ class CaptionResourceContainer extends Component {
             })
 
             this.setState({
-                captioned_url: primaryCapResource,
-                captionResources:this.props.captionResources
+                captioned_url: primaryCapResource
             })
         }
     }
@@ -89,16 +88,21 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
     let media = mediaReducer[media_id]
     let captionResources
 
-    captionResources = mediaReducer[media_id].captioned_resources.reduce((accumulator, currentValue) => {
-        if (currentValue.amara_id !== null){
-            accumulator.push({
-                value:currentValue.id,
-                label:currentValue.amara_resource.url,
-               })
-        }
+    if (loadingStatusReducer.mediaLoading === false) {
+        captionResources = mediaReducer[media_id].captioned_resources.reduce((accumulator, currentValue) => {
+            if (currentValue.amara_id !== null){
+                accumulator.push({
+                    value:currentValue.id,
+                    label:currentValue.amara_resource.url,
+                })
+            }
 
-        return accumulator
-    },[])
+            return accumulator
+        },[])
+
+
+
+    }
 
     return {
         media,
