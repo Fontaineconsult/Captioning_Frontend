@@ -64,7 +64,6 @@ class CaptionResourceContainer extends Component {
                         options={this.state.captionResources
                         }/>
                 </div>
-
                 <div className={"addCapResource"}>
                     <AddCircleIcon disabled={false} name={"extract_video"} size={"small"} onClick={this.addCapResource}><AddCircleIcon fontSize={"small"}/></AddCircleIcon>
                 </div>
@@ -97,7 +96,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
                 if (item.id === media.primary_caption_resource_id) {
 
                     return {value:item.id,
-                        label:item.amara_resource.url}
+                        label:<a target="_blank" href={item.amara_resource.url}>{item.amara_resource.url}</a> }
                 }
             })
 
