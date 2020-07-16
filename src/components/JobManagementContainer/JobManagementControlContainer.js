@@ -15,6 +15,7 @@ class JobManagementControlContainer extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             videoJobs: [],
             courseIds: {},
@@ -25,7 +26,8 @@ class JobManagementControlContainer extends Component {
 
         this.reductionFilter = this.reductionFilter.bind(this);
         this.removeFilters = this.removeFilters.bind(this);
-        this.orderByFilter = this.orderByFilter.bind(this)
+        this.orderByFilter = this.orderByFilter.bind(this);
+
     }
 
     removeFilters(event) {
@@ -66,6 +68,7 @@ class JobManagementControlContainer extends Component {
 
     orderByFilter(value, key) {
         let filter = this.state.videoJobs.sort((a,b) => moment(b[key]) -  moment(a[key]))
+
         this.setState({
             videoJobs:filter,
             order_by_value: value
@@ -73,13 +76,18 @@ class JobManagementControlContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        // Only runs if no filters are set.
+        if (this.state.filterSelectedCourse === '' && this.state.job_status_value === '' && this.state.order_by_value === '') {
+            if (this.state.videoJobs.length !== Object.keys(this.props.videosJobsReducer).length) {
 
-        if (this.state.videoJobs.length !== Object.keys(this.props.videosJobsReducer).length) {
+                this.setState({
+                    videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key])
+                })
+            }
 
-            this.setState({
-                videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key])
-            })
+
         }
+
 
     }
 
