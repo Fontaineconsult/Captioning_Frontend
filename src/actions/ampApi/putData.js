@@ -5,7 +5,7 @@ import {api_failure} from '../../utilities/api/errors'
 import {endpoint} from '../../constants'
 import { batch } from 'react-redux'
 import {updateCapJob, deleteCapJob} from '../existingVideoJobs'
-import {LoadingIlearnVideos, LoadingVideoJobs} from '../status'
+import {LoadingIlearnVideos, LoadingVideoJobs, LoadingAstJob} from '../status'
 import {initASTJob} from '../existingVideoJobs'
 import fetch from "cross-fetch";
 
@@ -175,11 +175,11 @@ export function initializeASTJob(ast_job_id, job_id, file_id) {
         }}
 
     return (dispatch) => {
-        dispatch(LoadingVideoJobs(true))
+        dispatch(LoadingAstJob(true))
         return fetch(`${server_url}/ast-jobs`, put_object)
             .then(response => response.json())
             .then(data => dispatch(initASTJob(data['content']['echo'], ast_job_id, job_id)))
-            .then(data => dispatch(LoadingVideoJobs(false)))
+            .then(data => dispatch(LoadingAstJob(false)))
             .catch(error => console.log(error))
         }
 

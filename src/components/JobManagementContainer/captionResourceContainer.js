@@ -14,7 +14,7 @@ class CaptionResourceContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            captioned_url: {value:"None", label:"No Caption Resource"},
+            captioned_url: this.props.primaryCapResource,
             captionResources: this.props.captionResources
 
         };
@@ -44,21 +44,10 @@ class CaptionResourceContainer extends Component {
 
     componentDidMount() {
 
-        if (this.props.media.primary_caption_resource_id !== null) {
-
-            let primaryCapResource =  this.props.mediaReducer[this.props.media_id].captioned_resources.filter(item => {
-
-                if (item.id === this.props.media.primary_caption_resource_id) {
-
-                    return {value:this.props.media.primary_caption_resource_id,
-                            label:this.props.media.captioned_resources[this.props.media.primary_caption_resource_id].url}
-                }
-            })
-
             this.setState({
-                captioned_url: primaryCapResource
+                captioned_url: this.props.primaryCapResource
             })
-        }
+
     }
 
     render() {
@@ -82,31 +71,45 @@ class CaptionResourceContainer extends Component {
             </div>
         )
     }
+
 }
 
 function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {media_id}) {
-    let media = mediaReducer[media_id]
+    let media
     let captionResources
+    let primaryCapResource
 
     if (loadingStatusReducer.mediaLoading === false) {
+        media = mediaReducer[media_id]
         captionResources = mediaReducer[media_id].captioned_resources.reduce((accumulator, currentValue) => {
-            if (currentValue.amara_id !== null){
+            if (currentValue.amara_id !== null) {
                 accumulator.push({
-                    value:currentValue.id,
-                    label:currentValue.amara_resource.url,
+                    value: currentValue.id,
+                    label: currentValue.amara_resource.url,
                 })
             }
-
             return accumulator
-        },[])
+        }, [])
 
+        if (media.primary_caption_resource_id !== null) {
+            primaryCapResource = mediaReducer[media_id].captioned_resources.map(item => {
 
+                if (item.id === media.primary_caption_resource_id) {
+
+                    return {value:item.id,
+                        label:item.amara_resource.url}
+                }
+            })
+
+        }
 
     }
-
     return {
         media,
-        captionResources
+        captionResources,
+        media_id,
+        mediaReducer,
+        primaryCapResource
     }
 }
 

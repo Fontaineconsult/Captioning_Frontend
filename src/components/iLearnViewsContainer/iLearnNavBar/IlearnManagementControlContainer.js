@@ -56,6 +56,9 @@ class IlearnManagementControlContainer extends Component {
                     <div className="controlButton" >
                         Search
                     </div>
+                    <div className="controlButton" >
+                        Add
+                    </div>
                 </div>
                 <div>
 

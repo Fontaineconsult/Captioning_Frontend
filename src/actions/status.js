@@ -6,6 +6,7 @@ export const _LOADINGSTUDENTS = 'LOADING_STUDENTS';
 export const _LOADINGVIDEOJOBS = 'LOADING_VIDEO_JOBS';
 export const _LOADINGPERMISSIONS = 'LOADING_PERMISSIONS';
 export const _LOADINGREQUESTS = '_LOADINGREQUESTS';
+export const _LOADINGASTJOB = '_LOADINGASTJOB'
 
 export function LoadingCourses(status) {
 
@@ -76,6 +77,16 @@ export function LoadingRequests(status) {
 
     return {
         type: _LOADINGREQUESTS,
+        status
+
+    }
+
+}
+
+export function LoadingAstJob(status) {
+
+    return {
+        type: _LOADINGASTJOB,
         status
 
     }

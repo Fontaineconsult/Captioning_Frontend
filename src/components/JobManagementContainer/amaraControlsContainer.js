@@ -37,9 +37,6 @@ class AmaraControlsContainer extends Component {
 
 }
 
-
-
-
 function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {media_id}) {
     let amaraResource
 
@@ -47,15 +44,11 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
 
         amaraResource = mediaReducer[media_id].captioned_resources[0]
 
-
-
     }
-
 
     return {
 
         amaraResource
-
 
     }
 }

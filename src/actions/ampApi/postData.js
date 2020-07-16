@@ -1,7 +1,7 @@
 import fetch from "cross-fetch";
 import {api_failure} from "../../utilities/api/errors";
 import {endpoint} from '../../constants'
-import {LoadingIlearnVideos,LoadingMedia, LoadingVideoJobs} from "../status";
+import {LoadingMedia, LoadingVideoJobs, LoadingAstJob} from "../status";
 import {addMediaToTempJob, updateTempJobsUploadState} from "../tempJobsForm"
 import {receiveMediaSearch} from '../mediaSearch'
 import { batch } from 'react-redux'
@@ -234,13 +234,13 @@ export function addAstJobToCaptioningJob(job_id, rate, temp_id, file_id) {
         }};
 
     return dispatch => {
-        dispatch(LoadingVideoJobs(true));
+        dispatch(LoadingAstJob(true));
         return fetch(`${server_url}/ast-jobs`, post_object)
             .then(response => errorHandler(response, dispatch, temp_id), error => {
                 console.log(error)
             })
             .then(response => {
-                responseHandler(response, dispatch, [addNewAstJob], temp_id, LoadingVideoJobs)
+                responseHandler(response, dispatch, [addNewAstJob], temp_id, LoadingAstJob)
             })
     }
 
