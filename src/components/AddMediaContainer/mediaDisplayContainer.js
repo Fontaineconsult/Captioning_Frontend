@@ -3,9 +3,6 @@ import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 
 
-
-
-
 class MediaDisplayContainer extends Component {
 
     constructor(props) {
@@ -16,9 +13,7 @@ class MediaDisplayContainer extends Component {
             startedSearch: false
         };
 
-
     }
-
 
     componentDidUpdate(prevProps, prevState, snapshot) {
 
@@ -35,12 +30,9 @@ class MediaDisplayContainer extends Component {
                 })
 
             }
-
     }
 
-
     componentDidMount() {
-
 
         this.setState({
             itemFound: this.props.itemFound,
@@ -48,9 +40,7 @@ class MediaDisplayContainer extends Component {
             startedSearch: this.props.startedSearch
         })
 
-
     }
-
 
     render() {
 
@@ -58,13 +48,11 @@ class MediaDisplayContainer extends Component {
         return(
            <div className="videoSearchFeedbackInnerContainer">
                {!this.state.startedSearch && <EmptySearchContainer/>}
-               {this.state.startedSearch && this.state.itemFound &&  <MediaInfoDisplay source={this.props.mediaSearchReducer[this.props.transaction_id]}/>}
+               {this.state.startedSearch && this.state.itemFound &&  <MediaInfoDisplay capUrl={this.props.captionUrl} source={this.props.mediaSearchReducer[this.props.transaction_id]}/>}
                {this.state.startedSearch && this.state.itemNotFound &&  <NoItemFound source={this.props.errorsReducer[this.props.transaction_id]}/>}
            </div>
         )
     }
-
-
 
 }
 
@@ -74,7 +62,7 @@ function MediaInfoDisplay(props) {
 
     let title = props.source ? props.source.title : '';
     let source_url = props.source ? props.source.source_url : '';
-    let captioned_url = props.source ? props.source.captioned_url : undefined;
+    let captioned_url = props.capUrl ? props.capUrl : undefined;
 
 
     return (<div className="feedbackSlug">
@@ -83,7 +71,6 @@ function MediaInfoDisplay(props) {
         <div>
             <div>Source URL</div>
             <div><a href={source_url}>{source_url}</a></div>
-
         </div>
             <br></br>
         <div>
@@ -97,10 +84,7 @@ function MediaInfoDisplay(props) {
                     Download: <a href=" ">.SRT</a> | <a href=" ">Transcript</a>
                 </div>
             </div>
-
                 : <span>No captioned version provided</span>}</div>
-
-
         </div>
 
     </div>)
@@ -123,16 +107,34 @@ function EmptySearchContainer() {
 
 
 function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {transaction_id, transaction_link}) {
-    console.log("TRANSACTION", transaction_id)
+    let captionResources
+    let captionUrl
     let itemFound = mediaSearchReducer.hasOwnProperty(transaction_id);
     let itemNotFound = errorsReducer.hasOwnProperty(transaction_id);
     let startedSearch = itemFound || itemNotFound;
 
+    if (transaction_id !== "") {
+        if (mediaSearchReducer.hasOwnProperty(transaction_id)) {
+            captionResources = mediaSearchReducer[transaction_id].captioned_resources.reduce((accumulator, currentValue) => {
+                if (currentValue.amara_id !== null) {
+                    accumulator.push({
+                        currentValue
+                    })
+                }
+                return accumulator
+            }, [])
+            if (captionResources.length > 0) {
+                console.log(captionResources, ":DFSLHDFGJLHDFGJHLKDFG")
+                captionUrl = captionResources[0].currentValue.amara_resource.url
+
+            }
+        }
+    }
 
 
-    console.log("DS", itemFound)
 
 
+    console.log("ZOORRGS", captionResources)
 
 
     return {
@@ -143,7 +145,10 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
         transaction_link,
         itemFound,
         itemNotFound,
-        startedSearch
+        startedSearch,
+        captionResources,
+        captionUrl
+
 
     }
 }

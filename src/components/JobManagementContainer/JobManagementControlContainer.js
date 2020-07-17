@@ -84,11 +84,7 @@ class JobManagementControlContainer extends Component {
                     videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key])
                 })
             }
-
-
         }
-
-
     }
 
     componentDidMount() {

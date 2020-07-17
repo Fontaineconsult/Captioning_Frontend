@@ -244,7 +244,6 @@ export function addAstJobToCaptioningJob(job_id, rate, temp_id, file_id) {
             })
     }
 
-
 }
 
 export function createAmaraResource(media_id, file_id) {

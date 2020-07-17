@@ -30,16 +30,13 @@ class NewJobFormContainer extends Component {
     }
 
     handleSetDate(value) {
-        console.log(value)
+
         this.setState({show_date: value})
 
     }
 
 
     addJobInfo(event) {
-
-        console.log(event)
-        console.log("SDFGDSFGSDF", this.props.requesterId)
         let reducer_obj = {
             show_date: this.state.show_date,
             delivery_format: this.state.delivery_format,
@@ -146,15 +143,11 @@ function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tem
     if (tempJobsFormReducer.hasOwnProperty(transaction_id)) {
             if (tempJobsFormReducer[transaction_id].hasOwnProperty('video')) {
                 if (tempJobsFormReducer[transaction_id].video.hasOwnProperty('id')) {
-                    console.log("FAARRTSSS")
                     if (tempJobsFormReducer[transaction_id].video.media_type === 'File') {
                         submitButtonEnabled = tempJobsFormReducer[transaction_id].video.media_objects.some(item => {
-
                                 return item.associated_files.sha_256_hash === tempJobsFormReducer[transaction_id].video.sha_256_hash
-
                             }
                         )}
-
                     if (tempJobsFormReducer[transaction_id].video.media_type === 'URL') {
                         submitButtonEnabled = true
 
@@ -175,7 +168,6 @@ function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tem
             }
         }
 
-    console.log("SUBBMITTT", submitButtonEnabled)
 
     return {
         mediaSearchReducer,

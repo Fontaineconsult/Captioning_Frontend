@@ -195,7 +195,7 @@ export function fetchIlearnVideosBySemester(semester) {
         return fetch(`${server_url}/ilearn-videos?semester=${semester}`)
             .then(response => errorHandler(response, dispatch, error_id, LoadingIlearnVideos), error => {console.log(error)})
             .then(response => (responseHandler(response, dispatch, [receiveIlearnVideos], error_id, LoadingIlearnVideos)))
-            .then(data => console.log(data))
+
 
 
     }
@@ -330,7 +330,6 @@ export function downloadCaptionFile(item_id, media_id) {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/download/caption?item_id=${item_id}&media_id=${media_id}`)
             .then(function(response){
-                console.log(response.headers, response.headers.get('X-Something'))
                 let filename = response.headers.get('Content-Disposition').split("filename=")[1]
                 response.blob().then(
                     function (blob) {

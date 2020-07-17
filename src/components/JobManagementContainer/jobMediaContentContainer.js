@@ -125,7 +125,6 @@ class MediaContentContainer extends Component {
 
         let downloadCCDisabled = this.state.caption_select === ''
         let downloadMediaDisabled = this.state.media_select === ''
-        console.log(this.state)
 
         return (
             <div className="mediaContentContainer">
@@ -200,9 +199,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
             return accumulator
         },[])
 
-        console.log("DSFSDFSDF", mediaReducer[mediaId].media_objects)
         mediaFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
-            console.log(currentValue.associated_files)
             if (currentValue.associated_files !== null) {
                 accumulator.push({file_id:currentValue.associated_files.id, value:currentValue.associated_files.file_name, label:currentValue.associated_files.file_name, association_id:currentValue.id})
             }
