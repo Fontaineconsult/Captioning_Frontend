@@ -14,6 +14,7 @@ import errorsReducer from './error_states'
 import requestsReducer from './requests'
 import tempJobsFormReducer from "./tempJobsForm";
 import mediaSearchReducer from "./currentMediaSearch";
+import globalsReducer from "./globals";
 
 export default combineReducers({
 
@@ -31,6 +32,8 @@ export default combineReducers({
     errorsReducer,
     requestsReducer,
     tempJobsFormReducer,
-    mediaSearchReducer
+    mediaSearchReducer,
+    globalsReducer
+
 
 })

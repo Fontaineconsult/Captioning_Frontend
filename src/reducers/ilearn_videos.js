@@ -1,4 +1,4 @@
-import {RECEIVE_ILEARN_VIDEOS, UPDATE_ILEARN_VIDEO} from "../actions/ilearn_videos";
+import {RECEIVE_ILEARN_VIDEOS, UPDATE_ILEARN_VIDEO, CLEAR_ILEARN_VIDEO} from "../actions/ilearn_videos";
 
 export default function IlearnVideoReducer (state={}, action) {
 
@@ -16,6 +16,12 @@ export default function IlearnVideoReducer (state={}, action) {
                 [action.video_id]: {...state[action.video_id], [action.ilearn_video_object.column]:action.ilearn_video_object.value}
 
             };
+
+        case CLEAR_ILEARN_VIDEO:
+            return { }
+
+
+
         default:
             return state
     }

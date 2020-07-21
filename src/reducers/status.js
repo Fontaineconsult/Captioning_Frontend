@@ -6,7 +6,7 @@ import {
     _LOADINGSTUDENTS,
     _LOADINGVIDEOJOBS,
     _LOADINGPERMISSIONS,
-    _LOADINGREQUESTS, _LOADINGASTJOB
+    _LOADINGREQUESTS, _LOADINGASTJOB, _ALLLOADINGON
 } from "../actions/status";
 
 export default function loadingStatusReducer (state={
@@ -26,6 +26,21 @@ export default function loadingStatusReducer (state={
 }, action) {
 
     switch (action.type) {
+
+        case _ALLLOADINGON:
+            return {
+
+                coursesLoading: true,
+                iLearnVideosLoading: true,
+                instructorsLoading: true,
+                mediaLoading: true,
+                studentsLoading: true,
+                videoJobsLoading: true,
+                userPermissionLoading: false,
+                userRequestsLoading: true,
+                astRequestsLoading: false
+
+            }
 
 
         case _LOADINGCOURSES:

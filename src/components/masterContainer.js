@@ -5,6 +5,7 @@ import NavigationMasterContainer from "./componentNavigator/navigationMasterCont
 import NewJobMasterContainer from "./AddCapJobView/newJobMasterContainer"
 import JobManagementMasterContainer from "./JobManagementContainer/JobManagementMasterContainer"
 import IlearnMasterContainer from "./iLearnViewsContainer/iLearnViewContainers/iLearnAllCoursesView"
+import {setGlobalParams} from "../actions/globals"
 import {
     BrowserRouter as Router,
     Switch,
@@ -36,12 +37,12 @@ class MasterContainer extends Component {
 
 
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'admin') {
-            this.props.dispatch(allAssetDiscovery(this.props.query.semester))
-            this.props.dispatch(fetchIlearnVideosBySemester(this.props.query.semester))
-            this.props.dispatch(fetchAllCourses(this.props.query.semester))
+            this.props.dispatch(allAssetDiscovery(this.props.globalsReducer.currentSemester))
+            this.props.dispatch(fetchIlearnVideosBySemester(this.props.globalsReducer.currentSemester))
+            this.props.dispatch(fetchAllCourses(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllOrgs())
             this.props.dispatch(fetchAllEmployees())
-            this.props.dispatch(fetchAllVideoJobsBySemester(this.props.query.semester))
+            this.props.dispatch(fetchAllVideoJobsBySemester(this.props.globalsReducer.currentSemester))
 
 
         }
@@ -60,10 +61,8 @@ class MasterContainer extends Component {
 
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'user') {
             if (Object.keys(this.props.requesterReducer).length !== Object.keys(prevProps.requesterReducer).length) {
-
                 Object.keys(this.props.requesterReducer).map(key => (
                     this.props.dispatch(fetchCourseByCourseGenId(this.props.requesterReducer[key].course_id))
-
                 ))
                 Object.keys(this.props.requesterReducer).map(key => (
                     this.props.dispatch(fetchiLearnVideosByCourseGenId(this.props.requesterReducer[key].course_id))
@@ -72,6 +71,17 @@ class MasterContainer extends Component {
             }
 
         }
+
+
+        if (this.props.globalsReducer.currentSemester !== prevProps.globalsReducer.currentSemester ) {
+
+            this.props.dispatch(allAssetDiscovery(this.props.globalsReducer.currentSemester))
+            this.props.dispatch(fetchIlearnVideosBySemester(this.props.globalsReducer.currentSemester))
+            this.props.dispatch(fetchAllCourses(this.props.globalsReducer.currentSemester))
+            this.props.dispatch(fetchAllVideoJobsBySemester(this.props.globalsReducer.currentSemester))
+
+        }
+
 
 
 
@@ -97,11 +107,12 @@ class MasterContainer extends Component {
 }
 
 
-function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer}, {query}){
+function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer, globalsReducer}, {query}){
 
 
 
     return {
+        globalsReducer,
         requesterReducer,
         userPermissionReducer,
         query

@@ -1,4 +1,4 @@
-import {RECEIVE_REQUESTER_RESOURCES} from "../actions/requester";
+import {RECEIVE_REQUESTER_RESOURCES, CLEAR_REQUESTER_RESOURCES} from "../actions/requester";
 
 export default function requesterReducer (state={}, action) {
 
@@ -10,9 +10,11 @@ export default function requesterReducer (state={}, action) {
                 ...state,
                 ...action.requester
 
-
             };
 
+        case CLEAR_REQUESTER_RESOURCES:
+
+            return { }
 
         default:
             return state

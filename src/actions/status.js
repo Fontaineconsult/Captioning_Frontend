@@ -7,6 +7,18 @@ export const _LOADINGVIDEOJOBS = 'LOADING_VIDEO_JOBS';
 export const _LOADINGPERMISSIONS = 'LOADING_PERMISSIONS';
 export const _LOADINGREQUESTS = '_LOADINGREQUESTS';
 export const _LOADINGASTJOB = '_LOADINGASTJOB'
+export const _ALLLOADINGON = '_ALLLOADINGON'
+
+export function AllLoadingOn() {
+
+    return {
+        type: _ALLLOADINGON
+
+    }
+
+
+
+}
 
 export function LoadingCourses(status) {
 

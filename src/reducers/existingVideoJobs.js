@@ -1,4 +1,9 @@
-import {RECEIVE_VIDEO_JOBS, UPDATE_VIDEO_JOBS, ADD_NEW_AST_JOB, ADD_AST_ID_TO_AST_JOB, DELETE_CAP_JOB} from "../actions/existingVideoJobs";
+import {RECEIVE_VIDEO_JOBS,
+    UPDATE_VIDEO_JOBS,
+    ADD_NEW_AST_JOB,
+    ADD_AST_ID_TO_AST_JOB,
+    DELETE_CAP_JOB,
+    CLEAR_CAP_JOBS} from "../actions/existingVideoJobs";
 
 export default function videosJobsReducer (state={}, action) {
 
@@ -32,11 +37,9 @@ export default function videosJobsReducer (state={}, action) {
         }
 
         case DELETE_CAP_JOB: {
-            console.log("DELETE")
 
             return Object.keys(state).reduce((accumulator, element) => {
                 if (element !== action.job_id) {
-                    console.log(element, action.job_id)
                     accumulator[element] = state[element]
                 }
                 return accumulator
@@ -64,7 +67,10 @@ export default function videosJobsReducer (state={}, action) {
 
         }
 
+        case CLEAR_CAP_JOBS: {
+            return { }
 
+        }
 
 
         default:

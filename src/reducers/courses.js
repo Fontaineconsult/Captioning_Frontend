@@ -1,4 +1,4 @@
-import { RECEIVE_COURSES, WRITE_COURSE } from '../actions/courses'
+import {CLEAR_COURSES, RECEIVE_COURSES, WRITE_COURSE} from '../actions/courses'
 
 
 
@@ -22,6 +22,9 @@ export default function coursesReducer (state={}, action) {
                 }
 
             };
+
+        case CLEAR_COURSES:
+            return { }
 
 
         default:

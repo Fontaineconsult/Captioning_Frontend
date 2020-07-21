@@ -5,8 +5,15 @@ import {withRouter} from "react-router";
 import {assetDiscovery, fetchIlearnVideosBySemester, fetchAllCourses, permissionDiscovery } from "./actions/ampApi/fetchData";
 import MasterContainer from './components/masterContainer'
 import queryString from "query-string"
+ import {setGlobalParams} from "./actions/globals";
+import {clearRequesterResources} from './actions/requester'
+ import {clearCapJobs} from "./actions/existingVideoJobs";
+import {clearCourses} from "./actions/courses";
+import {clearIlearnVideo} from "./actions/ilearn_videos";
+import {AllLoadingOn} from "./actions/status"
 
-class App extends Component {
+
+ class App extends Component {
 
     constructor(props) {
         super(props);
@@ -15,8 +22,7 @@ class App extends Component {
 
 
     componentDidMount() {
-
-
+    this.props.dispatch(setGlobalParams())
     this.props.dispatch(permissionDiscovery(this.query_id.id))
 
 
@@ -38,6 +44,22 @@ class App extends Component {
      //    this.props.dispatch(addMediaToDBandTempJob("Test", "www.111ur.ur..4444urcom", "link"))
 }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+        if (this.props.globalsReducer.currentSemester !== prevProps.globalsReducer.currentSemester) {
+            this.props.dispatch(AllLoadingOn())
+            this.props.dispatch(clearRequesterResources())
+            this.props.dispatch(clearCapJobs())
+            this.props.dispatch(clearCourses())
+            this.props.dispatch(clearIlearnVideo())
+
+
+        }
+
+
+
+
+    }
 
 
     render() {
@@ -57,7 +79,7 @@ class App extends Component {
 }
 
 
-function mapStateToProps({state, userPermissionReducer, requesterReducer, loadingStatusReducer}) {
+function mapStateToProps({state, userPermissionReducer, requesterReducer, loadingStatusReducer, globalsReducer}) {
 
     let userPass = userPermissionReducer.hasOwnProperty("message") || Object.keys(userPermissionReducer).length === 0
     let assetPass = requesterReducer.hasOwnProperty("message") || Object.keys(requesterReducer).length === 0
@@ -69,7 +91,8 @@ function mapStateToProps({state, userPermissionReducer, requesterReducer, loadin
         assetPass,
         userPermissionReducer,
         requesterReducer,
-        permissionsLoading
+        permissionsLoading,
+        globalsReducer
 
 
     }

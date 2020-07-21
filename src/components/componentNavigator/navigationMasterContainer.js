@@ -12,6 +12,7 @@ import JobManagementMasterContainer from "../JobManagementContainer/JobManagemen
 import '../../css/NavMaster.css'
 import IlearnManagementControlContainer from "../iLearnViewsContainer/iLearnNavBar/IlearnManagementControlContainer";
 import AddJobControlContainer from "../AddCapJobView/AddJobControlContainer"
+import {updateGlobalParam} from "../../actions/globals"
 
 
 
@@ -24,11 +25,27 @@ class NavigationMasterContainer extends Component {
         this.state = {
             jobManagerActive: true,
             addJobActive: false,
-            iLearnScraperActive: false
+            iLearnScraperActive: false,
+            semester: ""
 
         };
 
         this.selectNavigator = this.selectNavigator.bind(this)
+        this.updateSemester = this.updateSemester.bind(this)
+    }
+
+    componentDidMount() {
+
+        this.setState({
+            semester: this.props.globalsReducer.currentSemester
+
+        })
+    }
+
+
+    updateSemester(event) {
+        this.setState({semester: event.target.value});
+        this.props.dispatch(updateGlobalParam("currentSemester", event.target.value))
     }
 
     selectNavigator(event) {
@@ -95,7 +112,26 @@ class NavigationMasterContainer extends Component {
                                     search: this.props.location.search,
                                 }}>Users</NavLink>
                         </div>
+
+
+
+
                     </div>
+
+                    <div className={"semesterSelectContainer"}>
+                        <form>
+                            <label>
+                                Semester
+                                <select value={this.state.semester} onChange={this.updateSemester}>
+                                    <option value={"sp20"}>Spring 2020</option>
+                                    <option value={"su20"}>Summer 2020</option>
+                                    <option value={"fa20"}>Fall 2020</option>
+                                </select>
+                            </label>
+                        </form>
+
+                    </div>
+
                 </div>
                 <div className="navContent">
                     <Switch>
@@ -106,8 +142,6 @@ class NavigationMasterContainer extends Component {
                     </Switch>
 
 
-                    {/*{this.state.addJobActive && <AddJobControlContainer/>}*/}
-                    {/*{this.state.iLearnScraperActive && <IlearnManagementControlContainer/>}*/}
 
                 </div>
             </div>
@@ -116,11 +150,12 @@ class NavigationMasterContainer extends Component {
     }
 }
 
-function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer}, {query}) {
+function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer, globalsReducer}, {query}) {
 
     let isLoaded = !loadingStatusReducer.userRequestsLoading && !loadingStatusReducer.coursesLoading
     return {
         query,
+        globalsReducer,
         isLoaded
     }
 }
