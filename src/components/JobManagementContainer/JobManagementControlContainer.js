@@ -207,7 +207,7 @@ class JobManagementControlContainer extends Component {
 function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer, requesterReducer, coursesReducer}, {jobsLoading}) {
 
     let requester = {};
-    let courseSelectorContent = {};
+    let courseSelectorContent = [];
     let videoJobReducerKeys = Object.keys(videosJobsReducer)
 
     if (Object.keys(requesterReducer).length > 0 && Object.keys(videosJobsReducer).length > 0) {
