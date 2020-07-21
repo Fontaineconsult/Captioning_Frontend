@@ -115,27 +115,25 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
 
     if (transaction_id !== "") {
         if (mediaSearchReducer.hasOwnProperty(transaction_id)) {
-            captionResources = mediaSearchReducer[transaction_id].captioned_resources.reduce((accumulator, currentValue) => {
-                if (currentValue.amara_id !== null) {
-                    accumulator.push({
-                        currentValue
-                    })
-                }
-                return accumulator
-            }, [])
-            if (captionResources.length > 0) {
-                console.log(captionResources, ":DFSLHDFGJLHDFGJHLKDFG")
-                captionUrl = captionResources[0].currentValue.amara_resource.url
+            if (mediaSearchReducer[transaction_id].hasOwnProperty("captioned_resources")) {
 
+                captionResources = mediaSearchReducer[transaction_id].captioned_resources.reduce((accumulator, currentValue) => {
+                    if (currentValue.amara_id !== null) {
+                        accumulator.push({
+                            currentValue
+                        })
+                    }
+                    return accumulator
+                }, [])
+
+                if (captionResources.length > 0) {
+                    captionUrl = captionResources[0].currentValue.amara_resource.url
+                }
             }
+
+
         }
     }
-
-
-
-
-    console.log("ZOORRGS", captionResources)
-
 
     return {
         mediaSearchReducer,

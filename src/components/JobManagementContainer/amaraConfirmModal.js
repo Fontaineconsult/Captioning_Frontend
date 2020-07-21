@@ -93,8 +93,14 @@ class AmaraModalContainer extends Component {
     };
 
     createAmaraResource(event){
-        this.props.dispatch(createAmaraResource(this.props.media_id))
+        if (this.state.media_select === ""){
+            this.props.dispatch(createAmaraResource(this.props.media_id))
+        } else {
+            console.log(this.state.media_select)
+            this.props.dispatch(createAmaraResource(this.props.media_id, this.state.media_select.file_id))
 
+
+        }
 
     }
 
@@ -118,7 +124,6 @@ class AmaraModalContainer extends Component {
         });
 
     }
-
 
     modalContent() {
         return(
@@ -154,7 +159,6 @@ class AmaraModalContainer extends Component {
         )
 
     }
-
 
     render() {
 
