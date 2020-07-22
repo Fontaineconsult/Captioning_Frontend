@@ -50,14 +50,19 @@ export default function videosJobsReducer (state={}, action) {
 
         case ADD_AST_ID_TO_AST_JOB: {
 
-            let index = state[action.job_id].ast_jobs.findIndex(element => {
+            let exitingId = state[action.job_id].ast_jobs.findIndex(element => {
                 return element.id === action.ast_job_id
             })
-            let new_job = state[action.job_id].ast_jobs[index]
+
+            let new_job = state[action.job_id].ast_jobs[exitingId]
+
             new_job.ast_id = action.unique_ast_job_id
+            new_job.captioning_status = "submitted"
 
             let new_jobs = [...state[action.job_id].ast_jobs]
-            new_jobs[index] = new_job
+
+            new_jobs[exitingId] = new_job
+
             return {
                 ...state,
                 [action.job_id]: {...state[action.job_id],

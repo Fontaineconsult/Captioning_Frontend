@@ -7,21 +7,20 @@ import {withStyles} from "@material-ui/core/styles";
 import {addAstJobToCaptioningJob} from "../../actions/ampApi/postData"
 import { v1 as uuidv1 } from 'uuid';
 import astModal from "../../css/astModal.css"
+import {astMediaSelectCustomStyles} from "./selectCustomStyle"
 
 import Select from "react-select";
 
 const useStyles = theme => ({
     paper: {
         position: 'absolute',
-        width: 800,
+        width: 600,
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
     },
 });
-
-
 
 class AstModalContainer extends Component {
 
@@ -38,6 +37,7 @@ class AstModalContainer extends Component {
 
 
         };
+
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.getModalStyle = this.getModalStyle.bind(this);
@@ -46,8 +46,10 @@ class AstModalContainer extends Component {
         this.submitJobtoDB = this.submitJobtoDB.bind(this)
         this.updateState = this.updateState.bind(this)
         this.updateMediaSelect = this.updateMediaSelect.bind(this)
-
     }
+
+
+
 
 
     getModalStyle() {
@@ -116,41 +118,52 @@ class AstModalContainer extends Component {
             <div style={this.state.modalStyle} className={this.props.classes.paper}>
                 <div className={"astModalTitle"}>Create AST Job</div>
 
-                <div>
                     <form>
-                        <label>
-                            Select Media
-                            <Select value={this.state.file_id} onChange={this.updateMediaSelect} options={this.state.file_select}/>
-                        </label>
+                        <div>
+                                <div style={{"margin-bottom": 10}}>
+                                    <div>
+                                        <label>
+                                            Select Media
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <Select name={"astMediaSelect"} styles={astMediaSelectCustomStyles}
+                                                value={this.state.file_id} onChange={this.updateMediaSelect}
+                                                options={this.state.file_select}/>
+                                    </div>
+                                </div>
 
+                            <div style={{"margin-bottom": 10}}>
+                                <div>
+                                    <label>Rate</label>
+                                </div>
+                                <div>
+                                    <select name="rate" value={this.state.rate} onChange={this.updateState}>
+                                        <option value="H">8 Hour</option>
+                                        <option value="R">1 Day</option>
+                                        <option value="T">2 Day</option>
+                                        <option value="L">4 Day</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        <label>
-                            Rate
-                            <select name="rate" value={this.state.rate} onChange={this.updateState}>
-                                <option value="H">8 Hour</option>
-                                <option value="R">1 Day</option>
-                                <option value="T">2 Day</option>
-                                <option value="L">4 Day</option>
-                            </select>
-                        </label>
-                        <label>
-                            <Button onClick={this.submitJobtoDB}>Init Job</Button>
-                        </label>
+                            <div style={{"margin-bottom": 30}}>
+                                <Button disabled={this.state.file_id===""} onClick={this.submitJobtoDB}>Init Job</Button>
+                            </div>
+                        </div>
+
                     </form>
-                    Create AST Job
-                </div>
+
+
                 <div>
                     <div>
                         Are you sure you want to submit? Charges will apply.
                     </div>
-                    <Button onClick={this.createAstJob}>Submit to AST</Button>
+                    <Button disabled={true} onClick={this.createAstJob}>Submit to AST</Button>
                 </div>
-
             </div>
 
-
         )
-
 
     }
 
@@ -183,8 +196,10 @@ function mapStateToProps({mediaReducer, videosJobsReducer, loadingStatusReducer}
     if (loadingStatusReducer.videoJobsLoading === false) {
 
         media_files = mediaReducer[videosJobsReducer[job_id].media.id].media_objects.reduce((accumulator, element) => {
-            if (element.associated_files !== null){
+            if (element.associated_files !== null)  {
+
                 accumulator.push({value: element.associated_files.id, label: element.associated_files.file_name})
+
             }
             return accumulator
         },[])

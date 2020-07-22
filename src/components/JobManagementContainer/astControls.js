@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import { ReactTabulator, reactFormatter } from 'react-tabulator'
 import moment from 'moment'
 import AstModalContainer from "./astConfirmModal";
-import {initializeASTJob} from "../../actions/ampApi/putData"
+import {submitASTJobToAST} from "../../actions/ampApi/putData"
 import {astJobURL} from "../../constants";
 
 
@@ -21,7 +21,7 @@ class AstJobControlMenu extends Component {
     }
 
     initASTJob(ast_job_id, job_id) {
-        this.props.dispatch(initializeASTJob(ast_job_id, job_id))
+        this.props.dispatch(submitASTJobToAST(ast_job_id, job_id))
 
 
     }
