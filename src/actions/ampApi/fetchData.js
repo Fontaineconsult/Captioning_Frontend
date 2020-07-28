@@ -330,10 +330,9 @@ export function downloadCaptionFile(item_id, media_id) {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/download/caption?item_id=${item_id}&media_id=${media_id}`)
             .then(function(response){
-                let filename = response.headers.get('Content-Disposition').split("filename=")[1]
                 response.blob().then(
                     function (blob) {
-                        download(blob, response.headers.get('Content-Disposition').split("filename=")[1], 'text/plain')
+                        download(blob, response.headers.get('Content-Disposition').split("filename=")[1].replace('"','').replace('"',''), 'text/plain')
                     }
                 )
             })
@@ -341,8 +340,6 @@ export function downloadCaptionFile(item_id, media_id) {
     }
 
 }
-
-
 export function downloadMediaFile(item_id, media_id) {
 
 
@@ -351,11 +348,9 @@ export function downloadMediaFile(item_id, media_id) {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/download/file?item_id=${item_id}&media_id=${media_id}`)
             .then(function(response){
-                console.log(response.headers, response.headers.get('X-Something'))
-                let filename = response.headers.get('Content-Disposition').split("filename=")[1]
                 response.blob().then(
                     function (blob) {
-                        download(blob, response.headers.get('Content-Disposition').split("filename=")[1], 'video/mp4')
+                        download(blob, response.headers.get('Content-Disposition').split("filename=")[1].replace('"','').replace('"',''), 'video/mp4')
                     }
                 )
             })
