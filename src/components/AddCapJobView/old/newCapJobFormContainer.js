@@ -45,6 +45,7 @@ class NewCapJobFormContainer extends Component {
                             comments: this.state.comments,
                             employee_id: employee_id,
                             requester_id: requester_id,
+                            semester: this.props.semester
                             };
 
         this.props.dispatch(addJobInfoToTempJob(this.props.transaction_id, reducer_obj))
@@ -72,9 +73,7 @@ class NewCapJobFormContainer extends Component {
         event.preventDefault();
 
         if (this.props.mediaSearchReducer[this.props.transaction_id]) {
-            console.log("MEDIA EXISTS")
             if (Object.keys(this.props.tempJobsFormReducer[this.props.transaction_id].video).length === 0) {
-                console.log("Keys is 0")
                 this.props.dispatch(addMediaToTempJobNoId(this.props.transaction_id, this.props.mediaSearchReducer[this.props.transaction_id]))
             }
         }
@@ -125,7 +124,9 @@ class NewCapJobFormContainer extends Component {
 
 }
 
-function mapStateToProps({coursesReducer, mediaSearchReducer, tempJobsFormReducer, requesterReducer}, {transaction_id}) {
+function mapStateToProps({globalsReducer, coursesReducer, mediaSearchReducer, tempJobsFormReducer, requesterReducer}, {transaction_id}) {
+    let semester = globalsReducer.currentSemester
+
 
     let courses_list = Object.keys(coursesReducer).map(current_course => {
         return {value: current_course , label: current_course,}
@@ -137,7 +138,8 @@ function mapStateToProps({coursesReducer, mediaSearchReducer, tempJobsFormReduce
         courses_list,
         tempJobsFormReducer,
         mediaSearchReducer,
-        requesterReducer
+        requesterReducer,
+        semester
     }
 }
 

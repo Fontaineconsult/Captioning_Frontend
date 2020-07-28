@@ -7,8 +7,6 @@ import {addJobInfoToTempJob, completeTempJob} from "../../actions/tempJobsForm";
 import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import TextField from '@material-ui/core/TextField';
-import addJobsContainer from "../iLearnViewsContainer/iLearnTabulatorViewContainer/addJobsContainer";
-import Section from "react-virtualized/dist/commonjs/Collection/Section";
 import MenuItem from "@material-ui/core/MenuItem";
 
 class NewJobFormContainer extends Component {
@@ -42,6 +40,7 @@ class NewJobFormContainer extends Component {
             delivery_format: this.state.delivery_format,
             comments: this.state.comments,
             requester_id: this.props.requesterId.requester_id,
+            semester: this.props.semester
         };
 
         this.props.dispatch(addJobInfoToTempJob(this.props.transaction_id, reducer_obj))
@@ -134,10 +133,11 @@ class NewJobFormContainer extends Component {
 
 }
 
-function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tempJobsFormReducer, requesterReducer}, {props, requesterId,transaction_id, isLocked}) {
+function mapStateToProps({globalsReducer, coursesReducer, mediaSearchReducer, errorsReducer, tempJobsFormReducer, requesterReducer}, {props, requesterId,transaction_id, isLocked}) {
     let formEnabled = transaction_id in tempJobsFormReducer;
     let submitButtonEnabled = false
     let filePresent = false
+    let semester = globalsReducer.currentSemester
 
     // Controls the submit but disabled feature
     if (tempJobsFormReducer.hasOwnProperty(transaction_id)) {
@@ -180,7 +180,8 @@ function mapStateToProps({coursesReducer, mediaSearchReducer, errorsReducer, tem
         requesterId,
         formEnabled,
         filePresent,
-        submitButtonEnabled
+        submitButtonEnabled,
+        semester
     }
 }
 

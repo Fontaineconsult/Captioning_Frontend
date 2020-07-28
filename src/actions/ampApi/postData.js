@@ -42,12 +42,13 @@ function responseHandler(response, dispatch, reducer, unique_id, statusReducer) 
 
 }
 
-export function AddVideoJob(requester_id, show_date, media_id, output_format, comments) {
+export function AddVideoJob(requester_id, show_date, media_id, output_format, comments, semester) {
     let data_object = { 'requester_id': requester_id,
                         'show_date': show_date,
                         'media_id': media_id,
                         'output_format': output_format,
-                        'comments': comments}
+                        'comments': comments,
+                        'semester': semester}
 
 
 
@@ -87,7 +88,8 @@ export function AddVideoJobBatch(jobsReducer) {
                 'show_date': currentJob.job_info.show_date,
                 'media_id': parseInt(currentJob.video.id, 10),
                 'output_format': currentJob.job_info.delivery_format,
-                'comments': currentJob.job_info.comments}
+                'comments': currentJob.job_info.comments,
+                'semester': currentJob.job_info.semester}
             return {
                 method: 'POST',
                 body: JSON.stringify(data_object),

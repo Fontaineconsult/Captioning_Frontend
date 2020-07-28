@@ -4,17 +4,61 @@ import {withRouter} from "react-router";
 import TabulatorContainer from '../iLearnTabulatorViewContainer/TabulatorContainer'
 import '../../../css/courseContainer-css.css'
 import {iLearnURL} from '../../../constants'
-
+import {updateCourse} from '../../../actions/ampApi/putData'
 
 
 class ILearnCourseContainer extends Component {
+
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            ilearn_video_active_check: false,
+            ignore_course_check: false
+        };
+        this.handleInputChange = this.handleInputChange.bind(this)
+    }
+
+
+
+
+    componentDidMount() {
+        this.setState({ilearn_video_active_check: this.props.ilearn_video_active_check})
+
+    }
+
+
+    handleInputChange(event) {
+
+        const target = event.target;
+        const value = target.checked === true
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+
+        if (name === "ilearn_video_active_check") {
+            this.props.dispatch(updateCourse(this.props.course_id, "ilearn_video_service_requested", value))
+        }
+
+        if (name === "ignore_course_check") {
+            this.props.dispatch(updateCourse(this.props.course_id, "ignore_course_ilearn_videos", value))
+
+        }
+
+
+    }
+
     ilearnPage = iLearnURL() + this.props.ilearnId;
 
-    render() {
+    render()
+
+
+        {
 
 
         return(
-
             <div className={"courseContainer"}>
                 <div className={"courseUpperContainer"}>
                     <div className={"courseUpperContainerLeft"}>
@@ -27,6 +71,12 @@ class ILearnCourseContainer extends Component {
                         <div className={"infoContainerLeft"}>
                             <div>Students Enrolled: {this.props.numStudentsEnrolled}</div>
                             <div>Captioning Requested: {this.props.studentRequestsCaptioning === true ? "Yes":"No" }</div>
+                            <div><form>
+                                <label htmlFor={"ilearn_video_active_check"}>iLearn Video Active</label>
+                                <input checked={this.state.ilearn_video_active_check} onChange={this.handleInputChange} name={"ilearn_video_active_check"} id={"ilearn_video_active_check"} type="checkbox"/>
+                                <label htmlFor={"ignore_course_check"}>Ignore Course</label>
+                                <input checked={this.state.ignore_course_check} onChange={this.handleInputChange} name={"ignore_course_check"} id={"ignore_course_check"} type="checkbox"/>
+                            </form></div>
                         </div>
                         <div className={"infoContainerRight"}>
                             <div><b>Semester: </b>{this.props.semester}</div>
@@ -55,6 +105,7 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
     let numStudentsEnrolled = 0;
     let studentRequestsCaptioning = false;
+    let ilearn_video_active_check = coursesReducer[course_id].ilearn_video_service_requested === null ? false : coursesReducer[course_id].ilearn_video_service_requested
 
     // counts enrollement and captioning request state
     Object.keys(coursesReducer[course_id].students_enrolled).forEach(enroll => {
@@ -80,6 +131,7 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
     let ilearnId = coursesReducer[course_id].ilearn_page_id == null ? "No iLearn ID" : coursesReducer[course_id].ilearn_page_id.ilearn_page_id
 
 
+    console.log(course_id, ilearn_video_active_check)
     return {
         ilearnId,
         semester,
@@ -89,7 +141,8 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
         courseHasVideos,
         numStudentsEnrolled,
         studentRequestsCaptioning,
-        courseilearnvideos
+        courseilearnvideos,
+        ilearn_video_active_check
 
     }
 }

@@ -34,6 +34,7 @@ class AddJobsiLearnContainer extends Component {
                 delivery_format: "Amara",
                 comments: "Added from iLearn Page",
                 requester_id: requester_id,
+                semester: this.props.semester
             };
             this.props.dispatch(addJobInfoToTempJob(id, reducer_obj))
             this.props.dispatch(completeTempJob(id,true))
@@ -68,7 +69,9 @@ class AddJobsiLearnContainer extends Component {
 }
 
 
-function mapStateToProps({coursesReducer, requesterReducer}, {course_gen_id, selected_rows}) {
+function mapStateToProps({globalsReducer, coursesReducer, requesterReducer}, {course_gen_id, selected_rows}) {
+
+    let semester = globalsReducer.semester
 
     let requester_id = Object.keys(requesterReducer).find(requester => {
         if (requesterReducer[requester].course_id === course_gen_id) {
@@ -84,7 +87,8 @@ function mapStateToProps({coursesReducer, requesterReducer}, {course_gen_id, sel
         coursesReducer,
         course_gen_id,
         selected_rows,
-        requester_id
+        requester_id,
+        semester
     }
 }
 

@@ -49,7 +49,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postbuild": "del C:\\Users\\DanielPC\\Desktop\\Servers\\accessiblebookchecker\\flask_site\\pages\\static\\react\\* && del C:\\Users\\DanielPC\\Desktop\\Servers\\accessiblebookchecker\\flask_site\\pages\\templates\\index.html && move build\\index.html C:\\Users\\DanielPC\\Desktop\\Servers\\accessiblebookchecker\\flask_site\\pages\\templates && move build\\* C:\\Users\\DanielPC\\Desktop\\Servers\\accessiblebookchecker\\flask_site\\pages\\static\\react && move build\\static C:\\Users\\DanielPC\\Desktop\\Servers\\accessiblebookchecker\\flask_site\\pages\\static\\react"
+    "postbuild": "postbuild.bat"
+
+
   },
   "eslintConfig": {
     "extends": "react-app"

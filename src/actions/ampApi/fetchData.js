@@ -333,11 +333,11 @@ export function downloadCaptionFile(item_id, media_id) {
                 let filename = response.headers.get('Content-Disposition').split("filename=")[1]
                 response.blob().then(
                     function (blob) {
-                        download(blob, response.headers.get('Content-Disposition').split("filename=")[1], 'text/srt')
+                        download(blob, response.headers.get('Content-Disposition').split("filename=")[1], 'text/plain')
                     }
                 )
             })
-            .then(blob => dispatch(LoadingMedia(false)))
+            .then(() => dispatch(LoadingMedia(false)))
     }
 
 }
@@ -355,11 +355,11 @@ export function downloadMediaFile(item_id, media_id) {
                 let filename = response.headers.get('Content-Disposition').split("filename=")[1]
                 response.blob().then(
                     function (blob) {
-                        download(blob, response.headers.get('Content-Disposition').split("filename=")[1], 'text/srt')
+                        download(blob, response.headers.get('Content-Disposition').split("filename=")[1], 'video/mp4')
                     }
                 )
             })
-            .then(blob => dispatch(LoadingMedia(false)))
+            .then(() => dispatch(LoadingMedia(false)))
     }
 
 }

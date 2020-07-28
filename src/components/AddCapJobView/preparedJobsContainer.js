@@ -42,7 +42,6 @@ class PreparedJobsContainer extends Component {
     }
 
     removeItem(e, cell) {
-        console.log("IS THIS GETTING CALLLLLLEEEDDD")
         let transaction_id = cell._cell.row.data.id;
         this.props.dispatch(removeJobfromTempCapJobs(transaction_id))
 
