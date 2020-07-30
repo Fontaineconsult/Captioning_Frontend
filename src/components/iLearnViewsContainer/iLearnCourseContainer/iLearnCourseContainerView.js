@@ -112,7 +112,6 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
     if (loadingStatusReducer.coursesLoading === false) {
         if (Object.keys(coursesReducer).length > 0 && Object.keys(iLearnVideoReducer).length) {
             ilearn_video_active_check = coursesReducer[course_id].ilearn_video_service_requested === null ? false : coursesReducer[course_id].ilearn_video_service_requested
-
             Object.keys(coursesReducer[course_id].students_enrolled).forEach(enroll => {
                 if (coursesReducer[course_id].students_enrolled[enroll].student_enrolled === true){
                     numStudentsEnrolled += 1;

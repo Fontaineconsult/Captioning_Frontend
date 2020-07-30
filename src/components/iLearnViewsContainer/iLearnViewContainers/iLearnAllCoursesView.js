@@ -17,17 +17,13 @@ class ILearnAllCoursesView extends Component {
                 fixedWidth: true,
                 defaultHeight: 200
             })
-
-
         };
-
 
     }
 
     componentDidMount() {
 
         if (this.props.studentActive === true) {
-
 
             this.setState({
                 cache: new CellMeasurerCache({
@@ -50,11 +46,7 @@ class ILearnAllCoursesView extends Component {
                 captioningCourses:Object.keys(this.props.no_captioning)
 
             })
-
-
         }
-
-
 
     }
 
@@ -122,14 +114,13 @@ class ILearnAllCoursesView extends Component {
         return(
 
             <div>
-                <p>Your iLearn Videos {this.props.showCourseStubs} ||</p>
-
                 <div className={"iLearnContentContainer"}>
-                {this.props.showCourseStubs  && <CircularProgress/>}
-                    {!this.props.showCourseStubs && (
+                    {Object.keys(this.props.courseilearnVideos).length === 0 && ("No iLearn Videos")}
 
+
+                {Object.keys(this.props.courseilearnVideos).length > 0 && this.props.showCourseStubs  && <CircularProgress/>}
+                {Object.keys(this.props.courseilearnVideos).length > 0 && !this.props.showCourseStubs && (
                         <div className="list">
-
                             <AutoSizer>
                                 {
                                     ({ width, height }) => {
@@ -145,11 +136,7 @@ class ILearnAllCoursesView extends Component {
                                 }
                             </AutoSizer>
                         </div>
-
-
                     )}
-
-
                 </div>
             </div>
         )
@@ -195,7 +182,6 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
     function capActive(element, index, array) {
         return element.student_requests_captioning === true
-
     }
 
     let showCourseContainer = !courseIsLoading && !isLoading && Object.keys(courseilearnVideos).length > 0;
@@ -211,6 +197,8 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
 
     });
+
+    console.log("ZPPRRKKKS", courseilearnVideos)
 
         return {
         courseIsLoading,
