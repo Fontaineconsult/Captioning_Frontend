@@ -111,7 +111,6 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
     if (loadingStatusReducer.coursesLoading === false) {
         if (Object.keys(coursesReducer).length > 0 && Object.keys(iLearnVideoReducer).length) {
-            console.log("BLAAHHHHHHHHHHHHH")
             ilearn_video_active_check = coursesReducer[course_id].ilearn_video_service_requested === null ? false : coursesReducer[course_id].ilearn_video_service_requested
 
             Object.keys(coursesReducer[course_id].students_enrolled).forEach(enroll => {
@@ -133,8 +132,6 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
 
     }
-
-
 
     // counts enrollement and captioning request state
 
