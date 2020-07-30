@@ -57,16 +57,12 @@ class ILearnCourseContainer extends Component {
 
         {
 
-
         return(
             <div className={"courseContainer"}>
                 <div className={"courseUpperContainer"}>
                     <div className={"courseUpperContainerLeft"}>
                         Course: {this.props.course_name}.{this.props.courseSection}
                     </div>
-
-
-
                     <div className={"courseUpperContainerRight"}>
                         <div className={"infoContainerLeft"}>
                             <div>Students Enrolled: {this.props.numStudentsEnrolled}</div>
@@ -105,33 +101,45 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
     let numStudentsEnrolled = 0;
     let studentRequestsCaptioning = false;
-    let ilearn_video_active_check = coursesReducer[course_id].ilearn_video_service_requested === null ? false : coursesReducer[course_id].ilearn_video_service_requested
+    let ilearn_video_active_check = null
+    let courseilearnvideos = {}
+    let course_name = ''
+    let courseSection = ''
+    let semester = ''
+    let ilearnId = ''
 
-    // counts enrollement and captioning request state
-    Object.keys(coursesReducer[course_id].students_enrolled).forEach(enroll => {
-        if (coursesReducer[course_id].students_enrolled[enroll].student_enrolled === true){
-            numStudentsEnrolled += 1;
-            if (coursesReducer[course_id].students_enrolled[enroll].student_requests_captioning === true){
-                studentRequestsCaptioning = true
-            }
+
+    if (loadingStatusReducer.coursesLoading === false) {
+        if (Object.keys(coursesReducer).length > 0 && Object.keys(iLearnVideoReducer).length) {
+            console.log("BLAAHHHHHHHHHHHHH")
+            ilearn_video_active_check = coursesReducer[course_id].ilearn_video_service_requested === null ? false : coursesReducer[course_id].ilearn_video_service_requested
+
+            Object.keys(coursesReducer[course_id].students_enrolled).forEach(enroll => {
+                if (coursesReducer[course_id].students_enrolled[enroll].student_enrolled === true){
+                    numStudentsEnrolled += 1;
+                    if (coursesReducer[course_id].students_enrolled[enroll].student_requests_captioning === true){
+                        studentRequestsCaptioning = true
+                    }
+                }
+
+            });
+            courseilearnvideos = ilearnvideos[course_id]
+            course_name = coursesReducer[course_id].course_name
+            courseSection = coursesReducer[course_id].course_section
+            semester = coursesReducer[course_id].semester;
+            ilearnId = coursesReducer[course_id].ilearn_page_id == null ? "No iLearn ID" : coursesReducer[course_id].ilearn_page_id.ilearn_page_id
+
         }
 
-    });
+
+    }
 
 
 
+    // counts enrollement and captioning request state
 
-
-    let courseilearnvideos = ilearnvideos[course_id]
-    let course_name = coursesReducer[course_id].course_name
     let courseHasVideos = Object.keys(courseilearnvideos).length > 0
 
-    let courseSection = coursesReducer[course_id].course_section
-    let semester = coursesReducer[course_id].semester;
-    let ilearnId = coursesReducer[course_id].ilearn_page_id == null ? "No iLearn ID" : coursesReducer[course_id].ilearn_page_id.ilearn_page_id
-
-
-    console.log(course_id, ilearn_video_active_check)
     return {
         ilearnId,
         semester,
