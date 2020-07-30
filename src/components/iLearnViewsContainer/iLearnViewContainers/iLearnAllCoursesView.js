@@ -53,12 +53,8 @@ class ILearnAllCoursesView extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
 
-
         if (this.props.studentActive !== prevProps.studentActive) {
-
             if (this.props.studentActive === true) {
-
-
                 this.setState({
                     cache: new CellMeasurerCache({
                         fixedWidth: true,
@@ -86,7 +82,6 @@ class ILearnAllCoursesView extends Component {
 
     }
 
-
     renderRow = (index, key, style, parent) => {
 
         return(
@@ -109,7 +104,6 @@ class ILearnAllCoursesView extends Component {
             </CellMeasurer>
         )
     }
-
     render() {
         return(
 
@@ -197,8 +191,6 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
 
     });
-
-    console.log("ZPPRRKKKS", courseilearnVideos)
 
         return {
         courseIsLoading,
