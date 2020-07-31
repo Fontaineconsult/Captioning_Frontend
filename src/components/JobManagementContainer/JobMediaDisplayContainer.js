@@ -49,17 +49,27 @@ class JobMediaDisplayContainer extends Component {
         return (
             <div className="capJobMediaContainer">
                 <div>
-                    <form>
+
                         <div className="capJobMediaContentContainer">
                             <div tabIndex={0} className="mediaContentDescriptor">
-                                Title: {this.state.title}
+                                <label style={{'margin-right': '80px'}}>
+                                    Title:
+                                </label>
+                                <div>
+                                    {this.state.title}
+                                </div>
                             </div>
+
                         </div>
                         <div className="capJobMediaContentContainer">
                             <div tabIndex={0} className="mediaContentDescriptor">
-                                {this.props.media.media_type === 'File' && "Source File: "}{this.props.media.media_type === 'File' && <a href={this.props.download_url}>{this.props.fileObject.associated_files.file_name}</a>}
-                                {this.props.media.media_type === 'URL' && "Source URL: "}{this.props.media.media_type === 'URL' && <a href={this.state.source_url}>{this.state.source_url}</a>}
+                                {this.props.media.media_type === 'File' && (<label style={{'margin-right': '32px'}}>Source File: </label>)}
+                                {this.props.media.media_type === 'File' && <a href={this.props.download_url}>{this.props.fileObject.associated_files.file_name}</a>}
+
+                                {this.props.media.media_type === 'URL' && (<label style={{'margin-right': '32px'}}>Source URL: </label>)}
+                                {this.props.media.media_type === 'URL' && (<div><a href={this.state.source_url}>{this.state.source_url}</a></div>)}
                             </div>
+
                             <div className={"extractorButtonsContainer"}>
                                 <div className={"extractorButton"}><div className={"extractorLabel"}>m4a</div><IconButton disabled={false} name={"extract_video"} size={"small"} onClick={this.extractAudio}><SettingsEthernetIcon fontSize={"small"}/></IconButton></div>
                                 <div className={"extractorButton"}><div className={"extractorLabel"}>mp4</div><IconButton disabled={false} name={"extract_video"} size={"small"} onClick={this.extractVideo}><SettingsEthernetIcon fontSize={"small"}/></IconButton></div>
@@ -68,12 +78,13 @@ class JobMediaDisplayContainer extends Component {
                         <div className="capJobMediaContentContainer">
                             <label className="capJobMediaContentContainer">
                                 <div className="mediaContentDescriptor">
-                                    Captioned URL:
+                                    <label style={{'margin-right': '8px'}}>Captioned URL:</label>
+                                    <CaptionResourceContainer media_id={this.props.mediaId}/>
                                 </div>
-                                <CaptionResourceContainer media_id={this.props.mediaId}/>
+
                             </label>
                         </div>
-                    </form>
+
                 </div>
             </div>
         )

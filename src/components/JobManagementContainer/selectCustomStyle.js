@@ -13,7 +13,7 @@ export const customStyles = {
         border: '2px solid #757575',
         borderRadius: '0',
         minHeight: '1px',
-        height: '33px',
+        height: '30px',
     }),
     input: (provided) => ({
         ...provided,
@@ -72,10 +72,10 @@ export const mediaSelectCustomStyles = {
     }),
     control: (provided) => ({
         ...provided,
-        border: '2px solid #757575',
+        border: '1px solid #757575',
         borderRadius: '0',
         minHeight: '1px',
-        height: '33px',
+        height: '30px',
     }),
     input: (provided) => ({
         ...provided,
@@ -134,10 +134,10 @@ export const captionResourceSelectCustomStyles = {
     }),
     control: (provided) => ({
         ...provided,
-        border: '2px solid #757575',
+        border: '1px solid #757575',
         borderRadius: '0',
         minHeight: '1px',
-        height: '33px',
+        height: '30px',
     }),
     input: (provided) => ({
         ...provided,
@@ -199,7 +199,7 @@ export const astMediaSelectCustomStyles = {
         border: '2px solid #757575',
         borderRadius: '0',
         minHeight: '1px',
-        height: '33px',
+        height: '30px',
     }),
     input: (provided) => ({
         ...provided,

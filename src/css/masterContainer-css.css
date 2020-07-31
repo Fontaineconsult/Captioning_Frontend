@@ -2,7 +2,7 @@
     max-width: 1400px;
     width: 80vw;
     height: 95vh;
-    min-width: 800px;
+    min-width: 1300px;
     margin-right: auto;
     margin-left: auto;
     border-bottom-color: #282c34;
@@ -16,5 +16,11 @@
 
     height: 3%;
     background-color: #eae6e5;
+    display: flex;
 
+}
+
+.logout-container{
+    margin-right: 3px;
+    margin-left: auto;
 }

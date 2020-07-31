@@ -59,11 +59,9 @@ class JobManagementControlContainer extends Component {
             case "requester_id":
                 this.setState({videoJobs:filter,
                     filterSelectedCourse: value
-
                 });
                 break
         }
-
     }
 
     orderByFilter(value, key) {
@@ -94,15 +92,13 @@ class JobManagementControlContainer extends Component {
         })
 
     }
+
     render() {
 
         let items = []
         if (!this.props.videoJobsLoading) {
-
             if (this.state.videoJobs.length > 0) {
-
                 items = this.state.videoJobs.map(function(item, index){
-
                     if (this.props.videosJobsReducer[item.id] !== undefined) {
                         return (
                             <CSSTransition classNames="item" timeout={200} key={item.id}>
@@ -112,7 +108,6 @@ class JobManagementControlContainer extends Component {
                     }
                 },this)
             }
-
             if (items.length === 0) {
                 items = <div key="1">No Videos</div>
             }
@@ -186,15 +181,9 @@ class JobManagementControlContainer extends Component {
                 </div>
                 <div className="contentContainer jobContentContainer">
 
-
                     <TransitionGroup
                     >{items}
                     </TransitionGroup>
-
-
-
-
-
 
                 </div>
             </div>
@@ -203,12 +192,10 @@ class JobManagementControlContainer extends Component {
 
 }
 
-
 function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer, requesterReducer, coursesReducer}, {jobsLoading}) {
 
     let requester = {};
     let courseSelectorContent = [];
-    let videoJobReducerKeys = Object.keys(videosJobsReducer)
 
     if (Object.keys(requesterReducer).length > 0 && Object.keys(videosJobsReducer).length > 0) {
 
