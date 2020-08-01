@@ -62,7 +62,7 @@ class NewJobMasterContainer extends Component {
                     <Button size="small"  variant="contained" onClick={this.submitJobs} disabled={!this.props.enableSubmit}>{this.props.totalJobs === 0 ? ("No Jobs Added") : ("Submit Jobs") } </Button>
 
                 </div>
-    </div>
+            </div>
 
         )
     }

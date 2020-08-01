@@ -94,8 +94,7 @@ class MasterContainer extends Component {
 
             <div className={"master-container"}>
                 <div className={"top-bar"}>
-                    <div>Master Container</div>
-                    <div className={"logout-container"}><a href={`/authentication/logout`}>logout</a></div>
+
                 </div>
                 <Route path='/captioning'><NavigationMasterContainer query={this.props.query}/></Route>
             </div>

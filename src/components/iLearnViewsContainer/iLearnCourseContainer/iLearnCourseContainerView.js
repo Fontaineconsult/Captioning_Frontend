@@ -58,7 +58,7 @@ class ILearnCourseContainer extends Component {
         {
 
         return(
-            <div className={"courseContainer"}>
+            <div className={"courseContainer masterListItem"}>
                 <div className={"courseUpperContainer"}>
                     <div className={"courseUpperContainerLeft"}>
                         Course: {this.props.course_name}.{this.props.courseSection}

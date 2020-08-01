@@ -139,7 +139,7 @@ class JobContainer extends Component {
     render() {
 
         return (
-            <div className="job-container" tabIndex={0}>
+            <div className="job-container masterListItem" tabIndex={0}>
                 <div className={"job-container-left"} style={{'background':statusColor(this.state.job_status)}}>
                     <span className={'job-status-color'}></span>
                 </div>
@@ -250,17 +250,17 @@ class JobContainer extends Component {
                     </div>
                     <div className="jobControlsBar">
                         <form>
-                            <label>
+                            <label style={{'margin-right': '10px'}}>
                                 Priority
                                 <input type="checkbox" name="priority" checked={this.state.priority} onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
                             </label>
 
 
-                            <label>
+                            <label style={{'margin-right': '10px'}}>
                                 Rush Service
                                 <input type="checkbox" name="rush_service_used" checked={this.state.rush_service_used}  onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
                             </label>
-                            <label>
+                            <label style={{'margin-right': '10px'}}>
                                 Transcripts Requested
                                 <input type="checkbox" name="transcripts_only" checked={this.state.transcripts_only}  onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
                             </label>

@@ -177,7 +177,6 @@ class JobManagementControlContainer extends Component {
                         </div>
                     </div>
 
-
                 </div>
                 <div className="contentContainer jobContentContainer">
 

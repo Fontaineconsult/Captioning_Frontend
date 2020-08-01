@@ -66,13 +66,9 @@ import {AllLoadingOn} from "./actions/status"
 
     return (
       <div className="App">
-
-
           {this.props.permissionsLoading === true && (<p>LOADING LOADING LOADING</p>)}
-          {this.props.permissionsLoading === false & this.props.userPass === true && (<p>You Don't Have Permission for this Content</p>)}
-          {this.props.permissionsLoading === false & this.props.userPass === false && (<MasterContainer query={this.query_id}/>)}
-
-
+          {this.props.permissionsLoading === false && this.props.userPass === true && (<p>You Don't Have Permission for this Content</p>)}
+          {this.props.permissionsLoading === false && this.props.userPass === false && (<MasterContainer query={this.query_id}/>)}
       </div>
     );
   }

@@ -1,28 +1,48 @@
 .NavControlContainer {
-    background-color: #eae6e5;
-    box-shadow: 0px 3px 2px #808385;
+    background-color: #fafafb;
     display:flex;
-    z-index: 999;
+    margin-right: 10vw;
     position: relative;
-    width: 85%;
+
+
 
 }
 
 .navContent {
-    height: 97%;
+    height: 100%;
     overflow: hidden;
 
 }
 
-.NavigationMasterContainer {
+.logout-container{
+    margin-top: 11px;
+    margin-right: 3px;
+    margin-left: auto;
+}
 
+
+
+.NavUpperInnerContainer{
+
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.NavigationMasterContainer {
+    margin-left: auto;
+    margin-right: auto;
     height:97%
 
 }
 
 .NavUpperContainer {
+    position: relative;
     height: 3%;
     display: flex;
+    background-color: #fafafb;
+    box-shadow: 0px 3px 2px #808385;
 
 
 
@@ -30,13 +50,9 @@
 }
 
 .semesterSelectContainer{
-    background-color: #eae6e5;
-    box-shadow: 0px 3px 2px #808385;
-    margin-right: 0px;
-    margin-left: auto;
-    width: 15%;
 
-
+    margin-right: 5vw;
+    margin-top: 11px;
 
 
 }
@@ -54,10 +70,9 @@
 
 .contentContainer {
     height:97%;
-    overflow: scroll;
+    overflow-x: hidden;
 
 }
-
 
 
 .navButton {
@@ -65,7 +80,20 @@
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 10px;
-    padding-bottom: 10px
+    padding-bottom: 10px;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-color: #dcdcdc;
+
+}
+.navButton:first-child{
+    border-left-style: none;
+}
+
+
+.navButton:hover{
+
+    background-color: #acacac;
 
 
 }
@@ -73,7 +101,7 @@
 .control-bar {
     display: flex;
     height:4%;
-    background-color: #eae6e5;
+    background-color: #fafafb;
     border-color: #282c34;
     border-bottom-width: 2px;
     border-bottom-style: solid;
@@ -87,7 +115,6 @@
     margin-right: 15px;
     margin-top: auto;
     margin-bottom: auto;
-
 
 
 }

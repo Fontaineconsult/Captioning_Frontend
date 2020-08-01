@@ -62,75 +62,78 @@ class NavigationMasterContainer extends Component {
         return (
             <div className="NavigationMasterContainer">
                 <div className="NavUpperContainer">
-                    <div className="NavControlContainer">
-                        <div id="jobManager" role="button" className="navButton">
-                            <NavLink
-                            to={{pathname: "/captioning/job-manager",
-                                search: this.props.location.search,
-                            }}>Job Manager</NavLink>
+                    <div className={"NavUpperInnerContainer"}>
+                        <div className="NavControlContainer">
+                            <div id="jobManager" role="button" className="navButton">
+                                <NavLink
+                                    to={{pathname: "/captioning/job-manager",
+                                        search: this.props.location.search,
+                                    }}>Job Manager</NavLink>
+                            </div>
+                            <div id="addJob" role="button" className="navButton">
+                                <NavLink
+                                    to={{pathname: "/captioning/add-job",
+                                        search: this.props.location.search,
+
+                                    }}>Add Job</NavLink>
+                            </div>
+                            <div id="iLearnScraper" role="button" className="navButton" onClick={this.selectNavigator}>
+                                <NavLink
+                                    to={{pathname: "/captioning/ilearn-scraper/active-courses",
+                                        search: this.props.location.search,
+
+                                    }}>iLearn Scraper</NavLink>
+
+                            </div>
+                            <div id="autoCaptioner" role="button" className="navButton" onClick={this.selectNavigator}>
+                                <NavLink
+                                    to={{pathname: "/captioning/auto-captioner",
+                                        search: this.props.location.search,
+
+                                    }}>Auto Captioner</NavLink>
+
+                            </div>
+                            <div id="autoExplorer" role="button" className="navButton" onClick={this.selectNavigator}>
+                                <NavLink
+                                    to={{pathname: "/captioning/content-explorer",
+                                        search: this.props.location.search,
+
+                                    }}>Content Manager</NavLink>
+                            </div>
+                            <div id="email" role="button" className="navButton" onClick={this.selectNavigator}>
+                                <NavLink
+                                    to={{pathname: "/captioning/email",
+                                        search: this.props.location.search,
+
+                                    }}>Email</NavLink>
+                            </div>
+                            <div id="email" role="button" className="navButton" onClick={this.selectNavigator}>
+                                <NavLink
+                                    to={{pathname: "/captioning/users",
+                                        search: this.props.location.search,
+                                    }}>Users</NavLink>
+                            </div>
+
+
+
+
                         </div>
-                        <div id="addJob" role="button" className="navButton">
-                            <NavLink
-                                to={{pathname: "/captioning/add-job",
-                                    search: this.props.location.search,
-
-                                }}>Add Job</NavLink>
+                        <div className={"semesterSelectContainer"}>
+                            <form>
+                                <label>
+                                    Semester
+                                    <select value={this.state.semester} onChange={this.updateSemester}>
+                                        <option value={"sp20"}>Spring 2020</option>
+                                        <option value={"su20"}>Summer 2020</option>
+                                        <option value={"fa20"}>Fall 2020</option>
+                                    </select>
+                                </label>
+                            </form>
                         </div>
-                        <div id="iLearnScraper" role="button" className="navButton" onClick={this.selectNavigator}>
-                            <NavLink
-                                to={{pathname: "/captioning/ilearn-scraper/active-courses",
-                                    search: this.props.location.search,
-
-                                }}>iLearn Scraper</NavLink>
-
-                        </div>
-                        <div id="autoCaptioner" role="button" className="navButton" onClick={this.selectNavigator}>
-                            <NavLink
-                                to={{pathname: "/captioning/auto-captioner",
-                                    search: this.props.location.search,
-
-                                }}>Auto Captioner</NavLink>
-
-                        </div>
-                        <div id="autoExplorer" role="button" className="navButton" onClick={this.selectNavigator}>
-                            <NavLink
-                                to={{pathname: "/captioning/content-explorer",
-                                    search: this.props.location.search,
-
-                                }}>Content Manager</NavLink>
-                        </div>
-                        <div id="email" role="button" className="navButton" onClick={this.selectNavigator}>
-                            <NavLink
-                                to={{pathname: "/captioning/email",
-                                    search: this.props.location.search,
-
-                                }}>Email</NavLink>
-                        </div>
-                        <div id="email" role="button" className="navButton" onClick={this.selectNavigator}>
-                            <NavLink
-                                to={{pathname: "/captioning/users",
-                                    search: this.props.location.search,
-                                }}>Users</NavLink>
-                        </div>
-
-
-
+                        <div className={"logout-container"}><a href={`/authentication/logout`}>logout</a></div>
 
                     </div>
 
-                    <div className={"semesterSelectContainer"}>
-                        <form>
-                            <label>
-                                Semester
-                                <select value={this.state.semester} onChange={this.updateSemester}>
-                                    <option value={"sp20"}>Spring 2020</option>
-                                    <option value={"su20"}>Summer 2020</option>
-                                    <option value={"fa20"}>Fall 2020</option>
-                                </select>
-                            </label>
-                        </form>
-
-                    </div>
 
                 </div>
                 <div className="navContent">

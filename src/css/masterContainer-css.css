@@ -1,26 +1,24 @@
 .master-container {
-    max-width: 1400px;
-    width: 80vw;
-    height: 95vh;
-    min-width: 1300px;
-    margin-right: auto;
-    margin-left: auto;
-    border-bottom-color: #282c34;
-    border-width: 1px;
-    border-style: solid;
+
+    height: 100vh;
     overflow: hidden;
     font-size: 15px;
 }
 
 .top-bar {
+    position: relative;
+    height: 5px;
 
-    height: 3%;
-    background-color: #eae6e5;
     display: flex;
+    background-color: #41187d;
 
 }
 
-.logout-container{
-    margin-right: 3px;
+
+.masterListItem {
+    width: 1300px;
     margin-left: auto;
+    margin-right: auto;
+
+
 }
