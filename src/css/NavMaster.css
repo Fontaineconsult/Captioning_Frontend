@@ -84,6 +84,13 @@
     border-left-style: solid;
     border-left-width: 1px;
     border-color: #dcdcdc;
+    cursor:pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
 
 }
 .navButton:first-child{
@@ -98,9 +105,25 @@
 
 }
 
+
+.jobCount{
+
+    background: #ecc386;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-left: 3px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ca9941
+
+}
+
 .control-bar {
     display: flex;
-    height:4%;
+    height:3.5%;
     background-color: #fafafb;
     border-color: #282c34;
     border-bottom-width: 2px;

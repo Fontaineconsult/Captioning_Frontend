@@ -9,6 +9,7 @@ import {customStyles} from './selectCustomStyle'
 import moment from "moment"
 import {CSSTransition, TransitionGroup}  from 'react-transition-group';
 import jobContainer from '../../css/jobContainer.css'
+import NavMaster from '../../css/NavMaster.css'
 import {LoadingVideoJobs} from "../../actions/status";
 
 class JobManagementControlContainer extends Component {
@@ -21,13 +22,14 @@ class JobManagementControlContainer extends Component {
             courseIds: {},
             filterSelectedCourse: '',
             job_status_value: '',
-            order_by_value: ''
+            order_by_value: '',
+            job_status: 'semesterJobs'
         };
 
         this.reductionFilter = this.reductionFilter.bind(this);
         this.removeFilters = this.removeFilters.bind(this);
         this.orderByFilter = this.orderByFilter.bind(this);
-
+        this.updateJobStatusFilter = this.updateJobStatusFilter.bind(this)
     }
 
     removeFilters(event) {
@@ -40,6 +42,7 @@ class JobManagementControlContainer extends Component {
             })
         }
     }
+
     reductionFilter(value, key) {
 
         let filter = this.state.videoJobs.reduce((accumulator, element) => {
@@ -73,29 +76,41 @@ class JobManagementControlContainer extends Component {
         })
     }
 
+    updateJobStatusFilter(value) {
+        this.setState({job_status:value,
+                            videoJobs: this.props[value].map((key) => this.props.videosJobsReducer[key])})
+
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         // Only runs if no filters are set.
         if (this.state.filterSelectedCourse === '' && this.state.job_status_value === '' && this.state.order_by_value === '') {
-            if (this.state.videoJobs.length !== Object.keys(this.props.videosJobsReducer).length) {
-
+            if (this.state.videoJobs.length !== this.props[this.state.job_status].length) {
                 this.setState({
-                    videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key])
+                    videoJobs: this.props[this.state.job_status].map((key) => this.props.videosJobsReducer[key])
                 })
             }
         }
+
     }
+
+
+
+
 
     componentDidMount() {
 
         this.setState({
-            videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key])
+            videoJobs: this.props.semesterJobs.map((key) => this.props.videosJobsReducer[key])
         })
 
     }
 
     render() {
 
+        console.log("SDGSDGSDG", this.state.videoJobs, this.state.job_status)
         let items = []
+
         if (!this.props.videoJobsLoading) {
             if (this.state.videoJobs.length > 0) {
                 items = this.state.videoJobs.map(function(item, index){
@@ -118,8 +133,14 @@ class JobManagementControlContainer extends Component {
             <div className="JobManagementControlContainer">
                 <div className="control-bar">
                     <div className="controlBarNavButtons">
-                        <div className="controlButton">
-                            Current Jobs
+                        <div role={'button'} className="navButton" onClick={() => this.updateJobStatusFilter("semesterJobs")}>
+                            Semester Jobs <span className={"jobCount"}>{this.props.semesterJobsCount}</span>
+                        </div >
+                        <div role={'button'} className="navButton" onClick={() => this.updateJobStatusFilter("activeJobs")}>
+                            Active Jobs <span className={"jobCount"}>{this.props.activeJobsCount}</span>
+                        </div >
+                        <div role={'button'} className="navButton" onClick={() => this.updateJobStatusFilter("completeJobs")}>
+                            Complete Jobs <span className={"jobCount"}>{this.props.completeJobsCount}</span>
                         </div >
                     </div>
                 </div>
@@ -143,7 +164,6 @@ class JobManagementControlContainer extends Component {
                                 </label>
                             </div>
                             <div className="requesterFilterContainer">
-
                                 <label>
                                     <div className="filterTitles">Requester</div>
                                     <Select
@@ -152,7 +172,6 @@ class JobManagementControlContainer extends Component {
                                         value={this.state.filterSelectedCourse}
                                         onChange={(value, key, event) => this.reductionFilter(value, 'requester_id')}/>
                                 </label>
-
                             </div>
                             <div className="requesterFilterContainer">
 
@@ -196,6 +215,18 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
     let requester = {};
     let courseSelectorContent = [];
 
+    let semesterJobs = Object.keys(videosJobsReducer)
+
+    let activeJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
+        return videosJobsReducer[videoJobId].job_status === 'Queued' ||
+            videosJobsReducer[videoJobId].job_status === "Captioning" ||
+            videosJobsReducer[videoJobId].job_status === 'Ready'
+
+    })
+    let completeJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
+        return videosJobsReducer[videoJobId].job_status === 'Delivered'
+    })
+
     if (Object.keys(requesterReducer).length > 0 && Object.keys(videosJobsReducer).length > 0) {
 
         let requester_ids = Object.keys(videosJobsReducer).map(x => {
@@ -227,7 +258,13 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         coursesReducer,
         requester,
         courseSelectorContent,
-        videoJobsLoading: loadingStatusReducer.videoJobsLoading
+        videoJobsLoading: loadingStatusReducer.videoJobsLoading,
+        activeJobs,
+        semesterJobs,
+        completeJobs,
+        semesterJobsCount: semesterJobs.length,
+        activeJobsCount: activeJobs.length,
+        completeJobsCount: completeJobs.length
 
     }
 }
