@@ -44,7 +44,8 @@ class JobContainer extends Component {
             employee_email: '',
             employee_first_name:'',
             employee_last_name:'',
-            ast_job_id: 'Not Used'
+            ast_job_id: 'Not Used',
+            isFocused: false
         };
 
         this.updateState = this.updateState.bind(this)
@@ -54,6 +55,9 @@ class JobContainer extends Component {
         this.saveCurrentDateValue = this.saveCurrentDateValue.bind(this)
         this.dispatchDateInput = this.dispatchDateInput.bind(this)
         this.deleteRecord = this.deleteRecord.bind(this)
+        this.jobFocusedStyle = this.jobFocusedStyle.bind(this)
+        this.setFocus = this.setFocus.bind(this)
+        this.clearFocus = this.clearFocus.bind(this)
     }
 
 
@@ -113,6 +117,30 @@ class JobContainer extends Component {
 
     }
 
+    jobFocusedStyle() {
+        if (this.state.isFocused) {
+            return(
+                {"background": "linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 74%, rgba(237,235,235,1) 95%, rgba(207,207,207,1) 98%, rgba(148,148,148,1) 100%)",
+                    "box-shadow": "6px 8px 3px #808385"}
+            )
+        }
+
+    }
+
+    setFocus() {
+
+        this.setState(
+            {isFocused:true}
+        )
+    }
+
+    clearFocus() {
+        this.setState(
+            {isFocused:false}
+        )
+
+    }
+
     componentDidMount() {
         let r = this.props.job
         let e = this.props.employee
@@ -139,7 +167,7 @@ class JobContainer extends Component {
     render() {
 
         return (
-            <div className="job-container masterListItem" tabIndex={0}>
+            <div className="job-container masterListItem" style={this.jobFocusedStyle()} tabIndex={0} onFocus={this.setFocus} onBlur={this.clearFocus}>
                 <div className={"job-container-left"} style={{'background':statusColor(this.state.job_status)}}>
                     <span className={'job-status-color'}></span>
                 </div>

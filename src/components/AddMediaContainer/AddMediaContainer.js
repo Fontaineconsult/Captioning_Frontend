@@ -296,8 +296,6 @@ class NewMediaContainer extends Component {
     }
 
 
-
-
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         if (prevProps.transaction_id !== this.props.transaction_id) {

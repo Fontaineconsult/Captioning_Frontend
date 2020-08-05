@@ -13,6 +13,7 @@ import '../../css/NavMaster.css'
 import IlearnManagementControlContainer from "../iLearnViewsContainer/iLearnNavBar/IlearnManagementControlContainer";
 import AddJobControlContainer from "../AddCapJobView/AddJobControlContainer"
 import {updateGlobalParam} from "../../actions/globals"
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 
@@ -131,6 +132,7 @@ class NavigationMasterContainer extends Component {
                             </form>
                         </div>
                         <div className={"logout-container"}><a href={`/authentication/logout`}>logout</a></div>
+                        <div className={"globalLoadingContainer"}>{this.props.displayLoader && (<CircularProgress size={30}/>)}</div>
 
                     </div>
 
@@ -155,11 +157,21 @@ class NavigationMasterContainer extends Component {
 
 function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer, globalsReducer}, {query}) {
 
+    let displayLoader = loadingStatusReducer.coursesLoading ||
+        loadingStatusReducer.iLearnVideosLoading ||
+        loadingStatusReducer.mediaLoading ||
+        loadingStatusReducer.videoJobsLoading ||
+        loadingStatusReducer.astRequestsLoading
+
+
+    console.log("DSGFSDFG", displayLoader)
+
     let isLoaded = !loadingStatusReducer.userRequestsLoading && !loadingStatusReducer.coursesLoading
     return {
         query,
         globalsReducer,
-        isLoaded
+        isLoaded,
+        displayLoader
     }
 }
 
