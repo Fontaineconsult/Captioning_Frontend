@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Button from "@material-ui/core/Button";
@@ -7,7 +7,16 @@ import moment from 'moment'
 import AstModalContainer from "./astConfirmModal";
 import {submitASTJobToAST} from "../../actions/ampApi/putData"
 import {astJobURL} from "../../constants";
+import {astModal} from "../../css/astModal.css"
 
+
+
+const astRateFormatter = (rateCode) => ({
+    "H":"8 Hour",
+    "R":"1 Day",
+    "T":"2 Day",
+    "L":"4 Day"
+})[rateCode]
 
 class AstJobControlMenu extends Component {
 
@@ -22,8 +31,6 @@ class AstJobControlMenu extends Component {
 
     initASTJob(ast_job_id, job_id) {
         this.props.dispatch(submitASTJobToAST(ast_job_id, job_id))
-
-
     }
 
     astJobFormatter = (props) => {
@@ -31,20 +38,18 @@ class AstJobControlMenu extends Component {
         let ast_job_id = props.cell._cell.row.data.id
         let ast_status = props.cell._cell.row.data.ast_link
         if (ast_status === null) {
-            return(<Button onClick={e => this.initASTJob(ast_job_id, this.props.job_id)}>Init</Button>)
+            return(<Button style={{'padding': '0px'}} onClick={e => this.initASTJob(ast_job_id, this.props.job_id)}>Init</Button>)
         }
         if (ast_status) {
-            return(<Button onClick={e => window.open(ast_status)}>Job</Button>)
-
+            return(<Button style={{'padding': '0px'}} onClick={e => window.open(ast_status)}>Job</Button>)
         }
-
     }
 
     columns = [
-        {title:"Status", width:120, field:"status"},
-        {title: "Speed", width:80, field: "speed"},
-        {title: "Added On", width:100, field: "added_date"},
-        {title: "Ast Url", width:80, field: "ast_link", formatter: reactFormatter(<this.astJobFormatter/>)}
+        {title: "Status", field:"status", formatter: "plaintext" },
+        {title: "Speed", field: "speed", formatter: "plaintext"},
+        {title: "Added On", field: "added_date", formatter: "plaintext" },
+        {title: "Ast Url", field: "ast_link", formatter: reactFormatter(<this.astJobFormatter/>)}
     ];
 
     formatData(astVideoJob) {
@@ -73,7 +78,7 @@ class AstJobControlMenu extends Component {
         return {
             id: astVideoJob.id,
             status:status,
-            speed: astVideoJob.ast_rush,
+            speed: astRateFormatter(astVideoJob.ast_rush),
             added_date: moment(date).format('MM-DD-YY'),
             ast_link: astJobLink
         }
@@ -123,14 +128,23 @@ class AstJobControlMenu extends Component {
     render() {
 
         return (
-
-            <div>
-                <ReactTabulator data={this.state.data} columns={this.columns}/>
-            </div>
+            <Fragment>
+                <ReactTabulator
+                    data={this.state.data}
+                    columns={this.columns}
+                    resizableColumns={false}
+                    responsiveLayout={true}
+                    layout={"fitData"}
+                    maxHeight={"40px"}
+                   />
+            </Fragment>
 
         )
     }
 }
+
+
+
 
 
 class AstControls extends Component {
@@ -165,10 +179,10 @@ class AstControls extends Component {
     render() {
         return (
             <div className="astControls">
-                <div>
+                <div className={"astModalActivateButtonContainer"} >
                     <AstModalContainer job_id={this.props.job_id}/>
                 </div>
-                <div onMouseEnter={this.expandView} onMouseLeave={this.shrinkView} tabIndex={0}>
+                <div className={"astControlsContainer"}  tabIndex={0}>
                     {this.props.hasJobs && <AstJobControlMenu  job_id={this.props.job_id} dispatch={this.props.dispatch} expanded={this.state.expanded} ast_jobs={this.props.ast_jobs}/>}
                     {!this.props.hasJobs && <div>No Jobs</div> }
                 </div>

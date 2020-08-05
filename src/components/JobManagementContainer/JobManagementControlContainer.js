@@ -133,13 +133,19 @@ class JobManagementControlContainer extends Component {
             <div className="JobManagementControlContainer">
                 <div className="control-bar">
                     <div className="controlBarNavButtons">
-                        <div role={'button'} className="navButton" onClick={() => this.updateJobStatusFilter("semesterJobs")}>
+                        <div tabIndex={0} role={'button'} className="navButton"
+                             onClick={() => this.updateJobStatusFilter("semesterJobs")}
+                             onKeyPress={event => {if (event.key === 'Enter'){this.updateJobStatusFilter("semesterJobs")}}}>
                             Semester Jobs <span className={"jobCount"}>{this.props.semesterJobsCount}</span>
                         </div >
-                        <div role={'button'} className="navButton" onClick={() => this.updateJobStatusFilter("activeJobs")}>
+                        <div tabIndex={0} role={'button'} className="navButton"
+                             onClick={() => this.updateJobStatusFilter("activeJobs")}
+                             onKeyPress={event => {if (event.key === 'Enter'){this.updateJobStatusFilter("activeJobs")}}}>
                             Active Jobs <span className={"jobCount"}>{this.props.activeJobsCount}</span>
                         </div >
-                        <div role={'button'} className="navButton" onClick={() => this.updateJobStatusFilter("completeJobs")}>
+                        <div tabIndex={0} role={'button'} className="navButton"
+                             onClick={() => this.updateJobStatusFilter("completeJobs")}
+                             onKeyPress={event => {if (event.key === 'Enter'){this.updateJobStatusFilter("completeJobs")}}}>
                             Complete Jobs <span className={"jobCount"}>{this.props.completeJobsCount}</span>
                         </div >
                     </div>

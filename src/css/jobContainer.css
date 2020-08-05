@@ -297,3 +297,11 @@ margin-right: 5px;
     margin-left: auto;
 
 }
+
+.astControlsContainer {
+    height: 45px;
+    width: 400px;
+    margin-right: auto;
+    margin-left: 0;
+
+}

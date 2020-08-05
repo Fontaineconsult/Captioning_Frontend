@@ -2,3 +2,19 @@
 text-align: center;
 
 }
+
+
+.tabulator-cell {
+
+    height: 40px;
+}
+
+.tabulator-cell:nth-child(2) {
+    padding-top: 10px !important;
+
+}
+
+.tabulator-cell:nth-child(3) {
+    padding-top: 10px !important;
+
+}
