@@ -117,7 +117,6 @@ class AstModalContainer extends Component {
 
             <div style={this.state.modalStyle} className={this.props.classes.paper}>
                 <div className={"astModalTitle"}>Create AST Job</div>
-
                     <form>
                         <div>
                                 <div style={{"margin-bottom": 10}}>
@@ -132,7 +131,6 @@ class AstModalContainer extends Component {
                                                 options={this.state.file_select}/>
                                     </div>
                                 </div>
-
                             <div style={{"margin-bottom": 10}}>
                                 <div>
                                     <label>Rate</label>
@@ -146,21 +144,17 @@ class AstModalContainer extends Component {
                                     </select>
                                 </div>
                             </div>
-
                             <div style={{"margin-bottom": 30}}>
                                 <Button disabled={this.state.file_id===""} onClick={this.submitJobtoDB}>Init Job</Button>
                             </div>
                         </div>
-
                     </form>
-
-
-                <div>
-                    <div>
-                        Are you sure you want to submit? Charges will apply.
-                    </div>
-                    <Button disabled={true} onClick={this.createAstJob}>Submit to AST</Button>
-                </div>
+                {/*<div>*/}
+                {/*    <div>*/}
+                {/*        Are you sure you want to submit? Charges will apply.*/}
+                {/*    </div>*/}
+                {/*    <Button disabled={true} onClick={this.createAstJob}>Submit to AST</Button>*/}
+                {/*</div>*/}
             </div>
 
         )

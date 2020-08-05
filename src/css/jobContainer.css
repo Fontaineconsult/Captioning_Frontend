@@ -300,8 +300,25 @@ margin-right: 5px;
 
 .astControlsContainer {
     height: 45px;
-    width: 400px;
+    width: 450px;
     margin-right: auto;
     margin-left: 0;
+
+}
+
+.noJobSlug {
+    color: #6f6f6f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    vertical-align: middle;
+    text-align: center;
+    height: 100%;
+    background-color: #eaeaea;
+    margin-left: 5px;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #8d8d8d;
 
 }

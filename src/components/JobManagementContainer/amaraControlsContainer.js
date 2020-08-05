@@ -5,13 +5,15 @@ import AmaraControls from "./amaraControls";
 import AmaraModalContainer from './amaraConfirmModal'
 
 
-function NoAmaraResource(props) {
+function NoJobsSlug(props) {
 
-    return(
-        <div>No Amara Resource</div>
+    return (
+        <div className={"noJobSlug"}>No Amara Resource</div>
     )
 
+
 }
+
 
 
 
@@ -28,8 +30,14 @@ class AmaraControlsContainer extends Component {
         return (
             <div className="astControls">
                 <AmaraModalContainer media_id = {this.props.media_id}/>
-                {this.props.amaraResource  && <AmaraControls amaraResource={this.props.amaraResource.amara_resource}/>}
-                {this.props.amaraResource === undefined && <NoAmaraResource/>}
+
+                <div className={"astControlsContainer"}>
+
+                    {this.props.amaraResource  && <AmaraControls amaraResource={this.props.amaraResource.amara_resource}/>}
+                    {this.props.amaraResource === undefined && <NoJobsSlug/>}
+
+                </div>
+
             </div>
 
         )

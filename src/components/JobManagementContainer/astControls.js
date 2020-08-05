@@ -18,6 +18,8 @@ const astRateFormatter = (rateCode) => ({
     "L":"4 Day"
 })[rateCode]
 
+
+
 class AstJobControlMenu extends Component {
 
     constructor(props) {
@@ -147,6 +149,8 @@ class AstJobControlMenu extends Component {
 
 
 
+
+
 class AstControls extends Component {
 
     constructor(props) {
@@ -184,7 +188,7 @@ class AstControls extends Component {
                 </div>
                 <div className={"astControlsContainer"}  tabIndex={0}>
                     {this.props.hasJobs && <AstJobControlMenu  job_id={this.props.job_id} dispatch={this.props.dispatch} expanded={this.state.expanded} ast_jobs={this.props.ast_jobs}/>}
-                    {!this.props.hasJobs && <div>No Jobs</div> }
+                    {!this.props.hasJobs && <NoJobsSlug /> }
                 </div>
             </div>
 
@@ -192,6 +196,18 @@ class AstControls extends Component {
     }
 
 }
+
+function NoJobsSlug(props) {
+
+    return (
+        <div className={"noJobSlug"}>No AST Jobs</div>
+    )
+
+
+}
+
+
+
 
 function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {ast_jobs, media_id, job_id}) {
     let hasJobs = Object.keys(ast_jobs).length > 0
