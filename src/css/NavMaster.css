@@ -39,7 +39,8 @@
 
 .NavUpperContainer {
     position: relative;
-    height: 3%;
+    max-height: 40px;
+    min-height: 40px;
     display: flex;
     background-color: #fafafb;
     box-shadow: 0px 3px 2px #808385;
@@ -123,7 +124,7 @@
 
 .control-bar {
     display: flex;
-    height:3.5%;
+    margin-top: 3px;
     background-color: #fafafb;
     border-color: #282c34;
     border-bottom-width: 2px;

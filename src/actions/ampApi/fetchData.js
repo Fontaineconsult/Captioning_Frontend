@@ -72,10 +72,7 @@ export function fetchCourseByCourseGenId(courseGenId){
             .then(data => console.log(data))
 
     }
-
-
 }
-
 
 export function permissionDiscovery(id) {
 
@@ -274,7 +271,7 @@ export function fetchMediaByShaHash(hash, unique_id) {
 
 export function fetchAllOrgs() {
     return dispatch => {
-        return fetch(`${server_url}/campus_orgs`)
+        return fetch(`${server_url}/campus-orgs`)
             .then(response => response.json())
             .then(data => dispatch(receiveCampusOrgs(data['content'])))
             .then(data => console.log(data))

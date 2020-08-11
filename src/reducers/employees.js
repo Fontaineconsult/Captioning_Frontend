@@ -1,4 +1,4 @@
-import {RECEIVE_EMPLOYEES} from "../actions/employees";
+import {RECEIVE_EMPLOYEES, UPDATE_EMPLOYESS} from "../actions/employees";
 
 export default function employeesReducer (state={}, action) {
 
@@ -9,6 +9,13 @@ export default function employeesReducer (state={}, action) {
                 ...state,
                 ...action.employees
             };
+
+        case UPDATE_EMPLOYESS:
+            return {
+                ...action.employees
+            }
+
+
 
         default:
             return state

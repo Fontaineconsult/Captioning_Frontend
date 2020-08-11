@@ -12,6 +12,7 @@ import JobManagementMasterContainer from "../JobManagementContainer/JobManagemen
 import '../../css/NavMaster.css'
 import IlearnManagementControlContainer from "../iLearnViewsContainer/iLearnNavBar/IlearnManagementControlContainer";
 import AddJobControlContainer from "../AddCapJobView/AddJobControlContainer"
+import UserManagementMasterContainer from "../UsersManagementContainer/UsersManagementMasterContainer";
 import {updateGlobalParam} from "../../actions/globals"
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -143,6 +144,7 @@ class NavigationMasterContainer extends Component {
                         <Route path="/captioning/job-manager">{this.props.isLoaded &&  <JobManagementMasterContainer query={this.props.query}/>}</Route>
                         <Route path="/captioning/add-job">{<AddJobControlContainer query={this.props.query}/>}</Route>
                         <Route path="/captioning/ilearn-scraper">{<IlearnManagementControlContainer/>}</Route>
+                        <Route path="/captioning/users">{<UserManagementMasterContainer/>}</Route>
 
                     </Switch>
 

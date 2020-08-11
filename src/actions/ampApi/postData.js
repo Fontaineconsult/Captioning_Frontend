@@ -1,16 +1,18 @@
 import fetch from "cross-fetch";
 import {api_failure} from "../../utilities/api/errors";
 import {endpoint} from '../../constants'
-import {LoadingMedia, LoadingVideoJobs, LoadingAstJob} from "../status";
+import {LoadingMedia, LoadingVideoJobs, LoadingAstJob, LoadingInstructors} from "../status";
 import {addMediaToTempJob, updateTempJobsUploadState} from "../tempJobsForm"
 import {receiveMediaSearch} from '../mediaSearch'
 import { batch } from 'react-redux'
 import {setErrorState} from "../error_state";
 import {receiveCapJobs, addNewAstJob} from "../existingVideoJobs";
 import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia, updateMedia} from "../media";
+import {updateEmployees} from "../employees"
 import {v1 as uuidv1} from "uuid";
 
 import {reFetchMediaAfterUpload} from './fetchData'
+import {receiveRequester} from "../requester";
 
 
 const server_url = endpoint();
@@ -59,10 +61,9 @@ export function AddVideoJob(requester_id, show_date, media_id, output_format, co
             'Content-Type': 'application/json'
         }}
 
-    console.log(post_object)
+
 
     return dispatch => {
-
 
         dispatch(LoadingVideoJobs(true))
         return fetch(`${server_url}/video-jobs`, post_object)
@@ -118,6 +119,39 @@ export function AddVideoJobBatch(jobsReducer) {
 
 
 };
+
+export function AddEmployee(employee_data) {
+    let temp_id = uuidv1()
+
+    console.log(employee_data)
+    let data_object = { 'employee_id': employee_data.employeeId,
+        'employee_first_name': employee_data.firstName,
+        'employee_last_name': employee_data.lastName,
+        'employee_email': employee_data.email,
+        'employee_phone': employee_data.phoneNumber}
+
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }}
+
+    return dispatch => {
+
+        dispatch(LoadingInstructors(true))
+        return fetch(`${server_url}/employees?employee_id=all`, post_object)
+            .then(response => {if (response.ok){
+                fetch(`${server_url}/employees`).then(
+                    response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})
+                    .then(
+                        response => {responseHandler(response, dispatch, [updateEmployees], temp_id, LoadingInstructors)}
+                )
+            } else {alert("Something went wrong with upload")} })
+
+    }
+
+}
 
 export function addMediaToDBandTempJob(title, link, type, temp_id) {
 
@@ -338,3 +372,30 @@ export function sendVideoExtractRequest(media_id, url, format) {
 
     }
 };
+
+export function addCampusAssociationAssignment(campus_org_id, employee_id, semester) {
+
+    let error_id = uuidv1()
+    let data_object = {campus_org_id:campus_org_id, employee_id:employee_id};
+    console.log(data_object)
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+    return dispatch => {
+        dispatch(LoadingInstructors(true));
+        return fetch(`${server_url}/campus-org-assignment`, post_object)
+            .then(response => {if (response.ok){
+                fetch(`${server_url}/requesters?employee_id=all&semester=${semester}`).then(
+                    response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
+                    .then(
+                        response => {responseHandler(response, dispatch, [receiveRequester], error_id, LoadingInstructors)}
+                    )
+            } else {alert("Something went wrong with upload")} } )
+
+
+}
+}
