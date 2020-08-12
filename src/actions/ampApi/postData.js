@@ -194,7 +194,7 @@ export function uploadVideoWithMediaId(video, media_id, temp_id) {
         body: video,
         headers: {
             'Content-Type': "video/mp4",
-            'media_id': media_id
+            'Media-Id': media_id
         }};
 
     return dispatch => {
