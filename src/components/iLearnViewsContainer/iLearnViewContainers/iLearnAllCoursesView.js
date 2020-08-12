@@ -53,7 +53,40 @@ class ILearnAllCoursesView extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
 
+        if (Object.keys(this.props.coursesReducer).length !== Object.keys(prevProps.coursesReducer).length) {
+            console.log("ZORRPPSS", Object.keys(this.props.coursesReducer).length, Object.keys(prevProps.coursesReducer).length)
+            if (this.props.studentActive === true) {
+                this.setState({
+                    cache: new CellMeasurerCache({
+                        fixedWidth: true,
+                        defaultHeight: 200
+                    }),
+                    ilearnVideoRowCount: Object.keys(this.props.requests_captioning).length,
+                    captioningCourses: Object.keys(this.props.requests_captioning)
+
+                })
+
+            } else {
+
+                this.setState({
+                    cache: new CellMeasurerCache({
+                        fixedWidth: true,
+                        defaultHeight: 200
+                    }),
+                    ilearnVideoRowCount:Object.keys(this.props.no_captioning).length,
+                    captioningCourses:Object.keys(this.props.no_captioning)
+
+                })
+
+            }
+
+
+        }
+
         if (this.props.studentActive !== prevProps.studentActive) {
+
+
+            console.log("RESETTTINNGGGGGG")
             if (this.props.studentActive === true) {
                 this.setState({
                     cache: new CellMeasurerCache({
@@ -167,10 +200,7 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
             }
 
         })
-        if (Object.keys(courseilearnVideos[courseKey]).length === 0) {
 
-
-        }
 
     });
 
@@ -186,7 +216,7 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
         if (coursesReducer[key].students_enrolled.some(capActive) === true) {
             requests_captioning[key] = coursesReducer[key]
         } else {
-            no_captioning[key] =coursesReducer[key]
+            no_captioning[key] = coursesReducer[key]
         }
 
 

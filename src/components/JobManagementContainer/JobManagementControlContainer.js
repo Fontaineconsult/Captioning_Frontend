@@ -93,11 +93,7 @@ class JobManagementControlContainer extends Component {
         }
 
     }
-
-
-
-
-
+    
     componentDidMount() {
 
         this.setState({

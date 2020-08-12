@@ -96,7 +96,7 @@ class ILearnCourseContainer extends Component {
 
 
 
-function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReducer}, {course_id, ilearnvideos}) {
+function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, ilearnvideos}) {
 
 
     let numStudentsEnrolled = 0;
@@ -107,10 +107,10 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
     let courseSection = ''
     let semester = ''
     let ilearnId = ''
+    console.log("SDGSDGSDGDSGSDGSDGSDGDS", course_id)
 
-
-    if (loadingStatusReducer.coursesLoading === false) {
-        if (Object.keys(coursesReducer).length > 0 && Object.keys(iLearnVideoReducer).length) {
+    if (loadingStatusReducer.coursesLoading === false && loadingStatusReducer.iLearnVideosLoading === false) {
+        if (Object.keys(coursesReducer).length > 0) {
             ilearn_video_active_check = coursesReducer[course_id].ilearn_video_service_requested === null ? false : coursesReducer[course_id].ilearn_video_service_requested
             Object.keys(coursesReducer[course_id].students_enrolled).forEach(enroll => {
                 if (coursesReducer[course_id].students_enrolled[enroll].student_enrolled === true){

@@ -30,23 +30,25 @@ class UserManagementControlContainer extends Component {
         return (
             <div className="ContentManagementMasterContainer">
                 <div className="control-bar">
-                    <div id="jobManager" role="button" className="navButton">
-                        <NavLink
-                            to={{pathname: "/captioning/users/add-user",
-                                search: this.props.location.search,
-                            }}>Add User</NavLink>
-                    </div>
-                    <div id="jobManager" role="button" className="navButton">
-                        <NavLink
-                            to={{pathname: "/captioning/users/edit-user",
-                                search: this.props.location.search,
-                            }}>Edit Users</NavLink>
-                    </div>
-                    <div id="jobManager" role="button" className="navButton">
-                        <NavLink
-                            to={{pathname: "/captioning/users/courses",
-                                search: this.props.location.search,
-                            }}>Courses</NavLink>
+                    <div className="controlBarNavButtons">
+                        <div id="jobManager" role="button" className="navButton">
+                            <NavLink
+                                to={{pathname: "/captioning/users/add-user",
+                                    search: this.props.location.search,
+                                }}>Add User</NavLink>
+                        </div>
+                        <div id="jobManager" role="button" className="navButton">
+                            <NavLink
+                                to={{pathname: "/captioning/users/edit-user",
+                                    search: this.props.location.search,
+                                }}>Edit Users</NavLink>
+                        </div>
+                        <div id="jobManager" role="button" className="navButton">
+                            <NavLink
+                                to={{pathname: "/captioning/users/courses",
+                                    search: this.props.location.search,
+                                }}>Courses</NavLink>
+                        </div>
                     </div>
                 </div>
                 <div>

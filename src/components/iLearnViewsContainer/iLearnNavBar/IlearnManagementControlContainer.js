@@ -21,47 +21,45 @@ class IlearnManagementControlContainer extends Component {
         this.state = {};
     }
 
-
-
-
-
     render() {
 
         return (
             <div className="ContentManagementMasterContainer">
                 <div className="control-bar">
-                    <div id="jobManager" role="button" className="navButton">
-                        <NavLink
-                            to={{pathname: "/captioning/ilearn-scraper/active-courses",
-                                search: this.props.location.search,
-                            }}>Active Courses</NavLink>
-                    </div>
-                    <div id="jobManager" role="button" className="navButton">
-                        <NavLink
-                            to={{pathname: "/captioning/ilearn-scraper/inactive-courses",
-                                search: this.props.location.search,
-                            }}>Inactive Courses</NavLink>
-                    </div>
+                    <div className="controlBarNavButtons">
+                        <div id="jobManager" role="button" className="navButton">
+                            <NavLink
+                                to={{pathname: "/captioning/ilearn-scraper/active-courses",
+                                    search: this.props.location.search,
+                                }}>Active Courses </NavLink><span className={"jobCount"}>{this.props.capActive}</span>
+                        </div>
+                        <div id="jobManager" role="button" className="navButton">
+                            <NavLink
+                                to={{pathname: "/captioning/ilearn-scraper/inactive-courses",
+                                    search: this.props.location.search,
+                                }}>Inactive Courses </NavLink><span className={"jobCount"}>{this.props.capInactive}</span>
+                        </div>
 
 
-                    {/*<div className="controlButton">*/}
-                    {/*    Active Courses*/}
-                    {/*</div >*/}
-                    {/*<div className="controlButton" >*/}
-                    {/*    Inactive Courses*/}
-                    {/*</div>*/}
-                    <div className="controlButton">
-                        New Videos
-                    </div >
-                    <div className="controlButton" >
-                        Search
+                        {/*<div className="controlButton">*/}
+                        {/*    Active Courses*/}
+                        {/*</div >*/}
+                        {/*<div className="controlButton" >*/}
+                        {/*    Inactive Courses*/}
+                        {/*</div>*/}
+                        <div className="controlButton">
+                            New Videos
+                        </div >
+                        <div className="controlButton" >
+                            Search
+                        </div>
+                        <div className="controlButton" >
+                            Add
+                        </div>
                     </div>
-                    <div className="controlButton" >
-                        Add
-                    </div>
+
                 </div>
                 <div>
-
                     <Switch>
                         <Route path="/captioning/ilearn-scraper/active-courses" render={(props) => <ILearnAllCoursesView {...props} studentActive={true} />}  />
                         <Route path="/captioning/ilearn-scraper/inactive-courses" render={(props) => <ILearnAllCoursesView {...props} studentActive={false} />}  />
@@ -70,9 +68,7 @@ class IlearnManagementControlContainer extends Component {
                 </div>
             </div>
 
-
         )
-
 
     }
 
@@ -80,13 +76,33 @@ class IlearnManagementControlContainer extends Component {
 }
 
 
-function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {jobsLoading}) {
+function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer, coursesReducer}, {jobsLoading}) {
 
+    let capActive = 0;
+    let capInactive = 0;
+
+
+    function capActiveFunc(element, index, array) {
+        return element.student_requests_captioning === true
+    }
+
+
+    Object.keys(coursesReducer).forEach(function(key){
+
+        if (coursesReducer[key].students_enrolled.some(capActiveFunc) === true) {
+            capActive += 1
+        } else {
+            capInactive += 1
+        }
+
+    });
 
 
     return {
         videosJobsReducer,
-        jobsLoading
+        jobsLoading,
+        capActive,
+        capInactive
 
     }
 }
