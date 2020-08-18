@@ -18,7 +18,7 @@ export default function loadingStatusReducer (state={
     studentsLoading: true,
     videoJobsLoading: true,
     userPermissionLoading: true,
-    userRequestsLoading: true,
+    requestersLoading: true,
     astRequestsLoading: false
 
 
@@ -37,7 +37,7 @@ export default function loadingStatusReducer (state={
                 studentsLoading: true,
                 videoJobsLoading: true,
                 userPermissionLoading: false,
-                userRequestsLoading: true,
+                requestersLoading: true,
                 astRequestsLoading: false
 
             }
@@ -89,7 +89,7 @@ export default function loadingStatusReducer (state={
         case _LOADINGREQUESTS:
             return {
                 ...state,
-                "userRequestsLoading": action.status,
+                "requestersLoading": action.status,
             };
 
 

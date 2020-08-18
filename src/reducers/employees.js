@@ -1,4 +1,4 @@
-import {RECEIVE_EMPLOYEES, UPDATE_EMPLOYESS} from "../actions/employees";
+import {RECEIVE_EMPLOYEES, UPDATE_EMPLOYESS, CLEAR_EMPLOYEES} from "../actions/employees";
 
 export default function employeesReducer (state={}, action) {
 
@@ -15,6 +15,8 @@ export default function employeesReducer (state={}, action) {
                 ...action.employees
             }
 
+        case CLEAR_EMPLOYEES:
+            return {}
 
 
         default:

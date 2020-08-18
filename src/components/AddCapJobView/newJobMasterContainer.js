@@ -128,9 +128,17 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
 
     }
 
+    let courses_list = []
+    if (loadingStatusReducer.requestersLoading === true) {
+        courses_list = []
+    }
 
+    console.log("ZPRR{S{S", courseIds, campusOrgs)
+    if (loadingStatusReducer.requestersLoading === false) {
 
-    let courses_list = [...courseIds, ...campusOrgs]
+        courses_list = [...courseIds, ...campusOrgs]
+    }
+
 
 
     return {

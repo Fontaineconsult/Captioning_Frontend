@@ -10,7 +10,8 @@ import {clearRequesterResources} from './actions/requester'
  import {clearCapJobs} from "./actions/existingVideoJobs";
 import {clearCourses} from "./actions/courses";
 import {clearIlearnVideo} from "./actions/ilearn_videos";
-import {AllLoadingOn} from "./actions/status"
+import {AllLoadingOn} from "./actions/status";
+import {clearEmployees} from "./actions/employees"
 
 
  class App extends Component {
@@ -52,6 +53,7 @@ import {AllLoadingOn} from "./actions/status"
             this.props.dispatch(clearCapJobs())
             this.props.dispatch(clearCourses())
             this.props.dispatch(clearIlearnVideo())
+            this.props.dispatch(clearEmployees())
 
 
         }
