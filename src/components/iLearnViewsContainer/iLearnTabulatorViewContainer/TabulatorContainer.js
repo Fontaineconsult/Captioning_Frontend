@@ -211,6 +211,10 @@ class TabulatorContainer extends Component {
                 if(row.getData().ignore_video === true) {
                     row.getElement().classList.remove("tabulator-selectable")
                     row.getElement().classList.add("ignore-video")
+                }
+                if(row.getData().video_passed === true){
+                    row.getElement().classList.remove("tabulator-selectable")
+                    row.getElement().classList.add("video-passed")
 
                 }
 
@@ -287,7 +291,8 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
             submitted_for_processing: video.submitted_for_processing,
             page_section: video.page_section,
             ignore_video: video.ignore_video,
-            invalid_link: video.invalid_link
+            invalid_link: video.invalid_link,
+            video_passed: video.auto_caption_passed
 
         }
     };

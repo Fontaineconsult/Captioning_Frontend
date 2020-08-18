@@ -47,14 +47,11 @@ class ILearnCourseContainer extends Component {
 
         }
 
-
     }
 
     ilearnPage = iLearnURL() + this.props.ilearnId;
 
     render()
-
-
         {
 
         return(
@@ -95,7 +92,6 @@ class ILearnCourseContainer extends Component {
 }
 
 
-
 function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, ilearnvideos}) {
 
 
@@ -107,7 +103,6 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, ile
     let courseSection = ''
     let semester = ''
     let ilearnId = ''
-    console.log("SDGSDGSDGDSGSDGSDGSDGDS", course_id)
 
     if (loadingStatusReducer.coursesLoading === false && loadingStatusReducer.iLearnVideosLoading === false) {
         if (Object.keys(coursesReducer).length > 0) {

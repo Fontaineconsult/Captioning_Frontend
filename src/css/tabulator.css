@@ -50,6 +50,12 @@
 
 }
 
+.video-passed {
+
+    background-color: #6f9c7a !important;;
+
+}
+
 
 .unselectable {
     -moz-user-select: -moz-none;

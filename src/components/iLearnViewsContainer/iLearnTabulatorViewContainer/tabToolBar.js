@@ -14,6 +14,7 @@ class TabToolBar extends Component {
     constructor(props) {
         super(props);
 
+        this.passed = this.passed.bind(this);
         this.ignore =  this.ignore.bind(this);
         this.remove =  this.remove.bind(this);
         this.createJob =  this.createJob.bind(this);
@@ -21,7 +22,13 @@ class TabToolBar extends Component {
 
     }
 
+    passed = (e) => {
 
+        let row_ids = this.props.selected_rows.map(row => {
+            return row.id
+        });
+        this.props.dispatch(updateiLearnVideoBatch(row_ids, "auto_caption_passed", true))
+    };
 
 
 
@@ -76,6 +83,10 @@ class TabToolBar extends Component {
 
         return(
             <div className={this.selectable()}>
+                {this.selectable() ?
+                    <Button size="small"  onClick={e => this.passed(e)}>Passed</Button>:
+                    <Button size="small" disabled onClick={e => this.passed(e)}>Passed</Button>
+                }
                 {this.selectable() ?
                     <Button size="small"  onClick={e => this.ignore(e)}>Ignore</Button>:
                     <Button size="small" disabled onClick={e => this.ignore(e)}>Ignore</Button>
