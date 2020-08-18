@@ -43,7 +43,6 @@ class NewMediaContainer extends Component {
 
         })
 
-
         this.props.dispatch(addMediaToTempJobNoId(this.props.transaction_id, this.props.mediaSearchReducer[this.props.transaction_id]))
         this.props.dispatch(removeErrorState(this.props.transaction_id));
         this.props.dispatch(clearMediaSearch(this.props.transaction_id));
@@ -55,7 +54,6 @@ class NewMediaContainer extends Component {
         event.preventDefault();
         if (this.state.title === '') {
             alert("Enter a title")
-
         } else {
             event.preventDefault();
             this.props.dispatch(addMediaToDBandTempJob(this.state.title, this.state.sha_256_hash, this.state.type, this.props.transaction_id))
@@ -134,10 +132,9 @@ class NewMediaContainer extends Component {
             }
 
             fileReader.readAsArrayBuffer(event.target.files[0])
-            let fileToSend = new FormData()
-            fileToSend.append(event.target.files[0].name ,event.target.files[0])
+            let blobFile = new Blob([event.target.files[0]], {type: 'video/mp4'})
             this.setState({
-                fileToSend: fileToSend,
+                fileToSend: blobFile,
             })
 
     }

@@ -222,7 +222,7 @@ export function uploadMediaFromJobView(video, media_id, temp_id) {
 
     return dispatch => {
         dispatch(LoadingMedia(true));
-        return fetch(`${server_url}/services/upload/file}`, post_object)
+        return fetch(`${server_url}/services/upload/file`, post_object)
             .then(response => {if (response.ok){
                 fetch(`${server_url}/media-objects?media_id=${media_id}`).then(
                     response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})

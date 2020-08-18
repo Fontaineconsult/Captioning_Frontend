@@ -84,12 +84,11 @@ class MediaContentContainer extends Component {
 
             let fileReader = new FileReader()
             fileReader.readAsArrayBuffer(document.getElementById('mediaFileUpload').files[0])
-            let fileToSend = new FormData()
-            fileToSend.append(document.getElementById('mediaFileUpload').files[0].name,
-                document.getElementById('mediaFileUpload').files[0])
 
+
+            let blobFile = new Blob([document.getElementById('mediaFileUpload').files[0]], {type: 'video/mp4'})
             this.setState({
-                mediaFileUpload:fileToSend,
+                mediaFileUpload:blobFile,
                 media_temp_id: uuidv1()
             });
         }
