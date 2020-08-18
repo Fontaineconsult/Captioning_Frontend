@@ -260,15 +260,15 @@ export function uploadCaptionFileWithMediaId(captionFile, media_id, temp_id) {
 
 }
 
-export function addAstJobToCaptioningJob(job_id, rate, temp_id, file_id) {
+export function addAstJobToCaptioningJob(job_id, rate, transcriber_notes, temp_id, file_id) {
 
     let post_object = {
         method: "POST",
-        body: JSON.stringify({"jobid": job_id, "ast_rush": rate, file_id: file_id}),
+        body: JSON.stringify({"jobid": job_id, "ast_rush": rate, file_id: file_id, "ast_notes":transcriber_notes}),
         headers: {
             "Content-Type": "application/json"
         }};
-
+    console.log("DSGSDGSDGSDGRRRRR", post_object)
     return dispatch => {
         dispatch(LoadingAstJob(true));
         return fetch(`${server_url}/ast-jobs`, post_object)

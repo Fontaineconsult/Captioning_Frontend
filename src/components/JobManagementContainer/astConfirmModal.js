@@ -33,6 +33,7 @@ class AstModalContainer extends Component {
             modalStyle: this.getModalStyle(),
             rate: "T",
             file_id: "",
+            transcriber_notes: "",
             file_select: this.props.media_files
 
 
@@ -47,9 +48,6 @@ class AstModalContainer extends Component {
         this.updateState = this.updateState.bind(this)
         this.updateMediaSelect = this.updateMediaSelect.bind(this)
     }
-
-
-
 
 
     getModalStyle() {
@@ -86,6 +84,7 @@ class AstModalContainer extends Component {
         event.preventDefault()
         this.props.dispatch(addAstJobToCaptioningJob(this.props.job_id,
             this.state.rate,
+            this.state.transcriber_notes,
             this.state.temp_id,
             this.state.file_id.value))
     }
@@ -142,6 +141,19 @@ class AstModalContainer extends Component {
                                         <option value="T">2 Day</option>
                                         <option value="L">4 Day</option>
                                     </select>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label htmlFor={"trans_notes"}>
+                                            Transcriber Notes
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <textarea onChange={this.updateState} value={this.state.transcriber_notes} name={"transcriber_notes"}/>
+                                    </div>
+
+
+
                                 </div>
                             </div>
                             <div style={{"margin-bottom": 30}}>
