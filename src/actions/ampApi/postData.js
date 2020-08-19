@@ -91,6 +91,7 @@ export function AddVideoJobBatch(jobsReducer) {
                 'output_format': currentJob.job_info.delivery_format,
                 'comments': currentJob.job_info.comments,
                 'semester': currentJob.job_info.semester}
+                
             return {
                 method: 'POST',
                 body: JSON.stringify(data_object),

@@ -261,7 +261,7 @@ class TabulatorContainer extends Component {
         return(
             <div className={"tabMainContainer"}>
                 <div className={"tabUpperContainer"}>
-                    <TabToolBar course_gen_id = {this.props.course_id} selected_rows={this.state.selected_rows}/>
+                    <TabToolBar table={this.tabulator} course_gen_id = {this.props.course_id} selected_rows={this.state.selected_rows}/>
                 </div>
 
                 <div className={"tabLowerContainer"}>

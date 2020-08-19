@@ -17,7 +17,6 @@ class TabToolBar extends Component {
         this.passed = this.passed.bind(this);
         this.ignore =  this.ignore.bind(this);
         this.remove =  this.remove.bind(this);
-        this.createJob =  this.createJob.bind(this);
         this.selectable =  this.selectable.bind(this);
 
     }
@@ -28,6 +27,7 @@ class TabToolBar extends Component {
             return row.id
         });
         this.props.dispatch(updateiLearnVideoBatch(row_ids, "auto_caption_passed", true))
+        this.props.table.deselectRow()
     };
 
 
@@ -38,6 +38,7 @@ class TabToolBar extends Component {
             return row.id
         });
         this.props.dispatch(updateiLearnVideoBatch(row_ids, "ignore_video", true))
+        this.props.table.deselectRow()
     };
 
     remove = (e) => {
@@ -46,14 +47,11 @@ class TabToolBar extends Component {
             return row.id
         });
         this.props.dispatch(updateiLearnVideoBatch(row_ids, "invalid_link", true))
+        this.props.table.deselectRow()
 
 
     };
 
-    createJob = (e) => {
-
-        console.log(this.props.selected_rows)
-    }
 
     selectable = () => {
         if (this.props.selected_rows.length > 0) {
@@ -114,9 +112,9 @@ class TabToolBar extends Component {
 
 
 
-function mapStateToProps(state, {course_gen_id, selected_rows}) {
+function mapStateToProps(state, {course_gen_id, selected_rows, table}) {
 
-
+    console.log("ROWS", table)
     return {
         state,
         course_gen_id,

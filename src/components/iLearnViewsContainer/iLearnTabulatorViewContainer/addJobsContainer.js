@@ -36,6 +36,8 @@ class AddJobsiLearnContainer extends Component {
                 requester_id: requester_id,
                 semester: this.props.semester
             };
+
+            console.log(reducer_obj)
             this.props.dispatch(addJobInfoToTempJob(id, reducer_obj))
             this.props.dispatch(completeTempJob(id,true))
 
@@ -71,7 +73,7 @@ class AddJobsiLearnContainer extends Component {
 
 function mapStateToProps({globalsReducer, coursesReducer, requesterReducer}, {course_gen_id, selected_rows}) {
 
-    let semester = globalsReducer.semester
+    let semester = globalsReducer.currentSemester
 
     let requester_id = Object.keys(requesterReducer).find(requester => {
         if (requesterReducer[requester].course_id === course_gen_id) {
