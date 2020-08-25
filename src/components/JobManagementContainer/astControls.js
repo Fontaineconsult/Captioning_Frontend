@@ -61,10 +61,13 @@ class AstJobControlMenu extends Component {
         if (astVideoJob.ast_status.length === 1) {status=astVideoJob.ast_status[0]['ast_status']
             date=astVideoJob.ast_status[0]['added_date']}
         if (astVideoJob.ast_status.length > 1) {
-            let newest = astVideoJob.ast_status.sort(function(a, b) {
-                let dateA = new Date(a.added_date), dateB = new Date(b.added_date);
-                return dateA - dateB;
-            })[0];
+            let newest = astVideoJob.ast_status[astVideoJob.ast_status.length - 1]
+
+
+            // let newest = astVideoJob.ast_status.sort(function(a, b) {
+            //     let dateA = new Date(a.added_date), dateB = new Date(b.added_date);
+            //     return dateA - dateB;
+            // })[0];
 
             status = newest['ast_status']
             date = newest['added_date']
