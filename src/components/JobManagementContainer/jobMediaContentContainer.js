@@ -88,6 +88,7 @@ class MediaContentContainer extends Component {
             let blobFile = new Blob([document.getElementById('mediaFileUpload').files[0]], {type: type})
             this.setState({
                 mediaFileUpload:blobFile,
+                content_type:type,
                 media_temp_id: uuidv1()
             });
         }
@@ -96,9 +97,10 @@ class MediaContentContainer extends Component {
 
     uploadMediaFile(event) {
 
-        this.props.dispatch(uploadMediaFromJobView(this.state.mediaFileUpload, this.props.mediaId, this.state.cap_temp_id))
+        this.props.dispatch(uploadMediaFromJobView(this.state.mediaFileUpload, this.props.mediaId, this.state.cap_temp_id, this.state.content_type))
         this.setState({
-            mediaFileUpload:""
+            mediaFileUpload:"",
+            content_type:""
         })
 
     }
