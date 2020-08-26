@@ -187,14 +187,14 @@ export function addMediaToDBandTempJob(title, link, type, temp_id) {
         }
 };
 
-export function uploadVideoWithMediaId(video, media_id, temp_id) {
+export function uploadVideoWithMediaId(video, media_id, temp_id, content_type) {
 
     // imports fetch statement to fetch new media info after file upload. Directly updates tempJobstate
     let post_object = {
         method: 'POST',
         body: video,
         headers: {
-            'Content-Type': "video/mp4",
+            'Content-Type': content_type,
             'Media-Id': media_id
         }};
 
