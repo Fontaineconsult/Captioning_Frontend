@@ -71,7 +71,7 @@ class NewMediaContainer extends Component {
         if (this.props.videoSelected) {
             if (this.props.tempJobsFormReducer[this.props.transaction_id].meta.uploaded === false) {
                 let media_id = this.props.mediaSearchReducer[this.props.transaction_id].id
-                this.props.dispatch(uploadVideoWithMediaId(this.state.fileToSend, media_id, this.props.transaction_id))
+                this.props.dispatch(uploadVideoWithMediaId(this.state.fileToSend, media_id, this.props.transaction_id, this.state.content_type))
                 this.props.dispatch(removeErrorState(this.props.transaction_id));
                 this.props.dispatch(clearMediaSearch(this.props.transaction_id));
             }
@@ -82,7 +82,7 @@ class NewMediaContainer extends Component {
 
             if (this.props.tempJobsFormReducer[this.props.transaction_id].meta.uploaded === false) {
                 let media_id = this.props.mediaSearchReducer[this.props.transaction_id].id
-                this.props.dispatch(uploadVideoWithMediaId(this.state.fileToSend, media_id, this.props.transaction_id))
+                this.props.dispatch(uploadVideoWithMediaId(this.state.fileToSend, media_id, this.props.transaction_id, this.state.content_type))
                 this.props.dispatch(removeErrorState(this.props.transaction_id));
                 this.props.dispatch(clearMediaSearch(this.props.transaction_id));
             }
@@ -132,9 +132,11 @@ class NewMediaContainer extends Component {
             }
 
             fileReader.readAsArrayBuffer(event.target.files[0])
-            let blobFile = new Blob([event.target.files[0]], {type: 'video/mp4'})
+
+            let blobFile = new Blob([event.target.files[0]], {type: event.target.files[0].type})
             this.setState({
                 fileToSend: blobFile,
+                content_type: event.target.files[0].type
             })
 
     }
@@ -213,7 +215,7 @@ class NewMediaContainer extends Component {
         } else if (this.state.type === "File") {
             SourceInput = <Input
                 className="addJobInput"
-                accept="video/*"
+                accept="video/*,audio/*"
                 name="videoFile"
                 type="file"
                 onChange={this.checkIfFileExists}
