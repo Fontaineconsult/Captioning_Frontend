@@ -84,9 +84,8 @@ class MediaContentContainer extends Component {
 
             let fileReader = new FileReader()
             fileReader.readAsArrayBuffer(document.getElementById('mediaFileUpload').files[0])
-
-
-            let blobFile = new Blob([document.getElementById('mediaFileUpload').files[0]], {type: 'video/mp4'})
+            let type = document.getElementById('mediaFileUpload').files[0].type
+            let blobFile = new Blob([document.getElementById('mediaFileUpload').files[0]], {type: type})
             this.setState({
                 mediaFileUpload:blobFile,
                 media_temp_id: uuidv1()
@@ -166,7 +165,7 @@ class MediaContentContainer extends Component {
                     <div>
                         <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"media_select"}>Download</label>
                         <Button style={{marginRight: "4px"}} disabled={downloadMediaDisabled} onClick={this.downloadMedia}><GetAppIcon fontSize="small"/></Button>
-                        <input id='mediaFileUpload' type='file' accept="video/*" hidden={true}/>
+                        <input id='mediaFileUpload' type='file' accept="video/*, audio/*" hidden={true}/>
                     </div>
                     <div>
                         <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"media_select"}>Upload</label>
