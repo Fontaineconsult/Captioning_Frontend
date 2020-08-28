@@ -14,16 +14,18 @@ class ILearnCourseContainer extends Component {
         super(props);
         this.state = {
             ilearn_video_active_check: false,
-            ignore_course_check: false
+            ignore_course_check: false,
         };
         this.handleInputChange = this.handleInputChange.bind(this)
+        this.handleInputCommentsChange = this.handleInputCommentsChange.bind(this)
     }
 
 
 
 
     componentDidMount() {
-        this.setState({ilearn_video_active_check: this.props.ilearn_video_active_check})
+        this.setState({ilearn_video_active_check: this.props.ilearn_video_active_check,
+                            course_comments: this.props.course_comments})
 
     }
 
@@ -47,7 +49,30 @@ class ILearnCourseContainer extends Component {
 
         }
 
+        if (name === "course_comments") {
+            this.props.dispatch(updateCourse(this.props.course_id, "course_comments", value))
+
+        }
+
     }
+
+
+    handleInputCommentsChange(event) {
+
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+
+        this.props.dispatch(updateCourse(this.props.course_id, "course_comments", value))
+
+
+    }
+
+
 
     ilearnPage = iLearnURL() + this.props.ilearnId;
 
@@ -72,8 +97,20 @@ class ILearnCourseContainer extends Component {
                             </form></div>
                         </div>
                         <div className={"infoContainerRight"}>
-                            <div><b>Semester: </b>{this.props.semester}</div>
-                            <div>ilearnID: <a href={this.ilearnPage}>{this.props.ilearnId}</a> </div>
+                            <div className={"infoContainerRight"}>
+                                <div>
+                                    <textarea value={this.state.course_comments}
+                                              onBlur={this.handleInputCommentsChange}
+                                              name={"course_comments"}
+                                              id={"course_comments"} rows={4}/>
+                                </div>
+                                <div>
+                                    <div><b>Semester: </b>{this.props.semester}</div>
+                                    <div>ilearnID: <a href={this.ilearnPage}>{this.props.ilearnId}</a> </div>
+                                </div>
+                            </div>
+
+
                         </div>
 
                     </div>
@@ -141,7 +178,8 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, ile
         numStudentsEnrolled,
         studentRequestsCaptioning,
         courseilearnvideos,
-        ilearn_video_active_check
+        ilearn_video_active_check,
+        course_comments: coursesReducer[course_id].course_comments
 
     }
 }

@@ -40,6 +40,19 @@
 
 }
 
+textarea{
+    margin-right: 5px;
+    resize: none;
+
+}
+
+
+.infoContainerRight {
+
+    display: flex;
+
+}
+
 .courseUpperContainerLeft {
 
     padding-top: 5px;
