@@ -82,8 +82,6 @@ class ILearnCourseContainer extends Component {
 
     }
 
-
-
     ilearnPage = iLearnURL() + this.props.ilearnId;
 
     render()
