@@ -15,9 +15,11 @@ class ILearnCourseContainer extends Component {
         this.state = {
             ilearn_video_active_check: false,
             ignore_course_check: false,
+            course_comments: ''
         };
         this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleInputCommentsChange = this.handleInputCommentsChange.bind(this)
+        this.submitCommentsChange = this.submitCommentsChange.bind(this)
+        this.updateCommentsChange = this.updateCommentsChange.bind(this)
     }
 
 
@@ -56,8 +58,7 @@ class ILearnCourseContainer extends Component {
 
     }
 
-
-    handleInputCommentsChange(event) {
+    updateCommentsChange(event){
 
         const target = event.target;
         const value = target.value;
@@ -66,6 +67,15 @@ class ILearnCourseContainer extends Component {
         this.setState({
             [name]: value
         });
+
+
+    }
+
+
+    submitCommentsChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
 
         this.props.dispatch(updateCourse(this.props.course_id, "course_comments", value))
 
@@ -100,7 +110,8 @@ class ILearnCourseContainer extends Component {
                             <div className={"infoContainerRight"}>
                                 <div>
                                     <textarea value={this.state.course_comments}
-                                              onBlur={this.handleInputCommentsChange}
+                                              onBlur={this.submitCommentsChange}
+                                              onChange={this.updateCommentsChange}
                                               name={"course_comments"}
                                               id={"course_comments"} rows={4}/>
                                 </div>
