@@ -79,7 +79,6 @@ class ILearnCourseContainer extends Component {
 
         this.props.dispatch(updateCourse(this.props.course_id, "course_comments", value))
 
-
     }
 
     ilearnPage = iLearnURL() + this.props.ilearnId;
