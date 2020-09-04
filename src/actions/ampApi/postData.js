@@ -218,7 +218,7 @@ export function uploadMediaFromJobView(video, media_id, temp_id, content_type) {
         body: video,
         headers: {
             'Content-Type': content_type,
-            'media_id': media_id
+            'Media_Id': media_id
         }};
 
     return dispatch => {
