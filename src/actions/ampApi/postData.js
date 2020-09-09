@@ -120,7 +120,7 @@ export function AddVideoJobBatch(jobsReducer) {
 
 
 };
-
+// Zoprs
 export function AddEmployee(employee_data) {
     let temp_id = uuidv1()
 
@@ -218,7 +218,7 @@ export function uploadMediaFromJobView(video, media_id, temp_id, content_type) {
         body: video,
         headers: {
             'Content-Type': content_type,
-            'Media_Id': media_id
+            'Media-Id': media_id
         }};
 
     return dispatch => {
