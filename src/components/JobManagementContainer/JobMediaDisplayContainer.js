@@ -67,7 +67,7 @@ class JobMediaDisplayContainer extends Component {
                                 {this.props.media.media_type === 'File' && <a href={this.props.download_url}>{this.props.fileObject.associated_files.file_name}</a>}
 
                                 {this.props.media.media_type === 'URL' && (<label style={{'margin-right': '32px'}}>Source URL: </label>)}
-                                {this.props.media.media_type === 'URL' && (<div><a href={this.state.source_url}>{this.state.source_url}</a></div>)}
+                                {this.props.media.media_type === 'URL' && (<div><a target="_blank" href={this.state.source_url}>{this.state.source_url}</a></div>)}
                             </div>
 
                             <div className={"extractorButtonsContainer"}>
