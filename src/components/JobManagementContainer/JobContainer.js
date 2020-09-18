@@ -165,7 +165,6 @@ class JobContainer extends Component {
     }
 
     render() {
-
         return (
             <div className="job-container masterListItem" style={this.jobFocusedStyle()} tabIndex={0} onFocus={this.setFocus} onBlur={this.clearFocus}>
                 <div className={"job-container-left"} style={{'background':statusColor(this.state.job_status)}}>
@@ -205,7 +204,7 @@ class JobContainer extends Component {
 
                                         <select className="upperJobContainerLeftContentInput" name="output_format" onFocus={this.saveCurrentValue} onChange={this.updateState} onBlur={this.dispatchInput} value={this.state.output_format}>
                                             <option value="Amara">Amara</option>
-                                            <option value=".SRT">.SRT</option>
+                                            <option value="SRT">.SRT</option>
                                             <option value="File">File</option>
 
                                         </select>
