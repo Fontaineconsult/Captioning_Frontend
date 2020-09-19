@@ -45,6 +45,13 @@ class AddJobModal extends Component {
 
     submitVideoJobs() {
 
+        this.props.selected_rows.forEach(row => {
+            row.update({"submitted_for_processing": true})
+            let rowData = row._row.data
+            this.props.dispatch(updateiLearnVideo(rowData.id, "submitted_for_processing", true))
+
+        })
+
         this.props.dispatch(AddVideoJobBatch(this.props.tempJobsFormReducer));
         this.props.dispatch(clearMediaSearch());
         this.props.dispatch(clearTempCapJobs())
