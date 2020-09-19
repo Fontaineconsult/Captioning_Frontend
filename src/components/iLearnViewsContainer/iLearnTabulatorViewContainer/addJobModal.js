@@ -8,6 +8,8 @@ import AddJobsiLearnContainer from "./addJobsContainer";
 import {AddVideoJobBatch} from "../../../actions/ampApi/postData"
 import {clearTempCapJobs} from "../../../actions/tempJobsForm"
 import {clearMediaSearch} from "../../../actions/mediaSearch";
+import * as tabFuncs from "./TabulatorDataConstructor";
+import {updateiLearnVideo} from "../../../actions/ampApi/putData";
 
 
 
@@ -61,6 +63,7 @@ class AddJobModal extends Component {
     }
 
     handleOpen() {
+        // console.log("plerrrbsssss", this.props.selected_rows)
         this.setState({
             setOpen: true,
             open:true
@@ -94,7 +97,6 @@ class AddJobModal extends Component {
                         <h2 id="simple-modal-title">Create Jobs</h2>
                         <AddJobsiLearnContainer course_gen_id = {this.props.course_gen_id} selected_rows = {this.props.selected_rows}/>
                         <Button size={"small"} disabled={Object.keys(this.props.tempJobsFormReducer).length === 0}  onClick={this.submitVideoJobs}>Create Jobs</Button>
-
                     </div>}
                 </Modal>
             </React.Fragment>
@@ -106,11 +108,7 @@ class AddJobModal extends Component {
 }
 
 
-
-
-
 function mapStateToProps({tempJobsFormReducer}, {course_gen_id, selected_rows}) {
-
 
     return {
         tempJobsFormReducer,

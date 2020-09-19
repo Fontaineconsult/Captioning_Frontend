@@ -21,16 +21,23 @@ class AddJobsiLearnContainer extends Component {
     componentDidMount() {
         this.props.selected_rows.forEach(row => {
             console.log(this.props.requester_id)
+
+
+            console.log("INNER FARTS", row)
+
+
             let id = uuidv1()
             this.props.dispatch(addTempJob(id, this.props.requester_id))
-            this.props.dispatch(addMediaToDBandTempJob(row.title, row.resource_link, 'URL', id))
+
+            this.props.dispatch(addMediaToDBandTempJob(row._row.data.title, row._row.data.resource_link, 'URL', id))
 
             let requester_id = Object.keys(this.props.requesterReducer).find(requester => {
+
                 return this.props.requesterReducer[requester].course_id === this.props.course_gen_id
             });
 
             let reducer_obj = {
-                show_date: moment(row.indicated_due_date, "MM/DD/YYYY", true).isValid() ? row.indicated_due_date : moment().add(2,'days'),
+                show_date: moment(row._row.data.indicated_due_date, "MM/DD/YYYY", true).isValid() ? row._row.data.indicated_due_date : moment().add(2,'days'),
                 delivery_format: "Amara",
                 comments: "Added from iLearn Page",
                 requester_id: requester_id,

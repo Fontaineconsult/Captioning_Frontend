@@ -172,13 +172,13 @@ class TabulatorContainer extends Component {
             if (cellData.cell._cell.row.modules.select.selected === false) {
                 cellData.cell._cell.table.selectRow(cellData.cell._cell.row.data.id);
 
-                let test = cellData.cell._cell.table.getSelectedData();
+                let test = cellData.cell._cell.table.getSelectedRows();
                 this.setState({selected_rows: test})
 
             } else {
                 cellData.cell._cell.table.deselectRow(cellData.cell._cell.row.data.id);
 
-                let test = cellData.cell._cell.table.getSelectedData();
+                let test = cellData.cell._cell.table.getSelectedRows();
                 this.setState({selected_rows: test})
 
             }
