@@ -10,7 +10,7 @@ import AstControls from "./astControls"
 import AmaraControls from "./amaraControlsContainer";
 import DatePicker from 'react-date-picker';
 import ClearIcon from '@material-ui/icons/Clear';
-
+import moment from "moment";
 
 const statusColor = (status) => ({
     "Queued": "linear-gradient(to left, rgba(63, 123, 191, 0), rgb(63, 123, 191))",
@@ -37,7 +37,7 @@ class JobContainer extends Component {
             priority: false,
             request_date:  Date(),
             show_date: Date(),
-            delivered_date: Date(),
+            delivered_date: new Date(),
             requester_id: '',
             rush_service_used: false,
             transcripts_only: false,
@@ -151,7 +151,7 @@ class JobContainer extends Component {
             priority: r.priority,
             request_date: r.request_date,
             show_date: r.show_date,
-            delivered_date: r.delivered_date ,
+            delivered_date: moment(r.delivered_date).isValid ? r.delivered_date: moment(null),
             requester_id: r.requester_id,
             rush_service_used: r.rush_service_used,
             transcripts_only: r.transcripts_only,
@@ -250,7 +250,7 @@ class JobContainer extends Component {
                                                     clearIcon={null}
                                                     calendarIcon={null}
                                                     onFocus={(date) => this.saveCurrentDateValue(date, "delivered_date")}
-                                                    value={new Date(this.state.delivered_date)}
+                                                    value={this.state.delivered_date}
                                                     onBlur={(date) => this.dispatchDateInput(date,"delivered_date")}
                                                     onChange={(date)=> this.handleSetDate(date, 'delivered_date')}
                                         />
