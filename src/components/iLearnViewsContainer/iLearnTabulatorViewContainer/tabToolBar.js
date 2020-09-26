@@ -24,8 +24,9 @@ class TabToolBar extends Component {
     passed = (e) => {
 
         let row_ids = this.props.selected_rows.map(row => {
-            return row.id
+            return row._row.data.id
         });
+
         this.props.dispatch(updateiLearnVideoBatch(row_ids, "auto_caption_passed", true))
         this.props.table.deselectRow()
     };
@@ -35,8 +36,9 @@ class TabToolBar extends Component {
     ignore = (e) => {
 
         let row_ids = this.props.selected_rows.map(row => {
-            return row.id
+            return row._row.data.id
         });
+
         this.props.dispatch(updateiLearnVideoBatch(row_ids, "ignore_video", true))
         this.props.table.deselectRow()
     };
@@ -44,8 +46,9 @@ class TabToolBar extends Component {
     remove = (e) => {
 
         let row_ids = this.props.selected_rows.map(row => {
-            return row.id
+            return row._row.data.id
         });
+
         this.props.dispatch(updateiLearnVideoBatch(row_ids, "invalid_link", true))
         this.props.table.deselectRow()
 
