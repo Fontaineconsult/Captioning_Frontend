@@ -20,7 +20,7 @@ function environment(value) {
 
 // true for deployed false for dev
 
-let env_value = false
+let env_value = true
 
 
 export const endpoint = () => (environment(env_value))
