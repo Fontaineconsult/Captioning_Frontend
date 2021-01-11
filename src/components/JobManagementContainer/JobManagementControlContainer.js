@@ -234,6 +234,8 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         let requester_ids = Object.keys(videosJobsReducer).map(x => {
             return videosJobsReducer[x].requester_id
         });
+
+
         requester = requester_ids.reduce((accumulator, element) => {
             accumulator[element] = {id: requesterReducer[element].id, course_id: requesterReducer[element].course_id}
             return accumulator
