@@ -126,7 +126,6 @@ class JobContainer extends Component {
         }
 
     }
-
     setFocus() {
 
         this.setState(
@@ -138,7 +137,6 @@ class JobContainer extends Component {
         this.setState(
             {isFocused:false}
         )
-
     }
 
     componentDidMount() {
@@ -346,14 +344,7 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
         }
 
 
-
-
     }
-
-
-
-
-
 
 
     return {

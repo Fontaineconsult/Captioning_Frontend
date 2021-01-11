@@ -72,8 +72,6 @@ class TabToolBar extends Component {
 
             return row.title === null;
 
-
-
         })
 
 
