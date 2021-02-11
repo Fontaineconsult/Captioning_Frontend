@@ -22,6 +22,7 @@ export default function tempJobsFormReducer (state={}, action) {
                         requester_id: action.requester_id,
                         uploaded: false}}
 
+
             };
 
         case ADD_MEDIA_TO_TEMP_JOB:
