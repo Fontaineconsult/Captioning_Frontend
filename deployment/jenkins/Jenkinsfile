@@ -28,16 +28,10 @@ pipeline {
 
 
                 sh 'ls'
-                sh '''
-                    cd backend
-                    ls backend
-                   '''
+
             }
 
         }
-
-    }
-    stages {
         stage('Fetch Frontend') {
 
             steps {
@@ -64,6 +58,7 @@ pipeline {
         }
 
     }
+
 
 }
 
