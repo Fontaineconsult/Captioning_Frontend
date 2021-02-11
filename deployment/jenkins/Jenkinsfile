@@ -16,7 +16,21 @@ pipeline {
             steps {
 
                 dir("backend") {
-                    git url: "https://github.com/Fontaineconsult/accessiblebookchecker/"
+
+
+                    checkout([
+
+                       $class: 'GitSCM',
+                       branches: [[name: 'refs/heads/master']],
+                       doGenerateSubmoduleConfigurations: false,
+                       extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'backend']],
+                       submoduleCfg: [],
+                       userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/accessiblebookchecker']]
+
+
+
+                    ])
+
 
                 }
 
