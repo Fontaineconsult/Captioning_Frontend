@@ -1,0 +1,32 @@
+#!groovy
+def awsCredentials = [[$class: 'AmazonWebServicesCredentialsBinding',
+                       credentialsId: 'DPRC_AWS_CREDS']]
+
+pipeline {
+    environment {
+        AWS_REGION = 'us-west-2'
+    }
+    agent none
+    triggers {
+        githubPush()
+    }
+    stages {
+        stage('Test') {
+            agent {
+                docker {
+
+
+                    image 'python:3.7.3-stretch'
+                    args '-u root:root'
+                }
+            }
+            steps {
+                sh 'ls'
+            }
+
+        }
+
+    }
+
+}
+

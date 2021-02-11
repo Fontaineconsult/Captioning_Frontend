@@ -40,7 +40,6 @@ export default function tempJobsFormReducer (state={}, action) {
 
             return {
                 ...state,
-
                 [action.temp_id]: {video: action.media_info, job_info: {...state[action.temp_id].job_info}, meta:{...state[action.temp_id].meta}}
             };
 
@@ -67,13 +66,11 @@ export default function tempJobsFormReducer (state={}, action) {
 
             };
 
-
         case UPDATE_TEMP_JOBS_UPLOAD_STATE:
 
             return {
                 ...state,
                 [action.temp_id]: {
-
                     video: {...state[action.temp_id].video},
                     job_info: {...state[action.temp_id].job_info},
                     meta: {...state[action.temp_id].meta, uploaded: action.upload_state}
@@ -81,7 +78,6 @@ export default function tempJobsFormReducer (state={}, action) {
                 }
 
             };
-
 
         case REMOVE_ITEM_FROM_TEMP_CAP_JOBS:
 
@@ -102,11 +98,7 @@ export default function tempJobsFormReducer (state={}, action) {
                     video: {...state[action.temp_id].video},
                     job_info: {...state[action.temp_id].job_info},
                     meta: {...state[action.temp_id].meta, created: action.created}
-
-
                 }
-
-
             };
 
         case CLEAR_INCOMPLETE_TEMP_CAP_JOBS:
