@@ -36,7 +36,10 @@ pipeline {
 
 
                 sh 'ls'
-                sh 'ls /backend'
+                sh '''
+                    cd backend
+                    ls backend
+                   '''
             }
 
         }
