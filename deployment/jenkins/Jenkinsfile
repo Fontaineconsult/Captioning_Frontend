@@ -14,7 +14,15 @@ pipeline {
         stage('Test') {
 
             steps {
+
+                dir("backend") {
+                    git url: "https://github.com/Fontaineconsult/accessiblebookchecker/"
+
+                }
+
+
                 sh 'ls'
+                sh 'ls /backend'
             }
 
         }
