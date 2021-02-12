@@ -57,7 +57,6 @@ pipeline {
 
                 sh '''
                     cd workspace/frontend
-                    chown -R 113:119 "/.npm"
                     npm install
                     npm run build
                     ls
