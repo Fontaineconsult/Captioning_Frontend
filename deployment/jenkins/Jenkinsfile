@@ -16,15 +16,16 @@ pipeline {
             agent any
             steps {
 
-                    checkout([
+                checkout([
 
-                       $class: 'GitSCM',
-                       branches: [[name: 'refs/heads/master']],
-                       doGenerateSubmoduleConfigurations: false,
-                       extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'workspace/backend']],
-                       submoduleCfg: [],
-                       userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/accessiblebookchecker']]
-                    ])
+                        $class: 'GitSCM',
+                        branches: [[name: 'refs/heads/master']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'workspace/backend']],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/accessiblebookchecker']]
+                ])
+
 
 
             }
@@ -33,14 +34,14 @@ pipeline {
             agent any
             steps {
 
-                    checkout([
-                            $class: 'GitSCM',
-                            branches: [[name: 'refs/heads/master']],
-                            doGenerateSubmoduleConfigurations: false,
-                            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'workspace/frontend']],
-                            submoduleCfg: [],
-                            userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/Captioning_Frontend']]
-                    ])
+                checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: 'refs/heads/master']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'workspace/frontend']],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/Captioning_Frontend']]
+                ])
 
             }
         }
@@ -71,9 +72,12 @@ pipeline {
             agent any
             steps {
                 sh '''
-                    mkdir "workspace/backend/application/flask_site/pages/static/react/"
+                    mkdir "workspace/backend/application/flask_site/pages/static/react"
                     mkdir "workspace/backend/application/flask_site/pages/static/react/css"
                     mkdir "workspace/backend/application/flask_site/pages/static/react/js"
+                    
+                    
+                    ls workspace/backend/application/flask_site/pages/static/
                     
                     mv "workspace/frontend/build/index.html" "workspace/backend/application/flask_site/pages/templates/"
                     mv -v "workspace/frontend/build/*" "workspace/backend/application/flask_site/pages/static/react/"
