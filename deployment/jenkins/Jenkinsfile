@@ -70,8 +70,10 @@ pipeline {
         stage('Copy Build Files') {
             agent any
             steps {
-                cd workspace/frontend
-                ls
+                sh '''
+                    cd workspace/frontend
+                    ls
+                  '''
 
 
             }
