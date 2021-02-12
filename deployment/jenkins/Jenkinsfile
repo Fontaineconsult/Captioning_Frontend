@@ -42,11 +42,6 @@ pipeline {
                             userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/Captioning_Frontend']]
                     ])
 
-                sh 'ls'
-                sh '''
-                    cd workspace
-                    ls
-                   '''
             }
         }
 
@@ -59,7 +54,12 @@ pipeline {
             }
             steps {
 
-                sh 'ls'
+                sh '''
+                    cd workspace/frontend
+                    npm install
+                    npm run build
+                    ls
+                   '''
 
             }
 
