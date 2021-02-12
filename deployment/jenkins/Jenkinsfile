@@ -54,7 +54,7 @@ pipeline {
 
             agent {
                 docker {
-                    image 'node'
+                    image 'node:latest'
                 }
                 steps {
 
