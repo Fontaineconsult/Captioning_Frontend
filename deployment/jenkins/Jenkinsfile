@@ -6,14 +6,14 @@ pipeline {
     environment {
         AWS_REGION = 'us-west-2'
     }
-    agent any
+    agent none
     triggers {
         githubPush()
     }
     stages {
+
         stage('Fetch Backend') {
-
-
+            agent any
             steps {
 
                     checkout([
@@ -27,14 +27,10 @@ pipeline {
                     ])
 
 
-
-                sh 'ls'
-
             }
-
         }
         stage('Fetch Frontend') {
-
+            agent any
             steps {
 
                     checkout([
@@ -46,18 +42,28 @@ pipeline {
                             userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/Captioning_Frontend']]
                     ])
 
-
-
-
                 sh 'ls'
                 sh '''
                     cd workspace
                     ls
                    '''
             }
-
         }
 
+        stage('Build Node Front End') {
+
+            agent {
+                docker {
+                    image 'node'
+                }
+                steps {
+
+                    sh: 'ls'
+
+                }
+            }
+
+        }
     }
 
 
