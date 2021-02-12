@@ -56,6 +56,7 @@ pipeline {
 
                 sh '''
                     cd workspace/frontend
+                    sudo chown -R 113:119 "/.npm"
                     npm install
                     npm run build
                     ls
