@@ -71,10 +71,22 @@ pipeline {
             agent any
             steps {
                 sh '''
-                    cd workspace/frontend
-                    ls
-                  '''
+                    mkdir "workspace/backend/application/flask_site/pages/static/react/"
+                    mkdir "workspace/backend/application/flask_site/pages/static/react/css"
+                    mkdir "workspace/backend/application/flask_site/pages/static/react/js"
+                    
+                    mv "workspace/frontend/build/index.html" "workspace/backend/application/flask_site/pages/templates/"
+                    mv -v "workspace/frontend/build/*" "workspace/backend/application/flask_site/pages/static/react/"
+                    
+   
+                    
+//                    mv "workspace/frontend/build/static/css/*" "workspace/backend/application/flask_site/pages/static/react/static/css"
+//                    mv "workspace/frontend/build/static/js/*" "workspace/backend/application/flask_site/pages/static/react/static/js"
 
+
+                    ls workspace/backend/application/flask_site/pages/static/react/
+
+                  '''
 
             }
         }
