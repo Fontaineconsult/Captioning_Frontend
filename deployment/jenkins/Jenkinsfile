@@ -13,8 +13,9 @@ pipeline {
     stages {
         stage('Fetch Backend') {
 
+
             steps {
-                dir("backend") {
+
                     checkout([
 
                        $class: 'GitSCM',
@@ -24,7 +25,7 @@ pipeline {
                        submoduleCfg: [],
                        userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/accessiblebookchecker']]
                     ])
-                }
+
 
 
                 sh 'ls'
@@ -35,7 +36,7 @@ pipeline {
         stage('Fetch Frontend') {
 
             steps {
-                dir("backend") {
+
                     checkout([
                             $class: 'GitSCM',
                             branches: [[name: 'refs/heads/master']],
@@ -45,7 +46,7 @@ pipeline {
                             userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/Captioning_Frontend']]
                     ])
 
-                }
+
 
 
                 sh 'ls'
