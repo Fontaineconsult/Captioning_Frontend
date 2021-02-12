@@ -50,13 +50,14 @@ pipeline {
             agent {
                 docker {
                     image 'node:latest'
+                    args '-u root:root'
                 }
             }
             steps {
 
                 sh '''
                     cd workspace/frontend
-                    sudo chown -R 113:119 "/.npm"
+                    chown -R 113:119 "/.npm"
                     npm install
                     npm run build
                     ls
