@@ -12,6 +12,20 @@ pipeline {
     }
     stages {
 
+        stage('Clear Workspace') {
+            agent any
+            steps {
+
+                sh '''
+                    cd /var/lib/jenkins/workspace/amp-dev-build-pipeline
+                    pwd
+                    rm -rf *
+                  '''
+
+            }
+
+        }
+
         stage('Fetch Backend') {
             agent any
             steps {
@@ -34,7 +48,9 @@ pipeline {
             agent any
             steps {
 
+
                 checkout([
+
                         $class: 'GitSCM',
                         branches: [[name: 'refs/heads/master']],
                         doGenerateSubmoduleConfigurations: false,
@@ -59,7 +75,7 @@ pipeline {
                 sh '''
                     cd workspace/frontend
                     npm install
-                    npm run build
+                    ENV_VALUE=true && npm run build
                     ls
                    '''
 
@@ -72,29 +88,44 @@ pipeline {
             agent any
             steps {
                 sh '''
-                    mkdir "workspace/backend/application/flask_site/pages/static/react"
-                    mkdir "workspace/backend/application/flask_site/pages/static/react/css"
-                    mkdir "workspace/backend/application/flask_site/pages/static/react/js"
-                    
-                    
                     ls workspace/backend/application/flask_site/pages/static/
-                    
-                    mv "workspace/frontend/build/index.html" "workspace/backend/application/flask_site/pages/templates/"
-                    mv -v "workspace/frontend/build/*" "workspace/backend/application/flask_site/pages/static/react/"
-                    
-   
-                    
-//                    mv "workspace/frontend/build/static/css/*" "workspace/backend/application/flask_site/pages/static/react/static/css"
-//                    mv "workspace/frontend/build/static/js/*" "workspace/backend/application/flask_site/pages/static/react/static/js"
-
-
+                    mkdir workspace/backend/application/flask_site/pages/static/react
+                    mkdir workspace/backend/application/flask_site/pages/static/react/static
+                    mkdir workspace/backend/application/flask_site/pages/static/react/static/css
+                    mkdir workspace/backend/application/flask_site/pages/static/react/static/js
+                    ls workspace/backend/application/flask_site/pages/static/
+                    mv workspace/frontend/build/index.html workspace/backend/application/flask_site/pages/templates/
+                    mv workspace/frontend/build/static/css/* workspace/backend/application/flask_site/pages/static/react/static/css/
+                    mv workspace/frontend/build/static/js/* workspace/backend/application/flask_site/pages/static/react/static/js/
                     ls workspace/backend/application/flask_site/pages/static/react/
-
+                    ls workspace/backend/application/flask_site/pages/static/react/static/css
+                    ls workspace/backend/application/flask_site/pages/static/react/static/js
                   '''
 
             }
         }
+        stage('Build Docker Image') {
+            agent any
+            steps {
+                sh '''
+                    cd workspace/backend
+                    docker build -t amp-dev .
+                  '''
 
+            }
+        }
+        stage('Run Docker Image') {
+            agent any
+            steps {
+                sh '''
+                    ls workspace/backend/deployment/docker/
+                    docker stop $(docker ps -aq)
+                    docker run -d -p 80:80 -p 5432:5432 --env-file workspace/backend/deployment/docker/env.list amp-dev:latest
+                    docker rmi $(docker images -f dangling=true -q) --force
+                  '''
+
+            }
+        }
     }
 
 

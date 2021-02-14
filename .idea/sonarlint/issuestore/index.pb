@@ -26,8 +26,6 @@ H
 E
 src/reducers/media.js,9\3\9307b17a07480d52ff9393c4514440376c0aa8f1
 A
-package-lock.json,f\a\fa288d1472d29beccb489a676f68739ad365fc47
-A
 public/index.html,f\4\f43ecdf8d666ee908aacce037b4cd72159e4741b
 <
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
