@@ -75,7 +75,7 @@ pipeline {
                 sh '''
                     cd workspace/frontend
                     npm install
-                    ENV_VALUE=true && npm run build
+                    export DEPLOYED_VALUE=true && npm run build
                     ls
                    '''
 

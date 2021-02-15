@@ -9,7 +9,7 @@ export const currentSemester = () => ("sp21")
 
 
 function environment(value) {
-    if (value === true) {
+    if (value === 'production') {
         return deployServerApiURL()
     } else {
         return devServerApiURL()
@@ -20,8 +20,8 @@ function environment(value) {
 
 // true for deployed false for dev
 
-let env_value = process.env.ENV_VALUE
-
+let env_value = process.env.NODE_ENV
+console.log("DSGSDGDSGSDGSDGDSGSDGEEE", env_value)
 
 
 
