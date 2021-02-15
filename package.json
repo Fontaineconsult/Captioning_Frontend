@@ -34,7 +34,7 @@
     "react-router-dom": "5.0.0",
     "react-scripts": "2.1.8",
     "react-select": "^3.0.8",
-    "react-tabulator": "^0.9.6",
+    "react-tabulator": "^0.14.4",
     "react-transition-group": "^4.3.0",
     "react-virtualized": "^9.21.2",
     "redux": "^4.0.1",
