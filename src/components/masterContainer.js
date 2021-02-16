@@ -29,12 +29,9 @@ import '../css/masterContainer-css.css'
 import NewCapJobContainer from './AddCapJobView/old/newCapJobContainer'
 
 
-
 class MasterContainer extends Component {
 
     componentDidMount() {
-
-
 
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'admin') {
             this.props.dispatch(allAssetDiscovery(this.props.globalsReducer.currentSemester))
@@ -44,16 +41,12 @@ class MasterContainer extends Component {
             this.props.dispatch(fetchAllEmployees())
             this.props.dispatch(fetchAllVideoJobsBySemester(this.props.globalsReducer.currentSemester))
 
-
         }
 
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'user') {
             this.props.dispatch(assetDiscovery(this.props.query.id))
 
         }
-
-
-
 
     }
 
@@ -72,7 +65,6 @@ class MasterContainer extends Component {
 
         }
 
-
         if (this.props.globalsReducer.currentSemester !== prevProps.globalsReducer.currentSemester ) {
 
             this.props.dispatch(allAssetDiscovery(this.props.globalsReducer.currentSemester))
@@ -83,10 +75,6 @@ class MasterContainer extends Component {
 
         }
 
-
-
-
-
     }
 
     render() {
@@ -94,9 +82,9 @@ class MasterContainer extends Component {
         return(
 
             <div className={"master-container"}>
-                <div className={"top-bar"}>
-
-                </div>
+                {process.env.NODE_ENV === 'development' &&
+                <div className={"developement-version"}><b> - - - Development Version - - -</b></div>}
+                <div className={"top-bar"}></div>
                 <Route path='/captioning'><NavigationMasterContainer query={this.props.query}/></Route>
             </div>
 
@@ -109,8 +97,6 @@ class MasterContainer extends Component {
 
 function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer, globalsReducer}, {query}){
 
-
-
     return {
         globalsReducer,
         requesterReducer,
@@ -119,9 +105,7 @@ function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatus
 
     }
 
-
 }
-
 
 
 export default withRouter(connect(mapStateToProps)(MasterContainer))
