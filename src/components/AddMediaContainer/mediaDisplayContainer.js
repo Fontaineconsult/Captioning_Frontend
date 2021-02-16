@@ -70,14 +70,14 @@ function MediaInfoDisplay(props) {
         <br></br>
         <div>
             <div>Source URL</div>
-            <div><a href={source_url}>{source_url}</a></div>
+            <div><a target="_blank" href={source_url}>{source_url}</a></div>
         </div>
             <br></br>
         <div>
             <div>Captioned URL</div>
             <div>{captioned_url ? <div>
                 <div>
-                    <a href={captioned_url}>{captioned_url}</a>
+                    <a target="_blank" href={captioned_url}>{captioned_url}</a>
                 </div>
                 <div>
                     <br></br>
@@ -116,7 +116,6 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
     if (transaction_id !== "") {
         if (mediaSearchReducer.hasOwnProperty(transaction_id)) {
             if (mediaSearchReducer[transaction_id].hasOwnProperty("captioned_resources")) {
-
                 captionResources = mediaSearchReducer[transaction_id].captioned_resources.reduce((accumulator, currentValue) => {
                     if (currentValue.amara_id !== null) {
                         accumulator.push({
@@ -125,13 +124,10 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
                     }
                     return accumulator
                 }, [])
-
                 if (captionResources.length > 0) {
                     captionUrl = captionResources[0].currentValue.amara_resource.url
                 }
             }
-
-
         }
     }
 

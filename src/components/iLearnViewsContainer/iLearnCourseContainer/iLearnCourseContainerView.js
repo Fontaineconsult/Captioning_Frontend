@@ -114,7 +114,7 @@ class ILearnCourseContainer extends Component {
                                 </div>
                                 <div>
                                     <div><b>Semester: </b>{this.props.semester}</div>
-                                    <div>ilearnID: <a href={this.ilearnPage}>{this.props.ilearnId}</a> </div>
+                                    <div>ilearnID: <a target="_blank" href={this.ilearnPage}>{this.props.ilearnId}</a> </div>
                                 </div>
                             </div>
 
