@@ -62,7 +62,6 @@ class MasterContainer extends Component {
                 ))
 
             }
-
         }
 
         if (this.props.globalsReducer.currentSemester !== prevProps.globalsReducer.currentSemester ) {
@@ -74,9 +73,7 @@ class MasterContainer extends Component {
             this.props.dispatch(fetchAllEmployees())
 
         }
-
     }
-
     render() {
 
         return(
