@@ -204,6 +204,7 @@ class JobContainer extends Component {
                                             <option value="Amara">Amara</option>
                                             <option value="SRT">.SRT</option>
                                             <option value="File">File</option>
+                                            <option value="Open Caption">Open Cap</option>
 
                                         </select>
 
@@ -299,13 +300,8 @@ class JobContainer extends Component {
                         <div className="pluginContainer">
                             <AmaraControls media_id={this.props.mediaId}/>
                         </div>
-
                     </div>
-
-
                 </div>
-
-
             </div>
 
         )

@@ -93,7 +93,6 @@ class AstJobControlMenu extends Component {
         let data = []
         if (!this.props.expanded) {
             data.push(this.formatData(this.props.ast_jobs[0]))
-
         }
         if (this.props.expanded) {
             Object.keys(this.props.ast_jobs).forEach(item => {
@@ -101,7 +100,6 @@ class AstJobControlMenu extends Component {
                 }
             )
         }
-
         this.setState({
             data:data
         })
@@ -129,8 +127,6 @@ class AstJobControlMenu extends Component {
 
         }
     }
-
-
 
 
     render() {
@@ -220,8 +216,6 @@ function NoJobsSlug(props) {
 
 
 }
-
-
 
 
 function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {ast_jobs, media_id, job_id}) {
