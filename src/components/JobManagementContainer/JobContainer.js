@@ -333,7 +333,7 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
         if (requesterReducer[job.requester_id].course_id !== null) {
             requesterResource = requesterReducer[job.requester_id].course_id
         } else {
-            console.log("BEEPPRR{{{{{", campusOrgReducer[requesterReducer[job.requester_id]])
+
             requesterResource = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
 
         }

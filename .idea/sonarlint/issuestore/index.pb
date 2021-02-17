@@ -114,3 +114,10 @@ Osrc/components/iLearnViewsContainer/iLearnTabulatorViewContainer/addJobModal.js
 Nsrc/components/iLearnViewsContainer/iLearnTabulatorViewContainer/tabToolBar.js,5\a\5aa184c8bcc7fbffaed067a780811cdd5837de8f
 L
 src/reducers/tempJobsForm.js,3\3\33be0ea00ff4453dd08f40122fa7ffcc3a13cbef
+N
+deployment/jenkins/Jenkinsfile,1\0\10c18dd62dc8eeb734b12f464fe670f276f6b072
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
+P
+ deployment/jenkins/env/build.env,c\6\c660bb641b705ea9cfb1ba0446dadaad1e1f272d

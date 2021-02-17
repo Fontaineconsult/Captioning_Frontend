@@ -21,7 +21,7 @@ const astRateFormatter = (rateCode) => ({
 
 
 class AstJobControlMenu extends Component {
-
+    ref = null
     constructor(props) {
         super(props);
         this.state = {data: []};
@@ -130,28 +130,34 @@ class AstJobControlMenu extends Component {
         }
     }
 
-    render() {
 
-        return (
+
+
+    render() {
+        console.log(this.state.data)
+
+        if (this.state.data.length > 0) {return (
+
             <Fragment>
                 <ReactTabulator
+                    ref={(ref) => (this.ref = ref)}
                     data={this.state.data}
                     columns={this.columns}
                     resizableColumns={false}
                     responsiveLayout={true}
                     layout={"fitData"}
                     maxHeight={"40px"}
-                   />
+                />
             </Fragment>
 
-        )
+        )}
+
+        if (this.state.data.length === 0) {
+            return ("loading")
+        }
+
     }
 }
-
-
-
-
-
 
 
 class AstControls extends Component {
@@ -184,13 +190,19 @@ class AstControls extends Component {
 
 
     render() {
+
         return (
             <div className="astControls">
                 <div className={"astModalActivateButtonContainer"} >
                     <AstModalContainer job_id={this.props.job_id}/>
                 </div>
                 <div className={"astControlsContainer"}  tabIndex={0}>
-                    {this.props.hasJobs && <AstJobControlMenu  job_id={this.props.job_id} dispatch={this.props.dispatch} expanded={this.state.expanded} ast_jobs={this.props.ast_jobs}/>}
+                    {this.props.hasJobs && <AstJobControlMenu
+                        job_id={this.props.job_id}
+                        dispatch={this.props.dispatch}
+                        expanded={this.state.expanded}
+                        ast_jobs={this.props.ast_jobs}/>}
+
                     {!this.props.hasJobs && <NoJobsSlug /> }
                 </div>
             </div>

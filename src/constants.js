@@ -16,9 +16,6 @@ function environment(value) {
     }
 }
 
-// true for deployed false for dev
-
 let env_value = process.env.NODE_ENV
-
 
 export const endpoint = () => (environment(env_value))
