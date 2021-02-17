@@ -69,8 +69,8 @@ class TabToolBar extends Component {
     noTitle = () => {
 
         return this.props.selected_rows.some(row => {
-
-            return row.title === null;
+            console.log(this.props.selected_rows)
+            return row._row.data.title === "" || row._row.data.title === null;
 
         })
 
