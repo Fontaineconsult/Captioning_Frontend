@@ -215,9 +215,7 @@ class TabulatorContainer extends Component {
                 if(row.getData().video_passed === true){
                     row.getElement().classList.remove("tabulator-selectable")
                     row.getElement().classList.add("video-passed")
-
                 }
-
             },
             initialFilter: [{field:"invalid_link", type:"!=", value:true}]
 
@@ -250,8 +248,6 @@ class TabulatorContainer extends Component {
 
         let updateOnSelect = next_rows.length !== cur_rows.length
         let updateOnDataChange = JSON.stringify(nextProps.videosList) !== JSON.stringify(this.props.videosList)
-
-
 
         return updateOnSelect || updateOnDataChange
     }
