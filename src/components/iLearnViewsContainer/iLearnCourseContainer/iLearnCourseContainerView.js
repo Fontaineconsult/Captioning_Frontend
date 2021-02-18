@@ -22,15 +22,11 @@ class ILearnCourseContainer extends Component {
         this.updateCommentsChange = this.updateCommentsChange.bind(this)
     }
 
-
-
-
     componentDidMount() {
         this.setState({ilearn_video_active_check: this.props.ilearn_video_active_check,
                             course_comments: this.props.course_comments})
 
     }
-
 
     handleInputChange(event) {
 
@@ -63,20 +59,14 @@ class ILearnCourseContainer extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-
         this.setState({
             [name]: value
         });
-
-
     }
-
-
     submitCommentsChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-
         this.props.dispatch(updateCourse(this.props.course_id, "course_comments", value))
 
     }
@@ -90,8 +80,11 @@ class ILearnCourseContainer extends Component {
             <div className={"courseContainer masterListItem"}>
                 <div className={"courseUpperContainer"}>
                     <div className={"courseUpperContainerLeft"}>
-                        Course: {this.props.course_name}.{this.props.courseSection}
+                        <div>Course: {this.props.course_name}.{this.props.courseSection}</div>
+                        <div>Instructor: {this.props.instructor}</div>
+                        <div>Email: {this.props.email}</div>
                     </div>
+
                     <div className={"courseUpperContainerRight"}>
                         <div className={"infoContainerLeft"}>
                             <div>Students Enrolled: {this.props.numStudentsEnrolled}</div>
@@ -102,6 +95,7 @@ class ILearnCourseContainer extends Component {
                                 <label htmlFor={"ignore_course_check"}>Ignore Course</label>
                                 <input checked={this.state.ignore_course_check} onChange={this.handleInputChange} name={"ignore_course_check"} id={"ignore_course_check"} type="checkbox"/>
                             </form></div>
+
                         </div>
                         <div className={"infoContainerRight"}>
                             <div className={"infoContainerRight"}>
@@ -143,6 +137,8 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, ile
     let numStudentsEnrolled = 0;
     let studentRequestsCaptioning = false;
     let ilearn_video_active_check = null
+    let instructor = ""
+    let email = ""
     let courseilearnvideos = {}
     let course_name = ''
     let courseSection = ''
@@ -166,7 +162,8 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, ile
             courseSection = coursesReducer[course_id].course_section
             semester = coursesReducer[course_id].semester;
             ilearnId = coursesReducer[course_id].ilearn_page_id == null ? "No iLearn ID" : coursesReducer[course_id].ilearn_page_id.ilearn_page_id
-
+            instructor = coursesReducer[course_id].course_instructor.employee_first_name + " " + coursesReducer[course_id].course_instructor.employee_last_name
+            email = coursesReducer[course_id].course_instructor.employee_email
         }
 
 
@@ -177,6 +174,8 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, ile
     let courseHasVideos = Object.keys(courseilearnvideos).length > 0
 
     return {
+        instructor,
+        email,
         ilearnId,
         semester,
         courseSection,
