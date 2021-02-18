@@ -89,22 +89,24 @@ class JobContainer extends Component {
     }
 
     updateState(event){
-        console.log(event)
         const target = event.target;
         const value = target.name === 'priority' || target.name === 'rush_service_used' || target.name === 'transcripts_only' ? target.checked : target.value;
         const name = target.name;
-
         this.prev_value = this.state[name]
         this.setState({
             [name]: value
         });
 
     }
-
     dispatchInput(event) {
         const target = event.target;
         if (target.value !== this.prev_value) {
             this.props.dispatch(updateVideoJob(this.props.jobId, event.target.name, this.state[event.target.name]))
+            if (this.state[event.target.name] === "Delivered") {
+                this.props.dispatch(updateVideoJob(this.props.jobId, "delivered_date", new Date()))
+
+            }
+
 
         }
     }
@@ -205,16 +207,12 @@ class JobContainer extends Component {
                                             <option value="SRT">.SRT</option>
                                             <option value="File">File</option>
                                             <option value="Open Caption">Open Cap</option>
-
                                         </select>
-
                                     </label>
                                 </div>
                                 <div className="upperJobContainerLeftContent">
-
                                     <label className="upperJobContainerLeftLabel">
                                         <div>Request Date</div>
-
                                         <DatePicker className="upperJobContainerLeftContentInput"
                                                     name="request_date"
                                                     clearIcon={null}
@@ -229,7 +227,6 @@ class JobContainer extends Component {
                                 <div className="upperJobContainerLeftContent">
                                     <label className="upperJobContainerLeftLabel">
                                         <div>Show Date</div>
-
                                         <DatePicker className="upperJobContainerLeftContentInput"
                                                     name="show_date"
                                                     clearIcon={null}
@@ -264,7 +261,6 @@ class JobContainer extends Component {
                             <div className="joMediaContentContainer">
                                 <MediaContentContainer mediaId={this.props.mediaId}/>
 
-
                             </div>
                         </div>
                         <div className="commentsContainer">
@@ -280,7 +276,6 @@ class JobContainer extends Component {
                                 Priority
                                 <input type="checkbox" name="priority" checked={this.state.priority} onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
                             </label>
-
 
                             <label style={{'margin-right': '10px'}}>
                                 Rush Service
@@ -316,8 +311,6 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
 
     let mediaId = ''
     if (job !== undefined){mediaId = job.media.id}
-
-
 
     // let course = coursesReducer[requesterResource]
     let employee = '';
