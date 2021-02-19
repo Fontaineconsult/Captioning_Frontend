@@ -290,10 +290,10 @@ class JobContainer extends Component {
                     </div>
                     <div className="pluginControlsContainer">
                         <div className="pluginContainer">
-                            <AstControls job_id={this.props.jobId} ast_jobs={this.props.job.ast_jobs} media_id = {this.props.job.media.id} />
+                            {/*<AstControls job_id={this.props.jobId} ast_jobs={this.props.job.ast_jobs} media_id = {this.props.job.media.id} />*/}
                         </div>
                         <div className="pluginContainer">
-                            <AmaraControls media_id={this.props.mediaId}/>
+                            {/*<AmaraControls media_id={this.props.mediaId}/>*/}
                         </div>
                     </div>
                 </div>

@@ -25,7 +25,6 @@ class ILearnCourseContainer extends Component {
     componentDidMount() {
         this.setState({ilearn_video_active_check: this.props.ilearn_video_active_check,
                             course_comments: this.props.course_comments})
-
     }
 
     handleInputChange(event) {
