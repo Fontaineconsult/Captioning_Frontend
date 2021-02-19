@@ -120,7 +120,7 @@ pipeline {
                 sh '''
                     ls workspace/backend/deployment/docker/
                     docker stop $(docker ps -aq)
-                    docker run -d -p 80:80 -p 5432:5432 --env-file workspace/backend/deployment/docker/env.list amp-dev:latest
+                    docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list amp-dev:latest
                     docker rmi $(docker images -f dangling=true -q) --force
                   '''
 
