@@ -19,7 +19,7 @@ pipeline {
                 sh '''
                     cd /var/lib/jenkins/workspace/amp-dev-build-pipeline
                     pwd
-                    rm -rf *
+                    sudo rm -rf *
                   '''
             }
 
@@ -68,9 +68,6 @@ pipeline {
             steps {
 
                 sh '''
-
-                    cat  src/components/iLearnViewsContainer/iLearnViewContainers/iLearnAllCoursesView.js
-
                     cd workspace/frontend
                     npm install
                     npm run build
