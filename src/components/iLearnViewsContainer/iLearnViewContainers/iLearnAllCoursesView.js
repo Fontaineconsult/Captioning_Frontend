@@ -114,7 +114,14 @@ class ILearnAllCoursesView extends Component {
 
     }
 
-    renderRow =(index,key,style,parent)=>{
+
+
+
+
+
+
+
+    renderRowAlpha =(index)=>{
         return(
             <CellMeasurer
                 key={index.key}
@@ -154,7 +161,7 @@ class ILearnAllCoursesView extends Component {
                                             height={height}
                                             deferredMeasurementCache={this.state.cache}
                                             rowHeight={this.state.cache.rowHeight}
-                                            rowRenderer={this.renderRow}
+                                            rowRenderer={this.renderRowAlpha}
                                             rowCount={this.state.ilearnVideoRowCount}
                                             overscanRowCount={1} />
                                     }
