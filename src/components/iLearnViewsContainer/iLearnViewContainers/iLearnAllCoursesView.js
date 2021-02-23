@@ -18,6 +18,7 @@ class ILearnAllCoursesView extends Component {
                 defaultHeight: 200
             })
         };
+        this.renderRow = this.renderRow.bind(this);
 
     }
 
@@ -49,8 +50,6 @@ class ILearnAllCoursesView extends Component {
         }
 
     }
-
-
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         if (Object.keys(this.props.coursesReducer).length !== Object.keys(prevProps.coursesReducer).length) {
