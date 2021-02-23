@@ -114,7 +114,7 @@ class ILearnAllCoursesView extends Component {
 
     }
 
-    renderRowAlpha =(index)=>{
+    renderRowAlpha(index) {
         return(
             <CellMeasurer
                 key={index.key}

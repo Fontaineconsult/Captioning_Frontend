@@ -7,13 +7,14 @@ import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import Tabulator from "tabulator-tables"
 import {datePicker, showDateToggle} from "../iLearnViewsContainer/iLearnTabulatorViewContainer/TabulatorDataConstructor"
 import {updateTempJobsFormJobsInfo, removeJobfromTempCapJobs} from "../../actions/tempJobsForm"
-import { ReactTabulator, reactFormatter } from 'react-tabulator'
+
 
 
 
 
 
 class PreparedJobsContainer extends Component {
+
 
     constructor(props) {
         super(props);
@@ -22,6 +23,18 @@ class PreparedJobsContainer extends Component {
         this.ref = null;
         this.dataEditedFunc = this.dataEditedFunc.bind(this)
         this.removeItem = this.removeItem.bind(this)
+        this.columns = [
+            {title:"Remove", field:"remove", align:'center', width:60, formatter:"buttonCross", cellClick:(e, cell) => this.removeItem(e, cell)},
+            {title:"Requester", width:150, field:"requester_name"},
+            {title: "Title", field: "video_title"},
+            {title: "URL", field: "video_url"},
+            {title: "Show Date", editor:datePicker, width:120, field: "show_date"},
+            {title: "Delivery Format", editor:"select", width:80, field: "delivery_format", editorParams:{"Amara": "Amara",
+                    "SRT":"SRT",
+                    "Video File":"Video File"}},
+        ];
+
+
     }
 
     buildTabulator() {
@@ -48,21 +61,11 @@ class PreparedJobsContainer extends Component {
     }
 
 
-    dataEditedFunc = (cellData) => {
+    dataEditedFunc(cellData)  {
         this.props.dispatch(updateTempJobsFormJobsInfo(cellData._cell.row.data.id, {"column":cellData._cell.column.field, "value": cellData._cell.value}))
     };
 
-    columns = [
-        {title:"Remove", field:"remove", align:'center', width:60, formatter:"buttonCross", cellClick:(e, cell) => this.removeItem(e, cell)},
-        {title:"Requester", width:150, field:"requester_name"},
-        {title: "Title", field: "video_title"},
-        {title: "URL", field: "video_url"},
-        {title: "Show Date", editor:datePicker, width:120, field: "show_date"},
-        {title: "Delivery Format", editor:"select", width:80, field: "delivery_format", editorParams:{"Amara": "Amara",
-                                                                                            "SRT":"SRT",
-                                                                                            "Video File":"Video File"}},
 
-    ];
 
     render() {
 

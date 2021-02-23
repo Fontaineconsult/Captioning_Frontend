@@ -20,6 +20,7 @@ class ILearnCourseContainer extends Component {
         this.handleInputChange = this.handleInputChange.bind(this)
         this.submitCommentsChange = this.submitCommentsChange.bind(this)
         this.updateCommentsChange = this.updateCommentsChange.bind(this)
+        this.ilearnPage = iLearnURL() + this.props.ilearnId;
     }
 
     componentDidMount() {
@@ -70,7 +71,7 @@ class ILearnCourseContainer extends Component {
 
     }
 
-    ilearnPage = iLearnURL() + this.props.ilearnId;
+
 
     render()
         {

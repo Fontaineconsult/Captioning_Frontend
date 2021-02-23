@@ -39,10 +39,21 @@ class TabulatorContainer extends Component {
         this.submitCapStatus = this.submitCapStatus.bind(this);
         this.checkBoxFunction = this.checkBoxFunction.bind(this);
         this.cellClick = this.cellClick.bind(this)
+        this.columns = [
+            { title: "Title", field: "title", editor:"input"},
+            { title: "Captioned", field: "captioned", width: 130, align:"center", formatter: reactFormatter(<this.isCaptionedButton />) },
+            { title: "CC",  width: 75, field: "captioned_link", align:"center", formatter: reactFormatter(<this.closedCaptionLink />)},
+            { title: "Show Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 160 },
+            { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
+            { title: "Scan Date", align:"center", field: "scan_date", width: 105 },
+            { title: "Submitted", field: "submitted_for_processing",  align:"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
+            { title: "Section", field: "page_section", align:"center", width: 80 },
+            { title: "Select", width:60, align:"center",  formatter: reactFormatter(<this.isChecked />)},
+        ];
 
     };
 
-    SubmitButton = (props) => {
+    SubmitButton(props) {
         const cellData = props.cell;
         let disabled = this.state.selected_rows.length > 0
 
@@ -71,7 +82,7 @@ class TabulatorContainer extends Component {
 
     };
 
-    closedCaptionLink = (props) => {
+    closedCaptionLink(props) {
         const cellData = props.cell;
         if (cellData._cell.row.data.captioned_link) {
             return <Tooltip title={cellData._cell.value}><Button  size="small" onClick={e => window.open(cellData._cell.value, '_blank')}>
@@ -86,7 +97,7 @@ class TabulatorContainer extends Component {
             return ''
         }};
 
-    isCaptionedButton = (props) => {
+    isCaptionedButton(props) {
 
         const cellData = props.cell;
         let disabled = this.state.selected_rows.length > 0
@@ -120,24 +131,24 @@ class TabulatorContainer extends Component {
 
     };
 
-    dataEditedFunc = (cellData) => {
+    dataEditedFunc(cellData) {
 
         this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, cellData._cell.value))
     };
 
-    cellClick = (e, row) => {
+    cellClick(e, row) {
         console.log("ref table: ", this.ref.table); // this is the Tabulator table instance
         console.log("rowClick id: ${row.getData().id}", row, e);
     };
 
-    submitCap = (e,cellData) => {
+    submitCap(e,cellData) {
 
         e.preventDefault()
         let submitCapStatus = tabFuncs.capSubmitToggle(cellData._cell.value);
         this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, submitCapStatus))
     };
 
-    submitCapStatus = (e, cellData) => {
+    submitCapStatus(e, cellData) {
 
         e.preventDefault();
         let captionStatus = tabFuncs.capStatToggle2(cellData._cell.value);
@@ -145,7 +156,7 @@ class TabulatorContainer extends Component {
 
     };
 
-    isChecked = (props) => {
+    isChecked(props) {
 
         if (props.cell._cell.row.modules.hasOwnProperty("select")) {
             if (props.cell._cell.row.modules.select.selected === false){
@@ -164,7 +175,7 @@ class TabulatorContainer extends Component {
 
     };
 
-    checkBoxFunction = (e, cellData) => {
+    checkBoxFunction(e, cellData) {
 
 
         if (e.type === "click") {
@@ -187,17 +198,7 @@ class TabulatorContainer extends Component {
 
     };
 
-    columns = [
-        { title: "Title", field: "title", editor:"input"},
-        { title: "Captioned", field: "captioned", width: 130, align:"center", formatter: reactFormatter(<this.isCaptionedButton />) },
-        { title: "CC",  width: 75, field: "captioned_link", align:"center", formatter: reactFormatter(<this.closedCaptionLink />)},
-        { title: "Show Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 160 },
-        { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
-        { title: "Scan Date", align:"center", field: "scan_date", width: 105 },
-        { title: "Submitted", field: "submitted_for_processing",  align:"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
-        { title: "Section", field: "page_section", align:"center", width: 80 },
-        { title: "Select", width:60, align:"center",  formatter: reactFormatter(<this.isChecked />)},
-        ];
+
 
     componentDidMount() {
         this.tableData = this.props.videosList;

@@ -21,13 +21,20 @@ const astRateFormatter = (rateCode) => ({
 
 
 class AstJobControlMenu extends Component {
-    ref = null
+
     constructor(props) {
         super(props);
         this.state = {data: []};
         this.formatData = this.formatData.bind(this)
         this.astJobFormatter = this.astJobFormatter.bind(this)
         this.initASTJob = this.initASTJob.bind(this)
+        this.ref = null
+        this.columns = [
+            {title: "Status", field:"status", formatter: "plaintext" },
+            {title: "Speed", field: "speed", formatter: "plaintext"},
+            {title: "Added On", field: "added_date", formatter: "plaintext" },
+            {title: "Ast Url", field: "ast_link", formatter: reactFormatter(<this.astJobFormatter/>)}
+        ];
 
     }
 
@@ -35,7 +42,7 @@ class AstJobControlMenu extends Component {
         this.props.dispatch(submitASTJobToAST(ast_job_id, job_id))
     }
 
-    astJobFormatter = (props) => {
+    astJobFormatter(props) {
 
         let ast_job_id = props.cell._cell.row.data.id
         let ast_status = props.cell._cell.row.data.ast_link
@@ -47,12 +54,7 @@ class AstJobControlMenu extends Component {
         }
     }
 
-    columns = [
-        {title: "Status", field:"status", formatter: "plaintext" },
-        {title: "Speed", field: "speed", formatter: "plaintext"},
-        {title: "Added On", field: "added_date", formatter: "plaintext" },
-        {title: "Ast Url", field: "ast_link", formatter: reactFormatter(<this.astJobFormatter/>)}
-    ];
+
 
     formatData(astVideoJob) {
 

@@ -21,7 +21,7 @@ class TabToolBar extends Component {
 
     }
 
-    passed = (e) => {
+    passed(e) {
 
         let row_ids = this.props.selected_rows.map(row => {
             return row._row.data.id
@@ -33,7 +33,7 @@ class TabToolBar extends Component {
 
 
 
-    ignore = (e) => {
+    ignore(e) {
 
         let row_ids = this.props.selected_rows.map(row => {
             return row._row.data.id
@@ -43,7 +43,7 @@ class TabToolBar extends Component {
         this.props.table.deselectRow()
     };
 
-    remove = (e) => {
+    remove(e) {
 
         let row_ids = this.props.selected_rows.map(row => {
             return row._row.data.id
@@ -56,7 +56,7 @@ class TabToolBar extends Component {
     };
 
 
-    selectable = () => {
+    selectable() {
         if (this.props.selected_rows.length > 0) {
 
             return true
@@ -66,7 +66,7 @@ class TabToolBar extends Component {
 
     };
 
-    noTitle = () => {
+    noTitle() {
 
         return this.props.selected_rows.some(row => {
             console.log(this.props.selected_rows)
