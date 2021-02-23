@@ -61,7 +61,7 @@ pipeline {
 
             agent {
                 docker {
-                    image 'node:latest'
+                    image 'node:8.11.3-alpine'
                     args '-u root:root'
                 }
             }
@@ -70,7 +70,7 @@ pipeline {
                 sh '''
                     cd workspace/frontend
                     npm install
-                    npm run build
+                    npm run build --no-cache
                     ls
                    '''
 

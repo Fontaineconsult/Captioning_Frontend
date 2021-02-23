@@ -114,32 +114,25 @@ class ILearnAllCoursesView extends Component {
 
     }
 
+    renderRowAlpha =(index)=>{
+        return(
+            <CellMeasurer
+                key={index.key}
+                cache={this.state.cache}
+                parent={index.parent}
+                columnIndex={0}
+                rowIndex={index.index}>
+                <div style={index.style} className="row">
+                    <div className="content">
+                        <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos}
+                                               course_id={this.state.captioningCourses[index.index]}
+                                               key={this.state.captioningCourses[index.index]}/>
+                    </div>
+                </div>
+            </CellMeasurer>
 
-
-
-
-
-
-
-    // renderRowAlpha =(index)=>{
-    //     return(
-    //         <CellMeasurer
-    //             key={index.key}
-    //             cache={this.state.cache}
-    //             parent={index.parent}
-    //             columnIndex={0}
-    //             rowIndex={index.index}>
-    //             <div style={index.style} className="row">
-    //                 <div className="content">
-    //                     <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos}
-    //                                            course_id={this.state.captioningCourses[index.index]}
-    //                                            key={this.state.captioningCourses[index.index]}/>
-    //                 </div>
-    //             </div>
-    //         </CellMeasurer>
-    //
-    //     )
-    // }
+        )
+    }
 
 
     render() {
@@ -161,7 +154,7 @@ class ILearnAllCoursesView extends Component {
                                             height={height}
                                             deferredMeasurementCache={this.state.cache}
                                             rowHeight={this.state.cache.rowHeight}
-                                            // rowRenderer={this.renderRowAlpha}
+                                            rowRenderer={this.renderRowAlpha}
                                             rowCount={this.state.ilearnVideoRowCount}
                                             overscanRowCount={1} />
                                     }
