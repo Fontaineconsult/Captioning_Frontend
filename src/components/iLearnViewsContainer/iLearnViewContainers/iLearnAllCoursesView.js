@@ -18,7 +18,7 @@ class ILearnAllCoursesView extends Component {
                 defaultHeight: 200
             })
         };
-        this.renderRow = this.renderRow.bind(this);
+
 
     }
 
@@ -136,6 +136,8 @@ class ILearnAllCoursesView extends Component {
             </CellMeasurer>
         )
     }
+
+
     render() {
         return(
 

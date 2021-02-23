@@ -21,7 +21,6 @@ pipeline {
                     pwd
                     rm -rf *
                   '''
-
             }
 
         }
@@ -40,14 +39,11 @@ pipeline {
                         userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/accessiblebookchecker']]
                 ])
 
-
-
             }
         }
         stage('Fetch Frontend') {
             agent any
             steps {
-
 
                 checkout([
 
@@ -58,7 +54,6 @@ pipeline {
                         submoduleCfg: [],
                         userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/Captioning_Frontend']]
                 ])
-
             }
         }
 
@@ -73,6 +68,9 @@ pipeline {
             steps {
 
                 sh '''
+
+                    cat  src/components/iLearnViewsContainer/iLearnViewContainers/iLearnAllCoursesView.js
+
                     cd workspace/frontend
                     npm install
                     npm run build
@@ -82,7 +80,6 @@ pipeline {
             }
 
         }
-
 
 
         stage('Copy Build Files') {
@@ -110,11 +107,28 @@ pipeline {
             steps {
                 sh '''
                     cd workspace/backend
+                    ls
+                    dos2unix Dockerfile
                     docker build -t amp-dev .
                   '''
 
             }
         }
+
+
+        stage("Start Redis") {
+            agent any
+            steps {
+                sh '''
+                    redis-server
+                   '''
+            }
+
+
+
+        }
+
+
         stage('Run Docker Image') {
             agent any
             steps {
@@ -123,6 +137,8 @@ pipeline {
                     docker stop $(docker ps -aq)
                     docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list amp-dev:latest
                     docker rmi $(docker images -f dangling=true -q) --force
+                    
+              
                   '''
 
             }
