@@ -61,7 +61,7 @@ pipeline {
 
             agent {
                 docker {
-                    image 'node:latest'
+                    image 'node:15.9.0.stretch'
                     args '-u root:root'
                 }
             }
