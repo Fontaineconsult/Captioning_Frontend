@@ -19,7 +19,7 @@ pipeline {
                 sh '''
                     cd /var/lib/jenkins/workspace/amp-dev-build-pipeline
                     pwd
-                    sudo -S accessibility rm -rf *
+                    sudo rm -rf *
                   '''
             }
 
