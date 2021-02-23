@@ -114,17 +114,14 @@ class ILearnAllCoursesView extends Component {
 
     }
 
-    renderRow = (index, key, style, parent) => {
-
+    renderRow =(index,key,style,parent)=>{
         return(
-
             <CellMeasurer
                 key={index.key}
                 cache={this.state.cache}
                 parent={index.parent}
                 columnIndex={0}
-                rowIndex={index.index}
-            >
+                rowIndex={index.index}>
                 <div style={index.style} className="row">
                     <div className="content">
                         <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos}
@@ -132,8 +129,8 @@ class ILearnAllCoursesView extends Component {
                                                key={this.state.captioningCourses[index.index]}/>
                     </div>
                 </div>
-
             </CellMeasurer>
+
         )
     }
 
