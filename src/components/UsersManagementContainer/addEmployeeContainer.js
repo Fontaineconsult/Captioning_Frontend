@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {Form} from "formik";
 import {AddEmployee} from '../../actions/ampApi/postData'
 
-
 class AddEmployeeContainer extends Component {
 
     constructor(props) {
