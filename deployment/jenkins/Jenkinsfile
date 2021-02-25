@@ -57,7 +57,6 @@ pipeline {
             }
         }
 
-
         stage('Build Node Front End') {
 
             agent {
@@ -79,6 +78,7 @@ pipeline {
             }
 
         }
+
 
 
         stage('Copy Build Files') {
@@ -115,17 +115,17 @@ pipeline {
         }
 
 
-        stage("Start Redis") {
-            agent any
-            steps {
-                sh '''
-                    redis-server
-                   '''
-            }
-
-
-
-        }
+//        stage("Start Redis") {
+//            agent any
+//            steps {
+//                sh '''
+//                    redis-server --daemonize yes
+//                   '''
+//            }
+//
+//
+//
+//        }
 
 
         stage('Run Docker Image') {
@@ -136,8 +136,7 @@ pipeline {
                     docker stop $(docker ps -aq)
                     docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list amp-dev:latest
                     docker rmi $(docker images -f dangling=true -q) --force
-                    
-              
+                    docker exec -it $(docker ps --format "{{.Names}}") application/celery_tasks "celery -A tasks.celery_client worker"
                   '''
 
             }

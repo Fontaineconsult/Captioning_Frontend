@@ -18,7 +18,7 @@ class ILearnAllCoursesView extends Component {
                 defaultHeight: 200
             })
         };
-
+        this.renderRowAlpha = this.renderRowAlpha.bind(this)
 
     }
 
@@ -53,7 +53,6 @@ class ILearnAllCoursesView extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         if (Object.keys(this.props.coursesReducer).length !== Object.keys(prevProps.coursesReducer).length) {
-            console.log("ZORRPPSS", Object.keys(this.props.coursesReducer).length, Object.keys(prevProps.coursesReducer).length)
             if (this.props.studentActive === true) {
                 this.setState({
                     cache: new CellMeasurerCache({
@@ -64,7 +63,6 @@ class ILearnAllCoursesView extends Component {
                     captioningCourses: Object.keys(this.props.requests_captioning)
 
                 })
-
             } else {
 
                 this.setState({
@@ -74,7 +72,6 @@ class ILearnAllCoursesView extends Component {
                     }),
                     ilearnVideoRowCount:Object.keys(this.props.no_captioning).length,
                     captioningCourses:Object.keys(this.props.no_captioning)
-
                 })
 
             }
@@ -115,23 +112,28 @@ class ILearnAllCoursesView extends Component {
     }
 
     renderRowAlpha(index) {
-        return(
-            <CellMeasurer
-                key={index.key}
-                cache={this.state.cache}
-                parent={index.parent}
-                columnIndex={0}
-                rowIndex={index.index}>
-                <div style={index.style} className="row">
-                    <div className="content">
-                        <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos}
-                                               course_id={this.state.captioningCourses[index.index]}
-                                               key={this.state.captioningCourses[index.index]}/>
-                    </div>
-                </div>
-            </CellMeasurer>
+        if (this.state.cache !== undefined) {
 
-        )
+            return(
+                <CellMeasurer
+                    key={index.key}
+                    cache={this.state.cache}
+                    parent={index.parent}
+                    columnIndex={0}
+                    rowIndex={index.index}>
+                    <div style={index.style} className="row">
+                        <div className="content">
+                            <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos}
+                                                   course_id={this.state.captioningCourses[index.index]}
+                                                   key={this.state.captioningCourses[index.index]}/>
+                        </div>
+                    </div>
+                </CellMeasurer>
+
+            )
+
+        }
+
     }
 
 
