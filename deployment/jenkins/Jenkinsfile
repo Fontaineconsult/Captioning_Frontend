@@ -105,9 +105,16 @@ pipeline {
             agent any
             steps {
                 sh '''
+
+
+
+
+
+
                     cd workspace/backend
                     ls
                     dos2unix Dockerfile
+                    dos2unix deployment/docker/celeryd.conf
                     docker build -t amp-dev .
                   '''
 
@@ -127,7 +134,7 @@ pipeline {
 //
 //        }
 
-
+//        docker exec $(docker ps --format "{{.Names}}") application/celery_tasks "celery -A tasks.celery_client worker"
         stage('Run Docker Image') {
             agent any
             steps {
@@ -136,7 +143,9 @@ pipeline {
                     docker stop $(docker ps -aq)
                     docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list amp-dev:latest
                     docker rmi $(docker images -f dangling=true -q) --force
-                    docker exec -it $(docker ps --format "{{.Names}}") application/celery_tasks "celery -A tasks.celery_client worker"
+                    
+
+              
                   '''
 
             }
