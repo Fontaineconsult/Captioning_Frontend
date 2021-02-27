@@ -171,7 +171,7 @@ class JobManagementControlContainer extends Component {
                                     <div className="filterTitles">Requester</div>
                                     <Select
                                         styles={customStyles}
-                                        options={this.props.requester_1}
+                                        options={this.props.courseSelectorContent}
                                         value={this.state.filterSelectedCourse}
                                         onChange={(value, key, event) => this.reductionFilter(value, 'requester_id')}/>
                                 </label>
@@ -249,22 +249,22 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         }, {});
 
 
-        requester_1 = Object.keys(requester).map(key => {
+        courseSelectorContent = Object.keys(requester).map(key => {
             return requester[key]
 
         })
         console.log("DFSFSDFSDF",requester_1)
 
 
-        courseSelectorContent = requester_ids.map(x => {
-            return {value: requesterReducer[x].course_id, label:requesterReducer[x].course_id, requester_id:requesterReducer[x].id}
-        }).reduce((accumulator, element) => {
-            if (accumulator.some(e => e.requester_id === element.requester_id)) {
-                return accumulator
-            } else {
-                return [...accumulator, element]
-            }
-        }, []);
+        // courseSelectorContent = requester_ids.map(x => {
+        //     return {value: requesterReducer[x].course_id, label:requesterReducer[x].course_id, requester_id:requesterReducer[x].id}
+        // }).reduce((accumulator, element) => {
+        //     if (accumulator.some(e => e.requester_id === element.requester_id)) {
+        //         return accumulator
+        //     } else {
+        //         return [...accumulator, element]
+        //     }
+        // }, []);
 
     }
 
@@ -280,7 +280,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         activeJobs,
         semesterJobs,
         completeJobs,
-        requester_1,
+
         semesterJobsCount: semesterJobs.length,
         activeJobsCount: activeJobs.length,
         completeJobsCount: completeJobs.length
