@@ -11,6 +11,7 @@ import {CSSTransition, TransitionGroup}  from 'react-transition-group';
 import jobContainer from '../../css/jobContainer.css'
 import NavMaster from '../../css/NavMaster.css'
 import {LoadingVideoJobs} from "../../actions/status";
+import campusOrgReducer from "../../reducers/campusOrgs";
 
 class JobManagementControlContainer extends Component {
 
@@ -162,7 +163,7 @@ class JobManagementControlContainer extends Component {
                                                 {value:"On Hold", label:"On Hold", job_status:"On Hold"},
                                             ]}
                                             value={this.state.job_status_value}
-                                            onChange={(value, key, event) => this.reductionFilter(value, 'job_status')}/>
+                                            onChange={(value) => this.reductionFilter(value, 'job_status')}/>
                                 </label>
                             </div>
                             <div className="requesterFilterContainer">
@@ -170,13 +171,12 @@ class JobManagementControlContainer extends Component {
                                     <div className="filterTitles">Requester</div>
                                     <Select
                                         styles={customStyles}
-                                        options={this.props.courseSelectorContent}
+                                        options={this.props.requester_1}
                                         value={this.state.filterSelectedCourse}
                                         onChange={(value, key, event) => this.reductionFilter(value, 'requester_id')}/>
                                 </label>
                             </div>
                             <div className="requesterFilterContainer">
-
                                 <label>
                                     <div className="filterTitles">Order By</div>
                                     <Select
@@ -186,11 +186,9 @@ class JobManagementControlContainer extends Component {
                                             {value:"request_date", label:"Request Date", date:"request_date"},
                                             {value:"show_date", label:"Show Date", date:"show_date"},
                                             {value:"delivered_date", label:"Delivered Date", date:"delivered_date"},
-
                                         ]}
                                         onChange={(value, key, event) => this.orderByFilter(value, value.date)}/>
                                 </label>
-
                             </div>
                             <div>
                                 <ClearIcon tabIndex={0} onKeyPress={this.removeFilters} onClick={this.removeFilters}  />
@@ -212,11 +210,11 @@ class JobManagementControlContainer extends Component {
 
 }
 
-function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer, requesterReducer, coursesReducer}, {jobsLoading}) {
+function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer, requesterReducer, coursesReducer, campusOrgReducer}, {jobsLoading}) {
 
     let requester = {};
     let courseSelectorContent = [];
-
+    let requester_1
     let semesterJobs = Object.keys(videosJobsReducer)
 
     let activeJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
@@ -229,6 +227,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         return videosJobsReducer[videoJobId].job_status === 'Delivered'
     })
 
+
     if (Object.keys(requesterReducer).length > 0 && Object.keys(videosJobsReducer).length > 0) {
 
         let requester_ids = Object.keys(videosJobsReducer).map(x => {
@@ -237,10 +236,25 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
 
 
         requester = requester_ids.reduce((accumulator, element) => {
-            accumulator[element] = {id: requesterReducer[element].id, course_id: requesterReducer[element].course_id}
+
+            if (requesterReducer[element].course_id !== null) {
+                accumulator[element] =  {value: requesterReducer[element].course_id, label:requesterReducer[element].course_id, requester_id:requesterReducer[element].id}
+            } else {
+                accumulator[element] = {value: campusOrgReducer[requesterReducer[element].campus_org_id].organization_name, label:campusOrgReducer[requesterReducer[element].campus_org_id].organization_name, requester_id:requesterReducer[element].id}
+
+            }
+
             return accumulator
 
         }, {});
+
+
+        requester_1 = Object.keys(requester).map(key => {
+            return requester[key]
+
+        })
+        console.log("DFSFSDFSDF",requester_1)
+
 
         courseSelectorContent = requester_ids.map(x => {
             return {value: requesterReducer[x].course_id, label:requesterReducer[x].course_id, requester_id:requesterReducer[x].id}
@@ -266,6 +280,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         activeJobs,
         semesterJobs,
         completeJobs,
+        requester_1,
         semesterJobsCount: semesterJobs.length,
         activeJobsCount: activeJobs.length,
         completeJobsCount: completeJobs.length
