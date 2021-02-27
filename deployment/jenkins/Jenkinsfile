@@ -74,11 +74,9 @@ pipeline {
                     npm run build --no-cache
                     ls
                    '''
-
             }
 
         }
-
 
 
         stage('Copy Build Files') {
@@ -98,26 +96,19 @@ pipeline {
                     ls workspace/backend/application/flask_site/pages/static/react/static/css
                     ls workspace/backend/application/flask_site/pages/static/react/static/js
                   '''
-
             }
         }
         stage('Build Docker Image') {
             agent any
             steps {
                 sh '''
-
-
-
-
-
-
                     cd workspace/backend
+                    
                     ls
                     dos2unix Dockerfile
                     dos2unix deployment/docker/celeryd.conf
                     docker build -t amp-dev .
                   '''
-
             }
         }
 
@@ -143,7 +134,7 @@ pipeline {
                     docker stop $(docker ps -aq)
                     docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list amp-dev:latest
                     docker rmi $(docker images -f dangling=true -q) --force
-                    
+
 
               
                   '''

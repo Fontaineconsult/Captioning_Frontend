@@ -8,11 +8,6 @@ import Tabulator from "tabulator-tables"
 import {datePicker, showDateToggle} from "../iLearnViewsContainer/iLearnTabulatorViewContainer/TabulatorDataConstructor"
 import {updateTempJobsFormJobsInfo, removeJobfromTempCapJobs} from "../../actions/tempJobsForm"
 
-
-
-
-
-
 class PreparedJobsContainer extends Component {
 
 
@@ -33,8 +28,6 @@ class PreparedJobsContainer extends Component {
                     "SRT":"SRT",
                     "Video File":"Video File"}},
         ];
-
-
     }
 
     buildTabulator() {
@@ -49,9 +42,7 @@ class PreparedJobsContainer extends Component {
 
             })
             this.tabulator.replaceData(this.props.videoJobsList)
-
         }
-
     }
 
     removeItem(e, cell) {

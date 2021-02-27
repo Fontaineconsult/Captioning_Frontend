@@ -139,15 +139,21 @@ function mapStateToProps({globalsReducer, coursesReducer, mediaSearchReducer, er
     let filePresent = false
     let semester = globalsReducer.currentSemester
 
-    // Controls the submit but disabled feature
+    // Controls the submit button disabled feature
     if (tempJobsFormReducer.hasOwnProperty(transaction_id)) {
             if (tempJobsFormReducer[transaction_id].hasOwnProperty('video')) {
                 if (tempJobsFormReducer[transaction_id].video.hasOwnProperty('id')) {
                     if (tempJobsFormReducer[transaction_id].video.media_type === 'File') {
-                        submitButtonEnabled = tempJobsFormReducer[transaction_id].video.media_objects.some(item => {
-                                return item.associated_files.sha_256_hash === tempJobsFormReducer[transaction_id].video.sha_256_hash
-                            }
-                        )}
+                        submitButtonEnabled = true
+
+                    }
+
+                    // {
+                    //     submitButtonEnabled = tempJobsFormReducer[transaction_id].video.media_objects.some(item => {
+                    //             return item.associated_files.sha_256_hash === tempJobsFormReducer[transaction_id].video.sha_256_hash
+                    //       # Temporarly removed until better solution available see job AMS-62  }
+                    //
+                    //     )}
                     if (tempJobsFormReducer[transaction_id].video.media_type === 'URL') {
                         submitButtonEnabled = true
 
@@ -156,11 +162,6 @@ function mapStateToProps({globalsReducer, coursesReducer, mediaSearchReducer, er
             }
 
     }
-
-
-
-
-
 
     if (formEnabled) {
             if (tempJobsFormReducer[transaction_id].hasOwnProperty('video')) {

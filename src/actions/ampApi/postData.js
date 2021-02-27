@@ -269,7 +269,6 @@ export function addAstJobToCaptioningJob(job_id, rate, transcriber_notes, temp_i
         headers: {
             "Content-Type": "application/json"
         }};
-    console.log("DSGSDGSDGSDGRRRRR", post_object)
     return dispatch => {
         dispatch(LoadingAstJob(true));
         return fetch(`${server_url}/ast-jobs`, post_object)
@@ -378,7 +377,6 @@ export function addCampusAssociationAssignment(campus_org_id, employee_id, semes
 
     let error_id = uuidv1()
     let data_object = {campus_org_id:campus_org_id, employee_id:employee_id};
-    console.log(data_object)
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),
