@@ -12,6 +12,7 @@ import jobContainer from '../../css/jobContainer.css'
 import NavMaster from '../../css/NavMaster.css'
 import {LoadingVideoJobs} from "../../actions/status";
 import campusOrgReducer from "../../reducers/campusOrgs";
+import {List, AutoSizer } from "react-virtualized";
 
 class JobManagementControlContainer extends Component {
 
@@ -25,12 +26,15 @@ class JobManagementControlContainer extends Component {
             job_status_value: '',
             order_by_value: '',
             job_status: 'semesterJobs'
+
         };
 
         this.reductionFilter = this.reductionFilter.bind(this);
         this.removeFilters = this.removeFilters.bind(this);
         this.orderByFilter = this.orderByFilter.bind(this);
         this.updateJobStatusFilter = this.updateJobStatusFilter.bind(this)
+        this.renderRow = this.renderRow.bind(this)
+        this.renderedJobs = []
     }
 
     removeFilters(event) {
@@ -79,7 +83,8 @@ class JobManagementControlContainer extends Component {
 
     updateJobStatusFilter(value) {
         this.setState({job_status:value,
-                            videoJobs: this.props[value].map((key) => this.props.videosJobsReducer[key])})
+                            videoJobs: this.props[value].map((key) => this.props.videosJobsReducer[key].id)})
+
 
     }
 
@@ -88,7 +93,7 @@ class JobManagementControlContainer extends Component {
         if (this.state.filterSelectedCourse === '' && this.state.job_status_value === '' && this.state.order_by_value === '') {
             if (this.state.videoJobs.length !== this.props[this.state.job_status].length) {
                 this.setState({
-                    videoJobs: this.props[this.state.job_status].map((key) => this.props.videosJobsReducer[key])
+                    videoJobs: this.props[this.state.job_status].map((key) => this.props.videosJobsReducer[key].id)
                 })
             }
         }
@@ -96,35 +101,54 @@ class JobManagementControlContainer extends Component {
     }
     
     componentDidMount() {
-
         this.setState({
-            videoJobs: this.props.semesterJobs.map((key) => this.props.videosJobsReducer[key])
+            videoJobs: this.props.semesterJobs.map((key) => this.props.videosJobsReducer[key].id)
         })
 
     }
 
+    renderRow({index, key, style}) {
+
+
+        if (Object.keys(this.props.mediaReducer).length > 0) {
+            return(
+                <div style={style}>
+                    <JobContainer key={key} jobId={this.state.videoJobs[index]} />
+                </div>
+            )
+        } else {
+            return(
+                "Loading"
+            )
+    }}
+
+
+
     render() {
+        console.log("ASDASDA", this.state.videoJobs)
 
-        console.log("SDGSDGSDG", this.state.videoJobs, this.state.job_status)
-        let items = []
+        // let items = []
+        //
+        // if (!this.props.videoJobsLoading) {
+        //     if (this.state.videoJobs.length > 0) {
+        //         items = this.state.videoJobs.map(function(item, index){
+        //             if (this.props.videosJobsReducer[item.id] !== undefined) {
+        //                 return (
+        //                     <CSSTransition classNames="item" timeout={200} key={item.id}>
+        //                         <JobContainer key={item.id} jobId={item.id}/>
+        //                     </CSSTransition>
+        //                 )
+        //             }
+        //         },this)
+        //     }
+        //     if (items.length === 0) {
+        //         items = <div key="1">No Videos</div>
+        //     }
+        //
+        // }
 
-        if (!this.props.videoJobsLoading) {
-            if (this.state.videoJobs.length > 0) {
-                items = this.state.videoJobs.map(function(item, index){
-                    if (this.props.videosJobsReducer[item.id] !== undefined) {
-                        return (
-                            <CSSTransition classNames="item" timeout={200} key={item.id}>
-                                <JobContainer key={item.id} jobId={item.id}/>
-                            </CSSTransition>
-                        )
-                    }
-                },this)
-            }
-            if (items.length === 0) {
-                items = <div key="1">No Videos</div>
-            }
 
-        }
+
         return (
 
             <div className="JobManagementControlContainer">
@@ -199,9 +223,44 @@ class JobManagementControlContainer extends Component {
                 </div>
                 <div className="contentContainer jobContentContainer">
 
-                    <TransitionGroup
-                    >{items}
-                    </TransitionGroup>
+                        <AutoSizer>
+                            {
+
+
+                                ({ width, height }) => {
+                                    return <List
+                                        width={width}
+                                        height={height}
+                                        rowHeight={285}
+                                        rowRenderer={this.renderRow}
+                                        rowCount={this.state.videoJobs.length}
+                                        overscanRowCount={5}/>
+
+                                }
+                            }
+                        </AutoSizer>
+
+
+
+
+                    {/*<List*/}
+                    {/*    width={1200}*/}
+                    {/*    height={"100%"}*/}
+                    {/*    rowHeight={276}*/}
+                    {/*    rowRenderer={this.renderRow}*/}
+                    {/*    rowCount={this.state.videoJobs.length}*/}
+                    {/*    overscanRowCount={2}/>*/}
+                    {/*{this.state.videoJobs.length > 0 && (*/}
+
+                    {/*)}*/}
+
+                    {/*{this.state.videoJobs.length === 0 && (*/}
+                    {/*    <div>Loading</div>*/}
+                    {/*)}*/}
+
+                    {/*<TransitionGroup*/}
+                    {/*>{items}*/}
+                    {/*</TransitionGroup>*/}
 
                 </div>
             </div>
@@ -210,7 +269,7 @@ class JobManagementControlContainer extends Component {
 
 }
 
-function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer, requesterReducer, coursesReducer, campusOrgReducer}, {jobsLoading}) {
+function mapStateToProps({loadingStatusReducer,mediaReducer, errorsReducer, videosJobsReducer, requesterReducer, coursesReducer, campusOrgReducer}, {jobsLoading}) {
 
     let requester = {};
     let courseSelectorContent = [];
@@ -280,6 +339,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         activeJobs,
         semesterJobs,
         completeJobs,
+        mediaReducer,
 
         semesterJobsCount: semesterJobs.length,
         activeJobsCount: activeJobs.length,

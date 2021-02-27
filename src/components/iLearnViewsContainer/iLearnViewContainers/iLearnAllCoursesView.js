@@ -81,8 +81,6 @@ class ILearnAllCoursesView extends Component {
 
         if (this.props.studentActive !== prevProps.studentActive) {
 
-
-            console.log("RESETTTINNGGGGGG")
             if (this.props.studentActive === true) {
                 this.setState({
                     cache: new CellMeasurerCache({
