@@ -12,7 +12,7 @@ import jobContainer from '../../css/jobContainer.css'
 import NavMaster from '../../css/NavMaster.css'
 import {LoadingVideoJobs} from "../../actions/status";
 import campusOrgReducer from "../../reducers/campusOrgs";
-import {List, AutoSizer } from "react-virtualized";
+import {List, AutoSizer, Collection  } from "react-virtualized";
 
 class JobManagementControlContainer extends Component {
 
@@ -21,7 +21,7 @@ class JobManagementControlContainer extends Component {
 
         this.state = {
             videoJobs: [],
-            courseIds: {},
+
             filterSelectedCourse: '',
             job_status_value: '',
             order_by_value: '',
@@ -34,7 +34,7 @@ class JobManagementControlContainer extends Component {
         this.orderByFilter = this.orderByFilter.bind(this);
         this.updateJobStatusFilter = this.updateJobStatusFilter.bind(this)
         this.renderRow = this.renderRow.bind(this)
-        this.renderedJobs = []
+
     }
 
     removeFilters(event) {
@@ -50,21 +50,30 @@ class JobManagementControlContainer extends Component {
 
     reductionFilter(value, key) {
 
-        let filter = this.state.videoJobs.reduce((accumulator, element) => {
-            if (element[key] === value[key]) {
-                accumulator.push(element)
-            }
-            return accumulator
-        }, []);
+        let filter = []
 
         switch (key) {
             case "job_status":
+                filter = this.state.videoJobs.reduce((accumulator, element) => {
+                    if (this.props.videosJobsReducer[element].job_status === value[key]) {
+                        accumulator.push(element)
+                    }
+                    return accumulator
+                }, []);
+
                 this.setState({videoJobs:filter,
                                     job_status_value: value
-
                 });
                 break;
             case "requester_id":
+
+                filter = this.state.videoJobs.reduce((accumulator, element) => {
+                    if (this.props.videosJobsReducer[element].requester_id === value[key]) {
+                        accumulator.push(element)
+                    }
+                    return accumulator
+                }, []);
+
                 this.setState({videoJobs:filter,
                     filterSelectedCourse: value
                 });
@@ -109,7 +118,6 @@ class JobManagementControlContainer extends Component {
 
     renderRow({index, key, style}) {
 
-
         if (Object.keys(this.props.mediaReducer).length > 0) {
             return(
                 <div style={style}>
@@ -122,33 +130,8 @@ class JobManagementControlContainer extends Component {
             )
     }}
 
-
-
     render() {
-        console.log("ASDASDA", this.state.videoJobs)
-
-        // let items = []
-        //
-        // if (!this.props.videoJobsLoading) {
-        //     if (this.state.videoJobs.length > 0) {
-        //         items = this.state.videoJobs.map(function(item, index){
-        //             if (this.props.videosJobsReducer[item.id] !== undefined) {
-        //                 return (
-        //                     <CSSTransition classNames="item" timeout={200} key={item.id}>
-        //                         <JobContainer key={item.id} jobId={item.id}/>
-        //                     </CSSTransition>
-        //                 )
-        //             }
-        //         },this)
-        //     }
-        //     if (items.length === 0) {
-        //         items = <div key="1">No Videos</div>
-        //     }
-        //
-        // }
-
-
-
+        console.log("DSSDFSDF", this.state.videoJobs)
         return (
 
             <div className="JobManagementControlContainer">
@@ -225,16 +208,16 @@ class JobManagementControlContainer extends Component {
 
                         <AutoSizer>
                             {
-
-
                                 ({ width, height }) => {
                                     return <List
                                         width={width}
                                         height={height}
-                                        rowHeight={285}
+                                        rowHeight={287}
                                         rowRenderer={this.renderRow}
                                         rowCount={this.state.videoJobs.length}
-                                        overscanRowCount={5}/>
+                                        data={this.state.videoJobs}
+                                        overscanRowCount={10}/>
+
 
                                 }
                             }
@@ -242,25 +225,6 @@ class JobManagementControlContainer extends Component {
 
 
 
-
-                    {/*<List*/}
-                    {/*    width={1200}*/}
-                    {/*    height={"100%"}*/}
-                    {/*    rowHeight={276}*/}
-                    {/*    rowRenderer={this.renderRow}*/}
-                    {/*    rowCount={this.state.videoJobs.length}*/}
-                    {/*    overscanRowCount={2}/>*/}
-                    {/*{this.state.videoJobs.length > 0 && (*/}
-
-                    {/*)}*/}
-
-                    {/*{this.state.videoJobs.length === 0 && (*/}
-                    {/*    <div>Loading</div>*/}
-                    {/*)}*/}
-
-                    {/*<TransitionGroup*/}
-                    {/*>{items}*/}
-                    {/*</TransitionGroup>*/}
 
                 </div>
             </div>
@@ -315,15 +279,6 @@ function mapStateToProps({loadingStatusReducer,mediaReducer, errorsReducer, vide
         console.log("DFSFSDFSDF",requester_1)
 
 
-        // courseSelectorContent = requester_ids.map(x => {
-        //     return {value: requesterReducer[x].course_id, label:requesterReducer[x].course_id, requester_id:requesterReducer[x].id}
-        // }).reduce((accumulator, element) => {
-        //     if (accumulator.some(e => e.requester_id === element.requester_id)) {
-        //         return accumulator
-        //     } else {
-        //         return [...accumulator, element]
-        //     }
-        // }, []);
 
     }
 
