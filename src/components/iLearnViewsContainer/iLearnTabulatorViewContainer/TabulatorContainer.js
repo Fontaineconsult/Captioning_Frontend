@@ -39,6 +39,7 @@ class TabulatorContainer extends Component {
         this.submitCapStatus = this.submitCapStatus.bind(this);
         this.checkBoxFunction = this.checkBoxFunction.bind(this);
         this.cellClick = this.cellClick.bind(this)
+        this.isChecked = this.isChecked.bind(this)
         this.columns = [
             { title: "Title", field: "title", editor:"input"},
             { title: "Captioned", field: "captioned", width: 130, align:"center", formatter: reactFormatter(<this.isCaptionedButton />) },
@@ -96,6 +97,30 @@ class TabulatorContainer extends Component {
         } else {
             return ''
         }};
+
+    checkBoxFunction(e, cellData) {
+
+
+        if (e.type === "click") {
+
+            if (cellData.cell._cell.row.modules.select.selected === false) {
+                cellData.cell._cell.table.selectRow(cellData.cell._cell.row.data.id);
+
+                let test = cellData.cell._cell.table.getSelectedRows();
+                this.setState({selected_rows: test})
+
+            } else {
+                cellData.cell._cell.table.deselectRow(cellData.cell._cell.row.data.id);
+
+                let test = cellData.cell._cell.table.getSelectedRows();
+                this.setState({selected_rows: test})
+
+            }
+
+        }
+
+    };
+
 
     isCaptionedButton(props) {
 
@@ -175,28 +200,7 @@ class TabulatorContainer extends Component {
 
     };
 
-    checkBoxFunction(e, cellData) {
 
-
-        if (e.type === "click") {
-
-            if (cellData.cell._cell.row.modules.select.selected === false) {
-                cellData.cell._cell.table.selectRow(cellData.cell._cell.row.data.id);
-
-                let test = cellData.cell._cell.table.getSelectedRows();
-                this.setState({selected_rows: test})
-
-            } else {
-                cellData.cell._cell.table.deselectRow(cellData.cell._cell.row.data.id);
-
-                let test = cellData.cell._cell.table.getSelectedRows();
-                this.setState({selected_rows: test})
-
-            }
-
-        }
-
-    };
 
 
 
