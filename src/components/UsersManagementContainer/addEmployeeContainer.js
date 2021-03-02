@@ -57,8 +57,6 @@ class AddEmployeeContainer extends Component {
                         <div>E-Mail</div>
                         <input required={true} value={this.state.email} type={'text'} name={"email"} onChange={this.handleChange}/>
                     </label>
-
-
                     <label htmlFor={"phoneNumber"}>
                         <div>Phone Number</div>
                         <input value={this.state.phoneNumber} type={'text'} name={"phoneNumber"} onChange={this.handleChange}/>

@@ -23,15 +23,9 @@ class AddUserContainer extends Component {
                 Add User Outer Container
                 <AddEmployeeContainer/>
                 <AssignEmployeeContainer/>
-
             </div>
-
-
         )
-
-
     }
-
 
 }
 

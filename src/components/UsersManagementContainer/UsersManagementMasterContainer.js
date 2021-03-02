@@ -13,19 +13,15 @@ class UserManagementMasterContainer extends Component {
     }
 
 
-
-
     render() {
 
         return (
-
 
             <div className="ContentManagementMasterContainer">
                 <UserManagementControlContainer/>
             </div>
 
         )
-
 
     }
 

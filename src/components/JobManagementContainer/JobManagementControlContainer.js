@@ -40,7 +40,7 @@ class JobManagementControlContainer extends Component {
     removeFilters(event) {
         if (event.charCode  === 13 || event.type === 'click') {
             this.setState({
-                videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key]),
+                videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key].id),
                 job_status_value: '',
                 order_by_value: '',
                 filterSelectedCourse: '',
@@ -82,10 +82,21 @@ class JobManagementControlContainer extends Component {
     }
 
     orderByFilter(value, key) {
-        let filter = this.state.videoJobs.sort((a,b) => moment(b[key]) -  moment(a[key]))
+        let list_filter = this.state.videoJobs.reduce((accumulator, element) => {
+            accumulator.push(this.props.videosJobsReducer[element])
+            return accumulator
+        },[])
+
+        let filter = list_filter.sort((a,b) => moment(b[key]) -  moment(a[key]))
+
+        let to_return = filter.reduce((accumulator, element) => {
+
+            accumulator.push(element.id)
+            return accumulator
+        },[])
 
         this.setState({
-            videoJobs:filter,
+            videoJobs:to_return,
             order_by_value: value
         })
     }
@@ -205,7 +216,6 @@ class JobManagementControlContainer extends Component {
 
                 </div>
                 <div className="contentContainer jobContentContainer">
-
                         <AutoSizer>
                             {
                                 ({ width, height }) => {
@@ -216,21 +226,14 @@ class JobManagementControlContainer extends Component {
                                         rowRenderer={this.renderRow}
                                         rowCount={this.state.videoJobs.length}
                                         data={this.state.videoJobs}
-                                        overscanRowCount={10}/>
-
-
+                                        overscanRowCount={5}/>
                                 }
                             }
                         </AutoSizer>
-
-
-
-
                 </div>
             </div>
         )
     }
-
 }
 
 function mapStateToProps({loadingStatusReducer,mediaReducer, errorsReducer, videosJobsReducer, requesterReducer, coursesReducer, campusOrgReducer}, {jobsLoading}) {
