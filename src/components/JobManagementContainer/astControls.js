@@ -132,7 +132,7 @@ class AstJobControlMenu extends Component {
 
 
     render() {
-        console.log(this.state.data)
+
 
         if (this.state.data.length > 0) {return (
 

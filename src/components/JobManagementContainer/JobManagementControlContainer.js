@@ -142,7 +142,7 @@ class JobManagementControlContainer extends Component {
     }}
 
     render() {
-        console.log("DSSDFSDF", this.state.videoJobs)
+
         return (
 
             <div className="JobManagementControlContainer">
@@ -279,7 +279,7 @@ function mapStateToProps({loadingStatusReducer,mediaReducer, errorsReducer, vide
             return requester[key]
 
         })
-        console.log("DFSFSDFSDF",requester_1)
+
 
 
 
