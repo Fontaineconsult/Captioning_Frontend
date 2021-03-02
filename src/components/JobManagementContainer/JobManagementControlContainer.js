@@ -12,6 +12,7 @@ import jobContainer from '../../css/jobContainer.css'
 import NavMaster from '../../css/NavMaster.css'
 import {LoadingVideoJobs} from "../../actions/status";
 import campusOrgReducer from "../../reducers/campusOrgs";
+import {List, AutoSizer, Collection  } from "react-virtualized";
 
 class JobManagementControlContainer extends Component {
 
@@ -20,23 +21,26 @@ class JobManagementControlContainer extends Component {
 
         this.state = {
             videoJobs: [],
-            courseIds: {},
+
             filterSelectedCourse: '',
             job_status_value: '',
             order_by_value: '',
             job_status: 'semesterJobs'
+
         };
 
         this.reductionFilter = this.reductionFilter.bind(this);
         this.removeFilters = this.removeFilters.bind(this);
         this.orderByFilter = this.orderByFilter.bind(this);
         this.updateJobStatusFilter = this.updateJobStatusFilter.bind(this)
+        this.renderRow = this.renderRow.bind(this)
+
     }
 
     removeFilters(event) {
         if (event.charCode  === 13 || event.type === 'click') {
             this.setState({
-                videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key]),
+                videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key].id),
                 job_status_value: '',
                 order_by_value: '',
                 filterSelectedCourse: '',
@@ -46,21 +50,30 @@ class JobManagementControlContainer extends Component {
 
     reductionFilter(value, key) {
 
-        let filter = this.state.videoJobs.reduce((accumulator, element) => {
-            if (element[key] === value[key]) {
-                accumulator.push(element)
-            }
-            return accumulator
-        }, []);
+        let filter = []
 
         switch (key) {
             case "job_status":
+                filter = this.state.videoJobs.reduce((accumulator, element) => {
+                    if (this.props.videosJobsReducer[element].job_status === value[key]) {
+                        accumulator.push(element)
+                    }
+                    return accumulator
+                }, []);
+
                 this.setState({videoJobs:filter,
                                     job_status_value: value
-
                 });
                 break;
             case "requester_id":
+
+                filter = this.state.videoJobs.reduce((accumulator, element) => {
+                    if (this.props.videosJobsReducer[element].requester_id === value[key]) {
+                        accumulator.push(element)
+                    }
+                    return accumulator
+                }, []);
+
                 this.setState({videoJobs:filter,
                     filterSelectedCourse: value
                 });
@@ -69,17 +82,29 @@ class JobManagementControlContainer extends Component {
     }
 
     orderByFilter(value, key) {
-        let filter = this.state.videoJobs.sort((a,b) => moment(b[key]) -  moment(a[key]))
+        let list_filter = this.state.videoJobs.reduce((accumulator, element) => {
+            accumulator.push(this.props.videosJobsReducer[element])
+            return accumulator
+        },[])
+
+        let filter = list_filter.sort((a,b) => moment(b[key]) -  moment(a[key]))
+
+        let to_return = filter.reduce((accumulator, element) => {
+
+            accumulator.push(element.id)
+            return accumulator
+        },[])
 
         this.setState({
-            videoJobs:filter,
+            videoJobs:to_return,
             order_by_value: value
         })
     }
 
     updateJobStatusFilter(value) {
         this.setState({job_status:value,
-                            videoJobs: this.props[value].map((key) => this.props.videosJobsReducer[key])})
+                            videoJobs: this.props[value].map((key) => this.props.videosJobsReducer[key].id)})
+
 
     }
 
@@ -88,7 +113,7 @@ class JobManagementControlContainer extends Component {
         if (this.state.filterSelectedCourse === '' && this.state.job_status_value === '' && this.state.order_by_value === '') {
             if (this.state.videoJobs.length !== this.props[this.state.job_status].length) {
                 this.setState({
-                    videoJobs: this.props[this.state.job_status].map((key) => this.props.videosJobsReducer[key])
+                    videoJobs: this.props[this.state.job_status].map((key) => this.props.videosJobsReducer[key].id)
                 })
             }
         }
@@ -96,35 +121,28 @@ class JobManagementControlContainer extends Component {
     }
     
     componentDidMount() {
-
         this.setState({
-            videoJobs: this.props.semesterJobs.map((key) => this.props.videosJobsReducer[key])
+            videoJobs: this.props.semesterJobs.map((key) => this.props.videosJobsReducer[key].id)
         })
 
     }
 
+    renderRow({index, key, style}) {
+
+        if (Object.keys(this.props.mediaReducer).length > 0) {
+            return(
+                <div style={style}>
+                    <JobContainer key={key} jobId={this.state.videoJobs[index]} />
+                </div>
+            )
+        } else {
+            return(
+                "Loading"
+            )
+    }}
+
     render() {
-
-        console.log("SDGSDGSDG", this.state.videoJobs, this.state.job_status)
-        let items = []
-
-        if (!this.props.videoJobsLoading) {
-            if (this.state.videoJobs.length > 0) {
-                items = this.state.videoJobs.map(function(item, index){
-                    if (this.props.videosJobsReducer[item.id] !== undefined) {
-                        return (
-                            <CSSTransition classNames="item" timeout={200} key={item.id}>
-                                <JobContainer key={item.id} jobId={item.id}/>
-                            </CSSTransition>
-                        )
-                    }
-                },this)
-            }
-            if (items.length === 0) {
-                items = <div key="1">No Videos</div>
-            }
-
-        }
+        console.log("DSSDFSDF", this.state.videoJobs)
         return (
 
             <div className="JobManagementControlContainer">
@@ -198,19 +216,27 @@ class JobManagementControlContainer extends Component {
 
                 </div>
                 <div className="contentContainer jobContentContainer">
-
-                    <TransitionGroup
-                    >{items}
-                    </TransitionGroup>
-
+                        <AutoSizer>
+                            {
+                                ({ width, height }) => {
+                                    return <List
+                                        width={width}
+                                        height={height}
+                                        rowHeight={287}
+                                        rowRenderer={this.renderRow}
+                                        rowCount={this.state.videoJobs.length}
+                                        data={this.state.videoJobs}
+                                        overscanRowCount={5}/>
+                                }
+                            }
+                        </AutoSizer>
                 </div>
             </div>
         )
     }
-
 }
 
-function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer, requesterReducer, coursesReducer, campusOrgReducer}, {jobsLoading}) {
+function mapStateToProps({loadingStatusReducer,mediaReducer, errorsReducer, videosJobsReducer, requesterReducer, coursesReducer, campusOrgReducer}, {jobsLoading}) {
 
     let requester = {};
     let courseSelectorContent = [];
@@ -256,15 +282,6 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         console.log("DFSFSDFSDF",requester_1)
 
 
-        // courseSelectorContent = requester_ids.map(x => {
-        //     return {value: requesterReducer[x].course_id, label:requesterReducer[x].course_id, requester_id:requesterReducer[x].id}
-        // }).reduce((accumulator, element) => {
-        //     if (accumulator.some(e => e.requester_id === element.requester_id)) {
-        //         return accumulator
-        //     } else {
-        //         return [...accumulator, element]
-        //     }
-        // }, []);
 
     }
 
@@ -280,6 +297,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         activeJobs,
         semesterJobs,
         completeJobs,
+        mediaReducer,
 
         semesterJobsCount: semesterJobs.length,
         activeJobsCount: activeJobs.length,

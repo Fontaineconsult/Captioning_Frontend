@@ -20,7 +20,7 @@
     "crypto-js": "^4.0.0",
     "downloadjs": "^1.4.7",
     "file-saver": "^2.0.2",
-    "formik": "^2.2.6",
+    "formik": "^2.2.5",
     "install": "^0.13.0",
     "moment": "^2.24.0",
     "npm": "^7.5.6",
