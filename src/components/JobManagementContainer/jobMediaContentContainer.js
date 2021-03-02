@@ -6,10 +6,13 @@ import {mediaSelectCustomStyles} from "./selectCustomStyle";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
 import Button from "@material-ui/core/Button";
-import {downloadCaptionFile, downloadMediaFile} from '../../actions/ampApi/fetchData'
+import {downloadCaptionFile, downloadMediaFile, fetchMediaByShaHash} from '../../actions/ampApi/fetchData'
 import {uploadCaptionFileWithMediaId, uploadMediaFromJobView} from "../../actions/ampApi/postData"
 import green from "@material-ui/core/colors/green";
 import {v1 as uuidv1} from "uuid";
+import CryptoJS from "crypto-js";
+import {removeErrorState} from "../../actions/error_state";
+import {clearMediaSearch} from "../../actions/mediaSearch";
 
 class MediaContentContainer extends Component {
 
@@ -17,13 +20,14 @@ class MediaContentContainer extends Component {
         super(props);
         this.state = {
             captionFiles: this.props.captionFiles,
-            caption_select: '',
-            media_select: '',
+            caption_select: "",
+            media_select: "",
             mediaFiles: this.props.mediaFiles,
             capFileUpload:"",
             mediaFileUpload:"",
             cap_temp_id: "",
-            media_temp_id:""
+            media_temp_id:"",
+            sha_256_hash:""
 
         };
 
@@ -35,6 +39,7 @@ class MediaContentContainer extends Component {
         this.downloadMedia = this.downloadMedia.bind(this)
         this.setMediaFile = this.setMediaFile.bind(this)
         this.uploadMediaFile = this.uploadMediaFile.bind(this)
+
     }
 
     // Cap select methods
@@ -73,6 +78,8 @@ class MediaContentContainer extends Component {
 
     // file select methods
 
+
+
     downloadMedia() {
         this.props.dispatch(downloadMediaFile(this.state.media_select.file_id, this.props.mediaId))
     }
@@ -83,7 +90,24 @@ class MediaContentContainer extends Component {
         document.getElementById('mediaFileUpload').onchange = () => {
 
             let fileReader = new FileReader()
+
+            fileReader.onload = (completionEvent) => {
+                let slicedFile = fileReader.result.slice(0, 1024)
+                let wordArray = CryptoJS.lib.WordArray.create(slicedFile)
+                let fileHash = CryptoJS.SHA256(wordArray).toString()
+
+                // this.props.dispatch(removeErrorState(this.props.transaction_id));
+                // this.props.dispatch(clearMediaSearch(this.props.transaction_id));
+                // this.props.dispatch(fetchMediaByShaHash(fileHash, this.props.transaction_id))
+                this.setState({
+                    sha_256_hash: fileHash,
+                })
+                console.log("1State", this.state)
+            }
+
+
             fileReader.readAsArrayBuffer(document.getElementById('mediaFileUpload').files[0])
+
             let type = document.getElementById('mediaFileUpload').files[0].type
             let blobFile = new Blob([document.getElementById('mediaFileUpload').files[0]], {type: type})
             this.setState({
@@ -93,11 +117,12 @@ class MediaContentContainer extends Component {
             });
         }
 
+        console.log(this.state)
     }
 
     uploadMediaFile(event) {
 
-        this.props.dispatch(uploadMediaFromJobView(this.state.mediaFileUpload, this.props.mediaId, this.state.cap_temp_id, this.state.content_type))
+        this.props.dispatch(uploadMediaFromJobView(this.state.mediaFileUpload, this.props.mediaId, this.state.cap_temp_id, this.state.content_type, this.state.sha_256_hash))
         this.setState({
             mediaFileUpload:"",
             content_type:""

@@ -210,7 +210,7 @@ export function uploadVideoWithMediaId(video, media_id, temp_id, content_type) {
 }
 }
 
-export function uploadMediaFromJobView(video, media_id, temp_id, content_type) {
+export function uploadMediaFromJobView(video, media_id, temp_id, content_type, sha_256_hash) {
 
     // imports fetch statement to fetch new media info after file upload. Directly updates tempJobstate
     let post_object = {
