@@ -11,6 +11,7 @@ import AmaraControls from "./amaraControlsContainer";
 import DatePicker from 'react-date-picker';
 import ClearIcon from '@material-ui/icons/Clear';
 import moment from "moment";
+import {iLearnURL} from "../../constants";
 
 const statusColor = (status) => ({
     "Queued": "linear-gradient(to left, rgba(63, 123, 191, 0), rgb(63, 123, 191))",
@@ -46,6 +47,7 @@ class JobContainer extends Component {
             employee_last_name:'',
             ast_job_id: 'Not Used',
             isFocused: false
+
         };
 
         this.updateState = this.updateState.bind(this)
@@ -58,6 +60,7 @@ class JobContainer extends Component {
         this.jobFocusedStyle = this.jobFocusedStyle.bind(this)
         this.setFocus = this.setFocus.bind(this)
         this.clearFocus = this.clearFocus.bind(this)
+        this.ilearnPage = iLearnURL() + this.props.ilearn_page_id;
     }
 
 
@@ -285,6 +288,13 @@ class JobContainer extends Component {
                                 Transcripts Requested
                                 <input type="checkbox" name="transcripts_only" checked={this.state.transcripts_only}  onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
                             </label>
+                            {this.props.ilearn_page_id !== undefined && (
+                                <label style={{'margin-right': '10px'}}>
+                                    iLearn:
+                                    <a target={"_blank"} href={this.ilearnPage}>{this.props.ilearn_page_id}</a>
+                                </label>
+                            )}
+
 
                         </form>
                     </div>
@@ -312,9 +322,11 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
     let mediaId = ''
     if (job !== undefined){mediaId = job.media.id}
 
+
     // let course = coursesReducer[requesterResource]
     let employee = '';
     let requesterResource = '';
+
 
 
     if (job !== undefined){
@@ -336,6 +348,12 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
 
     }
 
+    let ilearn_page_id = undefined
+    if (coursesReducer[requesterResource] !== undefined){
+        ilearn_page_id = coursesReducer[requesterResource].ilearn_page_id.ilearn_page_id
+
+    }
+
 
     return {
 
@@ -347,7 +365,8 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
         mediaId,
         jobId,
         employee,
-        requesterResource
+        requesterResource,
+        ilearn_page_id
 
 
     }
