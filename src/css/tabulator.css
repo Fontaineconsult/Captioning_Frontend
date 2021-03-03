@@ -62,3 +62,9 @@
     -webkit-user-select: none;
     user-select: none;
 }
+
+.video-hidden{
+    color: #b5b5b5;
+    background-color: #444445 !important;;
+
+}
