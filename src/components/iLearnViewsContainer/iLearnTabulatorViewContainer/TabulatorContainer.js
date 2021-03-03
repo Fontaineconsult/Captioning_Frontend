@@ -218,6 +218,9 @@ class TabulatorContainer extends Component {
                     row.getElement().classList.remove("tabulator-selectable")
                     row.getElement().classList.add("video-passed")
                 }
+                if(row.getData().content_hidden === true){
+                    row.getElement().classList.add("video-hidden")
+                }
             },
             initialFilter: [{field:"invalid_link", type:"!=", value:true}]
 
@@ -290,7 +293,8 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
             page_section: video.page_section,
             ignore_video: video.ignore_video,
             invalid_link: video.invalid_link,
-            video_passed: video.auto_caption_passed
+            video_passed: video.auto_caption_passed,
+            content_hidden: video.content_hidden
 
         }
     };
