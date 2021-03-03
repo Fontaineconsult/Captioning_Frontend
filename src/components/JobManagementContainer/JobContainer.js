@@ -164,7 +164,6 @@ class JobContainer extends Component {
             employee_last_name: e.employee_last_name
 
         })
-
     }
 
     render() {
@@ -294,8 +293,6 @@ class JobContainer extends Component {
                                     <a target={"_blank"} href={this.ilearnPage}>{this.props.ilearn_page_id}</a>
                                 </label>
                             )}
-
-
                         </form>
                     </div>
                     <div className="pluginControlsContainer">

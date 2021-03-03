@@ -201,9 +201,6 @@ class TabulatorContainer extends Component {
     };
 
 
-
-
-
     componentDidMount() {
         this.tableData = this.props.videosList;
         this.tabulator = new Tabulator(this.el, {
