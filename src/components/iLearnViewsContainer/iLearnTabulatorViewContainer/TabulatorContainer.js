@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
-import { ReactTabulator, reactFormatter } from 'react-tabulator'
+import { reactFormatter } from 'react-tabulator'
 import * as tabFuncs from './TabulatorDataConstructor'
 import {updateiLearnVideo} from '../../../actions/ampApi/putData'
 import Button from '@material-ui/core/Button'
@@ -55,6 +55,7 @@ class TabulatorContainer extends Component {
     };
 
     SubmitButton(props) {
+        console.log("SADW!@!!!", this.state)
         const cellData = props.cell;
         let disabled = this.state.selected_rows.length > 0
 
