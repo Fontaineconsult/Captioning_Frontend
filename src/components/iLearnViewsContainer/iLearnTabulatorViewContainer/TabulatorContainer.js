@@ -51,12 +51,13 @@ class TabulatorContainer extends Component {
             { title: "Section", field: "page_section", hozAlign :"center", width: 80 },
             { title: "Select", width:60, hozAlign :"center",  formatter: reactFormatter(<this.isChecked />)},
         ];
+        this.disabled = this.state.selected_rows.length > 0
 
     };
 
     SubmitButton(props) {
         const cellData = props.cell;
-        let disabled = this.state.selected_rows.length > 0
+        let disabled = this.disabled
 
 
         if (cellData._cell.value === false || cellData._cell.value === null) {
@@ -125,7 +126,7 @@ class TabulatorContainer extends Component {
     IsCaptionedButton(props) {
 
         const cellData = props.cell;
-        let disabled = this.state.selected_rows.length > 0
+        let disabled = this.disabled
 
         if (cellData._cell.value === false) {
             if (disabled) {
