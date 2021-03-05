@@ -125,17 +125,18 @@ pipeline {
 //
 //        }
 
-//        docker exec $(docker ps --format "{{.Names}}") application/celery_tasks "celery -A tasks.celery_client worker"
+//
         stage('Run Docker Image') {
             agent any
             steps {
                 sh '''
+                    redis-server --daemonize yes
                     ls workspace/backend/deployment/docker/
                     docker stop $(docker ps -aq)
                     docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list amp-dev:latest
                     docker rmi $(docker images -f dangling=true -q) --force
 
-
+                
               
                   '''
 
