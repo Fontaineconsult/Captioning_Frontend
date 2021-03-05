@@ -31,8 +31,8 @@ class TabulatorContainer extends Component {
 
 
         this.SubmitButton = this.SubmitButton.bind(this);
-        this.closedCaptionLink = this.closedCaptionLink.bind(this);
-        this.isCaptionedButton = this.isCaptionedButton.bind(this);
+        this.ClosedCaptionLink = this.ClosedCaptionLink.bind(this);
+        this.IsCaptionedButton = this.IsCaptionedButton.bind(this);
         this.dataEditedFunc = this.dataEditedFunc.bind(this);
         this.cellClick = this.cellClick.bind(this);
         this.submitCap = this.submitCap.bind(this);
@@ -42,8 +42,8 @@ class TabulatorContainer extends Component {
         this.isChecked = this.isChecked.bind(this)
         this.columns = [
             { title: "Title", field: "title", editor:"input"},
-            { title: "Captioned", field: "captioned", width: 130, hozAlign :"center", formatter: reactFormatter(<this.isCaptionedButton />) },
-            { title: "CC",  width: 75, field: "captioned_link", hozAlign :"center", formatter: reactFormatter(<this.closedCaptionLink />)},
+            { title: "Captioned", field: "captioned", width: 130, hozAlign :"center", formatter: reactFormatter(<this.IsCaptionedButton />) },
+            { title: "CC",  width: 75, field: "captioned_link", hozAlign :"center", formatter: reactFormatter(<this.ClosedCaptionLink />)},
             { title: "Show Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 160 },
             { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
             { title: "Scan Date", hozAlign:"center", field: "scan_date", width: 105 },
@@ -83,7 +83,7 @@ class TabulatorContainer extends Component {
 
     };
 
-    closedCaptionLink(props) {
+    ClosedCaptionLink(props) {
         const cellData = props.cell;
         if (cellData._cell.row.data.captioned_link) {
             return <Tooltip title={cellData._cell.value}><Button  size="small" onClick={e => window.open(cellData._cell.value, '_blank')}>
@@ -122,7 +122,7 @@ class TabulatorContainer extends Component {
     };
 
 
-    isCaptionedButton(props) {
+    IsCaptionedButton(props) {
 
         const cellData = props.cell;
         let disabled = this.state.selected_rows.length > 0
