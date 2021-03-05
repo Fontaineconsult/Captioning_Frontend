@@ -42,20 +42,19 @@ class TabulatorContainer extends Component {
         this.isChecked = this.isChecked.bind(this)
         this.columns = [
             { title: "Title", field: "title", editor:"input"},
-            { title: "Captioned", field: "captioned", width: 130, align:"center", formatter: reactFormatter(<this.isCaptionedButton />) },
-            { title: "CC",  width: 75, field: "captioned_link", align:"center", formatter: reactFormatter(<this.closedCaptionLink />)},
+            { title: "Captioned", field: "captioned", width: 130, hozAlign :"center", formatter: reactFormatter(<this.isCaptionedButton />) },
+            { title: "CC",  width: 75, field: "captioned_link", hozAlign :"center", formatter: reactFormatter(<this.closedCaptionLink />)},
             { title: "Show Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 160 },
             { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
-            { title: "Scan Date", align:"center", field: "scan_date", width: 105 },
-            { title: "Submitted", field: "submitted_for_processing",  align:"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
-            { title: "Section", field: "page_section", align:"center", width: 80 },
-            { title: "Select", width:60, align:"center",  formatter: reactFormatter(<this.isChecked />)},
+            { title: "Scan Date", hozAlign:"center", field: "scan_date", width: 105 },
+            { title: "Submitted", field: "submitted_for_processing",  hozAlign :"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
+            { title: "Section", field: "page_section", hozAlign :"center", width: 80 },
+            { title: "Select", width:60, hozAlign :"center",  formatter: reactFormatter(<this.isChecked />)},
         ];
 
     };
 
     SubmitButton(props) {
-        console.log("SADW!@!!!", this.state)
         const cellData = props.cell;
         let disabled = this.state.selected_rows.length > 0
 

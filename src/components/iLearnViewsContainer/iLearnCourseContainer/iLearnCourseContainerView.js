@@ -15,7 +15,7 @@ class ILearnCourseContainer extends Component {
         this.state = {
             ilearn_video_active_check: false,
             ignore_course_check: false,
-            course_comments: ''
+            course_comments: " "
         };
         this.handleInputChange = this.handleInputChange.bind(this)
         this.submitCommentsChange = this.submitCommentsChange.bind(this)
@@ -24,8 +24,17 @@ class ILearnCourseContainer extends Component {
     }
 
     componentDidMount() {
-        this.setState({ilearn_video_active_check: this.props.ilearn_video_active_check,
-                            course_comments: this.props.course_comments})
+        if (this.props.course_comments !== null) {
+            this.setState({ilearn_video_active_check: this.props.ilearn_video_active_check,
+                course_comments: this.props.course_comments})
+
+        } else {
+            this.setState({ilearn_video_active_check: this.props.ilearn_video_active_check,
+                })
+
+        }
+
+
     }
 
     handleInputChange(event) {
@@ -91,9 +100,9 @@ class ILearnCourseContainer extends Component {
                             <div>Captioning Requested: {this.props.studentRequestsCaptioning === true ? "Yes":"No" }</div>
                             <div><form>
                                 <label htmlFor={"ilearn_video_active_check"}>iLearn Video Active</label>
-                                <input checked={this.state.ilearn_video_active_check} onChange={this.handleInputChange} name={"ilearn_video_active_check"} id={"ilearn_video_active_check"} type="checkbox"/>
+                                <input checked={this.state.ilearn_video_active_check} onChange={this.handleInputChange} name={"ilearn_video_active_check"} id={"ilearn_video_active_check" + this.props.course_id} type="checkbox"/>
                                 <label htmlFor={"ignore_course_check"}>Ignore Course</label>
-                                <input checked={this.state.ignore_course_check} onChange={this.handleInputChange} name={"ignore_course_check"} id={"ignore_course_check"} type="checkbox"/>
+                                <input checked={this.state.ignore_course_check} onChange={this.handleInputChange} name={"ignore_course_check"} id={"ignore_course_check" + this.props.course_id} type="checkbox"/>
                             </form></div>
 
                         </div>
@@ -104,7 +113,7 @@ class ILearnCourseContainer extends Component {
                                               onBlur={this.submitCommentsChange}
                                               onChange={this.updateCommentsChange}
                                               name={"course_comments"}
-                                              id={"course_comments"} rows={4}/>
+                                              id={"course_comments" + this.props.course_id} rows={4}/>
                                 </div>
                                 <div>
                                     <div><b>Semester: </b>{this.props.semester}</div>

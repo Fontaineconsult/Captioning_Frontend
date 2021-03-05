@@ -81,7 +81,7 @@ class TabToolBar extends Component {
     render() {
 
         return(
-            <div className={this.selectable()}>
+            <div className={"toolbar-container"}>
                 {this.selectable() ?
                     <Button size="small"  onClick={e => this.passed(e)}>Passed</Button>:
                     <Button size="small" disabled onClick={e => this.passed(e)}>Passed</Button>
