@@ -122,7 +122,6 @@ class TabulatorContainer extends Component {
 
     };
 
-
     IsCaptionedButton(props) {
 
         const cellData = props.cell;
