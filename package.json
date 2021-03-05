@@ -41,7 +41,7 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.1",
     "tabulator": "^0.2.40",
-    "tabulator-tables": "^4.9.3",
+    "tabulator-tables": "^4.8.4",
     "uuid": "^8.3.2"
   },
   "scripts": {

@@ -125,7 +125,7 @@ class TabulatorContainer extends Component {
     IsCaptionedButton(props) {
 
         const cellData = props.cell;
-        let disabled = false
+        let disabled = false // broken not sure why ,switch back to this.state.selected_rows
 
         if (cellData._cell.value === false) {
             if (disabled) {
