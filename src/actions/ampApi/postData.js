@@ -22,7 +22,9 @@ function errorHandler(response, dispatch, error_id){
     if (!response.ok) {
         response.json()
             .then(data => (
-                dispatch(setErrorState(data['error']['error_message'], data['request_payload'], error_id)),
+
+                dispatch(
+                    setErrorState(data['error']['error_message'], data['request_payload'], error_id)),
                 alert(data['error']['error_message']))
 
             )
