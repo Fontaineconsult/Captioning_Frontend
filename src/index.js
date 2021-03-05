@@ -7,7 +7,7 @@ import { createStore, compose} from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import { BrowserRouter, Route, Switch,
-    NavLink, } from 'react-router-dom'
+     } from 'react-router-dom'
 import middleware from './middleware'
 import { createBrowserHistory } from "history";
 

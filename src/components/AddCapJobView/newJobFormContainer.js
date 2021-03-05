@@ -2,7 +2,6 @@ import DatePicker from 'react-date-picker';
 import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-
 import {addJobInfoToTempJob, completeTempJob} from "../../actions/tempJobsForm";
 import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";

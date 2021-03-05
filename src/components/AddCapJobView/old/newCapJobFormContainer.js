@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
-import {addMediaToDBandTempJob} from '../../../actions/ampApi/postData'
 import {addJobInfoToTempJob, completeTempJob, addMediaToTempJobNoId} from '../../../actions/tempJobsForm'
 import PreparedJobsContainer from '../preparedJobsContainer'
-import { v4 as uuidv4 } from 'uuid';
 import Select from "react-select";
 import DatePicker from 'react-date-picker';
-import {addCapJob} from "../../../actions/newCapJob";
-// import { Formik } from 'formik';
-import {AddVideoJob} from "../../../actions/ampApi/postData"
+
 
 class NewCapJobFormContainer extends Component {
 

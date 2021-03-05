@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import NavigationMasterContainer from "./componentNavigator/navigationMasterContainer";
-import NewJobMasterContainer from "./AddCapJobView/newJobMasterContainer"
-import JobManagementMasterContainer from "./JobManagementContainer/JobManagementMasterContainer"
-import IlearnMasterContainer from "./iLearnViewsContainer/iLearnViewContainers/iLearnAllCoursesView"
-import {setGlobalParams} from "../actions/globals"
 import {
     BrowserRouter as Router,
     Switch,
