@@ -17,13 +17,16 @@ pipeline {
             steps {
 
                 sh '''
+                    sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace
+
                     cd /var/lib/jenkins/workspace/amp-dev-build-pipeline
                     pwd
-                    rm -rf *
+                    sudo -u jenkins rm -rf *
                   '''
             }
 
         }
+
 
         stage('Fetch Backend') {
             agent any
@@ -61,16 +64,16 @@ pipeline {
 
             agent {
                 docker {
-                    image 'node:latest'
+                    image 'node:12'
                     args '-u root:root'
                 }
             }
             steps {
 
                 sh '''
+
                     cd workspace/frontend
                     npm install
-                    npm audit fix --force
                     npm run build --no-cache
                     ls
                    '''
@@ -83,15 +86,16 @@ pipeline {
             agent any
             steps {
                 sh '''
+                    sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace
                     ls workspace/backend/application/flask_site/pages/static/
                     mkdir workspace/backend/application/flask_site/pages/static/react
                     mkdir workspace/backend/application/flask_site/pages/static/react/static
                     mkdir workspace/backend/application/flask_site/pages/static/react/static/css
                     mkdir workspace/backend/application/flask_site/pages/static/react/static/js
                     ls workspace/backend/application/flask_site/pages/static/
-                    mv workspace/frontend/build/index.html workspace/backend/application/flask_site/pages/templates/
-                    mv workspace/frontend/build/static/css/* workspace/backend/application/flask_site/pages/static/react/static/css/
-                    mv workspace/frontend/build/static/js/* workspace/backend/application/flask_site/pages/static/react/static/js/
+                    sudo -u jenkins mv workspace/frontend/build/index.html workspace/backend/application/flask_site/pages/templates/
+                    sudo -u jenkins mv workspace/frontend/build/static/css/* workspace/backend/application/flask_site/pages/static/react/static/css/
+                    sudo -u jenkins mv workspace/frontend/build/static/js/* workspace/backend/application/flask_site/pages/static/react/static/js/
                     ls workspace/backend/application/flask_site/pages/static/react/
                     ls workspace/backend/application/flask_site/pages/static/react/static/css
                     ls workspace/backend/application/flask_site/pages/static/react/static/js
@@ -111,6 +115,7 @@ pipeline {
                   '''
             }
         }
+
 
 
 //        stage("Start Redis") {
@@ -136,8 +141,6 @@ pipeline {
                     docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list amp-dev:latest
                     docker rmi $(docker images -f dangling=true -q) --force
 
-                
-              
                   '''
 
             }
