@@ -18,6 +18,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TabToolBar from "./tabToolBar";
 
 
+
+
 class TabulatorContainer extends Component {
     constructor(props) {
         super(props);
@@ -25,9 +27,7 @@ class TabulatorContainer extends Component {
             selected_rows: []
         };
 
-        this.el = React.createRef();
-        this.tabulator = null;
-        this.ref = null;
+
 
 
         this.SubmitButton = this.SubmitButton.bind(this);
@@ -39,25 +39,19 @@ class TabulatorContainer extends Component {
         this.submitCapStatus = this.submitCapStatus.bind(this);
         this.checkBoxFunction = this.checkBoxFunction.bind(this);
         this.cellClick = this.cellClick.bind(this)
-        this.isChecked = this.isChecked.bind(this)
-        this.columns = [
-            { title: "Title", field: "title", editor:"input"},
-            { title: "Captioned", field: "captioned", width: 130, hozAlign :"center", formatter: reactFormatter(<this.IsCaptionedButton />) },
-            { title: "CC",  width: 75, field: "captioned_link", hozAlign :"center", formatter: reactFormatter(<this.ClosedCaptionLink />)},
-            { title: "Show Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 160 },
-            { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
-            { title: "Scan Date", hozAlign:"center", field: "scan_date", width: 105 },
-            { title: "Submitted", field: "submitted_for_processing",  hozAlign :"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
-            { title: "Section", field: "page_section", hozAlign :"center", width: 80 },
-            { title: "Select", width:60, hozAlign :"center",  formatter: reactFormatter(<this.isChecked />)},
-        ];
-        this.disabled = this.state.selected_rows.length > 0
+        this.IsChecked = this.IsChecked.bind(this)
 
+
+        this.el = React.createRef();
+        this.tabulator = null;
+        this.ref = null;
     };
+
+
 
     SubmitButton(props) {
         const cellData = props.cell;
-        let disabled = false
+        let disabled = this.state.selected_rows.length > 0
 
 
         if (cellData._cell.value === false || cellData._cell.value === null) {
@@ -125,7 +119,7 @@ class TabulatorContainer extends Component {
     IsCaptionedButton(props) {
 
         const cellData = props.cell;
-        let disabled = false // broken not sure why ,switch back to this.state.selected_rows
+        let disabled = this.state.selected_rows.length > 0 // broken not sure why ,switch back to this.state.selected_rows
 
         if (cellData._cell.value === false) {
             if (disabled) {
@@ -181,7 +175,7 @@ class TabulatorContainer extends Component {
 
     };
 
-    isChecked(props)  {
+    IsChecked(props)  {
 
         if (props.cell._cell.row.modules.hasOwnProperty("select")) {
             if (props.cell._cell.row.modules.select.selected === false){
@@ -202,9 +196,24 @@ class TabulatorContainer extends Component {
 
 
     componentDidMount() {
+
+        let columns = [
+            { title: "Title", field: "title", editor:"input"},
+            { title: "Captioned", field: "captioned", width: 130, hozAlign :"center", formatter: reactFormatter(<this.IsCaptionedButton />) },
+            { title: "CC",  width: 75, field: "captioned_link", hozAlign :"center", formatter: reactFormatter(<this.ClosedCaptionLink />)},
+            { title: "Show Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 160 },
+            { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
+            { title: "Scan Date", hozAlign:"center", field: "scan_date", width: 105 },
+            { title: "Submitted", field: "submitted_for_processing",  hozAlign :"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
+            { title: "Section", field: "page_section", hozAlign :"center", width: 80 },
+            { title: "Select", width:60, hozAlign :"center",  formatter:reactFormatter(<this.IsChecked/>)},
+        ];
+
+
+
         this.tableData = this.props.videosList;
         this.tabulator = new Tabulator(this.el, {
-            columns: this.columns,
+            columns: columns,
             layout:"fitColumns",
             data: this.props.videosList,
             cellEdited: this.dataEditedFunc,
