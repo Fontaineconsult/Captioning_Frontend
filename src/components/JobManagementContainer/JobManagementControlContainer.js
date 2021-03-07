@@ -4,14 +4,12 @@ import {connect} from "react-redux";
 import JobContainer from "./JobContainer";
 import Select from "react-select";
 import ClearIcon from '@material-ui/icons/Clear';
-import videosJobsReducer from "../../reducers/existingVideoJobs";
 import {customStyles} from './selectCustomStyle'
 import moment from "moment"
 import {CSSTransition, TransitionGroup}  from 'react-transition-group';
 import jobContainer from '../../css/jobContainer.css'
 import NavMaster from '../../css/NavMaster.css'
-import {LoadingVideoJobs} from "../../actions/status";
-import campusOrgReducer from "../../reducers/campusOrgs";
+
 import {List, AutoSizer, Collection  } from "react-virtualized";
 
 class JobManagementControlContainer extends Component {
@@ -103,6 +101,9 @@ class JobManagementControlContainer extends Component {
 
     updateJobStatusFilter(value) {
         this.setState({job_status:value,
+            videoJobs:[]})
+
+        this.setState({job_status:value,
                             videoJobs: this.props[value].map((key) => this.props.videosJobsReducer[key].id)})
 
 
@@ -130,8 +131,9 @@ class JobManagementControlContainer extends Component {
     renderRow({index, key, style}) {
 
         if (Object.keys(this.props.mediaReducer).length > 0) {
+            console.log(index, key)
             return(
-                <div style={style}>
+                <div key={key} style={style}>
                     <JobContainer key={key} jobId={this.state.videoJobs[index]} />
                 </div>
             )
@@ -215,7 +217,8 @@ class JobManagementControlContainer extends Component {
                     </div>
 
                 </div>
-                <div className="contentContainer jobContentContainer">
+                <div key={this.state.job_status} className="contentContainer jobContentContainer">
+
                         <AutoSizer>
                             {
                                 ({ width, height }) => {
@@ -225,11 +228,15 @@ class JobManagementControlContainer extends Component {
                                         rowHeight={287}
                                         rowRenderer={this.renderRow}
                                         rowCount={this.state.videoJobs.length}
-                                        data={this.state.videoJobs}
+                                        data={this.state.job_status}
                                         overscanRowCount={5}/>
                                 }
                             }
                         </AutoSizer>
+
+
+
+
                 </div>
             </div>
         )
@@ -240,7 +247,6 @@ function mapStateToProps({loadingStatusReducer,mediaReducer, errorsReducer, vide
 
     let requester = {};
     let courseSelectorContent = [];
-    let requester_1
     let semesterJobs = Object.keys(videosJobsReducer)
 
     let activeJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
