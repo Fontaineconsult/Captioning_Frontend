@@ -100,8 +100,6 @@ class JobManagementControlContainer extends Component {
     }
 
     updateJobStatusFilter(value) {
-        this.setState({job_status:value,
-            videoJobs:[]})
 
         this.setState({job_status:value,
                             videoJobs: this.props[value].map((key) => this.props.videosJobsReducer[key].id)})
