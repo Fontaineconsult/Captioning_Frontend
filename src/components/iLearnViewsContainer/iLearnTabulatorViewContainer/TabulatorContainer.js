@@ -39,7 +39,7 @@ class TabulatorContainer extends Component {
         this.submitCapStatus = this.submitCapStatus.bind(this);
         this.checkBoxFunction = this.checkBoxFunction.bind(this);
         this.cellClick = this.cellClick.bind(this)
-        // this.isChecked = this.isChecked.bind(this)
+        this.isChecked = this.isChecked.bind(this)
         this.columns = [
             { title: "Title", field: "title", editor:"input"},
             { title: "Captioned", field: "captioned", width: 130, hozAlign :"center", formatter: reactFormatter(<this.IsCaptionedButton />) },
@@ -181,7 +181,7 @@ class TabulatorContainer extends Component {
 
     };
 
-    isChecked = (props) => {
+    isChecked(props)  {
 
         if (props.cell._cell.row.modules.hasOwnProperty("select")) {
             if (props.cell._cell.row.modules.select.selected === false){
