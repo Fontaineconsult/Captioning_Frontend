@@ -70,7 +70,6 @@ pipeline {
                 sh '''
                     cd workspace/frontend
                     npm install
-                    npm update
                     npm audit fix --force
                     npm run build --no-cache
                     ls
