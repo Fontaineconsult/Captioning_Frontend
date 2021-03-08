@@ -20,11 +20,6 @@ class AddJobsiLearnContainer extends Component {
 
     componentDidMount() {
         this.props.selected_rows.forEach(row => {
-            console.log(this.props.requester_id)
-
-
-            console.log("INNER FARTS", row)
-
 
             let id = uuidv1()
             this.props.dispatch(addTempJob(id, this.props.requester_id))
@@ -39,12 +34,11 @@ class AddJobsiLearnContainer extends Component {
             let reducer_obj = {
                 show_date: moment(row._row.data.indicated_due_date, "MM/DD/YYYY", true).isValid() ? row._row.data.indicated_due_date : moment().add(2,'days'),
                 delivery_format: "Amara",
-                comments: "Added from iLearn Page",
+                comments: "Added from iLearn Page section " + row._row.data.page_section,
                 requester_id: requester_id,
                 semester: this.props.semester
             };
 
-            console.log(reducer_obj)
             this.props.dispatch(addJobInfoToTempJob(id, reducer_obj))
             this.props.dispatch(completeTempJob(id,true))
 
