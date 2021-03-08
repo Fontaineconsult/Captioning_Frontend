@@ -166,6 +166,12 @@ width: 50%;
 
 }
 
+
+.upperJobContainerLeft {
+    display: inline-flex;
+
+}
+
 .commentsContainer {
     width: 15%;
 

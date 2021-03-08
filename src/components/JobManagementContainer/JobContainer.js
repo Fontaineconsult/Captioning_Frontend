@@ -176,6 +176,7 @@ class JobContainer extends Component {
                     <div className="upperJobContainer">
                         <div className="upperJobContainerLeft">
                             <div tabIndex={0}>Requester Resource: {this.props.requesterResource}</div>
+                            {this.props.student_active === false && (<div style={{'margin-left': '30px'}}>STUDENT DROPPED</div>)}
                         </div>
                         <div className="upperJobContainerRight">
                             <div tabIndex={0} className="upperJobContainerRightContent">Requester: {this.state.employee_first_name} {this.state.employee_last_name} </div>
@@ -326,6 +327,8 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
 
 
 
+
+
     if (job !== undefined){
 
         if (requesterReducer[job.requester_id].course_id !== null) {
@@ -345,12 +348,28 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
 
     }
 
+    function capActiveFunc(element, index, array) {
+        return element.student_requests_captioning === true
+    }
+
+
+    let student_active = 1
     let ilearn_page_id = undefined
     if (coursesReducer[requesterResource] !== undefined){
         ilearn_page_id = coursesReducer[requesterResource].ilearn_page_id.ilearn_page_id
 
-    }
 
+            student_active = 0
+            if (coursesReducer[requesterResource].students_enrolled.some(capActiveFunc) === true) {
+                student_active += 1
+            } else {
+                student_active += 0
+            }
+
+
+
+    }
+    student_active = student_active > 0
 
     return {
 
@@ -363,8 +382,8 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
         jobId,
         employee,
         requesterResource,
-        ilearn_page_id
-
+        ilearn_page_id,
+        student_active
 
     }
 }
