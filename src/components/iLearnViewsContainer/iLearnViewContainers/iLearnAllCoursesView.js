@@ -50,6 +50,7 @@ class ILearnAllCoursesView extends Component {
         }
 
     }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         if (Object.keys(this.props.coursesReducer).length !== Object.keys(prevProps.coursesReducer).length) {
@@ -110,6 +111,8 @@ class ILearnAllCoursesView extends Component {
     }
 
     renderRowAlpha(index) {
+        console.log(index)
+
         if (this.state.cache !== undefined) {
 
             return(
@@ -119,12 +122,13 @@ class ILearnAllCoursesView extends Component {
                     parent={index.parent}
                     columnIndex={0}
                     rowIndex={index.index}>
-                    <div style={index.style} className="row">
-                        <div className="content">
+                    <div key={index.key} style={index.style} className="row">
+
+
                             <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos}
                                                    course_id={this.state.captioningCourses[index.index]}
                                                    key={this.state.captioningCourses[index.index]}/>
-                        </div>
+
                     </div>
                 </CellMeasurer>
 
@@ -145,7 +149,7 @@ class ILearnAllCoursesView extends Component {
 
                 {Object.keys(this.props.courseilearnVideos).length > 0 && this.props.showCourseStubs  && <CircularProgress/>}
                 {Object.keys(this.props.courseilearnVideos).length > 0 && !this.props.showCourseStubs && (
-                        <div className="list">
+                        <div key={this.props.studentActive} className="list">
                             <AutoSizer>
                                 {
                                     ({ width, height }) => {

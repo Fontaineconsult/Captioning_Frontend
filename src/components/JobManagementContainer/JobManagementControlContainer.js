@@ -104,7 +104,6 @@ class JobManagementControlContainer extends Component {
         this.setState({job_status:value,
                             videoJobs: this.props[value].map((key) => this.props.videosJobsReducer[key].id)})
 
-
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
