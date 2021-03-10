@@ -202,8 +202,6 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
             }
 
         })
-
-
     });
 
     function capActive(element, index, array) {

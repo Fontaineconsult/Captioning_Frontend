@@ -9,13 +9,17 @@ import reducer from './reducers'
 import { BrowserRouter, Route, Switch,
      } from 'react-router-dom'
 import middleware from './middleware'
+import store from './reducers/store_creator'
 import { createBrowserHistory } from "history";
+
 
 const history = createBrowserHistory();
 
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducer, composeEnhancers(middleware));
+
+
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const store = createStore(reducer, composeEnhancers(middleware));
 
 ReactDOM.render(
     <Provider store={store}>
@@ -28,3 +32,5 @@ ReactDOM.render(
         </BrowserRouter>
     </Provider>,
     document.getElementById('root'));
+
+

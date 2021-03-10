@@ -400,3 +400,53 @@ export function addCampusAssociationAssignment(campus_org_id, employee_id, semes
 
 }
 }
+
+
+export function sendVideoExtractRequestDeferred(media_id, url, format) {
+    let error_id = uuidv1()
+    let data_object = { media_id:media_id, url:url, format:format};
+
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+    return dispatch => {
+        // dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/services/extract-deferred`, post_object)
+            .then(response => {if (response.ok) {response.json().then(data =>  {
+                checkAsyncStatusResource(data, dispatch)
+
+            })
+
+
+
+            } else {alert("Something went wrong with extract request")} } )
+
+    }
+};
+
+export function checkAsyncStatusResource(task_id, dispatch) {
+    let error_id = uuidv1()
+    let data_object = resource_list;
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+
+
+        return fetch(`${server_url}/task-status`, post_object)
+            .then(response => {if (response.ok){
+
+
+            } else {alert("Something went wrong with upload")} } )
+
+
+
+
+}
