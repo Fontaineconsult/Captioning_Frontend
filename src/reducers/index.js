@@ -15,6 +15,7 @@ import requestsReducer from './requests'
 import tempJobsFormReducer from "./tempJobsForm";
 import mediaSearchReducer from "./currentMediaSearch";
 import globalsReducer from "./globals";
+import asyncTaskIdReducer from "./asyncTaskIds"
 
 export default combineReducers({
 
@@ -33,7 +34,8 @@ export default combineReducers({
     requestsReducer,
     tempJobsFormReducer,
     mediaSearchReducer,
-    globalsReducer
+    globalsReducer,
+    asyncTaskIdReducer
 
 
 })

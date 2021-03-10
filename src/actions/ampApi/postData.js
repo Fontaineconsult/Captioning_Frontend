@@ -7,8 +7,9 @@ import {receiveMediaSearch} from '../mediaSearch'
 import { batch } from 'react-redux'
 import {setErrorState} from "../error_state";
 import {receiveCapJobs, addNewAstJob} from "../existingVideoJobs";
-import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia, updateMedia} from "../media";
+import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia, updateMedia, receiveMedia} from "../media";
 import {updateEmployees} from "../employees"
+import {receiveTaskId, clearTaskId} from "../async_task_ids";
 import {v1 as uuidv1} from "uuid";
 
 import {reFetchMediaAfterUpload} from './fetchData'
@@ -414,23 +415,21 @@ export function sendVideoExtractRequestDeferred(media_id, url, format) {
         }};
 
     return dispatch => {
-        // dispatch(LoadingMedia(true));
+        dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/extract-deferred`, post_object)
-            .then(response => {if (response.ok) {response.json().then(data =>  {
-                checkAsyncStatusResource(data, dispatch)
-
+            .then(response => errorHandler(response, dispatch, error_id), error => {
+                console.log(error)
             })
-
-
-
-            } else {alert("Something went wrong with extract request")} } )
-
+            .then(response => response.json())
+            .then(data => dispatch(receiveTaskId(data)))
     }
-};
+}
+
+
 
 export function checkAsyncStatusResource(task_id, dispatch) {
     let error_id = uuidv1()
-    let data_object = resource_list;
+    let data_object = task_id;
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),

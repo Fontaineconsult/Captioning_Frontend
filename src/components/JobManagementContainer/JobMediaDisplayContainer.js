@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {fileDownloadUrl} from '../../constants'
-import {sendVideoExtractRequest} from '../../actions/ampApi/postData'
+import {sendVideoExtractRequest, sendVideoExtractRequestDeferred} from '../../actions/ampApi/postData'
 import CaptionResourceContainer from './captionResourceContainer'
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import IconButton from '@material-ui/core/IconButton'
@@ -30,7 +30,7 @@ class JobMediaDisplayContainer extends Component {
     extractVideo() {
 
         if (this.props.media.media_type === 'URL') {
-            this.props.dispatch(sendVideoExtractRequest(this.props.mediaId, this.state.source_url, 'mp4'))
+            this.props.dispatch(sendVideoExtractRequestDeferred(this.props.mediaId, this.state.source_url, 'mp4'))
         }
     }
 
