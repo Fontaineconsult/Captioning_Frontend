@@ -9,11 +9,12 @@ import {setErrorState} from "../error_state";
 import {receiveCapJobs, addNewAstJob} from "../existingVideoJobs";
 import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia, updateMedia, receiveMedia} from "../media";
 import {updateEmployees} from "../employees"
-import {receiveTaskId, clearTaskId} from "../async_task_ids";
+import {receiveTaskId, clearTaskId} from "../asyncTaskIds";
 import {v1 as uuidv1} from "uuid";
-
+import store from "../../reducers/store_creator"
 import {reFetchMediaAfterUpload} from './fetchData'
 import {receiveRequester} from "../requester";
+import {addStatusUpdate} from "../asyncStatus"
 
 
 const server_url = endpoint();
@@ -415,37 +416,147 @@ export function sendVideoExtractRequestDeferred(media_id, url, format) {
         }};
 
     return dispatch => {
-        dispatch(LoadingMedia(true));
+
         return fetch(`${server_url}/services/extract-deferred`, post_object)
-            .then(response => errorHandler(response, dispatch, error_id), error => {
-                console.log(error)
-            })
-            .then(response => response.json())
-            .then(data => dispatch(receiveTaskId(data)))
+            .then(response => response.text())
+            .then(text => dispatch(receiveTaskId(text)))
+            .then(() => checkAsyncStatusResource(dispatch))
+
     }
+}
+
+function checkIfPending(response){
+
+    function asyncStatusCheck() {
+            setInterval(() => {
+                console.log("FRUNK")
+                let data_object = store.getState().asyncStatusReducer;
+                let post_object = {
+                    method: 'POST',
+                    body: JSON.stringify({"task_id":data_object}),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }};
+
+                // Yay! Can invoke sync or async actions with `dispatch`
+                return fetch(`${server_url}/services/task-status`, post_object)
+                    .then(internal_response => internal_response.json())
+                    .then(json => store.dispatch(addStatusUpdate(json)))
+
+
+            }, 2000);
+
+    }
+
+
+
+    store.dispatch(addStatusUpdate(response))
+
+
+    while (Object.keys(store.getState().asyncStatusReducer).length > 0) {
+        console.log("ERSERSE", Object.keys(store.getState().asyncStatusReducer).length > 0)
+        asyncStatusCheck()
+
+
+    }
+
 }
 
 
 
-export function checkAsyncStatusResource(task_id, dispatch) {
+class asyncJobChecker {
+    constructor() {
+        this.is_cycling = false
+        this.interval = 0
+    }
+
+    addInitialStatus(json){
+        store.dispatch(addStatusUpdate(json))
+        console.log("DA CYCLE", this.is_cycling)
+        if (this.is_cycling === false){
+            this.cycleCheck()
+        }
+    }
+
+    cycleCheck(){
+
+        this.intervalCycle = () => {this.interval = setInterval(() => {
+            if (store.getState().asyncTaskIdReducer.length === 0) {
+                clearInterval(this.interval)
+                this.is_cycling = false
+            }
+
+            let data_object = store.getState().asyncTaskIdReducer;
+            let post_object = {
+                method: 'POST',
+                body: JSON.stringify({"task_id": data_object}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }};
+
+            // Yay! Can invoke sync or async actions with `dispatch`
+            fetch(`${server_url}/services/task-status`, post_object)
+                .then(internal_response => internal_response.json())
+                .then(json => store.dispatch(addStatusUpdate(json)))
+
+            this.checkStatuses()
+        }, 3000);}
+
+
+        if (this.is_cycling === false){
+            this.is_cycling = true
+            this.intervalCycle()
+        }
+ }
+
+    checkStatuses() {
+        let statuses = store.getState().asyncStatusReducer
+
+        if (Object.keys(statuses).length > 0) {
+            Object.keys(statuses).forEach(status => {
+                if (statuses[status].status === "SUCCESS") {
+                    store.dispatch(clearTaskId(statuses[status].task_id))
+
+                }
+
+                if (statuses[status].status === "FAILURE") {
+                    store.dispatch(clearTaskId(statuses[status].task_id))
+                    alert(statuses[status].message)
+                }
+
+            })
+        } else {
+            this.is_cycling = false
+            clearInterval(this.interval)
+        }
+
+
+    }
+
+
+
+}
+
+
+const jobChecker = new asyncJobChecker()
+
+export function checkAsyncStatusResource(dispatch) {
     let error_id = uuidv1()
-    let data_object = task_id;
+
+
+
+    let data_object = store.getState().asyncTaskIdReducer;
     let post_object = {
         method: 'POST',
-        body: JSON.stringify(data_object),
+        body: JSON.stringify({"task_id":data_object}),
         headers: {
             'Content-Type': 'application/json'
         }};
 
 
-
-        return fetch(`${server_url}/task-status`, post_object)
-            .then(response => {if (response.ok){
-
-
-            } else {alert("Something went wrong with upload")} } )
-
-
+        return fetch(`${server_url}/services/task-status`, post_object)
+            .then(response => response.json())
+            .then(json => jobChecker.addInitialStatus(json))
 
 
 }
