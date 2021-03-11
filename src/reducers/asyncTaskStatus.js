@@ -6,7 +6,6 @@ import {RECEIVE_NEW_STATUS, UPDATE_STATUS, REMOVE_STATUS} from "../actions/async
 
 
 export default function asyncStatusReducer (state={}, action) {
-    console.log(state, action.status)
     switch (action.type) {
 
 

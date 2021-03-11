@@ -12,7 +12,7 @@ import DatePicker from 'react-date-picker';
 import ClearIcon from '@material-ui/icons/Clear';
 import moment from "moment";
 import {iLearnURL} from "../../constants";
-import asyncStatusCheck from "../../middleware/task_status_check"
+
 const statusColor = (status) => ({
     "Queued": "linear-gradient(to left, rgba(63, 123, 191, 0), rgb(63, 123, 191))",
     "Captioning": "linear-gradient(to left, rgba(172, 57, 91, 0), rgb(172, 57, 91))",
@@ -103,7 +103,7 @@ class JobContainer extends Component {
     }
     dispatchInput(event) {
         const target = event.target;
-        this.props.dispatch(asyncStatusCheck())
+
         if (target.value !== this.prev_value) {
             this.props.dispatch(updateVideoJob(this.props.jobId, event.target.name, this.state[event.target.name]))
             if (this.state[event.target.name] === "Delivered") {

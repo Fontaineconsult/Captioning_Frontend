@@ -4,7 +4,7 @@ export const REMOVE_STATUS = 'REMOVE_STATUS';
 
 
 export function addStatusUpdate(status) {
-    console.log("status ID", status)
+
     return {
         type: RECEIVE_NEW_STATUS,
         status
