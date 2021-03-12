@@ -128,7 +128,6 @@ class JobManagementControlContainer extends Component {
     renderRow({index, key, style}) {
 
         if (Object.keys(this.props.mediaReducer).length > 0) {
-            console.log(index, key)
             return(
                 <div key={key} style={style}>
                     <JobContainer key={key} jobId={this.state.videoJobs[index]} />

@@ -48,7 +48,6 @@ class TabulatorContainer extends Component {
     };
 
 
-
     SubmitButton(props) {
         const cellData = props.cell;
         let disabled = this.state.selected_rows.length > 0
@@ -64,7 +63,6 @@ class TabulatorContainer extends Component {
 
         } else {
 
-
             if (disabled) {
                 return <IconButton size="small" disabled><DoneIcon /></IconButton>;
 
@@ -74,7 +72,6 @@ class TabulatorContainer extends Component {
             }
 
         }
-
 
     };
 
