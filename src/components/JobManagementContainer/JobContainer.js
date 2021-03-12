@@ -103,6 +103,7 @@ class JobContainer extends Component {
     }
     dispatchInput(event) {
         const target = event.target;
+
         if (target.value !== this.prev_value) {
             this.props.dispatch(updateVideoJob(this.props.jobId, event.target.name, this.state[event.target.name]))
             if (this.state[event.target.name] === "Delivered") {

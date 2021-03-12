@@ -7,15 +7,18 @@ import {receiveMediaSearch} from '../mediaSearch'
 import { batch } from 'react-redux'
 import {setErrorState} from "../error_state";
 import {receiveCapJobs, addNewAstJob} from "../existingVideoJobs";
-import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia, updateMedia} from "../media";
+import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia, updateMedia, receiveMedia} from "../media";
 import {updateEmployees} from "../employees"
+import {receiveTaskId, clearTaskId} from "../asyncTaskIds";
 import {v1 as uuidv1} from "uuid";
-
+import store from "../../reducers/store_creator"
 import {reFetchMediaAfterUpload} from './fetchData'
 import {receiveRequester} from "../requester";
+import AsyncJobChecker from "../../middleware/taskStatusCheck"
 
 
 const server_url = endpoint();
+const jobChecker = new AsyncJobChecker()
 
 function errorHandler(response, dispatch, error_id){
 
@@ -399,4 +402,47 @@ export function addCampusAssociationAssignment(campus_org_id, employee_id, semes
 
 
 }
+}
+
+
+export function sendVideoExtractRequestDeferred(media_id, url, format) {
+    let error_id = uuidv1()
+    let data_object = { media_id:media_id, url:url, format:format};
+
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+    return dispatch => {
+
+        return fetch(`${server_url}/services/extract-deferred`, post_object)
+            .then(response => response.text())
+            .then(text => dispatch(receiveTaskId(text)))
+            .then(() => checkAsyncStatusResource(dispatch))
+
+    }
+}
+
+
+
+export function checkAsyncStatusResource(dispatch) {
+    let error_id = uuidv1()
+
+    let data_object = store.getState().asyncTaskIdReducer;
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify({"task_id":data_object}),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+
+        return fetch(`${server_url}/services/task-status`, post_object)
+            .then(response => response.json())
+            .then(json => jobChecker.addInitialStatus(json))
+
+
 }
