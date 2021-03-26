@@ -16,6 +16,7 @@
     "@material-ui/icons": "^4.0.1",
     "@material-ui/pickers": "^3.2.10",
     "batch": "^0.6.1",
+    "clipboard-copy": "^4.0.1",
     "cross-fetch": "^3.0.2",
     "crypto-js": "^4.0.0",
     "downloadjs": "^1.4.7",

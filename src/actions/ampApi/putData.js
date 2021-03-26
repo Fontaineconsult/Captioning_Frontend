@@ -8,7 +8,7 @@ import {updateCapJob, deleteCapJob} from '../existingVideoJobs'
 import {LoadingIlearnVideos, LoadingVideoJobs, LoadingAstJob} from '../status'
 import {initASTJob} from '../existingVideoJobs'
 import fetch from "cross-fetch";
-
+import clipboardCopy from "clipboard-copy";
 
 const server_url = endpoint();
 
@@ -147,7 +147,7 @@ export function getS3Link(file_id){
     };
 
     function clipBoard(data){
-        navigator.clipboard.writeText(data).then(function (){
+        clipboardCopy(data).then(function (){
             alert("Copied to Clipboard")
 
         })
