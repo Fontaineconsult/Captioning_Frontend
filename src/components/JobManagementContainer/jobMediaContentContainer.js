@@ -156,7 +156,6 @@ class MediaContentContainer extends Component {
 
                 <div className={"mediaContentSelectors"}>
                     <div>
-
                         <label style={{display: "block", fontSize: '12px'}} form={"caption_select"}>Caption Files</label>
                         <Select
                             style={{display: "block"}}

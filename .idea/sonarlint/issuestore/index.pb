@@ -147,3 +147,5 @@ k
 ;src/components/UsersManagementContainer/addUserContainer.js,f\e\fe7686640f8431d5bbb01d79b2b18246914b6f54
 o
 ?src/components/UsersManagementContainer/addEmployeeContainer.js,7\1\7163b05b24785865d0317f30268819e65ceba497
+G
+src/middleware/index.js,e\3\e3e0f9c6f8e9f5b76e1a7c2021568596af4915bb

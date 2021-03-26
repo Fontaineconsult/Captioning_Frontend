@@ -6,7 +6,9 @@ import {sendVideoExtractRequestDeferred} from '../../actions/ampApi/postData'
 import CaptionResourceContainer from './captionResourceContainer'
 import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import IconButton from '@material-ui/core/IconButton'
-
+import Select from "react-select";
+import {captionResourceSelectCustomStyles, s3ResourceSelect} from "./selectCustomStyle";
+import {getS3Link} from "../../actions/ampApi/putData"
 
 class JobMediaDisplayContainer extends Component {
 
@@ -14,10 +16,12 @@ class JobMediaDisplayContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            captioned_url: "Not Set"
+            captioned_url: "Not Set",
+            s3Resources: ""
         };
         this.extractAudio = this.extractAudio.bind(this)
         this.extractVideo = this.extractVideo.bind(this)
+        this.getS3Link = this.getS3Link.bind(this)
     }
 
     extractAudio() {
@@ -26,6 +30,13 @@ class JobMediaDisplayContainer extends Component {
         }
     }
 
+    getS3Link(event) {
+        this.setState({
+            s3Resources: event
+        });
+        this.props.dispatch(getS3Link(event.value))
+
+    }
 
     extractVideo() {
 
@@ -45,11 +56,9 @@ class JobMediaDisplayContainer extends Component {
 
 
     render() {
-
         return (
             <div className="capJobMediaContainer">
                 <div>
-
                         <div className="capJobMediaContentContainer">
                             <div tabIndex={0} className="mediaContentDescriptor">
                                 <label style={{'margin-right': '80px'}}>
@@ -83,6 +92,20 @@ class JobMediaDisplayContainer extends Component {
                                 </div>
 
                             </label>
+                            <label className="capJobMediaContentContainer">
+                                <div className="mediaContentDescriptor" style={{'margin-right': '0px','margin-left': 'auto' }}>
+                                    <label style={{'margin-right': '8px'}}>S3 Link:</label>
+                                    <Select
+                                        style={{width: "50px"}}
+                                        name="s3_links"
+                                        onChange={this.getS3Link}
+                                        styles={s3ResourceSelect}
+                                        value={this.state.s3Resources}
+                                        options={this.props.s3Resources}
+                                    />
+                                </div>
+
+                            </label>
                         </div>
 
                 </div>
@@ -98,7 +121,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
     let media = mediaReducer[mediaId]
     let fileObject = null
     let download_url = null
-
+    let s3Resources
     if (media.media_type === 'File') {
         fileObject =  media.media_objects.find(item => {
             return item.associated_files.sha_256_hash === media.sha_256_hash
@@ -111,11 +134,29 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
         download_url = `${endpoint}?media_id=${media.id}`
     }
 
+    if (Object.keys(mediaReducer).length > 0) {
+        media = mediaReducer[mediaId]
+
+
+        s3Resources = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
+            if (currentValue.associated_files !== null){
+
+                accumulator.push({
+                    value: currentValue.associated_files.id,
+                    label: currentValue.associated_files.file_name,
+                })
+            }
+
+
+            return accumulator
+        }, [])}
+
     return {
         media,
         fileObject,
         download_url,
-        mediaId
+        mediaId,
+        s3Resources
     }
 }
 

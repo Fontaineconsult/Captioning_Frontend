@@ -133,6 +133,39 @@ export function deleteVideoJob(job_id, column, value){
 
 
 
+export function getS3Link(file_id){
+
+    let data_object = {file_id: file_id};
+
+    let put_object = {
+        method: 'PUT',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    };
+
+    function clipBoard(data){
+        navigator.clipboard.writeText(data).then(function (){
+            alert("Copied to Clipboard")
+
+        })
+
+    }
+    return (dispatch) => {
+        dispatch(LoadingVideoJobs(true))
+        return fetch(`${server_url}/services/make-public`, put_object)
+            .then(response => response.text())
+            .then(data => clipBoard(data))
+            .then(data => dispatch(LoadingVideoJobs(false)))
+            .catch(error => alert(error))
+    }
+}
+
+
+
+
 
 export function updateiLearnVideoBatch(video_ids, column, value) {
     let data_objects = video_ids.map(id => {
