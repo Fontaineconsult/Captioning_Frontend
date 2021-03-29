@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Select from 'react-select'
-import {Form} from "formik";
+
 import {addCampusAssociationAssignment} from "../../../src/actions/ampApi/postData"
 
 class AssignEmployeeContainer extends Component {
@@ -39,7 +39,7 @@ class AssignEmployeeContainer extends Component {
         return (
             <div className="addEmployeeContainer">
                 Assign Employee Container
-            <Form onSubmit={this.submitAssignment}>
+            <form onSubmit={this.submitAssignment}>
                 <label>
                     Select Employee
                     <Select onChange={this.updateValue} value={this.state.employeeId} options={this.props.employee}/>
@@ -50,7 +50,7 @@ class AssignEmployeeContainer extends Component {
                     <Select onChange={this.updateValue} value={this.state.campusOrgs} options={this.props.campusOrgs}/>
                 </label>
                 <input type={"submit"} name={"Add Assignment"}/>
-            </Form>
+            </form>
             </div>
 
         )

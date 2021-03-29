@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import {Form} from "formik";
+
 import {AddEmployee} from '../../actions/ampApi/postData'
 
 class AddEmployeeContainer extends Component {
@@ -22,6 +22,7 @@ class AddEmployeeContainer extends Component {
 
 
     handleChange(event) {
+        event.preventDefault()
         this.setState({[event.target.name]: event.target.value});
     }
 
@@ -36,7 +37,7 @@ class AddEmployeeContainer extends Component {
         return (
             <div className="addEmployeeContainer">
                 Employee Container
-                <Form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit}/>
                     <label htmlFor={"employeeId"}>
                         <div>Employee ID</div>
                         <input maxLength={9} value={this.state.employeeId} type={'text'} name={"employeeId"} onChange={this.handleChange}/>
@@ -65,7 +66,7 @@ class AddEmployeeContainer extends Component {
                         <input type={"submit"} name={"submit"}/>
                     </div>
 
-                </Form>
+
 
             </div>
 
