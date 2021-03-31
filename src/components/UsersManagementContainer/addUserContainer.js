@@ -20,7 +20,6 @@ class AddUserContainer extends Component {
 
         return (
             <div className="masterListItem masterListUser">
-                Add User Outer Container
                 <AddEmployeeContainer/>
                 <AssignEmployeeContainer/>
             </div>

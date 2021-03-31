@@ -38,16 +38,21 @@ class AssignEmployeeContainer extends Component {
 
         return (
             <div className="addEmployeeContainer">
-                Assign Employee Container
             <form onSubmit={this.submitAssignment}>
                 <label>
                     Select Employee
-                    <Select onChange={this.updateValue} value={this.state.employeeId} options={this.props.employee}/>
+                    <div style={{"margin-bottom":"10px"}}>
+                        <Select onChange={this.updateValue} value={this.state.employeeId} options={this.props.employee}/>
+                    </div>
 
                 </label>
                 <label>
                     Select Organization
-                    <Select onChange={this.updateValue} value={this.state.campusOrgs} options={this.props.campusOrgs}/>
+                    <div style={{"margin-bottom":"10px"}}>
+                        <Select onChange={this.updateValue} value={this.state.campusOrgs} options={this.props.campusOrgs}/>
+
+                    </div>
+
                 </label>
                 <input type={"submit"} name={"Add Assignment"}/>
             </form>
