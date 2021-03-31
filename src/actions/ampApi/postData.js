@@ -146,14 +146,14 @@ export function AddEmployee(employee_data) {
     return dispatch => {
 
         dispatch(LoadingInstructors(true))
-        return fetch(`${server_url}/employees?employee_id=all`, post_object)
+        return fetch(`${server_url}/employees?`, post_object)
             .then(response => {if (response.ok){
-                fetch(`${server_url}/employees`).then(
+                fetch(`${server_url}/employees?employee_id=all`).then(
                     response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})
                     .then(
                         response => {responseHandler(response, dispatch, [updateEmployees], temp_id, LoadingInstructors)}
                 )
-            } else {alert("Something went wrong with upload")} })
+            } else {alert("Something went wrong when adding Employee")} })
 
     }
 

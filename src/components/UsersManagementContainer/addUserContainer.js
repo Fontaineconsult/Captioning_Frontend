@@ -20,8 +20,22 @@ class AddUserContainer extends Component {
 
         return (
             <div className="masterListItem masterListUser">
-                <AddEmployeeContainer/>
-                <AssignEmployeeContainer/>
+                <div style={{"margin-bottom":"10px"}} className={"emp-display-container"}>
+                    <div className={"emp-display-title"}>
+                        <div style={{"font-weight":"600"}}>
+                            Add Employee
+                        </div>
+                    </div>
+                    <AddEmployeeContainer/>
+                </div>
+                <div className={"emp-display-container"}>
+                    <div className={"emp-display-title"}>
+                        <div style={{"font-weight":"600"}}>Assign Employee</div>
+                    </div>
+                    <AssignEmployeeContainer/>
+
+                </div>
+
             </div>
         )
     }

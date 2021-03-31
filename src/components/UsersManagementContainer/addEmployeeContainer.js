@@ -23,12 +23,19 @@ class AddEmployeeContainer extends Component {
 
     handleChange(event) {
         event.preventDefault()
+
         this.setState({[event.target.name]: event.target.value});
     }
 
     handleSubmit(event) {
         event.preventDefault()
+
         this.props.dispatch(AddEmployee(this.state))
+        this.setState({employeeId:'',
+            firstName:'',
+            lastName:'',
+            email:'',
+            phoneNumber:''})
 
     }
 
@@ -36,7 +43,7 @@ class AddEmployeeContainer extends Component {
 
         return (
             <div className="addEmployeeContainer emp-top">
-                <form onSubmit={this.handleSubmit}/>
+                <form onSubmit={this.handleSubmit}>
                     <label htmlFor={"employeeId"}>
                         <div>Employee ID</div>
                         <input className={"emp-input"} maxLength={9} value={this.state.employeeId} type={'text'} name={"employeeId"} onChange={this.handleChange}/>
@@ -62,9 +69,9 @@ class AddEmployeeContainer extends Component {
                         <input className={"emp-input"} value={this.state.phoneNumber} type={'text'} name={"phoneNumber"} onChange={this.handleChange}/>
                     </label>
                     <div>
-                        <input type={"submit"} name={"submit"}/>
+                        <input type="submit" name="Submit"/>
                     </div>
-
+                </form>
 
 
             </div>

@@ -25,6 +25,10 @@ class AssignEmployeeContainer extends Component {
         this.props.dispatch(addCampusAssociationAssignment(this.state.campusOrgs.value,
             this.state.employeeId.value,
             this.props.semester))
+
+        this.setState({employeeId:'',
+            campusOrgs:''})
+
     }
 
     updateValue(event) {
