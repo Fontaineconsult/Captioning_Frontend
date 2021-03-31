@@ -15,6 +15,7 @@ import AddJobControlContainer from "../AddCapJobView/AddJobControlContainer"
 import UserManagementMasterContainer from "../UsersManagementContainer/UsersManagementMasterContainer";
 import {updateGlobalParam} from "../../actions/globals"
 import CircularProgress from '@material-ui/core/CircularProgress';
+import EmailManagementMasterContainer from "../EmailManagementContainer/EmailManagementMasterContainer";
 
 
 
@@ -104,7 +105,7 @@ class NavigationMasterContainer extends Component {
                             </div>
                             <div id="email" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
-                                    to={{pathname: "/captioning/email",
+                                    to={{pathname: "/captioning/email/send",
                                         search: this.props.location.search,
 
                                     }}>Email</NavLink>
@@ -115,10 +116,6 @@ class NavigationMasterContainer extends Component {
                                         search: this.props.location.search,
                                     }}>Users</NavLink>
                             </div>
-
-
-
-
                         </div>
                         <div className={"semesterSelectContainer"}>
                             <form>
@@ -146,6 +143,7 @@ class NavigationMasterContainer extends Component {
                         <Route path="/captioning/add-job">{<AddJobControlContainer query={this.props.query}/>}</Route>
                         <Route path="/captioning/ilearn-scraper">{<IlearnManagementControlContainer/>}</Route>
                         <Route path="/captioning/users">{<UserManagementMasterContainer/>}</Route>
+                        <Route path="/captioning/email">{<EmailManagementMasterContainer/>}</Route>
 
                     </Switch>
 
