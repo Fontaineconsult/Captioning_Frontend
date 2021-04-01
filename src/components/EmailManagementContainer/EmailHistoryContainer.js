@@ -3,9 +3,9 @@ import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import  "../../css/users.css"
 import EmailTabulator from "./EmailTabulator";
-import EmailTemplatesContainer from "./EmailTemplatesContainer";
 
-class SendEmailsContainer extends Component {
+
+class EmailHistoryContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -23,17 +23,13 @@ class SendEmailsContainer extends Component {
                 <div style={{"margin-bottom":"10px"}} className={"emp-display-container"}>
                     <div className={"emp-display-title"}>
                         <div style={{"font-weight":"600"}}>
-                            Templates
+                            Mail History
                         </div>
+                    </div>
+                    <EmailTabulator props={{"bool":"student_requests_captions_email_sent",
+                        "date": "student_requests_captions_email_sent_date"}}/>
+                </div>
 
-                    </div>
-                    <EmailTemplatesContainer/>
-                </div>
-                <div className={"emp-display-container"}>
-                    <div className={"emp-display-title"}>
-                        <div style={{"font-weight":"600"}}>Current Queues</div>
-                    </div>
-                </div>
 
             </div>
         )
@@ -52,4 +48,4 @@ function mapStateToProps({employeesReducer, requesterReducer, campusOrgReducer},
     }
 }
 
-export default withRouter(connect(mapStateToProps)(SendEmailsContainer))
+export default withRouter(connect(mapStateToProps)(EmailHistoryContainer))

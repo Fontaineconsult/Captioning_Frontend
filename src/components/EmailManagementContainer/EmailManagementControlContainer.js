@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 
 import SendEmailsContainer from "./SendEmailsContainer";
+import EmailHistoryContainer from "./EmailHistoryContainer";
 
 class EmailManagementControlContainer extends Component {
 
@@ -27,7 +28,7 @@ class EmailManagementControlContainer extends Component {
                         </div>
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
-                                to={{pathname: "/captioning/email/something",
+                                to={{pathname: "/captioning/email/history",
                                     search: this.props.location.search,
                                 }}>Mail History</NavLink>
                         </div>
@@ -42,6 +43,7 @@ class EmailManagementControlContainer extends Component {
                 <div>
                     <Switch>
                         <Route path="/captioning/email/send">{<SendEmailsContainer/>}</Route>
+                        <Route path="/captioning/email/history">{<EmailHistoryContainer/>}</Route>
                     </Switch>
                 </div>
             </div>
