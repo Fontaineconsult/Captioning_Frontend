@@ -11,7 +11,7 @@ import moment from "moment";
 
 
 
-class EmailTabulator extends Component {
+class EmailTemplateTabulator extends Component {
 
 
     constructor(props) {
@@ -25,7 +25,6 @@ class EmailTabulator extends Component {
 
     sendEmail(props)  {
         const cellData = props.cell;
-        console.log(cellData._cell.value)
         if (cellData._cell.row.data.sent === true) {
             return  <Button variant="contained" color="secondary" size="small" onClick={e => console.log("YY")}>Sent</Button>
 
@@ -66,7 +65,6 @@ class EmailTabulator extends Component {
 
         }
 
-
     }
 
     render() {
@@ -91,36 +89,43 @@ class EmailTabulator extends Component {
 function mapStateToProps({coursesReducer}, {props}) {
 
     let data = []
-    let {bool, date, filter} = props
+    let columns = []
+
+
+
     let formatData = (course) => {
         return {
             id: course.course_gen_id,
             course_gen_id: course.course_gen_id,
             employee_name: course.course_instructor.employee_first_name + " " + course.course_instructor.employee_last_name,
             employee_email: course.course_instructor.employee_email,
-            sent: course[bool] === true,
-            sent_date: moment(course[date]).format('MM-DD-YY'),
+            sent: course.ilearn_video_service_requested === true,
+            sent_date: moment(course.student_requests_captions_email_sent_date).format('MM-DD-YY'),
 
         }
     };
 
 
-    Object.keys(coursesReducer).forEach((course) => {
+    if (coursesReducer !== undefined) {
 
-        if (coursesReducer[course].ilearn_video_service_requested === true) {
-            data.push(formatData(coursesReducer[course]))
-        }
+        Object.keys(coursesReducer).forEach((item) => {
+
+            if (coursesReducer[item].ilearn_video_service_requested === true) {
+                data.push(formatData(coursesReducer[item]))
+            }
 
 
-    })
+        })
+    }
 
 
     return {
         data,
-        coursesReducer
+        columns
+
 
     }
 }
 
 
-export default withRouter(connect(mapStateToProps)(EmailTabulator))
+export default withRouter(connect(mapStateToProps)(EmailTemplateTabulator))

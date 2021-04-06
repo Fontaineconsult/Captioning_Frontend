@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import  "../../css/users.css"
-import EmailTabulator from "./EmailTabulator";
 import EmailTemplatesContainer from "./EmailTemplatesContainer";
+import ReadyJobsEmailContainer from "./ReadyJobsEmailContainer";
 
 class SendEmailsContainer extends Component {
 
@@ -33,6 +33,7 @@ class SendEmailsContainer extends Component {
                     <div className={"emp-display-title"}>
                         <div style={{"font-weight":"600"}}>Current Queues</div>
                     </div>
+                    <ReadyJobsEmailContainer/>
                 </div>
 
             </div>

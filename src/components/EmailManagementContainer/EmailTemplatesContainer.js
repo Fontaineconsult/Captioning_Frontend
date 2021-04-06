@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import  "../../css/users.css"
-import EmailTabulator from "./EmailTabulator";
+import EmailTemplatesTabulator from "./EmailTemplateTabulator";
 
 class SendEmailsContainer extends Component {
 
@@ -22,9 +22,11 @@ class SendEmailsContainer extends Component {
                 <div>
                     Student Requests Captioning
                 </div>
-                <EmailTabulator props={{"bool":"student_requests_captions_email_sent",
+                <EmailTemplatesTabulator props={{"bool":"student_requests_captions_email_sent",
                     "date": "student_requests_captions_email_sent_date",
-                    "filter": "ilearn_video_service_requested"}}/>
+                    "filter": "ilearn_video_service_requested",
+                    "filter_by": true,
+                    "reducer": this.props.coursesReducer}}/>
             </div>
 
 
@@ -36,12 +38,12 @@ class SendEmailsContainer extends Component {
 }
 
 
-function mapStateToProps({employeesReducer, requesterReducer, campusOrgReducer}, {props}) {
+function mapStateToProps({coursesReducer}, {props}) {
 
 
 
     return {
-
+        coursesReducer
 
     }
 }

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import  "../../css/users.css"
-import EmailTabulator from "./EmailTabulator";
+
+import EmailTemplateTabulator from "./EmailTemplateTabulator";
 
 
 class EmailHistoryContainer extends Component {
@@ -26,7 +27,7 @@ class EmailHistoryContainer extends Component {
                             Mail History
                         </div>
                     </div>
-                    <EmailTabulator props={{"bool":"student_requests_captions_email_sent",
+                    <EmailTemplateTabulator props={{"bool":"student_requests_captions_email_sent",
                         "date": "student_requests_captions_email_sent_date"}}/>
                 </div>
 
