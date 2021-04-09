@@ -38,7 +38,6 @@ class EmailTemplateTabulator extends Component {
 
     componentDidMount() {
         let columns = [
-
             {title:"Course", width:150, field:"course_gen_id"},
             {title: "Employee", field: "employee_name"},
             {title: "Email", field: "employee_email"},
@@ -53,8 +52,6 @@ class EmailTemplateTabulator extends Component {
             data: this.props.data,
             reactiveData: true,
             height: "500px",
-
-
         })
 
     }
