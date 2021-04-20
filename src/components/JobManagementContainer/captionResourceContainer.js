@@ -79,30 +79,46 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
     let primaryCapResource
 
     if (loadingStatusReducer.mediaLoading === false) {
+
         media = mediaReducer[media_id]
         captionResources = mediaReducer[media_id].captioned_resources.reduce((accumulator, currentValue) => {
+
             if (currentValue.amara_id !== null) {
                 accumulator.push({
                     value: currentValue.id,
                     label: currentValue.amara_resource.url,
                 })
+
+          }
+            if (currentValue.s3_file_id !== null) {
+                accumulator.push({
+                    value: currentValue.id,
+                    label: currentValue.s3_file_resource.file_name,
+                })
+
             }
             return accumulator
         }, [])
 
         if (media.primary_caption_resource_id !== null) {
             primaryCapResource = mediaReducer[media_id].captioned_resources.map(item => {
-
                 if (item.id === media.primary_caption_resource_id) {
+                    if (item.amara_id !== null) {
+                        return {value:item.id,
+                            label:<a target="_blank" href={item.amara_resource.url}>{item.amara_resource.url}</a> }
+                    }
+                    if (item.s3_file_id !== null) {
+                        return {value:item.id,
+                            label:<a target="_blank" href={item.s3_file_resource.object_url}>{item.s3_file_resource.file_name}</a> }
+                    }
 
-                    return {value:item.id,
-                        label:<a target="_blank" href={item.amara_resource.url}>{item.amara_resource.url}</a> }
                 }
             })
 
         }
 
     }
+    console.log("ZOPRS", captionResources)
     return {
         media,
         captionResources,

@@ -3,11 +3,24 @@ import {RECEIVE_VIDEO_JOBS,
     ADD_NEW_AST_JOB,
     ADD_AST_ID_TO_AST_JOB,
     DELETE_CAP_JOB,
-    CLEAR_CAP_JOBS} from "../actions/existingVideoJobs";
+    CLEAR_CAP_JOBS,
+    REPLACE_CAP_JOB_DATA} from "../actions/existingVideoJobs";
 
 export default function videosJobsReducer (state={}, action) {
 
     switch (action.type) {
+
+        case REPLACE_CAP_JOB_DATA:
+
+            console.log(action)
+            let test = {...state,...action.data}
+            console.log(test)
+
+            return {
+
+                ...state,
+                ...action.data
+            }
 
 
         case RECEIVE_VIDEO_JOBS:

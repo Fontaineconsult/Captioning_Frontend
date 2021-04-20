@@ -4,6 +4,7 @@ export const ADD_NEW_AST_JOB = 'ADD_NEW_AST_JOB';
 export const ADD_AST_ID_TO_AST_JOB = 'ADD_AST_ID_TO_AST_JOB'
 export const DELETE_CAP_JOB = 'DELETE_CAP_JOB'
 export const CLEAR_CAP_JOBS = 'CLEAR_CAP_JOBS'
+export const REPLACE_CAP_JOB_DATA = 'REPLACE_CAP_JOB_DATA'
 
 // used to manage existing jobs retreived from DB
 
@@ -35,6 +36,16 @@ export function updateCapJob(job_id, column, value) {
 
     }
 }
+
+export function replaceCapJobData(data) {
+
+    return {
+        type: REPLACE_CAP_JOB_DATA,
+        data
+
+    }
+}
+
 
 
 export function deleteCapJob(job_id) {

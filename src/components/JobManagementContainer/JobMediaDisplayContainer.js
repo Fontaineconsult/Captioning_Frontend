@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Select from "react-select";
 import {captionResourceSelectCustomStyles, s3ResourceSelect} from "./selectCustomStyle";
 import {getS3Link} from "../../actions/ampApi/putData"
+import FlashAutoIcon from '@material-ui/icons/FlashAuto';
 
 class JobMediaDisplayContainer extends Component {
 
@@ -91,6 +92,8 @@ class JobMediaDisplayContainer extends Component {
                                     <CaptionResourceContainer media_id={this.props.mediaId}/>
                                 </div>
 
+
+
                             </label>
                             <label className="capJobMediaContentContainer">
                                 <div className="mediaContentDescriptor" style={{'margin-right': '0px','margin-left': 'auto' }}>
@@ -106,6 +109,7 @@ class JobMediaDisplayContainer extends Component {
                                 </div>
 
                             </label>
+
                         </div>
 
                 </div>

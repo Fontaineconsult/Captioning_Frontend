@@ -4,11 +4,12 @@ import {writeiLearnVideo} from '../ilearn_videos'
 import {api_failure} from '../../utilities/api/errors'
 import {endpoint} from '../../constants'
 import { batch } from 'react-redux'
-import {updateCapJob, deleteCapJob} from '../existingVideoJobs'
+import {updateCapJob, deleteCapJob, addNewAstJob, replaceCapJobData} from '../existingVideoJobs'
 import {LoadingIlearnVideos, LoadingVideoJobs, LoadingAstJob} from '../status'
 import {initASTJob} from '../existingVideoJobs'
 import fetch from "cross-fetch";
 import clipboardCopy from "clipboard-copy";
+import {v1 as uuidv1} from "uuid";
 
 const server_url = endpoint();
 
@@ -188,7 +189,6 @@ export function updateiLearnVideoBatch(video_ids, column, value) {
                 dispatch(writeiLearnVideo(object.dispatch_payload.id, object.dispatch_payload));
                 return fetch(`${server_url}/ilearn-videos`, object.request_payload)
                     .then(response => response.json())
-                    .then(data => {console.log("farts", data)})
                     .catch(error => console.log(error))
             })
         })
@@ -215,6 +215,36 @@ export function submitASTJobToAST(ast_job_id, job_id, file_id) {
             .then(data => dispatch(LoadingAstJob(false)))
             .catch(error => console.log(error))
         }
+
+
+}
+
+export function sendEmailCommand(requester_id, template, params) {
+
+    let error_id = uuidv1()
+    let data_object = { template:template, params: params};
+
+    let put_object = {
+        method: 'PUT',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+    return (dispatch, getState) => {
+        dispatch(LoadingVideoJobs(true))
+        return fetch(`${server_url}/services/email`, put_object)
+            .then(response => {if (response.ok){
+                return fetch(`${server_url}/video-jobs?requester_id=${requester_id}`)
+                    .then(response => response.json())
+                    .then(data => dispatch(replaceCapJobData(data['content'])))
+                    .then(dispatch(LoadingVideoJobs(false)))
+
+            }})
+
+
+}
+
+
 
 
 }

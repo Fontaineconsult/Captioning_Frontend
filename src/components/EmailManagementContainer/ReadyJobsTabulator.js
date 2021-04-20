@@ -7,6 +7,7 @@ import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import Tabulator from "tabulator-tables"
 import {reactFormatter} from "react-tabulator";
 import Button from "@material-ui/core/Button";
+import {sendEmailCommand} from "./../../actions/ampApi/putData"
 import moment from "moment";
 
 
@@ -19,19 +20,32 @@ class ReadyJobsTabulator extends Component {
         this.el = React.createRef();
         this.tabulator = null;
         this.ref = null;
-
-
+        this.sendEmail = this.sendEmail.bind(this)
+        this.sendEmailButton = this.sendEmailButton.bind(this)
     }
 
-    sendEmail(props)  {
+
+
+    sendEmail(e) {
+        console.log(e._cell.row.data.requester_name,
+            e._cell.row.data.requester_id,
+            e._cell.row.data.template)
+            let params = {captioning_requester_id: e._cell.row.data.requester_id, semester: this.props.semester}
+            // job_id, template, params
+            this.props.dispatch(sendEmailCommand(e._cell.row.data.requester_id,
+                e._cell.row.data.template,
+                params))
+
+
+    };
+
+    sendEmailButton(props)  {
         const cellData = props.cell;
-        console.log(cellData._cell.value)
+
         if (cellData._cell.row.data.sent === true) {
             return  <Button variant="contained" color="secondary" size="small" onClick={e => console.log("YY")}>Sent</Button>
-
         } else {
-
-            return  <Button variant="contained" color="primary" size="small" onClick={e => console.log("YY")}>Send</Button>
+            return  <Button variant="contained" color="primary" size="small" onClick={(e) =>  this.sendEmail(cellData)}>Send</Button>
         }
     };
 
@@ -40,11 +54,11 @@ class ReadyJobsTabulator extends Component {
     componentDidMount() {
         let columns = [
 
-            {title:"Course", width:150, field:"requester_id"},
+            {title:"Course", width:150, field:"requester_name"},
             {title: "Employee", field: "employee_name"},
             {title: "Email", field: "employee_email"},
             {title: "Title", field: "media_title"},
-            { title: "Send", width:80, hozAlign :"center",  formatter:reactFormatter(<this.sendEmail/>)}
+            { title: "Send", width:80, hozAlign :"center",  formatter:reactFormatter(<this.sendEmailButton/>)}
         ];
 
         this.tabulator = new Tabulator(this.el, {
@@ -52,8 +66,6 @@ class ReadyJobsTabulator extends Component {
             layout:"fitColumns",
             data: this.props.data,
             reactiveData: true,
-
-
 
         })
 
@@ -78,15 +90,13 @@ class ReadyJobsTabulator extends Component {
         )
     }
 
-
-
 }
 
-
-
-
-
-function mapStateToProps({videosJobsReducer, requesterReducer, campusOrgReducer, employeesReducer}, {props}) {
+function mapStateToProps({videosJobsReducer,
+                             requesterReducer,
+                             campusOrgReducer,
+                             employeesReducer,
+                             globalsReducer}, {props}) {
 
     let data = []
     let columns = []
@@ -94,20 +104,28 @@ function mapStateToProps({videosJobsReducer, requesterReducer, campusOrgReducer,
 
     let formatData = (job) => {
         let requester_id
+        let requester_name
         let employee_id
+        let template
         if (requesterReducer[job.requester_id].course_id !== null) {
-            requester_id = requesterReducer[job.requester_id].course_id
+            requester_id = requesterReducer[job.requester_id].id
+            requester_name = requesterReducer[job.requester_id].course_id
             employee_id = requesterReducer[job.requester_id].employee_id
+            template = "NotifyReadyJobsSingleAutoCaption"
         } else {
-            requester_id = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
+            requester_id = requesterReducer[job.requester_id].id
+            requester_name = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
             employee_id = requesterReducer[job.requester_id].org_employee_id
+            template = 'NotifyReadyJobsOrgs'
         }
 
 
 
         return {
             id: job.id,
+            template: template,
             requester_id: requester_id,
+            requester_name: requester_name,
             employee_name: employeesReducer[employee_id].employee_first_name + " " + employeesReducer[employee_id].employee_last_name,
             employee_email: employeesReducer[employee_id].employee_email,
             media_title: job.media.title,
@@ -130,8 +148,8 @@ function mapStateToProps({videosJobsReducer, requesterReducer, campusOrgReducer,
     return {
         data,
         columns,
-        videosJobsReducer
-
+        videosJobsReducer,
+        semester: globalsReducer['currentSemester']
 
     }
 }
