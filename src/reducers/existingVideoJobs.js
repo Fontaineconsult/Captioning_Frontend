@@ -12,9 +12,6 @@ export default function videosJobsReducer (state={}, action) {
 
         case REPLACE_CAP_JOB_DATA:
 
-            console.log(action)
-            let test = {...state,...action.data}
-            console.log(test)
 
             return {
 

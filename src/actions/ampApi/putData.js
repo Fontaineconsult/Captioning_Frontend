@@ -1,11 +1,11 @@
-import {writeCourse} from '../courses'
+import {writeCourse, replaceCourseData} from '../courses'
 import {updateMediaDeep} from '../media'
 import {writeiLearnVideo} from '../ilearn_videos'
 import {api_failure} from '../../utilities/api/errors'
 import {endpoint} from '../../constants'
 import { batch } from 'react-redux'
 import {updateCapJob, deleteCapJob, addNewAstJob, replaceCapJobData} from '../existingVideoJobs'
-import {LoadingIlearnVideos, LoadingVideoJobs, LoadingAstJob} from '../status'
+import {LoadingIlearnVideos, LoadingVideoJobs, LoadingAstJob, LoadingCourses} from '../status'
 import {initASTJob} from '../existingVideoJobs'
 import fetch from "cross-fetch";
 import clipboardCopy from "clipboard-copy";
@@ -219,7 +219,7 @@ export function submitASTJobToAST(ast_job_id, job_id, file_id) {
 
 }
 
-export function sendEmailCommand(requester_id, template, params) {
+export function sendEmailCommandJobs(requester_id, template, params) {
 
     let error_id = uuidv1()
     let data_object = { template:template, params: params};
@@ -243,6 +243,37 @@ export function sendEmailCommand(requester_id, template, params) {
 
 
 }
+
+
+
+
+}
+
+
+export function sendEmailCommandCourses(requester_id, template, params) {
+
+    let error_id = uuidv1()
+    let data_object = { template:template, params: params};
+
+    let put_object = {
+        method: 'PUT',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+    return (dispatch, getState) => {
+        dispatch(LoadingCourses(true))
+        return fetch(`${server_url}/services/email`, put_object)
+            .then(response => {if (response.ok){
+                return fetch(`${server_url}/courses?requester_id=${requester_id}`)
+                    .then(response => response.json())
+                    .then(data => dispatch(replaceCourseData(data['content'])))
+                    .then(dispatch(LoadingCourses(false)))
+
+            }})
+
+
+    }
 
 
 

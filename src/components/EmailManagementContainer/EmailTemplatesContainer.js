@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import  "../../css/users.css"
-import EmailTemplatesTabulator from "./EmailTemplateTabulator";
+import StudentRequestsCaptioningTabulatorContainer from "./StudentRequestsCaptioningTabulatorContainer";
 
 class SendEmailsContainer extends Component {
 
@@ -22,7 +22,7 @@ class SendEmailsContainer extends Component {
                 <div>
                     Student Requests Captioning
                 </div>
-                <EmailTemplatesTabulator props={{"bool":"student_requests_captions_email_sent",
+                <StudentRequestsCaptioningTabulatorContainer props={{"bool":"student_requests_captions_email_sent",
                     "date": "student_requests_captions_email_sent_date",
                     "filter": "ilearn_video_service_requested",
                     "filter_by": true,

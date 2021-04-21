@@ -1,12 +1,17 @@
 import {receiveCourses} from '../courses'
 import {receiveEmployees} from '../employees'
-import {receiveCapJobs} from '../existingVideoJobs'
+import {receiveCapJobs, replaceCapJobData} from '../existingVideoJobs'
 import receiveStudents from '../students'
 import {receiveIlearnVideos} from '../ilearn_videos'
 import {receiveMedia, addMediaFromCapJobs} from '../media'
 import {receiveRequester} from '../requester'
 import receiveRequesterResources from '../requests'
-import {LoadingCourses, LoadingIlearnVideos, LoadingInstructors, LoadingMedia, LoadingVideoJobs, LoadingPermissions, LoadingRequests} from '../status'
+import {LoadingCourses,
+    LoadingIlearnVideos,
+    LoadingInstructors,
+    LoadingMedia,
+    LoadingVideoJobs,
+    LoadingPermissions, LoadingRequests} from '../status'
 import receiveUserPermissions from '../userPermission'
 import {endpoint} from '../../constants'
 import {setErrorState} from '../error_state'
@@ -153,6 +158,22 @@ export function fetchAllVideoJobsBySemester(semester) {
             .then(data => console.log(data))
     }
 }
+
+
+export function fetchJobsByRequesterId(requester_id) {
+
+    let error_id = uuidv1()
+
+    return dispatch => {
+        dispatch(LoadingVideoJobs(true))
+        dispatch(LoadingMedia(false))
+        return fetch(`${server_url}/video-jobs?requester_id=${requester_id}`)
+            .then(response => errorHandler(response, dispatch, error_id, LoadingVideoJobs), error => {console.log(error)})
+            .then(response => (responseHandler(response, dispatch, [replaceCapJobData], error_id, LoadingVideoJobs)))
+            .then(data => console.log(data))
+    }
+}
+
 
 
 export function fetchStudent(student_id) {

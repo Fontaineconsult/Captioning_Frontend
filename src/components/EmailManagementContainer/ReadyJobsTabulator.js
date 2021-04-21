@@ -7,8 +7,7 @@ import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import Tabulator from "tabulator-tables"
 import {reactFormatter} from "react-tabulator";
 import Button from "@material-ui/core/Button";
-import {sendEmailCommand} from "./../../actions/ampApi/putData"
-import moment from "moment";
+import {sendEmailCommandJobs} from "./../../actions/ampApi/putData"
 
 
 
@@ -24,17 +23,17 @@ class ReadyJobsTabulator extends Component {
         this.sendEmailButton = this.sendEmailButton.bind(this)
     }
 
-
-
     sendEmail(e) {
+
         console.log(e._cell.row.data.requester_name,
             e._cell.row.data.requester_id,
             e._cell.row.data.template)
             let params = {captioning_requester_id: e._cell.row.data.requester_id, semester: this.props.semester}
             // job_id, template, params
-            this.props.dispatch(sendEmailCommand(e._cell.row.data.requester_id,
+            let test = this.props.dispatch(sendEmailCommandJobs(e._cell.row.data.requester_id,
                 e._cell.row.data.template,
                 params))
+
 
 
     };
@@ -43,10 +42,11 @@ class ReadyJobsTabulator extends Component {
         const cellData = props.cell;
 
         if (cellData._cell.row.data.sent === true) {
-            return  <Button variant="contained" color="secondary" size="small" onClick={e => console.log("YY")}>Sent</Button>
+            return  <Button variant="contained" color="secondary" size="small" onClick={e => this.sendEmail}>Sent</Button>
         } else {
             return  <Button variant="contained" color="primary" size="small" onClick={(e) =>  this.sendEmail(cellData)}>Send</Button>
         }
+
     };
 
 
@@ -72,7 +72,7 @@ class ReadyJobsTabulator extends Component {
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
 
-        if (JSON.stringify(prevProps.videosJobsReducer) !== JSON.stringify(this.props.coursesReducer)) {
+        if (JSON.stringify(prevProps.videosJobsReducer) !== JSON.stringify(this.props.videosJobsReducer)) {
             this.tabulator.replaceData(this.props.data)
 
         }
@@ -118,7 +118,6 @@ function mapStateToProps({videosJobsReducer,
             employee_id = requesterReducer[job.requester_id].org_employee_id
             template = 'NotifyReadyJobsOrgs'
         }
-
 
 
         return {

@@ -3,7 +3,7 @@ import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import  "../../css/users.css"
 
-import EmailTemplateTabulator from "./EmailTemplateTabulator";
+import EmailTemplateTabulator from "./StudentRequestsCaptioningTabulatorContainer";
 
 
 class EmailHistoryContainer extends Component {

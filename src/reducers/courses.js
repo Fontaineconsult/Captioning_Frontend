@@ -1,10 +1,19 @@
-import {CLEAR_COURSES, RECEIVE_COURSES, WRITE_COURSE} from '../actions/courses'
+import {CLEAR_COURSES, RECEIVE_COURSES, UPDATE_COURSES, WRITE_COURSE} from '../actions/courses'
+import {REPLACE_CAP_JOB_DATA} from "../actions/existingVideoJobs";
 
 
 
 export default function coursesReducer (state={}, action) {
 
     switch (action.type) {
+
+
+        case UPDATE_COURSES:
+
+            return {
+                ...state,
+                ...action.data
+            }
 
 
         case RECEIVE_COURSES:
