@@ -21,6 +21,7 @@ class SendEmailsContainer extends Component {
             <div>
                 <div>
                     Ready Jobs
+                    <br/>
                 </div>
                 <ReadyJobsTabulator props={{"bool":"completed_email_sent",
                     "date": "completed_email_sent_date",

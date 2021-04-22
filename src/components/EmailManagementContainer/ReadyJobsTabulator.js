@@ -40,15 +40,14 @@ class ReadyJobsTabulator extends Component {
 
     sendEmailButton(props)  {
         const cellData = props.cell;
-
+        console.log("DSFSDFDF", props.cell._cell.row.data.block_send)
         if (cellData._cell.row.data.sent === true) {
             return  <Button variant="contained" color="secondary" size="small" onClick={e => this.sendEmail}>Sent</Button>
         } else {
-            return  <Button variant="contained" color="primary" size="small" onClick={(e) =>  this.sendEmail(cellData)}>Send</Button>
+            return  <Button disabled={props.cell._cell.row.data.block_send} variant="contained" color="primary" size="small" onClick={(e) =>  this.sendEmail(cellData)}>Send</Button>
         }
 
     };
-
 
 
     componentDidMount() {
@@ -96,13 +95,18 @@ function mapStateToProps({videosJobsReducer,
                              requesterReducer,
                              campusOrgReducer,
                              employeesReducer,
-                             globalsReducer}, {props}) {
+                             globalsReducer,
+
+                         },
+                                       {props}) {
 
     let data = []
     let columns = []
 
 
     let formatData = (job) => {
+
+        let block_send = false
         let requester_id
         let requester_name
         let employee_id
@@ -112,12 +116,24 @@ function mapStateToProps({videosJobsReducer,
             requester_name = requesterReducer[job.requester_id].course_id
             employee_id = requesterReducer[job.requester_id].employee_id
             template = "NotifyReadyJobsSingleAutoCaption"
+            block_send = job.media.primary_caption_resource_id == null
+
         } else {
             requester_id = requesterReducer[job.requester_id].id
             requester_name = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
             employee_id = requesterReducer[job.requester_id].org_employee_id
             template = 'NotifyReadyJobsOrgs'
+            block_send = job.media.primary_caption_resource_id === null && !job.media.media_objects.some(element => element.associated_captions !== null)
+
+
+
+            console.log("DSDSFS", job.media.primary_caption_resource_id === null)
+            console.log("eeeee", campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name, job.media.media_objects.some(element => (element.associated_captions !== null)))
+
         }
+
+
+
 
 
         return {
@@ -128,6 +144,7 @@ function mapStateToProps({videosJobsReducer,
             employee_name: employeesReducer[employee_id].employee_first_name + " " + employeesReducer[employee_id].employee_last_name,
             employee_email: employeesReducer[employee_id].employee_email,
             media_title: job.media.title,
+            block_send: block_send
         }
     };
 
@@ -138,8 +155,6 @@ function mapStateToProps({videosJobsReducer,
             if (videosJobsReducer[job].job_status === "Ready") {
                 data.push(formatData(videosJobsReducer[job]))
             }
-
-
         })
 
     }

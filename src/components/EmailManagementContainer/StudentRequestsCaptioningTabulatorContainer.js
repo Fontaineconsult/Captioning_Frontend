@@ -93,7 +93,6 @@ class StudentRequestsCaptioningTabulatorContainer extends Component {
     }
 
 
-
 }
 
 function mapStateToProps({coursesReducer,
