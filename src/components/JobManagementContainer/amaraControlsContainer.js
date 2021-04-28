@@ -55,10 +55,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
                 if (mediaReducer[media_id].captioned_resources[index].amara_id !== null) {
                     return true
                 }
-
             }
-
-
         )
 
         amaraResource = mediaReducer[media_id].captioned_resources[amara_index]
