@@ -106,14 +106,10 @@ class AmaraModalContainer extends Component {
 
     addSRTtoAmaraResource(event){
         let caption_id = this.state.caption_select.caption_id
-        let amara_index = this.props.media_obj.captioned_resources.indexOf(element => {
-            console.log(element)
-
-            if (element.amara_id !== null) {return true}
-        })
-        console.log(amara_index)
+        let amara_index = this.props.media_obj.captioned_resources.findIndex(element => (
+            element.amara_id !== null
+        ))
         let amara_id = this.props.media_obj.captioned_resources[amara_index].amara_resource.video_id
-
         this.props.dispatch(addSRTtoAmaraResource(caption_id, amara_id, this.props.media_id))
 
     }
