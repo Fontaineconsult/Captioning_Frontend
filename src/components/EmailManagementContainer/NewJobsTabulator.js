@@ -7,11 +7,11 @@ import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import Tabulator from "tabulator-tables"
 import {reactFormatter} from "react-tabulator";
 import Button from "@material-ui/core/Button";
-import {sendEmailCommandJobs} from "./../../actions/ampApi/putData"
+import {sendEmailCommandJobs} from "../../actions/ampApi/putData"
 
 
 
-class ReadyJobsTabulator extends Component {
+class NewJobsTabulator extends Component {
 
 
     constructor(props) {
@@ -28,11 +28,11 @@ class ReadyJobsTabulator extends Component {
         console.log(e._cell.row.data.requester_name,
             e._cell.row.data.requester_id,
             e._cell.row.data.template)
-            let params = {captioning_requester_id: e._cell.row.data.requester_id, semester: this.props.semester}
-            // job_id, template, params
-            let test = this.props.dispatch(sendEmailCommandJobs(e._cell.row.data.requester_id,
-                e._cell.row.data.template,
-                params))
+        let params = {captioning_requester_id: e._cell.row.data.requester_id, semester: this.props.semester}
+        // job_id, template, params
+        let test = this.props.dispatch(sendEmailCommandJobs(e._cell.row.data.requester_id,
+            e._cell.row.data.template,
+            params))
 
 
 
@@ -52,7 +52,7 @@ class ReadyJobsTabulator extends Component {
     componentDidMount() {
         let columns = [
 
-            {title:"Course", width:150, field:"requester_name"},
+            {title:"Requester", width:150, field:"requester_name"},
             {title: "Employee", field: "employee_name"},
             {title: "Email", field: "employee_email"},
             {title: "Title", field: "media_title"},
@@ -97,7 +97,7 @@ function mapStateToProps({videosJobsReducer,
                              globalsReducer,
 
                          },
-                                       {props}) {
+                         {props}) {
 
     let data = []
     let columns = []
@@ -114,15 +114,15 @@ function mapStateToProps({videosJobsReducer,
             requester_id = requesterReducer[job.requester_id].id
             requester_name = requesterReducer[job.requester_id].course_id
             employee_id = requesterReducer[job.requester_id].employee_id
-            template = "NotifyReadyJobsSingleAutoCaption"
-            block_send = job.media.primary_caption_resource_id == null
+            template = "NotifyJobReceivedCourse"
+
 
         } else {
             requester_id = requesterReducer[job.requester_id].id
             requester_name = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
             employee_id = requesterReducer[job.requester_id].org_employee_id
-            template = 'NotifyReadyJobsOrgs'
-            block_send = job.media.primary_caption_resource_id === null && !job.media.media_objects.some(element => element.associated_captions !== null)
+            template = 'NotifyJobReceivedOrg'
+
 
         }
 
@@ -135,7 +135,6 @@ function mapStateToProps({videosJobsReducer,
             employee_name: employeesReducer[employee_id].employee_first_name + " " + employeesReducer[employee_id].employee_last_name,
             employee_email: employeesReducer[employee_id].employee_email,
             media_title: job.media.title,
-            block_send: block_send
         }
     };
 
@@ -143,8 +142,12 @@ function mapStateToProps({videosJobsReducer,
 
         Object.keys(videosJobsReducer).forEach((job) => {
 
-            if (videosJobsReducer[job].job_status === "Ready") {
-                data.push(formatData(videosJobsReducer[job]))
+            if (videosJobsReducer[job].job_status === "Queued" || videosJobsReducer[job].job_status === "Captioning") {
+
+                if (videosJobsReducer[job].job_added_confirmation_email_sent === false) {
+                    data.push(formatData(videosJobsReducer[job]))
+                    }
+
             }
         })
 
@@ -160,4 +163,4 @@ function mapStateToProps({videosJobsReducer,
 }
 
 
-export default withRouter(connect(mapStateToProps)(ReadyJobsTabulator))
+export default withRouter(connect(mapStateToProps)(NewJobsTabulator))

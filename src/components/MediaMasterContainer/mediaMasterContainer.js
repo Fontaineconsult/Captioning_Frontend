@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import {fetchMediaBySourceUrl} from '../../actions/ampApi/fetchData'
-import NewCapJobFormContainer from "../AddCapJobView/old/newCapJobFormContainer";
-import NewMediaContainer from "../AddMediaContainer/old/newMediaContainer";
 import { v1 as uuidv1 } from 'uuid';
 import SubmissionForm from "./SubmissionForm";
 import {addTempJob} from "../../actions/tempJobsForm";

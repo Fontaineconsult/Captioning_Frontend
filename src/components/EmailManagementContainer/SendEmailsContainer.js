@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import  "../../css/users.css"
 import EmailTemplatesContainer from "./EmailTemplatesContainer";
 import ReadyJobsEmailContainer from "./ReadyJobsEmailContainer";
+import NewJobsContainer from "./NewJobsContainer";
 
 class SendEmailsContainer extends Component {
 
@@ -25,7 +26,6 @@ class SendEmailsContainer extends Component {
                         <div style={{"font-weight":"600"}}>
                             Templates
                         </div>
-
                     </div>
                     <EmailTemplatesContainer/>
                 </div>
@@ -33,8 +33,15 @@ class SendEmailsContainer extends Component {
                     <div className={"emp-display-title"}>
                         <div style={{"font-weight":"600"}}>Current Queues</div>
                     </div>
+                    <NewJobsContainer/>
+                </div>
+                <div className={"emp-display-container"}>
+                    <div className={"emp-display-title"}>
+                        <div style={{"font-weight":"600"}}>Current Queues</div>
+                    </div>
                     <ReadyJobsEmailContainer/>
                 </div>
+
 
             </div>
         )

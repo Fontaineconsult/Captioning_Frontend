@@ -215,7 +215,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
 
 
 
-
+        console.log("SOMETHING WRONG HERE", mediaId)
         captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
             if (currentValue.associated_captions !== null) {
                 accumulator.push({caption_id:currentValue.associated_captions.id, value:currentValue.associated_captions.file_name, label:currentValue.associated_captions.file_name, association_id:currentValue.id})
