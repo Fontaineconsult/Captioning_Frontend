@@ -6,13 +6,12 @@ import {mediaSelectCustomStyles} from "./selectCustomStyle";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
 import Button from "@material-ui/core/Button";
-import {downloadCaptionFile, downloadMediaFile, fetchMediaByShaHash} from '../../actions/ampApi/fetchData'
+import {downloadCaptionFile, downloadMediaFile} from '../../actions/ampApi/fetchData'
 import {uploadCaptionFileWithMediaId, uploadMediaFromJobView} from "../../actions/ampApi/postData"
 import green from "@material-ui/core/colors/green";
 import {v1 as uuidv1} from "uuid";
 import CryptoJS from "crypto-js";
-import {removeErrorState} from "../../actions/error_state";
-import {clearMediaSearch} from "../../actions/mediaSearch";
+
 
 class MediaContentContainer extends Component {
 
@@ -215,7 +214,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
 
 
 
-        console.log("SOMETHING WRONG HERE", mediaId)
+        console.log("SOMETHING WRONG HERE", mediaId, mediaReducer[mediaId])
         captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
             if (currentValue.associated_captions !== null) {
                 accumulator.push({caption_id:currentValue.associated_captions.id, value:currentValue.associated_captions.file_name, label:currentValue.associated_captions.file_name, association_id:currentValue.id})
