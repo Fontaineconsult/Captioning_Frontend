@@ -71,10 +71,9 @@ class StudentRequestsCaptioningTabulatorContainer extends Component {
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
 
-        console.log("UPDATED")
 
         if (JSON.stringify(prevProps.coursesReducer) !== JSON.stringify(this.props.coursesReducer)) {
-            console.log("I SHOULD UPDATE")
+
             this.tabulator.replaceData(this.props.data)
 
         }
@@ -127,14 +126,22 @@ function mapStateToProps({coursesReducer,
 
 
     if (coursesReducer !== undefined) {
+        Object.keys(coursesReducer).forEach(function(key){
 
-        Object.keys(coursesReducer).forEach((item) => {
-
-            if (coursesReducer[item].ilearn_video_service_requested === true) {
-                data.push(formatData(coursesReducer[item]))
+            if (coursesReducer[key].students_enrolled.some(capActiveFunc) === true) {
+                data.push(formatData(coursesReducer[key]))
             }
-        })
+
+        });
+
+
     }
+
+
+    function capActiveFunc(element, index, array) {
+        return element.student_requests_captioning === true
+    }
+
 
 
     return {
