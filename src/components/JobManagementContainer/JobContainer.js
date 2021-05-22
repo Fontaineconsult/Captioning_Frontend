@@ -148,23 +148,28 @@ class JobContainer extends Component {
     componentDidMount() {
         let r = this.props.job
         let e = this.props.employee
-        this.setState({
-            comments: r.comments,
-            job_status: r.job_status,
-            output_format: r.output_format,
-            priority: r.priority,
-            request_date: r.request_date,
-            show_date: r.show_date,
-            delivered_date: moment(r.delivered_date).isValid ? r.delivered_date: moment(null),
-            requester_id: r.requester_id,
-            rush_service_used: r.rush_service_used,
-            transcripts_only: r.transcripts_only,
-            ast_job_id: r.ast_job_id,
-            employee_email: e.employee_email,
-            employee_first_name: e.employee_first_name,
-            employee_last_name: e.employee_last_name
+        if (this.props.employee !== undefined) {
+            this.setState({
+                comments: r.comments,
+                job_status: r.job_status,
+                output_format: r.output_format,
+                priority: r.priority,
+                request_date: r.request_date,
+                show_date: r.show_date,
+                delivered_date: moment(r.delivered_date).isValid ? r.delivered_date: moment(null),
+                requester_id: r.requester_id,
+                rush_service_used: r.rush_service_used,
+                transcripts_only: r.transcripts_only,
+                ast_job_id: r.ast_job_id,
+                employee_email: e.employee_email,
+                employee_first_name: e.employee_first_name,
+                employee_last_name: e.employee_last_name
 
-        })
+            })
+
+        }
+
+
     }
 
     render() {

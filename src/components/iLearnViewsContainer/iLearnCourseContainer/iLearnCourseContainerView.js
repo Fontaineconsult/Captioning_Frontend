@@ -33,8 +33,6 @@ class ILearnCourseContainer extends Component {
                 })
 
         }
-
-
     }
 
     handleInputChange(event) {
