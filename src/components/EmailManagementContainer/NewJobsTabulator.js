@@ -111,10 +111,22 @@ function mapStateToProps({videosJobsReducer,
         let employee_id
         let template
         if (requesterReducer[job.requester_id].course_id !== null) {
-            requester_id = requesterReducer[job.requester_id].id
-            requester_name = requesterReducer[job.requester_id].course_id
-            employee_id = requesterReducer[job.requester_id].employee_id
-            template = "NotifyJobReceivedCourse"
+            if (requesterReducer[job.requester_id].course_id !== false) {
+                requester_id = requesterReducer[job.requester_id].id
+                requester_name = requesterReducer[job.requester_id].course_id
+                employee_id = requesterReducer[job.requester_id].employee_id
+                template = "NotifyJobReceivedCourse"
+
+            }
+
+            if (requesterReducer[job.requester_id].course_id !== true) {
+                requester_id = requesterReducer[job.requester_id].id
+                requester_name = requesterReducer[job.requester_id].course_id
+                employee_id = requesterReducer[job.requester_id].employee_id
+                template = "NotifyJobReceivediLearnAutoCaption"
+
+
+            }
 
 
         } else {
