@@ -98,7 +98,7 @@
 .mediaContentDescriptor {
     margin-right: 10px;
     display: flex;
-    width: 80%;
+
 
 
 }
@@ -347,7 +347,12 @@ margin-right: 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 80%;
 
+
+
+}
+
+.captionMediaContainerLeft{
+    width: 80%
 
 }

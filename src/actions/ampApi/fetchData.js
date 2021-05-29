@@ -252,12 +252,14 @@ export function fetchiLearnVideosByCourseGenId(CourseGenId){
 }
 
 export function fetchMediaById(id) {
+    let unique_id = uuidv1()
+    console.log("MEDIA SEARCH", id)
     return dispatch => {
         dispatch(receiveMedia());
         return fetch(`${server_url}/media?id=${id}`)
-            .then(response => response.json())
-            .then(data => dispatch(receiveMedia(data)))
-            .then(data => console.log(data))
+            .then(response => errorHandler(response, dispatch, unique_id, LoadingMedia), error => {console.log(error)})
+            .then(response => responseHandler(response, dispatch, [receiveMedia], unique_id, LoadingMedia))
+
 
     }
 

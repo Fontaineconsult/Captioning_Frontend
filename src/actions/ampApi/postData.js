@@ -12,7 +12,7 @@ import {updateEmployees} from "../employees"
 import {receiveTaskId, clearTaskId} from "../asyncTaskIds";
 import {v1 as uuidv1} from "uuid";
 import store from "../../reducers/store_creator"
-import {reFetchMediaAfterUpload} from './fetchData'
+import {reFetchMediaAfterUpload, fetchMediaById} from './fetchData'
 import {receiveRequester} from "../requester";
 import AsyncJobChecker from "../../middleware/taskStatusCheck"
 
@@ -427,17 +427,67 @@ export function sendVideoExtractRequestDeferred(media_id, url, format) {
 }
 
 
+export function sendVideoConversionRequestDeferred(media_file_id, media_id, task) {
+    let error_id = uuidv1()
+
+    console.log("ZZZZZ", media_file_id, media_id, task)
+    let data_object = {media_file_id:media_file_id, media_id:media_id, task:task};
+
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+        console.log("THE POST OBHECT", post_object)
+    return dispatch => {
+
+        return fetch(`${server_url}/services/convert`, post_object)
+            .then(response => response.text())
+            .then(task_id => dispatch(receiveTaskId(task_id, [fetchMediaById.bind(null,media_id)])))
+            .then(() => checkAsyncStatusResource(dispatch))
+
+    }
+}
+
+export function sendOpenCaptionRequestDeferred(media_file_id, media_id, task) {
+    let error_id = uuidv1()
+    let data_object = {media_file_id:media_file_id, media_id:media_id, task:task};
+
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+    return dispatch => {
+
+        return fetch(`${server_url}/services/convert`, post_object)
+            .then(response => response.text())
+            .then(text => dispatch(receiveTaskId(text)))
+            .then(() => checkAsyncStatusResource(dispatch))
+
+    }
+}
+
 
 export function checkAsyncStatusResource(dispatch) {
     let error_id = uuidv1()
 
     let data_object = store.getState().asyncTaskIdReducer;
+
+    let task_id_list = data_object.map(object => {
+        return object.task_id
+    },[])
+
     let post_object = {
         method: 'POST',
-        body: JSON.stringify({"task_id":data_object}),
+        body: JSON.stringify({"task_id":task_id_list}),
         headers: {
             'Content-Type': 'application/json'
         }};
+
 
 
         return fetch(`${server_url}/services/task-status`, post_object)

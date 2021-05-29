@@ -30,9 +30,15 @@ class AsyncJobChecker {
             }
 
             let data_object = store.getState().asyncTaskIdReducer;
+
+            let task_id_list = data_object.map(object => {
+                return object.task_id
+            },[])
+
+            console.log("ZOOsdfdsfsdfdsfsfPRS", task_id_list)
             let post_object = {
                 method: 'POST',
-                body: JSON.stringify({"task_id": data_object}),
+                body: JSON.stringify({"task_id": task_id_list}),
                 headers: {
                     'Content-Type': 'application/json'
                 }};
@@ -43,7 +49,7 @@ class AsyncJobChecker {
                 .then(json => store.dispatch(addStatusUpdate(json)))
 
             this.checkStatuses()
-        }, 3000);}
+        }, 5000);}
 
 
         if (this.is_cycling === false){
@@ -54,16 +60,17 @@ class AsyncJobChecker {
 
     checkStatuses() {
         let statuses = store.getState().asyncStatusReducer
+        let active_tasks = store.getState().asyncTaskIdReducer
 
         if (Object.keys(statuses).length > 0) {
             Object.keys(statuses).forEach(status => {
                 if (statuses[status].status === "SUCCESS") {
-                    store.dispatch(clearTaskId(statuses[status].task_id))
+                    store.dispatch(clearTaskId(store.dispatch , statuses[status].task_id, active_tasks))
 
                 }
 
                 if (statuses[status].status === "FAILURE") {
-                    store.dispatch(clearTaskId(statuses[status].task_id))
+                    store.dispatch(clearTaskId(store.dispatch ,statuses[status].task_id, active_tasks))
                     alert(statuses[status].message)
                 }
 

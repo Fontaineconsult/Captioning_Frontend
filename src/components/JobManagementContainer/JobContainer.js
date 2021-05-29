@@ -267,10 +267,6 @@ class JobContainer extends Component {
                             <div className="jobMediaContainer">
                                 {this.props.mediaReducer[this.props.mediaId]  && <JobMediaDisplayContainer mediaId={this.props.mediaId}/>}
                             </div>
-                            <div className="joMediaContentContainer">
-                                <MediaContentContainer mediaId={this.props.mediaId}/>
-
-                            </div>
                         </div>
                         <div className="commentsContainer">
                             <label>

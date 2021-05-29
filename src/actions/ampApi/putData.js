@@ -134,9 +134,9 @@ export function deleteVideoJob(job_id, column, value){
 
 
 
-export function getS3Link(file_id){
+export function getS3Link(value){
 
-    let data_object = {file_id: file_id};
+    let data_object = {file_id: value};
 
     let put_object = {
         method: 'PUT',
@@ -154,6 +154,9 @@ export function getS3Link(file_id){
         })
 
     }
+
+
+
     return (dispatch) => {
         dispatch(LoadingVideoJobs(true))
         return fetch(`${server_url}/services/make-public`, put_object)
@@ -163,10 +166,6 @@ export function getS3Link(file_id){
             .catch(error => alert(error))
     }
 }
-
-
-
-
 
 export function updateiLearnVideoBatch(video_ids, column, value) {
     let data_objects = video_ids.map(id => {
@@ -248,7 +247,6 @@ export function sendEmailCommandJobs(requester_id, template, params) {
 
 
 }
-
 
 export function sendEmailCommandCourses(requester_id, template, params) {
 
