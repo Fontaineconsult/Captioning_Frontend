@@ -221,7 +221,7 @@ class JobManagementControlContainer extends Component {
                                     return <List
                                         width={width}
                                         height={height}
-                                        rowHeight={287}
+                                        rowHeight={290}
                                         rowRenderer={this.renderRow}
                                         rowCount={this.state.videoJobs.length}
                                         data={this.state.job_status}

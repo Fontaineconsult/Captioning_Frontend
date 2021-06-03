@@ -50,7 +50,6 @@
 .upperJobContainer {
 
     display: flex;
-    margin-bottom: 5px;
     margin-top: 5px;
 
 }
@@ -85,7 +84,7 @@
 
 .lowerJobContainer {
 
-
+    height: 170px;
 
     margin-bottom: 10px;
 }
@@ -141,7 +140,7 @@ width: 50%;
 .jobControlsBar {
 
     margin-bottom: 10px;
-
+    margin-top: 10px;
 
 }
 
@@ -174,11 +173,13 @@ width: 50%;
 
 .commentsContainer {
     width: 15%;
+    margin-right: 5px;
+    margin-left: auto;
 
 }
 
 .commentsInput {
-    height: 100%;
+    height: 145px;
     resize: none;
     width: 100%;
 
@@ -211,20 +212,24 @@ width: 50%;
 .lowerJobContainer {
 
     display: flex;
-    border-top-color: #282c34;
+    border-top-color: #acacac;
     border-top-width: 1px;
     border-top-style: solid;
     padding-top: 5px;
+    border-bottom-color: #acacac;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    padding-bottom: 5px;
 
 }
 
 .lowerJobContainerLeft {
     margin-right: 5px;
-    width: 18%
+    width: 28%
 }
 
 .lowerJobContainerRight {
-    border-left: #282c34;
+    border-left-color: #acacac;
     border-left-style: solid;
     border-left-width: 1px;
     width: 65%;
@@ -352,7 +357,25 @@ margin-right: 5px;
 
 }
 
+.videoFileControlsContainer{
+    padding-top: 1px;
+    padding-bottom: 1px;
+    height: 170px;
+    padding-left: 6px;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: #acacac
+
+
+}
+
 .captionMediaContainerLeft{
     width: 80%
+
+}
+
+lowerUpperJobContainer {
+    display: flex;
+    width: 82%;
 
 }

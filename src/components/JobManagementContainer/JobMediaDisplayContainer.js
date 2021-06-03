@@ -74,7 +74,7 @@ class JobMediaDisplayContainer extends Component {
                         </div>
                     </div>
 
-                    <VideoFileControlsContainer mediaId={this.props.mediaId}/>
+
 
 
                 </div>

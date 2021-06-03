@@ -430,7 +430,6 @@ export function sendVideoExtractRequestDeferred(media_id, url, format) {
 export function sendVideoConversionRequestDeferred(media_file_id, media_id, task) {
     let error_id = uuidv1()
 
-    console.log("ZZZZZ", media_file_id, media_id, task)
     let data_object = {media_file_id:media_file_id, media_id:media_id, task:task};
 
     let post_object = {
@@ -450,9 +449,9 @@ export function sendVideoConversionRequestDeferred(media_file_id, media_id, task
     }
 }
 
-export function sendOpenCaptionRequestDeferred(media_file_id, media_id, task) {
+export function sendOpenCaptionRequestDeferred(media_id, video_file_id, caption_file_id) {
     let error_id = uuidv1()
-    let data_object = {media_file_id:media_file_id, media_id:media_id, task:task};
+    let data_object = {media_id :media_id, video_file_id:video_file_id, caption_file_id:caption_file_id};
 
     let post_object = {
         method: 'POST',
@@ -463,9 +462,9 @@ export function sendOpenCaptionRequestDeferred(media_file_id, media_id, task) {
 
     return dispatch => {
 
-        return fetch(`${server_url}/services/convert`, post_object)
+        return fetch(`${server_url}/services/open-caption`, post_object)
             .then(response => response.text())
-            .then(text => dispatch(receiveTaskId(text)))
+            .then(task_id => dispatch(receiveTaskId(task_id, [fetchMediaById.bind(null,media_id)])))
             .then(() => checkAsyncStatusResource(dispatch))
 
     }

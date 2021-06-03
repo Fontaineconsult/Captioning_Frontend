@@ -12,6 +12,7 @@ import DatePicker from 'react-date-picker';
 import ClearIcon from '@material-ui/icons/Clear';
 import moment from "moment";
 import {iLearnURL} from "../../constants";
+import VideoFileControlsContainer from "./videoFileControlsContainer";
 
 const statusColor = (status) => ({
     "Queued": "linear-gradient(to left, rgba(63, 123, 191, 0), rgb(63, 123, 191))",
@@ -192,112 +193,133 @@ class JobContainer extends Component {
                         </div>
                     </div>
                     <div className="lowerJobContainer">
-                        <div className="lowerJobContainerLeft">
-                            <form className="lowerJobContainerLeftForm">
-                                <div className="upperJobContainerLeftContent">
-                                    <label className="upperJobContainerLeftLabel">
-                                        <div>Job Status</div>
-                                        <select className="upperJobContainerLeftContentInput" name="job_status" onChange={this.updateState} onBlur={this.dispatchInput} onFocus={this.saveCurrentValue} value={this.state.job_status}>
-                                            <option value="Queued">Queued</option>
-                                            <option value="Captioning">Captioning</option>
-                                            <option value="Ready">Ready</option>
-                                            <option value="Delivered">Delivered</option>
-                                            <option value="On Hold">On Hold</option>
-                                            <option value="Cancelled">Cancelled</option>
-                                        </select>
-                                    </label>
-                                </div>
-                                <div className="upperJobContainerLeftContent">
-                                    <label className="upperJobContainerLeftLabel">
-                                        <div>Output Format</div>
+                        <div style={{display: "flex"}} className={"lowerUpperJobContainer"}>
+                            <div style={{display: "block"}}>
+                                <div style={{display: "flex"}}>
+                                    <div className="lowerJobContainerLeft">
+                                        <form className="lowerJobContainerLeftForm">
+                                            <div className="upperJobContainerLeftContent">
+                                                <label className="upperJobContainerLeftLabel">
+                                                    <div>Job Status</div>
+                                                    <select className="upperJobContainerLeftContentInput" name="job_status" onChange={this.updateState} onBlur={this.dispatchInput} onFocus={this.saveCurrentValue} value={this.state.job_status}>
+                                                        <option value="Queued">Queued</option>
+                                                        <option value="Captioning">Captioning</option>
+                                                        <option value="Ready">Ready</option>
+                                                        <option value="Delivered">Delivered</option>
+                                                        <option value="On Hold">On Hold</option>
+                                                        <option value="Cancelled">Cancelled</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                            <div className="upperJobContainerLeftContent">
+                                                <label className="upperJobContainerLeftLabel">
+                                                    <div>Output Format</div>
 
-                                        <select className="upperJobContainerLeftContentInput" name="output_format" onFocus={this.saveCurrentValue} onChange={this.updateState} onBlur={this.dispatchInput} value={this.state.output_format}>
-                                            <option value="Amara">Amara</option>
-                                            <option value="SRT">.SRT</option>
-                                            <option value="File">File</option>
-                                            <option value="Open Caption">Open Cap</option>
-                                        </select>
-                                    </label>
+                                                    <select className="upperJobContainerLeftContentInput" name="output_format" onFocus={this.saveCurrentValue} onChange={this.updateState} onBlur={this.dispatchInput} value={this.state.output_format}>
+                                                        <option value="Amara">Amara</option>
+                                                        <option value="SRT">.SRT</option>
+                                                        <option value="File">File</option>
+                                                        <option value="Open Caption">Open Cap</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                            <div className="upperJobContainerLeftContent">
+                                                <label className="upperJobContainerLeftLabel">
+                                                    <div>Request Date</div>
+                                                    <DatePicker className="upperJobContainerLeftContentInput"
+                                                                name="request_date"
+                                                                clearIcon={null}
+                                                                calendarIcon={null}
+                                                                onFocus={(date) => this.saveCurrentDateValue(date, "request_date")}
+                                                                value={new Date(this.state.request_date)}
+                                                                onBlur={(date) => this.dispatchDateInput(date,"request_date")}
+                                                                onChange={(date)=> this.handleSetDate(date, 'request_date')}
+                                                    />
+                                                </label>
+                                            </div>
+                                            <div className="upperJobContainerLeftContent">
+                                                <label className="upperJobContainerLeftLabel">
+                                                    <div>Show Date</div>
+                                                    <DatePicker className="upperJobContainerLeftContentInput"
+                                                                name="show_date"
+                                                                clearIcon={null}
+                                                                calendarIcon={null}
+                                                                onFocus={(date) => this.saveCurrentDateValue(date, "show_date")}
+                                                                value={new Date(this.state.show_date)}
+                                                                onBlur={(date) => this.dispatchDateInput(date,"show_date")}
+                                                                onChange={(date)=> this.handleSetDate(date, 'show_date')}
+                                                    />
+                                                </label>
+                                            </div>
+                                            <div className="upperJobContainerLeftContent">
+                                                <label className="upperJobContainerLeftLabel">
+                                                    <div>Delivered Date</div>
+                                                    <DatePicker className="upperJobContainerLeftContentInput"
+                                                                name="delivered_date"
+                                                                clearIcon={null}
+                                                                calendarIcon={null}
+                                                                onFocus={(date) => this.saveCurrentDateValue(date, "delivered_date")}
+                                                                value={this.state.delivered_date}
+                                                                onBlur={(date) => this.dispatchDateInput(date,"delivered_date")}
+                                                                onChange={(date)=> this.handleSetDate(date, 'delivered_date')}
+                                                    />
+                                                </label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div  className="lowerJobContainerRight">
+                                        <div className="jobMediaContainer">
+                                            {this.props.mediaReducer[this.props.mediaId]  && <JobMediaDisplayContainer mediaId={this.props.mediaId}/>}
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div className="upperJobContainerLeftContent">
-                                    <label className="upperJobContainerLeftLabel">
-                                        <div>Request Date</div>
-                                        <DatePicker className="upperJobContainerLeftContentInput"
-                                                    name="request_date"
-                                                    clearIcon={null}
-                                                    calendarIcon={null}
-                                                    onFocus={(date) => this.saveCurrentDateValue(date, "request_date")}
-                                                    value={new Date(this.state.request_date)}
-                                                    onBlur={(date) => this.dispatchDateInput(date,"request_date")}
-                                                    onChange={(date)=> this.handleSetDate(date, 'request_date')}
-                                        />
-                                    </label>
+                                <div style={{display: "flex"}}>
+                                    <div className="jobControlsBar">
+                                        <form>
+                                            <label style={{'margin-right': '10px'}}>
+                                                Priority
+                                                <input type="checkbox" name="priority" checked={this.state.priority} onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                                            </label>
+
+                                            <label style={{'margin-right': '10px'}}>
+                                                Rush Service
+                                                <input type="checkbox" name="rush_service_used" checked={this.state.rush_service_used}  onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                                            </label>
+                                            <label style={{'margin-right': '10px'}}>
+                                                Transcripts Requested
+                                                <input type="checkbox" name="transcripts_only" checked={this.state.transcripts_only}  onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                                            </label>
+                                            {this.props.ilearn_page_id !== undefined && (
+                                                <label style={{'margin-right': '10px'}}>
+                                                    iLearn:
+                                                    <a target={"_blank"} href={this.ilearnPage}>{this.props.ilearn_page_id}</a>
+                                                </label>
+                                            )}
+                                        </form>
+                                    </div>
                                 </div>
-                                <div className="upperJobContainerLeftContent">
-                                    <label className="upperJobContainerLeftLabel">
-                                        <div>Show Date</div>
-                                        <DatePicker className="upperJobContainerLeftContentInput"
-                                                    name="show_date"
-                                                    clearIcon={null}
-                                                    calendarIcon={null}
-                                                    onFocus={(date) => this.saveCurrentDateValue(date, "show_date")}
-                                                    value={new Date(this.state.show_date)}
-                                                    onBlur={(date) => this.dispatchDateInput(date,"show_date")}
-                                                    onChange={(date)=> this.handleSetDate(date, 'show_date')}
-                                        />
-                                    </label>
-                                </div>
-                                <div className="upperJobContainerLeftContent">
-                                    <label className="upperJobContainerLeftLabel">
-                                        <div>Delivered Date</div>
-                                        <DatePicker className="upperJobContainerLeftContentInput"
-                                                    name="delivered_date"
-                                                    clearIcon={null}
-                                                    calendarIcon={null}
-                                                    onFocus={(date) => this.saveCurrentDateValue(date, "delivered_date")}
-                                                    value={this.state.delivered_date}
-                                                    onBlur={(date) => this.dispatchDateInput(date,"delivered_date")}
-                                                    onChange={(date)=> this.handleSetDate(date, 'delivered_date')}
-                                        />
-                                    </label>
-                                </div>
-                            </form>
-                        </div>
-                        <div className="lowerJobContainerRight">
-                            <div className="jobMediaContainer">
-                                {this.props.mediaReducer[this.props.mediaId]  && <JobMediaDisplayContainer mediaId={this.props.mediaId}/>}
+
                             </div>
-                        </div>
-                        <div className="commentsContainer">
-                            <label>
-                                Comments
-                                <textarea className="commentsInput" type="input" name="comments"  onFocus={this.saveCurrentValue} value={this.state.comments} onBlur={this.dispatchInput} onChange={this.updateState}/>
-                            </label>
-                        </div>
-                    </div>
-                    <div className="jobControlsBar">
-                        <form>
-                            <label style={{'margin-right': '10px'}}>
-                                Priority
-                                <input type="checkbox" name="priority" checked={this.state.priority} onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
-                            </label>
+                            <div style={{margin_right:"5px", margin_left: "auto"}}>
+                                <VideoFileControlsContainer mediaId={this.props.mediaId}/>
+                            </div>
+                            <div  className="commentsContainer">
+                                    <label>
+                                        Comments
+                                        <textarea className="commentsInput" type="input" name="comments"  onFocus={this.saveCurrentValue} value={this.state.comments} onBlur={this.dispatchInput} onChange={this.updateState}/>
+                                    </label>
+                                </div>
 
-                            <label style={{'margin-right': '10px'}}>
-                                Rush Service
-                                <input type="checkbox" name="rush_service_used" checked={this.state.rush_service_used}  onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
-                            </label>
-                            <label style={{'margin-right': '10px'}}>
-                                Transcripts Requested
-                                <input type="checkbox" name="transcripts_only" checked={this.state.transcripts_only}  onFocus={this.saveCurrentValue} onBlur={this.dispatchInput} onChange={this.updateState}/>
-                            </label>
-                            {this.props.ilearn_page_id !== undefined && (
-                                <label style={{'margin-right': '10px'}}>
-                                    iLearn:
-                                    <a target={"_blank"} href={this.ilearnPage}>{this.props.ilearn_page_id}</a>
-                                </label>
-                            )}
-                        </form>
+
+
+
+                        </div>
+
+
+
                     </div>
+
                     <div className="pluginControlsContainer">
                         <div className="pluginContainer">
                             <AstControls job_id={this.props.jobId} ast_jobs={this.props.job.ast_jobs} media_id = {this.props.job.media.id} />
