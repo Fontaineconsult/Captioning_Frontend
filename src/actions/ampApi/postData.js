@@ -420,7 +420,7 @@ export function sendVideoExtractRequestDeferred(media_id, url, format) {
 
         return fetch(`${server_url}/services/extract-deferred`, post_object)
             .then(response => response.text())
-            .then(text => dispatch(receiveTaskId(text)))
+            .then(task_id => dispatch(receiveTaskId(task_id, [fetchMediaById.bind(null,media_id)])))
             .then(() => checkAsyncStatusResource(dispatch))
 
     }

@@ -320,7 +320,7 @@ class VideoFileControlsContainer extends Component {
                         <div className="mediaContentDescriptor">
                             <label style={{'margin-right': '8px'}}>Videos:</label>
                             <Select
-                                style={{width: "50px"}}
+                                style={{border_radius: "6px", width: "50px"}}
                                 name="s3_links"
                                 onChange={this.updateMediaSelectState}
                                 styles={s3ResourceSelect}

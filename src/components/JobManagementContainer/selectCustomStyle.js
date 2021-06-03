@@ -11,7 +11,7 @@ export const customStyles = {
     control: (provided) => ({
         ...provided,
         border: '2px solid #757575',
-        borderRadius: '0',
+        borderRadius: '3px',
         minHeight: '1px',
         height: '30px',
     }),
@@ -73,7 +73,7 @@ export const mediaSelectCustomStyles = {
     control: (provided) => ({
         ...provided,
         border: '1px solid #757575',
-        borderRadius: '0',
+        borderRadius: '3px',
         minHeight: '1px',
         height: '30px',
     }),
@@ -135,7 +135,7 @@ export const captionResourceSelectCustomStyles = {
     control: (provided) => ({
         ...provided,
         border: '1px solid #757575',
-        borderRadius: '0',
+        borderRadius: '3px',
         minHeight: '1px',
         height: '30px',
     }),
@@ -260,7 +260,7 @@ export const s3ResourceSelect = {
     control: (provided) => ({
         ...provided,
         border: '1px solid #757575',
-        borderRadius: '0',
+        borderRadius: '3px',
         minHeight: '1px',
         height: '30px',
     }),
