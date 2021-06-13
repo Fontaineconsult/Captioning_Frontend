@@ -43,7 +43,7 @@ class JobMediaDisplayContainer extends Component {
                                 <label style={{'margin-right': '25px'}}>
                                     Title:
                                 </label>
-                                <div>
+                                <div className="contentTitle">
                                     {this.state.title}
                                 </div>
                             </div>

@@ -245,8 +245,9 @@ export function uploadCaptionFileWithMediaId(captionFile, media_id, temp_id) {
         method: 'POST',
         body: captionFile,
         headers: {
-            'Content-Type': "application/x-subrip"
-        }};
+
+        }
+    };
 
 
 

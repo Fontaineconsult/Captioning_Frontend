@@ -91,7 +91,7 @@ class MediaContentContainer extends Component {
     render() {
 
         let downloadCCDisabled = this.state.caption_select === ''
-        let downloadMediaDisabled = this.state.media_select === ''
+
 
         return (
             <div className="mediaContentContainer">

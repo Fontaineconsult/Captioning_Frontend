@@ -59,8 +59,8 @@
     display: flex;
     margin-top: 3px;
     margin-bottom: 3px;
-    margin-right: 3px;
-    margin-left: auto;
+    margin-right: 13%;
+    margin-left: 60%;
 
 }
 
@@ -186,8 +186,10 @@ width: 50%;
 }
 
 .filtersMainContainer {
-
-
+    border-top: #463077;
+    border-top-style: solid;
+    border-top-width: 2px;
+    background-color: #fafafb;
     border-bottom: #463077;
     border-bottom-style: solid;
     border-bottom-width: 1px;
@@ -364,18 +366,28 @@ margin-right: 5px;
     padding-left: 6px;
     border-left-style: solid;
     border-left-width: 1px;
-    border-left-color: #acacac
+    border-left-color: #acacac;
+
 
 
 }
 
 .captionMediaContainerLeft{
-    width: 80%
+    width: 95%
 
 }
 
 lowerUpperJobContainer {
     display: flex;
     width: 82%;
+
+}
+
+
+.contentTitle {
+    width:430px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 
 }
