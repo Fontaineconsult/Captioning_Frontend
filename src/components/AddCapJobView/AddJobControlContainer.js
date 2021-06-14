@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import NewJobMasterContainer from "./newJobMasterContainer";
+import {NavLink} from "react-router-dom";
 
 
 
@@ -23,15 +24,16 @@ class AddJobControlContainer extends Component {
         return (
 
             <div className="ContentManagementMasterContainer">
-
                 <div className="control-bar">
-                    <div className="controlButton">
-                        Add Job
-                    </div >
-                    <div className="controlButton" >
-                        Edit Media
-                    </div>
+                    <div className="controlBarNavButtons">
+                        <div id="jobManager" role="button" className="navButton">
+                            <NavLink
+                                to={{pathname: "/captioning/add-job",
+                                    search: this.props.location.search,
+                                }}>Add Job</NavLink>
+                        </div>
 
+                    </div>
                 </div>
                 <div className={"masterListItem"}>
                     <NewJobMasterContainer/>
