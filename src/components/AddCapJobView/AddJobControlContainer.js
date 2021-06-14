@@ -35,7 +35,7 @@ class AddJobControlContainer extends Component {
 
                     </div>
                 </div>
-                <div className={"masterListItem"}>
+                <div className={"newJobOuterConainer"}>
                     <NewJobMasterContainer/>
                 </div>
             </div>
