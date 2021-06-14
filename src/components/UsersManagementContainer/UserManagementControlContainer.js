@@ -49,6 +49,12 @@ class UserManagementControlContainer extends Component {
                                     search: this.props.location.search,
                                 }}>Courses</NavLink>
                         </div>
+                        <div id="jobManager" role="button" className="navButton">
+                            <NavLink
+                                to={{pathname: "/captioning/users/students",
+                                    search: this.props.location.search,
+                                }}>Students</NavLink>
+                        </div>
                     </div>
                 </div>
                 <div>

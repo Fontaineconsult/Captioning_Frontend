@@ -182,8 +182,8 @@ class JobContainer extends Component {
                 <div className={"job-container-right"}>
                     <div className="upperJobContainer">
                         <div className="upperJobContainerLeft">
-                            <div tabIndex={0}>Requester Resource: {this.props.requesterResource}</div>
-                            {this.props.student_active === false && (<div style={{'margin-left': '30px'}}>STUDENT DROPPED</div>)}
+                            <div tabIndex={0}>Requester Resource: <span style={{fontWeight:'bold'}}>{this.props.requesterResource}</span></div>
+                            {this.props.student_active === false && (<div className={"noStudentEnrolled"}><b>NO STUDENT ENROLLED</b></div>)}
                         </div>
                         <div className="upperJobContainerRight">
                             <div tabIndex={0} className="upperJobContainerRightContent">Requester: {this.state.employee_first_name} {this.state.employee_last_name} </div>
