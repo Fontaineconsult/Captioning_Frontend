@@ -4,9 +4,26 @@ import {connect} from "react-redux";
 import Select from "react-select";
 import {captionResourceSelectCustomStyles} from "./selectCustomStyle";
 import {updateMedia} from "../../actions/ampApi/putData"
+import {addCaptionedResource} from "../../actions/ampApi/postData"
 import IconButton from "@material-ui/core/IconButton";
 import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Button from "@material-ui/core/Button";
+import {withStyles} from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+
+
+
+const useStyles = theme => ({
+    paper: {
+        position: 'absolute',
+        width: 600,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+});
 
 
 class CaptionResourceContainer extends Component {
@@ -15,38 +32,89 @@ class CaptionResourceContainer extends Component {
         super(props);
         this.state = {
             captioned_url: this.props.primaryCapResource,
-            captionResources: this.props.captionResources
+            captionResources: this.props.captionResources,
+            newCapResource: '',
+            setOpen: false,
+            open: false,
+            modalStyle: this.getModalStyle(),
 
         };
 
         this.updatePrimaryCapResource = this.updatePrimaryCapResource.bind(this)
         this.addCapResource = this.addCapResource.bind(this)
+        this.handleOpen = this.handleOpen.bind(this)
+        this.handleClose = this.handleClose.bind(this)
+        this.addCaptionResourceContent = this.addCaptionResourceContent.bind(this)
+        this.getModalStyle = this.getModalStyle.bind(this)
+        this.updateNewCaptionInput = this.updateNewCaptionInput.bind(this)
+
+    }
+
+
+    updateNewCaptionInput(event) {
+        console.log("EVENT", event.target.value)
+        this.setState({
+            newCapResource: event.target.value
+        });
+
 
     }
 
     addCapResource() {
-        console.log("ADD RESOURCE")
 
+        this.props.dispatch(addCaptionedResource(this.props.media_id,  this.state.newCapResource))
     }
 
     updatePrimaryCapResource(event) {
-
+        console.log("EVENT", event)
         this.setState({
             captioned_url: event
         });
 
-        this.props.dispatch(updateMedia(this.props.media_id,
-            "primary_caption_resource_id",
-            event.value))
-
-
+        this.props.dispatch(updateMedia(this.props.media_id, "primary_caption_resource_id", event.value))
     }
 
     componentDidMount() {
 
             this.setState({
-                captioned_url: this.props.primaryCapResource
+                captioned_url: this.props.primaryCapsource
             })
+
+    }
+
+
+    getModalStyle() {
+        const top = 50
+        const left = 50
+        return {
+            top: `${top}%`,
+            left: `${left}%`,
+            transform: `translate(-${top}%, -${left}%)`,
+        };
+    }
+    handleOpen() {
+
+        this.setState({
+            setOpen: true,
+            open:true
+        })
+    };
+
+    handleClose() {
+        this.setState({
+            setOpen:false,
+            open: false
+        })
+
+    };
+
+    addCaptionResourceContent(){
+
+        return(<div  style={this.state.modalStyle} className={this.props.classes.paper}>
+            <input type="text" name="newCapResource"  value={this.state.newCapResource} onChange={this.updateNewCaptionInput}>
+            </input>
+            <Button disabled={false} name={"extract_video"} size={"small"} onClick={this.addCapResource}>Add Cap Resource</Button>
+        </div>)
 
     }
 
@@ -65,7 +133,13 @@ class CaptionResourceContainer extends Component {
                         }/>
                 </div>
                 <div className={"addCapResource"}>
-                    <AddCircleIcon disabled={false} name={"extract_video"} size={"small"} onClick={this.addCapResource}><AddCircleIcon fontSize={"small"}/></AddCircleIcon>
+
+                        <Button disabled={false} name={"extract_video"} size={"small"} onClick={this.handleOpen}><AddCircleIcon/>
+                        </Button><Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    onClose={this.handleClose}
+                    open={this.state.open}>{this.addCaptionResourceContent()}</Modal>
                 </div>
             </div>
         )
@@ -96,7 +170,18 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
                     label: currentValue.s3_file_resource.file_name,
                 })
 
+
+
+
+
             }
+            if (currentValue.other_id !== null) {
+                accumulator.push({
+                    value: currentValue.id,
+                    label: currentValue.other_resource.source_link,
+                })
+            }
+
             return accumulator
         }, [])
 
@@ -111,6 +196,11 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
                         return {value:item.id,
                             label:<a target="_blank" href={item.s3_file_resource.object_url}>{item.s3_file_resource.file_name}</a> }
                     }
+                    if (item.other_id !== null) {
+                        return {value:item.id,
+                            label:<a target="_blank" href={item.other_resource.source_link}>{item.other_resource.source_link}</a> }
+                    }
+
 
                 }
             })
@@ -128,4 +218,4 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
     }
 }
 
-export default withRouter(connect(mapStateToProps)(CaptionResourceContainer))
+export default withRouter(connect(mapStateToProps)(withStyles(useStyles, { withTheme: true })(CaptionResourceContainer)))

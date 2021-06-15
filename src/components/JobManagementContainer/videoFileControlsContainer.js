@@ -164,7 +164,7 @@ class VideoFileControlsContainer extends Component {
 
         }
 
-        console.log("DSFSDF", file_type)
+
 
 
     }
@@ -271,7 +271,6 @@ class VideoFileControlsContainer extends Component {
             });
         }
 
-        console.log(this.state)
     }
 
     uploadMediaFile(event) {
@@ -287,20 +286,15 @@ class VideoFileControlsContainer extends Component {
     setConverterButtons() {
         if (this.state.media_select !== '') {
             this.setState({
-
                 videoConvertDisabled: false
-
             })
 
-
         }
-
 
     }
 
 
     openCaptionModalContent(){
-        console.log(this.state)
         return(<div  style={this.state.modalStyle} className={this.props.classes.paper}>
             <Select name="rate" options={this.props.captionFiles} value={this.state.captionSelect} onChange={this.updateCaptionSelectState}>
             </Select>
@@ -312,7 +306,7 @@ class VideoFileControlsContainer extends Component {
 
     render() {
         let downloadMediaDisabled = this.state.media_select === ''
-        console.log(this.state)
+
         return (
 
                 <div className={"videoFileControlsContainer"}>

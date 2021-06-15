@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-
+import Modal from "@material-ui/core/Modal";
 import CaptionResourceContainer from './captionResourceContainer'
-import VideoFileControlsContainer from './videoFileControlsContainer'
-import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
-import IconButton from '@material-ui/core/IconButton'
-import Select from "react-select";
-import {captionResourceSelectCustomStyles, s3ResourceSelect} from "./selectCustomStyle";
-import {getS3Link} from "../../actions/ampApi/putData"
-import FlashAutoIcon from '@material-ui/icons/FlashAuto';
+
 import MediaContentContainer from "./jobMediaContentContainer";
+import {v1 as uuidv1} from "uuid";
 
 class JobMediaDisplayContainer extends Component {
 
@@ -19,6 +14,7 @@ class JobMediaDisplayContainer extends Component {
         super(props);
         this.state = {
             captioned_url: "Not Set",
+
         };
 
     }
@@ -31,6 +27,9 @@ class JobMediaDisplayContainer extends Component {
             source_url:this.props.media.source_url
         })
     }
+
+
+
 
 
     render() {

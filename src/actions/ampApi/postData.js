@@ -7,7 +7,7 @@ import {receiveMediaSearch} from '../mediaSearch'
 import { batch } from 'react-redux'
 import {setErrorState} from "../error_state";
 import {receiveCapJobs, addNewAstJob} from "../existingVideoJobs";
-import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia, updateMedia, receiveMedia} from "../media";
+import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia, updateMedia, updateMediaDeep} from "../media";
 import {updateEmployees} from "../employees"
 import {receiveTaskId, clearTaskId} from "../asyncTaskIds";
 import {v1 as uuidv1} from "uuid";
@@ -317,7 +317,7 @@ export function createAmaraResource(media_id, file_id) {
         return fetch(`${server_url}/services/amara`, post_object)
             .then(response => {if (response.ok){
                 fetch(`${server_url}/media?id=${media_id}`).then(
-                    response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
+                    response => errorHandler(response, dispatch, error_id), error => {alert(error)})
                     .then(
                         response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
 
@@ -346,7 +346,7 @@ export function addSRTtoAmaraResource(caption_id, amara_id, media_id) {
         return fetch(`${server_url}/services/amara`, post_object)
             .then(response => {if (response.ok){
                 fetch(`${server_url}/media?id=${media_id}`).then(
-                    response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
+                    response => errorHandler(response, dispatch, error_id), error => {alert(error)})
                     .then(
                         response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
                     )
@@ -370,7 +370,7 @@ export function sendVideoExtractRequest(media_id, url, format) {
         return fetch(`${server_url}/services/extract`, post_object)
             .then(response => {if (response.ok){
                 fetch(`${server_url}/media?id=${media_id}`).then(
-                    response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
+                    response => errorHandler(response, dispatch, error_id), error => {alert(error)})
                     .then(
                         response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
                     )
@@ -395,7 +395,7 @@ export function addCampusAssociationAssignment(campus_org_id, employee_id, semes
         return fetch(`${server_url}/campus-org-assignment`, post_object)
             .then(response => {if (response.ok){
                 fetch(`${server_url}/requesters?employee_id=all&semester=${semester}`).then(
-                    response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
+                    response => errorHandler(response, dispatch, error_id), error => {alert(error)})
                     .then(
                         response => {responseHandler(response, dispatch, [receiveRequester], error_id, LoadingInstructors)}
                     )
@@ -403,6 +403,33 @@ export function addCampusAssociationAssignment(campus_org_id, employee_id, semes
 
 
 }
+}
+
+
+export function addCaptionedResource(media_id, source_link) {
+
+    let error_id = uuidv1()
+    let data_object = {media_id:media_id, source_link:source_link};
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+    return dispatch => {
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/other-cap-resources`, post_object)
+            .then(response => {if (response.ok){
+                fetch(`${server_url}/media?id=${media_id}`).then(
+                    response => errorHandler(response, dispatch, error_id), error => {alert(error)})
+                    .then(
+                        response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
+                    )
+            } else {alert("Something went wrong with upload")} } )
+
+
+    }
 }
 
 

@@ -30,7 +30,7 @@ function checkResponse(data) {
 export function updateMedia(media_id, column, value) {
 
     let data_object = { id: media_id, column: column, value: value };
-
+    console.log("ZEERRPSS", data_object)
     let put_object = {
         method: 'PUT',
         body: JSON.stringify(data_object),
@@ -40,9 +40,9 @@ export function updateMedia(media_id, column, value) {
     };
     return dispatch => {
 
-        dispatch(updateMediaDeep(data_object));
+
         return fetch(`${server_url}/media`, put_object)
-            .then(data => console.log(JSON.stringify(data.response)))
+            .then(data => dispatch(updateMediaDeep(data_object)))
             .catch(error => api_failure(error))
     }}
 
@@ -251,7 +251,7 @@ export function sendEmailCommandJobs(requester_id, template, params) {
 export function sendEmailCommandCourses(requester_id, template, params) {
 
     let error_id = uuidv1()
-    let data_object = { template:template, params: params};
+    let data_object = { template:template, params: params };
 
     let put_object = {
         method: 'PUT',
@@ -277,3 +277,4 @@ export function sendEmailCommandCourses(requester_id, template, params) {
 
 
 }
+
