@@ -39,7 +39,7 @@ class JobContainer extends Component {
             priority: false,
             request_date:  Date(),
             show_date: Date(),
-            delivered_date: new Date(),
+            delivered_date: Date(),
             requester_id: '',
             rush_service_used: false,
             transcripts_only: false,
@@ -81,7 +81,7 @@ class JobContainer extends Component {
     }
 
     saveCurrentDateValue(value, name) {
-
+        console.log("ZORPS")
         this.prev_value = this.state[name]
 
     }
@@ -259,7 +259,7 @@ class JobContainer extends Component {
                                                                 clearIcon={null}
                                                                 calendarIcon={null}
                                                                 onFocus={(date) => this.saveCurrentDateValue(date, "delivered_date")}
-                                                                value={this.state.delivered_date}
+                                                                value={new Date(this.state.delivered_date)}
                                                                 onBlur={(date) => this.dispatchDateInput(date,"delivered_date")}
                                                                 onChange={(date)=> this.handleSetDate(date, 'delivered_date')}
                                                     />
