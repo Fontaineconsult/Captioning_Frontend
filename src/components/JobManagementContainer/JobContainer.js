@@ -381,20 +381,18 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
     let ilearn_page_id = undefined
     if (coursesReducer[requesterResource] !== undefined){
 
-        if (coursesReducer[requesterResource].ilearn_page_id.ilearn_page_id  !== null) {
+        if (coursesReducer[requesterResource].ilearn_page_id !== null) {
             ilearn_page_id = coursesReducer[requesterResource].ilearn_page_id.ilearn_page_id
         } else {
             ilearn_page_id = 'Not Available'
         }
 
-
-
-            student_active = 0
-            if (coursesReducer[requesterResource].students_enrolled.some(capActiveFunc) === true) {
-                student_active += 1
-            } else {
-                student_active += 0
-            }
+    student_active = 0
+    if (coursesReducer[requesterResource].students_enrolled.some(capActiveFunc) === true) {
+        student_active += 1
+    } else {
+        student_active += 0
+    }
 
 
 
