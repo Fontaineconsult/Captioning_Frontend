@@ -35,7 +35,6 @@ class AsyncJobChecker {
                 return object.task_id
             },[])
 
-            console.log("ZOOsdfdsfsdfdsfsfPRS", task_id_list)
             let post_object = {
                 method: 'POST',
                 body: JSON.stringify({"task_id": task_id_list}),
