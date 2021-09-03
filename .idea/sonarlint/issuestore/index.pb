@@ -175,3 +175,7 @@ k
 ;src/components/EmailManagementContainer/NewJobsContainer.js,3\6\36f0f69cc2b289112b195b25633ad16388a76199
 k
 ;src/components/EmailManagementContainer/NewJobsTabulator.js,d\b\db5375e2a95710c75e95932a16502968ec51e647
+K
+src/css/addJobContainer.css,7\6\767d9e1a614f97541c73f50c816539c089ec94f7
+s
+Csrc/components/JobManagementContainer/videoFileControlsContainer.js,2\c\2c2370991f32e2eb5dfef0d7cceddee96afdffcd

@@ -38,7 +38,7 @@ export function updateCapJob(job_id, column, value) {
 }
 
 export function replaceCapJobData(data) {
-    console.log("DATAAA", data)
+
 
     return {
         type: REPLACE_CAP_JOB_DATA,
