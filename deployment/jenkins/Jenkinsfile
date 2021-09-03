@@ -74,6 +74,7 @@ pipeline {
 
                     cd workspace/frontend
                     npm install
+                    npm update
                     npm run build --no-cache
                     ls
                    '''
@@ -115,30 +116,27 @@ pipeline {
                   '''
             }
         }
+        stage('Start Docker Cloudwatch Agent') {
+            agent any
+            steps {
+                sh '''
+                    docker volume create logs
+                    docker pull amazon/cloudwatch-agent
+                    
+                    
+                  '''
+            }
+        }
 
-
-
-//        stage("Start Redis") {
-//            agent any
-//            steps {
-//                sh '''
-//                    redis-server --daemonize yes
-//                   '''
-//            }
-//
-//
-//
-//        }
-
-//
         stage('Run Docker Image') {
             agent any
             steps {
                 sh '''
+                    docker volume create logs
                     redis-server --daemonize yes
                     ls workspace/backend/deployment/docker/
                     docker stop $(docker ps -aq)
-                    docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list amp-dev:latest
+                    docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list -v logs:/var/logs/apache2 amp-dev:latest
                     docker rmi $(docker images -f dangling=true -q) --force
                     docker system prune -a -f
 
@@ -147,6 +145,9 @@ pipeline {
 
             }
         }
+
+
+
     }
 
 
