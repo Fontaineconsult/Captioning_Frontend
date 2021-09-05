@@ -179,3 +179,9 @@ K
 src/css/addJobContainer.css,7\6\767d9e1a614f97541c73f50c816539c089ec94f7
 s
 Csrc/components/JobManagementContainer/videoFileControlsContainer.js,2\c\2c2370991f32e2eb5dfef0d7cceddee96afdffcd
+K
+src/actions/asyncTaskIds.js,c\b\cb2336be006f80be3f63f1df3e0fbe611255c223
+J
+src/actions/asyncStatus.js,e\6\e651f9ad950ac7df7d9ad437cacd03cd91477c3e
+Q
+!src/middleware/taskStatusCheck.js,5\2\52852d4bf39f5398dc1e911bf29cdbaf14c6ffbc
