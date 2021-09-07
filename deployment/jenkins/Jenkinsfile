@@ -83,6 +83,7 @@ pipeline {
         }
 
 
+
         stage('Copy Build Files') {
             agent any
             steps {
@@ -108,7 +109,6 @@ pipeline {
             steps {
                 sh '''
                     cd workspace/backend
-
                     ls
                     dos2unix Dockerfile
                     dos2unix deployment/docker/celeryd.conf
@@ -116,20 +116,20 @@ pipeline {
                   '''
             }
         }
-//        stage('Start Docker Cloudwatch Agent') {
-//            agent any
-//            steps {
-//                sh '''
-//
-//                    docker volume create logs
-//                    cd workspace/backend/deployment/docker/cloudwatch
-//                    docker build -t cloudwatch .
-//                    docker run -t -v logs/apache_logs cloudwatch:latest
-//
-//
-//                  '''
-//            }
-//        }
+        stage('Start Docker Cloudwatch Agent') {
+            agent any
+            steps {
+                sh '''
+
+                    docker volume create logs
+                    cd workspace/backend/deployment/docker/cloudwatch
+                    docker build -t cloudwatch .
+                    docker run -d -it -v logs:/sharedlogs cloudwatch:latest
+
+
+                  '''
+            }
+        }
 
         stage('Run Docker Website Image') {
             agent any
@@ -140,8 +140,7 @@ pipeline {
                     ls workspace/backend/deployment/docker/
                     docker stop $(docker ps -aq)
                     docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list -v logs:/var/www/sharedlogs amp-dev:latest
-                    docker rmi $(docker images -f dangling=true -q) --force
-                    docker system prune -a -f
+
 
 
                   '''
@@ -156,3 +155,5 @@ pipeline {
 
 }
 
+//docker rmi $(docker images -f dangling=true -q) --force
+//docker system prune -a -f

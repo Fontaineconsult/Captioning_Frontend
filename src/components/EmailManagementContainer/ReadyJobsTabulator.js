@@ -114,8 +114,16 @@ function mapStateToProps({videosJobsReducer,
             requester_id = requesterReducer[job.requester_id].id
             requester_name = requesterReducer[job.requester_id].course_id
             employee_id = requesterReducer[job.requester_id].employee_id
-            template = "NotifyReadyJobsSingleAutoCaption"
             block_send = job.media.primary_caption_resource_id == null
+
+            if (job.output_format === 'Amara') {
+                template = "NotifyReadyJobsSingleAutoCaption"
+            }
+
+            if (job.output_format === 'SRT') {
+                template = "NotifyReadyCoursesWithAttachment"
+
+            }
 
         } else {
             requester_id = requesterReducer[job.requester_id].id
