@@ -130,8 +130,15 @@ function mapStateToProps({videosJobsReducer,
             requester_name = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
             employee_id = requesterReducer[job.requester_id].org_employee_id
             template = 'NotifyReadyJobsOrgs'
-            block_send = job.media.primary_caption_resource_id === null && !job.media.media_objects.some(element => element.associated_captions !== null)
 
+            if (job.output_format === 'Amara') {
+                block_send = job.media.primary_caption_resource_id === null && !job.media.media_objects.some(element => element.associated_captions !== null)
+            }
+
+            if (job.output_format === 'SRT') {
+                block_send = false
+
+            }
         }
 
 
