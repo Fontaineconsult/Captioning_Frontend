@@ -114,10 +114,12 @@ function mapStateToProps({videosJobsReducer,
             requester_id = requesterReducer[job.requester_id].id
             requester_name = requesterReducer[job.requester_id].course_id
             employee_id = requesterReducer[job.requester_id].employee_id
-            block_send = job.media.primary_caption_resource_id == null
 
-            if (job.output_format === 'Amara') {
+
+            if (job.output_format === 'Amara' || job.output_format === 'Open Caption' || job.output_format === 'Video File') {
                 template = "NotifyReadyJobsSingleAutoCaption"
+                block_send = job.media.primary_caption_resource_id == null
+
             }
 
             if (job.output_format === 'SRT') {
