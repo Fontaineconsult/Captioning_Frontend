@@ -39,7 +39,7 @@ pipeline {
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'workspace/backend']],
                         submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/accessiblebookchecker']]
+                        userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://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@github.com/Fontaineconsult/Captioning_Frontend']]
                 ])
 
             }
@@ -55,7 +55,7 @@ pipeline {
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'workspace/frontend']],
                         submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://github.com/Fontaineconsult/Captioning_Frontend']]
+                        userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://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@github.com/Fontaineconsult/Captioning_Frontend']]
                 ])
             }
         }
