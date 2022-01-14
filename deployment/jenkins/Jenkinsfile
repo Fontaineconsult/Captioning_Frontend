@@ -2,6 +2,7 @@
 def awsCredentials = [[$class: 'AmazonWebServicesCredentialsBinding',
                        credentialsId: 'DPRC_AWS_CREDS']]
 
+
 pipeline {
     environment {
         AWS_REGION = 'us-west-2'
@@ -15,6 +16,7 @@ pipeline {
         stage('Clear Workspace') {
             agent any
             steps {
+
 
                 sh '''
                     sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace
@@ -39,7 +41,7 @@ pipeline {
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'workspace/backend']],
                         submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://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@github.com/Fontaineconsult/Captioning_Frontend']]
+                        userRemoteConfigs: [[credentialsId: 'GitHubAccessToken', url: 'https://github.com/Fontaineconsult/accessiblebookchecker/']]
                 ])
 
             }
@@ -55,7 +57,7 @@ pipeline {
                         doGenerateSubmoduleConfigurations: false,
                         extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'workspace/frontend']],
                         submoduleCfg: [],
-                        userRemoteConfigs: [[credentialsId: 'githubaccount', url: 'https://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@github.com/Fontaineconsult/Captioning_Frontend']]
+                        userRemoteConfigs: [[credentialsId: 'GitHubAccessToken', url: 'https://github.com/Fontaineconsult/Captioning_Frontend']]
                 ])
             }
         }
@@ -89,18 +91,18 @@ pipeline {
             steps {
                 sh '''
                     sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace
-                    ls workspace/backend/application/flask_site/pages/static/
-                    mkdir workspace/backend/application/flask_site/pages/static/react
-                    mkdir workspace/backend/application/flask_site/pages/static/react/static
-                    mkdir workspace/backend/application/flask_site/pages/static/react/static/css
-                    mkdir workspace/backend/application/flask_site/pages/static/react/static/js
-                    ls workspace/backend/application/flask_site/pages/static/
-                    sudo -u jenkins mv workspace/frontend/build/index.html workspace/backend/application/flask_site/pages/templates/
-                    sudo -u jenkins mv workspace/frontend/build/static/css/* workspace/backend/application/flask_site/pages/static/react/static/css/
-                    sudo -u jenkins mv workspace/frontend/build/static/js/* workspace/backend/application/flask_site/pages/static/react/static/js/
-                    ls workspace/backend/application/flask_site/pages/static/react/
-                    ls workspace/backend/application/flask_site/pages/static/react/static/css
-                    ls workspace/backend/application/flask_site/pages/static/react/static/js
+                    ls workspace/backend/root/application/flask_site/pages/static/
+                    mkdir workspace/backend/root/application/flask_site/pages/static/react
+                    mkdir workspace/backend/root/application/flask_site/pages/static/react/static
+                    mkdir workspace/backend/root/application/flask_site/pages/static/react/static/css
+                    mkdir workspace/backend/root/application/flask_site/pages/static/react/static/js
+                    ls workspace/backend/root/application/flask_site/pages/static/
+                    sudo -u jenkins mv workspace/frontend/build/index.html workspace/backend/root/application/flask_site/pages/templates/
+                    sudo -u jenkins mv workspace/frontend/build/static/css/* workspace/backend/root/application/flask_site/pages/static/react/static/css/
+                    sudo -u jenkins mv workspace/frontend/build/static/js/* workspace/backend/root/application/flask_site/pages/static/react/static/js/
+                    ls workspace/backend/root/application/flask_site/pages/static/react/
+                    ls workspace/backend/root/application/flask_site/pages/static/react/static/css
+                    ls workspace/backend/root/application/flask_site/pages/static/react/static/js
                   '''
             }
         }
@@ -110,26 +112,14 @@ pipeline {
                 sh '''
                     cd workspace/backend
                     ls
-                    dos2unix Dockerfile
-                    dos2unix deployment/docker/celeryd.conf
+                    dos2unix root/Dockerfile
+                    dos2unix root/deployment/docker/celeryd.conf
+                    cd root/
                     docker build -t amp-dev .
                   '''
             }
         }
-        stage('Start Docker Cloudwatch Agent') {
-            agent any
-            steps {
-                sh '''
 
-                    docker volume create logs
-                    cd workspace/backend/deployment/docker/cloudwatch
-                    docker build -t cloudwatch .
-                    docker run -d -it -v logs:/sharedlogs cloudwatch:latest
-
-
-                  '''
-            }
-        }
 
         stage('Run Docker Website Image') {
             agent any
@@ -137,11 +127,12 @@ pipeline {
                 sh '''
 
                     redis-server --daemonize yes
-                    ls workspace/backend/deployment/docker/
+                    ls workspace/root/backend/deployment/docker/
                     docker stop $(docker ps -aq)
-                    docker run -d -it --net=host --env-file workspace/backend/deployment/docker/env.list -v logs:/var/www/sharedlogs amp-dev:latest
-
-
+                    docker run -d -it --net=host --env-file workspace/root/backend/deployment/docker/env.list -v /home/ubuntu/sharedlogs:/var/www/sharedlogs amp-dev:latest
+                    docker rmi $(docker images -f dangling=true -q) --force
+                    docker system prune -a -f
+                     
 
                   '''
 
@@ -154,6 +145,3 @@ pipeline {
 
 
 }
-
-//docker rmi $(docker images -f dangling=true -q) --force
-//docker system prune -a -f
