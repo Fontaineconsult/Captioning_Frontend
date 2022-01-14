@@ -110,7 +110,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-                    cd workspace/root/backend
+                    cd workspace/backend
                     ls
                     dos2unix Dockerfile
                     dos2unix deployment/docker/celeryd.conf
