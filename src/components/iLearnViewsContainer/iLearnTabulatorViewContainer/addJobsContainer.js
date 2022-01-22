@@ -36,7 +36,8 @@ class AddJobsiLearnContainer extends Component {
                 delivery_format: "Amara",
                 comments: "Added from iLearn Page section " + row._row.data.page_section,
                 requester_id: requester_id,
-                semester: this.props.semester
+                semester: this.props.semester,
+                ilearn_auto_caption: true
             };
 
             this.props.dispatch(addJobInfoToTempJob(id, reducer_obj))
