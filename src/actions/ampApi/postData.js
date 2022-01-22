@@ -95,6 +95,7 @@ export function AddVideoJobBatch(jobsReducer) {
                 'media_id': parseInt(currentJob.video.id, 10),
                 'output_format': currentJob.job_info.delivery_format,
                 'comments': currentJob.job_info.comments,
+                'ilearn_auto_caption': currentJob.job_info.ilearn_auto_caption,
                 'semester': currentJob.job_info.semester}
                 
             return {

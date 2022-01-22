@@ -117,7 +117,8 @@ function mapStateToProps({tempJobsFormReducer, requesterReducer, campusOrgReduce
             video_title: videoJob.video.title,
             video_url: videoJob.video.source_url,
             show_date: showDateToggle(videoJob.job_info.show_date),
-            delivery_format: videoJob.job_info.delivery_format
+            delivery_format: videoJob.job_info.delivery_format,
+            ilearn_auto_caption: videoJob.job_info.ilearn_auto_caption
         }
     };
 

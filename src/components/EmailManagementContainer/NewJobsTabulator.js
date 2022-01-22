@@ -104,14 +104,16 @@ function mapStateToProps({videosJobsReducer,
 
 
     let formatData = (job) => {
-
+        console.log("JOBBBBB", job)
         let block_send = false
         let requester_id
         let requester_name
         let employee_id
         let template
         if (requesterReducer[job.requester_id].course_id !== null) {
-            if (requesterReducer[job.requester_id].course_id !== false) {
+
+
+            if (job.ilearn_auto_caption === false) {
                 requester_id = requesterReducer[job.requester_id].id
                 requester_name = requesterReducer[job.requester_id].course_id
                 employee_id = requesterReducer[job.requester_id].employee_id
@@ -119,7 +121,7 @@ function mapStateToProps({videosJobsReducer,
 
             }
 
-            if (requesterReducer[job.requester_id].course_id !== true) {
+            if (job.ilearn_auto_caption === true) {
                 requester_id = requesterReducer[job.requester_id].id
                 requester_name = requesterReducer[job.requester_id].course_id
                 employee_id = requesterReducer[job.requester_id].employee_id

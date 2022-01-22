@@ -39,7 +39,8 @@ class NewJobFormContainer extends Component {
             delivery_format: this.state.delivery_format,
             comments: this.state.comments,
             requester_id: this.props.requesterId.requester_id,
-            semester: this.props.semester
+            semester: this.props.semester,
+            ilearn_auto_caption: false
         };
 
         this.props.dispatch(addJobInfoToTempJob(this.props.transaction_id, reducer_obj))
