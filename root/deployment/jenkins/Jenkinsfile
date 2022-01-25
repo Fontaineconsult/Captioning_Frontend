@@ -20,7 +20,6 @@ pipeline {
 
                 sh '''
                     sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace
-
                     cd /var/lib/jenkins/workspace/amp-dev-build-pipeline
                     pwd
                     sudo -u jenkins rm -rf *
