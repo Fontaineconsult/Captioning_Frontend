@@ -110,6 +110,7 @@ function mapStateToProps({videosJobsReducer,
         let requester_name
         let employee_id
         let template
+        console.log("OUTPUT FORMAT", job.output_format)
         if (requesterReducer[job.requester_id].course_id !== null) {
             requester_id = requesterReducer[job.requester_id].id
             requester_name = requesterReducer[job.requester_id].course_id
