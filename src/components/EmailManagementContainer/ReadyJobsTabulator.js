@@ -123,8 +123,22 @@ function mapStateToProps({videosJobsReducer,
             }
 
             if (job.ilearn_auto_caption === false) {
-                template = "NotifyReadyCoursesWithAttachment"
 
+                if (job.output_format === 'SRT') {
+                    template = "NotifyReadyCoursesWithAttachment"
+
+                }
+
+                if (job.output_format === 'Open Cap' || job.output_format === 'File') {
+                    template = "NotifyReadyCoursesWithFileLinks"
+
+                }
+
+
+                // if (job.output_format === 'Open Cap' || job.output_format === 'Amara') {
+                //     template = "NotifyReadyCoursesWithAttachment"
+                //
+                // }
             }
 
         } else {
