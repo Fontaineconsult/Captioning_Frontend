@@ -91,7 +91,7 @@ pipeline {
             steps {
                 sh '''
                     sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace
-                    ls workspace/backend/root/application/flask_site/pages/static/
+                    ls workspace/backend
                     mkdir workspace/backend/root/application/flask_site/pages/static/react
                     mkdir workspace/backend/root/application/flask_site/pages/static/react/static
                     mkdir workspace/backend/root/application/flask_site/pages/static/react/static/css
