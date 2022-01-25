@@ -129,11 +129,15 @@ function mapStateToProps({videosJobsReducer,
 
                 }
 
-                if (job.output_format === 'Open Cap' || job.output_format === 'File') {
+                if (job.output_format === 'Open Caption') {
                     template = "NotifyReadyCoursesWithFileLinks"
 
                 }
 
+                if (job.output_format === 'File') {
+                    template = "NotifyReadyCoursesWithFileLinks"
+
+                }
 
                 // if (job.output_format === 'Open Cap' || job.output_format === 'Amara') {
                 //     template = "NotifyReadyCoursesWithAttachment"
