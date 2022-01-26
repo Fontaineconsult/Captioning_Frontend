@@ -118,25 +118,33 @@ function mapStateToProps({videosJobsReducer,
 
 
             if (job.ilearn_auto_caption === true) {
-                template = "NotifyReadyJobsSingleAutoCaption"
-                block_send = job.media.primary_caption_resource_id == null
+
+                if (job.output_format === 'Amara') {
+                    template = "NotifyReadyJobsSingleAutoCaption"
+                    block_send = job.media.primary_caption_resource_id == null
+
+                }
+
+
 
             }
 
             if (job.ilearn_auto_caption === false) {
 
                 if (job.output_format === 'SRT') {
-                    template = "NotifyReadyCoursesWithAttachment"
+                    template = "NotifyCourseCaptionReadyFileAttached"
 
                 }
 
                 if (job.output_format === 'Open Caption') {
                     template = "NotifyReadyCoursesWithFileLinks"
+                    block_send = job.media.primary_caption_resource_id == null
 
                 }
 
                 if (job.output_format === 'File') {
                     template = "NotifyReadyCoursesWithFileLinks"
+                    block_send = job.media.primary_caption_resource_id == null
 
                 }
 
