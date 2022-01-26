@@ -17,8 +17,8 @@ class NewJobFormContainer extends Component {
 
             comments: "",
             show_date: new Date(),
-            delivery_format: "Amara"
-
+            delivery_format: "Amara",
+            is_auto_caption: false
         };
         this.addJobInfo = this.addJobInfo.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this)
@@ -40,7 +40,7 @@ class NewJobFormContainer extends Component {
             comments: this.state.comments,
             requester_id: this.props.requesterId.requester_id,
             semester: this.props.semester,
-            ilearn_auto_caption: false
+            ilearn_auto_caption: this.state.is_auto_caption
         };
 
         this.props.dispatch(addJobInfoToTempJob(this.props.transaction_id, reducer_obj))
@@ -50,7 +50,7 @@ class NewJobFormContainer extends Component {
 
     handleInputChange(event) {
         const target = event.target;
-        const value = target.value;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
         if (!this.props.isLocked) {
             this.setState({
@@ -68,14 +68,15 @@ class NewJobFormContainer extends Component {
                     comments: '',
                     show_date: new Date(),
                     delivery_format: "Amara",
-                    requester_id: this.props.requesterId
+                    requester_id: this.props.requesterId,
+                    is_auto_caption: false
                 })
             }
         }
     }
 
     render() {
-
+        console.log("STATE", this.state)
         return (
 
             <div>
@@ -105,6 +106,17 @@ class NewJobFormContainer extends Component {
                                 </Select>
                             </label>
                         </div>
+                        <div>
+                            <label>
+                                iLearn Auto Caption
+                                <input name="is_auto_caption"
+                                       type="checkbox"
+                                       value={this.state.is_auto_caption}
+                                       onChange={this.handleInputChange}
+                                />
+                            </label>
+
+                        </div>
                     </div>
                     <div className="jobFormRight">
                         <label>
@@ -122,8 +134,6 @@ class NewJobFormContainer extends Component {
                     </div>
 
                 </form>
-
-
                 <Button size="small"  variant="contained" onClick={e => this.addJobInfo(e)} disabled={!this.props.submitButtonEnabled}>Complete Request</Button>
 
             </div>
