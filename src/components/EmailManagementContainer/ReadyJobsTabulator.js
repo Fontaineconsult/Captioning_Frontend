@@ -122,9 +122,12 @@ function mapStateToProps({videosJobsReducer,
                 if (job.output_format === 'Amara') {
                     template = "NotifyReadyJobsSingleAutoCaption"
                     block_send = job.media.primary_caption_resource_id == null
-
                 }
 
+                if (job.output_format === 'SRT') {
+                    template = "NotifyCourseCaptionReadyFileAttached"
+
+                }
 
 
             }
@@ -132,7 +135,7 @@ function mapStateToProps({videosJobsReducer,
             if (job.ilearn_auto_caption === false) {
 
                 if (job.output_format === 'SRT') {
-                    template = "NotifyCourseCaptionReadyFileAttached"
+                    template = "NotifyCourseVideoCaptionsReadyRequestedByInstructor"
 
                 }
 
