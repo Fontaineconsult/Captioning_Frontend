@@ -225,7 +225,7 @@ class JobManagementControlContainer extends Component {
                                         rowRenderer={this.renderRow}
                                         rowCount={this.state.videoJobs.length}
                                         data={this.state.job_status}
-                                        overscanRowCount={5}/>
+                                        overscanRowCount={1}/>
                                 }
                             }
                         </AutoSizer>
