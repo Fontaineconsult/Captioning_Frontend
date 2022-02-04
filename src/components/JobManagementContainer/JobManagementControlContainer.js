@@ -229,10 +229,6 @@ class JobManagementControlContainer extends Component {
                                 }
                             }
                         </AutoSizer>
-
-
-
-
                 </div>
             </div>
         )

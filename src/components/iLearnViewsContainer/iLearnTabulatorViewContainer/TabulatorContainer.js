@@ -198,7 +198,7 @@ class TabulatorContainer extends Component {
             { title: "Title", field: "title", editor:"input"},
             { title: "Captioned", field: "captioned", width: 130, hozAlign :"center", formatter: reactFormatter(<this.IsCaptionedButton />) },
             { title: "CC",  width: 75, field: "captioned_link", hozAlign :"center", formatter: reactFormatter(<this.ClosedCaptionLink />)},
-            { title: "Show Date", editor:tabFuncs.datePicker , field: "indicated_due_date", width: 160 },
+            { title: "Parent", width: 80, field: "resource_type",  hozAlign :"center", formatter: "link", formatterParams:{target:"_blank", urlField:'parent'}},
             { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
             { title: "Scan Date", hozAlign:"center", field: "scan_date", width: 105 },
             { title: "Submitted", field: "submitted_for_processing",  hozAlign :"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
@@ -299,6 +299,8 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
             page_section: video.page_section,
             ignore_video: video.ignore_video,
             invalid_link: video.invalid_link,
+            resource_type: video.resource_type,
+            parent: video.parent_url,
             video_passed: video.auto_caption_passed,
             content_hidden: video.content_hidden
 
