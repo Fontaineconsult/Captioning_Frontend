@@ -10,7 +10,10 @@ import {clearMediaSearch} from "../../actions/mediaSearch"
 import {removeErrorState} from "../../actions/error_state"
 import NewJobFormContainer from "./newJobFormContainer"
 import MediaDisplayContainer from "../AddMediaContainer/mediaDisplayContainer";
+import ListItemsMasterContainer from "../AddCapJobView/playlistsContainer"
 import '../../css/addJobContainer.css'
+import {Checkbox} from "@material-ui/core";
+import {Label} from "@material-ui/icons";
 
 class JobPrepContainer extends Component {
 
@@ -18,15 +21,27 @@ class JobPrepContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            transaction_id:''
+            transaction_id:'',
+            listItemsView: false
         };
 
         this.createTransaction = this.createTransaction.bind(this)
         this.finalizeTransaction = this.finalizeTransaction.bind(this)
         this.clearTransaction = this.clearTransaction.bind(this)
+        this.handleInputChange = this.handleInputChange.bind(this)
     }
 
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
 
+
+
+        this.setState({
+            [name]: value
+        });
+    }
 
     createTransaction (event) {
         let transaction_id = uuidv1()
@@ -86,25 +101,41 @@ class JobPrepContainer extends Component {
                     <div className="jobPrepButton">
                         <Button size='small' variant="contained"  onClick={e => this.clearTransaction(e)}  disabled={this.props.clearDisabled}>Clear</Button>
                     </div>
+                    <div className="listModeCheck">
+                        <label>List Mode
+                            <input
+                                name="listItemsView"
+                                type="checkbox"
+                                checked={this.state.listItemsView}
+                                onChange={this.handleInputChange}
+                            />
+
+                        </label>
+
+                    </div>
 
 
                 </div>
                 <div className="jobPrepContainer">
 
                     <div className="jobPrepContainerLeft">
-                        <div className="newMediaOuterContainer">
 
-                            <NewMediaContainer
-                                               transaction_id = {this.state.transaction_id}
-                                               isLocked = {isLocked}
-                            />
-                        </div>
-                        <div className="newJobFormOuterContainer">
-                            <NewJobFormContainer requesterId = {this.props.requesterId}
-                                                 transaction_id = {this.state.transaction_id}
-                                                 isLocked = {isLocked}
-                            />
-                        </div>
+
+
+                        {!this.state.listItemsView &&
+                                <NewMediaContainer transaction_id = {this.state.transaction_id} isLocked = {isLocked}/>
+                        }
+
+                        {!this.state.listItemsView && <NewJobFormContainer requesterId = {this.props.requesterId}
+                                                                          transaction_id = {this.state.transaction_id}
+                                                                          isLocked = {isLocked}/>
+                        }
+
+                        {this.state.listItemsView && <ListItemsMasterContainer  isLocked = {isLocked}
+                                                                                requesterId = {this.props.requesterId}
+                                                                                transaction_id = {this.state.transaction_id}/>}
+
+
                     </div>
 
                     <div className="jobPrepContainerRight">

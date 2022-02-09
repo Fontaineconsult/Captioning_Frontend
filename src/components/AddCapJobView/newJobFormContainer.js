@@ -76,9 +76,9 @@ class NewJobFormContainer extends Component {
     }
 
     render() {
-        console.log("STATE", this.state)
-        return (
 
+        return (
+            <div className="newJobFormOuterContainer">
             <div>
                 <form className="jobForm">
 
@@ -137,7 +137,7 @@ class NewJobFormContainer extends Component {
                 <Button size="small"  variant="contained" onClick={e => this.addJobInfo(e)} disabled={!this.props.submitButtonEnabled}>Complete Request</Button>
 
             </div>
-
+            </div>
 
         )
     }

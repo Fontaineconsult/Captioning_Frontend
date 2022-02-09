@@ -23,10 +23,10 @@ import  download  from 'downloadjs';
 import { v1 as uuidv1 } from 'uuid';
 
 import fetch from "cross-fetch";
+import {receiveVideoList} from "../videoLists";
 
 
 const server_url = endpoint();
-
 
 
 function checkResponse(data) {
@@ -377,3 +377,14 @@ export function downloadMediaFile(item_id, media_id) {
     }
 
 }
+
+export function getVideoList(list_id, task) {
+
+
+    return dispatch => {
+        return fetch(`${server_url}/services/youtube?task=${task}&playlistid=${list_id}`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveVideoList(data)))
+            .then(data => console.log(data))
+
+    }}
