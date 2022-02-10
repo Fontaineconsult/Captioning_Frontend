@@ -33,7 +33,7 @@ class JobMediaDisplayContainer extends Component {
 
 
     render() {
-        let renderFileObj = this.props.fileObject.associated_files !== undefined && this.props.media.media_type === 'File'
+
         return (
             <div className="capJobMediaContainer">
                 <div style={{display: "flex"}}>
@@ -51,7 +51,7 @@ class JobMediaDisplayContainer extends Component {
                         <div className="capJobMediaContentContainer">
                             <div tabIndex={0} className="mediaContentDescriptor">
                                 {this.props.media.media_type === 'File' && (<label style={{'margin-right': '10px'}}>Source: </label>)}
-                                {renderFileObj === true && <a href={this.props.download_url}>{this.props.fileObject.associated_files.file_name}</a>}
+                                {/*{this.props.media.media_type === 'File' && <a href={this.props.download_url}>{this.props.fileObject.associated_files.file_name}</a>}*/}
 
                                 {this.props.media.media_type === 'URL' && (<div><label style={{'margin-right': '10px'}}>Source: </label></div>)}
                                 {this.props.media.media_type === 'URL' && (<div className={"sourceUrlLink"}><a target="_blank" href={this.state.source_url}>{this.state.source_url}</a></div>)}
