@@ -6,7 +6,11 @@ import {
     ADD_MEDIA_TO_TEMP_JOB_NO_ID,
     CLEAR_TEMP_CAP_JOBS,
     UPDATE_TEMP_CAP_JOBS_FORM_JOBS,
-    CLEAR_INCOMPLETE_TEMP_CAP_JOBS, REMOVE_ITEM_FROM_TEMP_CAP_JOBS, UPDATE_TEMP_JOBS_UPLOAD_STATE
+    CLEAR_INCOMPLETE_TEMP_CAP_JOBS,
+    REMOVE_ITEM_FROM_TEMP_CAP_JOBS,
+    UPDATE_TEMP_JOBS_UPLOAD_STATE,
+    START_LIST_TEMP_CAP_JOB,
+    ADD_VIDEO_TO_TEMP_LIST
 } from "../actions/tempJobsForm";
 
 
@@ -24,6 +28,29 @@ export default function tempJobsFormReducer (state={}, action) {
 
 
             };
+
+
+
+        case START_LIST_TEMP_CAP_JOB:
+            return {
+                ...state,
+                [action.temp_id]: []
+
+
+            };
+
+
+        case ADD_VIDEO_TO_TEMP_LIST:
+            return {
+                ...state,
+                [action.temp_id]: [...{video:{}, job_info:{}, meta:{'created': false,
+                        transaction_id: action.temp_id,
+                        requester_id: action.requester_id,
+                        uploaded: false}}]
+
+
+            }
+
 
         case ADD_MEDIA_TO_TEMP_JOB:
 

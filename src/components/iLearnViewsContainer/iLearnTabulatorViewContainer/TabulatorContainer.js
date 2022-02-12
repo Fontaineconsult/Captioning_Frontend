@@ -173,7 +173,7 @@ class TabulatorContainer extends Component {
     };
 
     IsChecked(props)  {
-
+        console.log("RPOPPPS", props)
         if (props.cell._cell.row.modules.hasOwnProperty("select")) {
             if (props.cell._cell.row.modules.select.selected === false){
 
@@ -209,6 +209,7 @@ class TabulatorContainer extends Component {
 
 
         this.tableData = this.props.videosList;
+
         this.tabulator = new Tabulator(this.el, {
             columns: columns,
             layout:"fitColumns",

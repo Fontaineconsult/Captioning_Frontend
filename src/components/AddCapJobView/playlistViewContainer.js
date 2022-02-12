@@ -12,6 +12,7 @@ import {reactFormatter} from "react-tabulator";
 import Checkbox from "@material-ui/core/Checkbox";
 import { v1 as uuidv1 } from 'uuid';
 import VideoListToolBar from "./videoListToolBar";
+import {updateiLearnVideo} from "../../actions/ampApi/putData";
 
 
 class PlayListViewContainer extends Component {
@@ -38,6 +39,8 @@ class PlayListViewContainer extends Component {
     }
 
 
+
+
     checkBoxFunction(e, cellData) {
 
         console.log("CELLL DATA", cellData)
@@ -54,34 +57,28 @@ class PlayListViewContainer extends Component {
 
                 let test = cellData.cell._cell.table.getSelectedRows();
                 this.setState({selected_rows: test})
-
             }
-
         }
 
     };
 
 
     IsChecked(props)  {
-        console.log("proppss", props)
+        console.log("proppss", props.cell._cell.row.modules.hasOwnProperty("select"))
+
         if (props.cell._cell.row.modules.hasOwnProperty("select")) {
 
             if (props.cell._cell.row.modules.select.selected === false){
-
                 return  <Checkbox size="small" onClick={e => this.checkBoxFunction(e, props)}/>
 
             } else {
-
                 return  <Checkbox size="small" checked onClick={e => this.checkBoxFunction(e, props)}/>
             }
         } else {
             return  <Checkbox size="small" onClick={e => this.checkBoxFunction(e, props)}/>
-
-
         }
 
     };
-
 
 
 
@@ -90,13 +87,13 @@ class PlayListViewContainer extends Component {
         let columns = [
 
             {title: "URL", field: "url"},
-            {title: "Title", field: "title"},
+            {title: "Title", field: "title", editor:"input"},
             {title:"Captioned", width:150, field:"captioned", formatter: "tickCross"},
             {title: "Show Date", field: "show_date", editor:datePicker},
             {title: "Delivery Format", field: "delivery_format", editor:"select", editorParams:{"Amara": "Amara",
                     "SRT":"SRT",
                     "Video File":"Video File"}},
-            { title: "Select", width:60, hozAlign :"center",  formatter:reactFormatter(<this.IsChecked/>)},
+            { title: "Select", width:60, hozAlign :"center", formatter:reactFormatter(<this.IsChecked/>)},
         ];
 
 
@@ -115,14 +112,18 @@ class PlayListViewContainer extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         if (JSON.stringify(prevProps.video_list) !== JSON.stringify(this.props.video_list)) {
+
             this.tabulator.replaceData(this.props.video_list)
 
         }
 
         let row_ids = this.state.selected_rows.map(row => {
-            return row.id
+            return row._row.data.id
         });
-        this.tabulator.selectRow(row_ids);
+
+
+        this.tabulator.selectRow(this.state.selected_rows);
+
         this.tabulator.redraw()
     }
 

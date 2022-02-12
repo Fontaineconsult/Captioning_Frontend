@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import { v1 as uuidv1 } from 'uuid';
 import Button from '@material-ui/core/Button'
 import NewMediaContainer from "../AddMediaContainer/AddMediaContainer";
-import {addTempJob, completeTempJob, clearIncompleteTempCapJobs} from "../../actions/tempJobsForm";
+import {addTempJob, completeTempJob,addListTempJob, clearIncompleteTempCapJobs} from "../../actions/tempJobsForm";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {clearMediaSearch} from "../../actions/mediaSearch"
 import {removeErrorState} from "../../actions/error_state"
@@ -46,15 +46,28 @@ class JobPrepContainer extends Component {
     createTransaction (event) {
         let transaction_id = uuidv1()
         this.setState({
-            transaction_id:transaction_id
+            transaction_id:transaction_id,
+            listItemsView: false,
         });
         this.props.dispatch(addTempJob(transaction_id, this.props.requesterId.requester_id))
 
     }
 
+
+    createListTransaction (event) {
+        let transaction_id = uuidv1()
+        this.setState({
+            listItemsView: true,
+            transaction_id:transaction_id
+        });
+        this.props.dispatch(addListTempJob(transaction_id, this.props.requesterId.requester_id))
+
+    }
+
     clearTransaction(event){
         this.setState({
-            transaction_id:''
+            transaction_id:'',
+            listItemsView: false
         })
 
         this.props.dispatch(clearIncompleteTempCapJobs())
@@ -96,23 +109,15 @@ class JobPrepContainer extends Component {
             <div className="jobPrepMasterContainer">
                 <div className="jobPrepButtons">
                     <div className="jobPrepButton">
-                        <Button size="small" variant="contained" onClick={e => this.createTransaction(e)} disabled={formDisabled}>Add Request</Button>
+                        <Button size="small" variant="contained" onClick={e => this.createTransaction(e)} disabled={formDisabled}>Add Single Request</Button>
+                    </div>
+                    <div className="jobPrepButton">
+                        <Button size="small" variant="contained" onClick={e => this.createListTransaction(e)} disabled={formDisabled}>Add From Playlist</Button>
                     </div>
                     <div className="jobPrepButton">
                         <Button size='small' variant="contained"  onClick={e => this.clearTransaction(e)}  disabled={this.props.clearDisabled}>Clear</Button>
                     </div>
-                    <div className="listModeCheck">
-                        <label>List Mode
-                            <input
-                                name="listItemsView"
-                                type="checkbox"
-                                checked={this.state.listItemsView}
-                                onChange={this.handleInputChange}
-                            />
 
-                        </label>
-
-                    </div>
 
 
                 </div>

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
 import Button from '@material-ui/core/Button'
+import {AddVideoJobBatch} from "../../actions/ampApi/postData";
+import {addTempJob, addVideoToTempList, clearTempCapJobs} from "../../actions/tempJobsForm";
+import {v1 as uuidv1} from "uuid";
 
 
 
@@ -15,6 +18,9 @@ class VideoListToolBar extends Component {
 
     }
 
+
+
+
     add(e) {
         console.log(this.props.selected_rows)
         let row_ids = this.props.selected_rows.map(row => {
@@ -22,6 +28,7 @@ class VideoListToolBar extends Component {
         });
 
 
+        this.props.dispatch(addVideoToTempList(this.props.transaction_id, "test", "test"))
         this.props.table.deselectRow()
     };
 
@@ -72,7 +79,8 @@ function mapStateToProps(state, {selected_rows, requesterId, transaction_id,auto
         selected_rows,
         transaction_id,
         auto_caption,
-        is_locked
+        is_locked,
+        table
     }
 }
 
