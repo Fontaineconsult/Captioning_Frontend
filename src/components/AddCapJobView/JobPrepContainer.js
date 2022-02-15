@@ -69,7 +69,7 @@ class JobPrepContainer extends Component {
             transaction_id:'',
             listItemsView: false
         })
-
+        console.log("CLEAR TRANSCATION")
         this.props.dispatch(clearIncompleteTempCapJobs())
         this.props.dispatch(clearMediaSearch(this.state.transaction_id))
         this.props.dispatch(removeErrorState(this.state.transaction_id))
@@ -109,13 +109,13 @@ class JobPrepContainer extends Component {
             <div className="jobPrepMasterContainer">
                 <div className="jobPrepButtons">
                     <div className="jobPrepButton">
-                        <Button size="small" variant="contained" onClick={e => this.createTransaction(e)} disabled={formDisabled}>Add Single Request</Button>
+                        <Button name="add_single" size="small" variant="contained" onClick={e => this.createTransaction(e)} disabled={formDisabled}>Add Single Request</Button>
                     </div>
                     <div className="jobPrepButton">
-                        <Button size="small" variant="contained" onClick={e => this.createListTransaction(e)} disabled={formDisabled}>Add From Playlist</Button>
+                        <Button name="add_list" size="small" variant="contained" onClick={e => this.createListTransaction(e)} disabled={formDisabled}>Add From Playlist</Button>
                     </div>
                     <div className="jobPrepButton">
-                        <Button size='small' variant="contained"  onClick={e => this.clearTransaction(e)}  disabled={this.props.clearDisabled}>Clear</Button>
+                        <Button name="clear" size='small' variant="contained"  onClick={e => this.clearTransaction(e)}  disabled={this.props.clearDisabled}>Clear</Button>
                     </div>
 
 

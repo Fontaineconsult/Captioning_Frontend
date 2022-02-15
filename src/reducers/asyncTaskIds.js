@@ -22,8 +22,6 @@ export default function asyncTaskIdReducer (state=[], action) {
         case CLEAR_TASK_ID:
 
 
-
-
             return state.filter(a => a.task_id !== action.task_id)
 
 

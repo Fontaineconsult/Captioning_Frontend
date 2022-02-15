@@ -34,7 +34,10 @@ export default function tempJobsFormReducer (state={}, action) {
         case START_LIST_TEMP_CAP_JOB:
             return {
                 ...state,
-                [action.temp_id]: []
+                [action.temp_id]: {videos:[], job_info:{}, meta:{'created': false,
+                        transaction_id: action.temp_id,
+                        requester_id: action.requester_id,
+                        uploaded: false}}
 
 
             };
@@ -43,13 +46,12 @@ export default function tempJobsFormReducer (state={}, action) {
         case ADD_VIDEO_TO_TEMP_LIST:
             return {
                 ...state,
-                [action.temp_id]: [...{video:{}, job_info:{}, meta:{'created': false,
-                        transaction_id: action.temp_id,
-                        requester_id: action.requester_id,
-                        uploaded: false}}]
+                [action.temp_id]: {video: [...action.videos], job_info: {...state[action.temp_id].job_info}, meta:{...state[action.temp_id].meta}}
 
 
             }
+
+
 
 
         case ADD_MEDIA_TO_TEMP_JOB:

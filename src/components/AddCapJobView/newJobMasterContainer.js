@@ -34,13 +34,13 @@ class NewJobMasterContainer extends Component {
 
     }
 
-    componentWillUnmount() {
-
-        this.props.dispatch(clearTempCapJobs())
-        this.props.dispatch(clearMediaSearch())
-        this.props.dispatch(removeErrorState())
-
-    }
+    // componentWillUnmount() {
+    //     console.log("UNMOUNTING")
+    //     this.props.dispatch(clearTempCapJobs())
+    //     this.props.dispatch(clearMediaSearch())
+    //     this.props.dispatch(removeErrorState())
+    //
+    // }
 
 
 
@@ -74,19 +74,30 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
     let campusOrgs = [];
 
 
-    let totalJobs = Object.keys(tempJobsFormReducer).filter(job => {
-        return tempJobsFormReducer[job].meta.created === true
-    }).length;
 
 
-    let enableSubmit = Object.keys(tempJobsFormReducer).some(item =>{
-        return tempJobsFormReducer[item].meta.created === true
-    });
 
-    let disableSelector = Object.keys(tempJobsFormReducer).some(job =>{
-        return tempJobsFormReducer[job].meta.created === false
 
-    })
+        let totalJobs = Object.keys(tempJobsFormReducer).filter(job => {
+            return tempJobsFormReducer[job].meta.created === true
+        }).length;
+
+
+        let enableSubmit = Object.keys(tempJobsFormReducer).some(item =>{
+            return tempJobsFormReducer[item].meta.created === true
+        });
+
+        let disableSelector = Object.keys(tempJobsFormReducer).some(job =>{
+            return tempJobsFormReducer[job].meta.created === false
+
+        })
+
+
+
+
+
+
+
 
     if (loadingStatusReducer['instructorsLoading'] === false) {
         if (Object.keys(coursesReducer).length > 0) {
