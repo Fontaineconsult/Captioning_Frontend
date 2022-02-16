@@ -10,7 +10,8 @@ import {
     REMOVE_ITEM_FROM_TEMP_CAP_JOBS,
     UPDATE_TEMP_JOBS_UPLOAD_STATE,
     START_LIST_TEMP_CAP_JOB,
-    ADD_VIDEO_TO_TEMP_LIST
+    ADD_VIDEO_TO_TEMP_LIST,
+    ADD_JOB_INFO_TO_TEMP_LIST_JOB
 } from "../actions/tempJobsForm";
 
 
@@ -21,7 +22,7 @@ export default function tempJobsFormReducer (state={}, action) {
         case START_TEMP_CAP_JOB:
             return {
                 ...state,
-                [action.temp_id]: {video:{}, job_info:{}, meta:{'created': false,
+                [action.temp_id]: {type:"single", video:{}, job_info:{}, meta:{'created': false,
                         transaction_id: action.temp_id,
                         requester_id: action.requester_id,
                         uploaded: false}}
@@ -34,7 +35,7 @@ export default function tempJobsFormReducer (state={}, action) {
         case START_LIST_TEMP_CAP_JOB:
             return {
                 ...state,
-                [action.temp_id]: {videos:[], job_info:{}, meta:{'created': false,
+                [action.temp_id]: {type:"list", video: {}, job_info:{}, meta:{'created': false,
                         transaction_id: action.temp_id,
                         requester_id: action.requester_id,
                         uploaded: false}}
@@ -44,9 +45,10 @@ export default function tempJobsFormReducer (state={}, action) {
 
 
         case ADD_VIDEO_TO_TEMP_LIST:
+            let key = Object.keys(action.video_info);
             return {
                 ...state,
-                [action.temp_id]: {video: [...action.videos], job_info: {...state[action.temp_id].job_info}, meta:{...state[action.temp_id].meta}}
+                [action.temp_id]: {video: action.video_info[key], job_info: {...state[action.temp_id].job_info}, meta:{...state[action.temp_id].meta}}
 
 
             }
@@ -56,11 +58,11 @@ export default function tempJobsFormReducer (state={}, action) {
 
         case ADD_MEDIA_TO_TEMP_JOB:
 
-            let key = Object.keys(action.media_info);
+            let key_1 = Object.keys(action.media_info);
             return {
                 ...state,
 
-                [action.temp_id]: {video: action.media_info[key], job_info: {...state[action.temp_id].job_info}, meta:{...state[action.temp_id].meta}}
+                [action.temp_id]: {video: action.media_info[key_1], job_info: {...state[action.temp_id].job_info}, meta:{...state[action.temp_id].meta}}
             };
 
 
@@ -78,6 +80,14 @@ export default function tempJobsFormReducer (state={}, action) {
             return {
                 ...state,
                 [action.temp_id]: {video: {...state[action.temp_id].video}, job_info: action.job_info,  meta:{...state[action.temp_id].meta}}
+            };
+
+
+        case ADD_JOB_INFO_TO_TEMP_LIST_JOB:
+
+            return {
+                ...state,
+                [action.temp_id]: {video: {...state[action.temp_id].video}, job_info: {...state[action.temp_id].job_info, ...action.job_info},  meta:{...state[action.temp_id].meta}}
             };
 
 

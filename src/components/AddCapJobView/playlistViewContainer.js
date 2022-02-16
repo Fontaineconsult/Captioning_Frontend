@@ -88,9 +88,10 @@ class PlayListViewContainer extends Component {
 
             {title: "URL", field: "url"},
             {title: "Title", field: "title", editor:"input"},
-            {title:"Captioned", width:150, field:"captioned", formatter: "tickCross"},
-            {title: "Show Date", field: "show_date", editor:datePicker},
-            {title: "Delivery Format", field: "delivery_format", editor:"select", editorParams:{"Amara": "Amara",
+            {title:"Captioned", width:80, field:"captioned",  formatter: "tickCross"},
+            {title: "Show Date", field: "show_date", width:100, editor:datePicker},
+            {title: "Delivery Format", width:80, field: "delivery_format", editor:"select",
+                editorParams:{"Amara": "Amara",
                     "SRT":"SRT",
                     "Video File":"Video File"}},
             { title: "Select", width:60, hozAlign :"center", formatter:reactFormatter(<this.IsChecked/>)},
@@ -122,7 +123,7 @@ class PlayListViewContainer extends Component {
         });
 
 
-        this.tabulator.selectRow(this.state.selected_rows);
+        this.tabulator.selectRow(row_ids);
 
         this.tabulator.redraw()
     }
@@ -162,7 +163,6 @@ class PlayListViewContainer extends Component {
         return (
 
             <div className="listItemsMasterContainer">
-            PLAYLIST VIEW
                 <VideoListToolBar  table={this.tabulator}
                                    auto_caption={this.props.auto_caption}
                                    requesterId={this.props.requesterId}
@@ -195,15 +195,15 @@ function mapStateToProps({videoListsReducer, errorsReducer, tempJobsFormReducer,
 
 
     let video_list = [];
+
     console.log(videoListsReducer)
     Object.keys(videoListsReducer).forEach((video) => {
-
 
         video_list.push(formatData(videoListsReducer[video]))
 
     });
 
-    console.log("LIISTOO", video_list)
+
     return {
         video_list,
         requesterId,

@@ -79,7 +79,7 @@ class ListItemsMasterContainer extends Component {
                 </label>
                 <PlayListViewContainer requesterId={this.props.requesterId}
                                        auto_caption={this.state.is_auto_caption}
-                                        transaction_id={this.props.transaction_id}/>
+                                       transaction_id={this.props.transaction_id}/>
             </div>
 
         )

@@ -15,6 +15,22 @@ import '../../css/addJobContainer.css'
 import {Checkbox} from "@material-ui/core";
 import {Label} from "@material-ui/icons";
 
+
+
+
+function MediaSearcher(mediaSearchLoading, transaction_id) {
+
+    return (
+
+    <div className="videoSearchFeedbackContainer">
+        {mediaSearchLoading ? <CircularProgress/>
+            : <MediaDisplayContainer transaction_id = {transaction_id}/>
+        }
+    </div>
+    )
+
+}
+
 class JobPrepContainer extends Component {
 
 
@@ -60,7 +76,7 @@ class JobPrepContainer extends Component {
             listItemsView: true,
             transaction_id:transaction_id
         });
-        this.props.dispatch(addListTempJob(transaction_id, this.props.requesterId.requester_id))
+
 
     }
 
@@ -69,7 +85,6 @@ class JobPrepContainer extends Component {
             transaction_id:'',
             listItemsView: false
         })
-        console.log("CLEAR TRANSCATION")
         this.props.dispatch(clearIncompleteTempCapJobs())
         this.props.dispatch(clearMediaSearch(this.state.transaction_id))
         this.props.dispatch(removeErrorState(this.state.transaction_id))
@@ -80,7 +95,6 @@ class JobPrepContainer extends Component {
     finalizeTransaction (){
 
         this.props.dispatch(completeTempJob(this.props.transaction_id, true))
-
 
     }
 
@@ -123,7 +137,7 @@ class JobPrepContainer extends Component {
                 </div>
                 <div className="jobPrepContainer">
 
-                    <div className="jobPrepContainerLeft">
+                    <div className="jobPrepContainerLeft" style={{width: this.state.listItemsView === true? '100%':'70%' }}>
 
 
 
@@ -143,14 +157,9 @@ class JobPrepContainer extends Component {
 
                     </div>
 
-                    <div className="jobPrepContainerRight">
-                        <div className="videoSearchFeedbackContainer">
-                            {this.props.mediaSearchLoading ? <CircularProgress/>
-                            : <MediaDisplayContainer transaction_id = {this.state.transaction_id}/>
-                            }
+                    <div className="jobPrepContainerRight" style={{width: this.state.listItemsView === true? '0%':'30%'  }}>
+                            {this.state.listItemsView === false ? <MediaSearcher mediaSearchLoading={this.props.mediaSearchLoading} transaction_id = {this.state.transaction_id}/> : <div></div>}
 
-
-                        </div>
 
                     </div>
 
@@ -169,6 +178,7 @@ class JobPrepContainer extends Component {
 function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer, loadingStatusReducer}, {requesterId}) {
     let mediaSearchLoading = loadingStatusReducer.mediaLoading
     let formDisabled = requesterId === ""
+
 
 
 

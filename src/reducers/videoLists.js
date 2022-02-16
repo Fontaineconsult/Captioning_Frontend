@@ -13,7 +13,6 @@ export default function videoListsReducer (state={}, action) {
 
         case EMPTY_VIDEO_LIST:
             return {}
-
         default:
             return state
     }

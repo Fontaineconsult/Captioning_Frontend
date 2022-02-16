@@ -10,6 +10,7 @@ export const  REMOVE_ITEM_FROM_TEMP_CAP_JOBS = "REMOVE_ITEM_FROM_TEMP_CAP_JOBS";
 export const  UPDATE_TEMP_JOBS_UPLOAD_STATE = "UPDATE_TEMP_JOBS_UPLOAD_STATE";
 export const  START_LIST_TEMP_CAP_JOB = "START_LIST_TEMP_CAP_JOB";
 export const  ADD_VIDEO_TO_TEMP_LIST = "ADD_VIDEO_TO_TEMP_LIST";
+export const ADD_JOB_INFO_TO_TEMP_LIST_JOB = "ADD_JOB_INFO_TO_TEMP_LIST_JOB"
 
 export function addTempJob(temp_id, requester_id) {
 
@@ -33,18 +34,14 @@ export function addListTempJob(temp_id, requester_id) {
 }
 
 
-export function addVideoToTempList(temp_id, requester_id, video_info) {
+export function addVideoToTempList(video_info, temp_id) {
 
 
     return {
         type: ADD_VIDEO_TO_TEMP_LIST,
         temp_id,
-        requester_id,
         video_info
     }
-
-
-
 
 }
 
@@ -69,6 +66,20 @@ export function addMediaToTempJobNoId(temp_id, media_info) {
         media_info
 
     }
+}
+
+
+
+
+export function addJobInfoToTempListJob(temp_id, job_info) {
+
+    return {
+        type: ADD_JOB_INFO_TO_TEMP_LIST_JOB,
+        temp_id,
+        job_info
+
+    }
+
 }
 
 
