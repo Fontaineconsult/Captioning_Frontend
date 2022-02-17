@@ -209,6 +209,7 @@ class TabulatorContainer extends Component {
 
 
         this.tableData = this.props.videosList;
+
         this.tabulator = new Tabulator(this.el, {
             columns: columns,
             layout:"fitColumns",

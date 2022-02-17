@@ -225,6 +225,7 @@ class NewMediaContainer extends Component {
         }
 
         return(
+            <div className="newMediaOuterContainer">
             <div className="addMediaContainer">
                 <div className="videoFormContainer">
                     <form onSubmit={this.handleSubmit}>
@@ -289,6 +290,7 @@ class NewMediaContainer extends Component {
 
                 </div>
 
+            </div>
             </div>
 
         )

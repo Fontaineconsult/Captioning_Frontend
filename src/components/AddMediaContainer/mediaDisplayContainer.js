@@ -106,13 +106,13 @@ function EmptySearchContainer() {
 }
 
 
-function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {transaction_id, transaction_link}) {
+function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {transaction_id}) {
     let captionResources
     let captionUrl
     let itemFound = mediaSearchReducer.hasOwnProperty(transaction_id);
     let itemNotFound = errorsReducer.hasOwnProperty(transaction_id);
     let startedSearch = itemFound || itemNotFound;
-
+    console.log("GRUHHS", transaction_id)
     if (transaction_id !== "") {
         if (mediaSearchReducer.hasOwnProperty(transaction_id)) {
             if (mediaSearchReducer[transaction_id].hasOwnProperty("captioned_resources")) {
@@ -136,7 +136,6 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
         errorsReducer,
         tempJobsFormReducer,
         transaction_id,
-        transaction_link,
         itemFound,
         itemNotFound,
         startedSearch,

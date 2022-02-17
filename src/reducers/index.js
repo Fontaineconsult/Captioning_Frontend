@@ -17,6 +17,7 @@ import mediaSearchReducer from "./currentMediaSearch";
 import globalsReducer from "./globals";
 import asyncTaskIdReducer from "./asyncTaskIds"
 import asyncStatusReducer from "./asyncTaskStatus"
+import videoListsReducer from "./videoLists";
 
 export default combineReducers({
 
@@ -37,7 +38,8 @@ export default combineReducers({
     mediaSearchReducer,
     globalsReducer,
     asyncTaskIdReducer,
-    asyncStatusReducer
+    asyncStatusReducer,
+    videoListsReducer
 
 
 })

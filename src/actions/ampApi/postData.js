@@ -2,7 +2,7 @@ import fetch from "cross-fetch";
 import {api_failure} from "../../utilities/api/errors";
 import {endpoint} from '../../constants'
 import {LoadingMedia, LoadingVideoJobs, LoadingAstJob, LoadingInstructors} from "../status";
-import {addMediaToTempJob, updateTempJobsUploadState} from "../tempJobsForm"
+import {addMediaToTempJob, addVideoToTempList, updateTempJobsUploadState} from "../tempJobsForm"
 import {receiveMediaSearch} from '../mediaSearch'
 import { batch } from 'react-redux'
 import {setErrorState} from "../error_state";
@@ -39,6 +39,7 @@ function errorHandler(response, dispatch, error_id){
 function responseHandler(response, dispatch, reducer, unique_id, statusReducer) {
 
     if (response.ok) {
+        console.log("ZERGS", reducer)
         response.json()
             .then(data => {reducer.forEach(
                 cur_reducer => {
@@ -108,6 +109,11 @@ export function AddVideoJobBatch(jobsReducer) {
         }
 
     });
+
+
+
+
+
 
     return (dispatch, getState) => {
 
@@ -192,6 +198,39 @@ export function addMediaToDBandTempJob(title, link, type, temp_id) {
             })
         }
 };
+
+
+
+export function addMediaToListTempJob(title, link, temp_id) {
+
+
+    let data_object = {title:title, source_url:link, media_type: "URL"};
+
+
+
+
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+
+    return dispatch => {
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/media`, post_object)
+            .then(response => errorHandler(response, dispatch, temp_id), error => {
+                console.log(error)
+            })
+            .then(response => {
+                responseHandler(response, dispatch, [addVideoToTempList], temp_id, LoadingMedia)
+            })
+    }
+};
+
+
+
 
 export function uploadVideoWithMediaId(video, media_id, temp_id, content_type) {
 
