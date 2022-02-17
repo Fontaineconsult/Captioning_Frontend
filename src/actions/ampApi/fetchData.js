@@ -382,9 +382,11 @@ export function getVideoList(list_id, task) {
 
 
     return dispatch => {
+        dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/youtube?task=${task}&playlistid=${list_id}`)
             .then(response => response.json())
             .then(data => dispatch(receiveVideoList(data)))
             .then(data => console.log(data))
+            .then(data => dispatch(LoadingMedia(false)))
 
     }}

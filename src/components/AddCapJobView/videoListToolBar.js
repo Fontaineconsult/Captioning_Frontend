@@ -88,7 +88,7 @@ class VideoListToolBar extends Component {
     commitable() {
 
         return Object.keys(this.props.tempJobsFormReducer).some(key => {
-            return this.props.tempJobsFormReducer[key].meta.created === false
+            return this.props.tempJobsFormReducer[key].meta.created === false && !this.props.mediaLoading
 
         })
 
@@ -146,7 +146,12 @@ class VideoListToolBar extends Component {
 
 
 
-function mapStateToProps({tempJobsFormReducer, videoListsReducer}, {selected_rows, requesterId, transaction_id,auto_caption,is_locked, table}) {
+function mapStateToProps({tempJobsFormReducer, videoListsReducer, loadingStatusReducer}, {selected_rows,
+    requesterId,
+    transaction_id,
+    auto_caption,
+    is_locked,
+    table}) {
 
     return {
         tempJobsFormReducer,
@@ -157,6 +162,7 @@ function mapStateToProps({tempJobsFormReducer, videoListsReducer}, {selected_row
         auto_caption,
         is_locked,
         table,
+        mediaLoading: loadingStatusReducer.mediaLoading,
         videoListsReducer
     }
 }

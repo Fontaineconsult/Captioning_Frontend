@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import '../../css/addJobContainer.css'
 import {getVideoList} from "../../actions/ampApi/fetchData";
 import PlayListViewContainer from "./playlistViewContainer";
+import {emptyVideoList} from "../../actions/videoLists";
 
 
 class ListItemsMasterContainer extends Component {
@@ -24,16 +25,6 @@ class ListItemsMasterContainer extends Component {
 
 
 
-
-
-
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-
-
-    }
-
-
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -50,7 +41,11 @@ class ListItemsMasterContainer extends Component {
 
     getVideoList(event) {
         event.preventDefault();
+        this.props.dispatch(emptyVideoList())
         this.props.dispatch(getVideoList(this.state.listURL, 'get-yt-playlist'))
+        this.setState({
+            listURL: ''
+        })
 
     }
 

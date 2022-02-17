@@ -18,13 +18,13 @@ import {Label} from "@material-ui/icons";
 
 
 
-function MediaSearcher(mediaSearchLoading, transaction_id) {
-
+function MediaSearcher(props) {
+    console.log("SDFSDFDS", props)
     return (
 
     <div className="videoSearchFeedbackContainer">
-        {mediaSearchLoading ? <CircularProgress/>
-            : <MediaDisplayContainer transaction_id = {transaction_id}/>
+        {props.mediaSearchLoading ? <CircularProgress/>
+            : <MediaDisplayContainer transaction_id = {props.transaction_id}/>
         }
     </div>
     )

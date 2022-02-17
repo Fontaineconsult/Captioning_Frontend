@@ -43,7 +43,6 @@ class PlayListViewContainer extends Component {
 
     checkBoxFunction(e, cellData) {
 
-        console.log("CELLL DATA", cellData)
         if (e.type === "click") {
 
             if (cellData.cell._cell.row.modules.select.selected === false) {
@@ -64,7 +63,7 @@ class PlayListViewContainer extends Component {
 
 
     IsChecked(props)  {
-        console.log("proppss", props.cell._cell.row.modules.hasOwnProperty("select"))
+
 
         if (props.cell._cell.row.modules.hasOwnProperty("select")) {
 
@@ -155,8 +154,6 @@ class PlayListViewContainer extends Component {
     }
 
 
-
-
     render() {
 
 
@@ -177,8 +174,6 @@ class PlayListViewContainer extends Component {
 }
 
 
-
-
 function mapStateToProps({videoListsReducer, errorsReducer, tempJobsFormReducer, loadingStatusReducer}, {requesterId, auto_caption, transaction_id, is_locked}) {
 
     let formatData = (listvideo) => {
@@ -196,7 +191,6 @@ function mapStateToProps({videoListsReducer, errorsReducer, tempJobsFormReducer,
 
     let video_list = [];
 
-    console.log(videoListsReducer)
     Object.keys(videoListsReducer).forEach((video) => {
 
         video_list.push(formatData(videoListsReducer[video]))

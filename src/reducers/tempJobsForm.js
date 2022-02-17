@@ -143,7 +143,7 @@ export default function tempJobsFormReducer (state={}, action) {
         case CLEAR_INCOMPLETE_TEMP_CAP_JOBS:
 
             return Object.keys(state).reduce((accumulator, element) => {
-                if (Object.keys(state[element].job_info).length > 0) {
+                if (Object.keys(state[element].meta.created) === true) {
                     accumulator[element] = state[element]
                 }
                 return accumulator
