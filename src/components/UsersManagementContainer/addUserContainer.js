@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import AddEmployeeContainer from "./addEmployeeContainer"
 import AssignEmployeeContainer from "./assignEmployeeContainer";
-import  "../../css/users.css"
+import "../../css/users.css"
 
 class AddUserContainer extends Component {
 
@@ -13,16 +13,13 @@ class AddUserContainer extends Component {
     }
 
 
-
-
-
     render() {
 
         return (
             <div className="masterListItem masterListUser">
-                <div style={{"margin-bottom":"10px"}} className={"emp-display-container"}>
+                <div style={{"margin-bottom": "10px"}} className={"emp-display-container"}>
                     <div className={"emp-display-title"}>
-                        <div style={{"font-weight":"600"}}>
+                        <div style={{"font-weight": "600"}}>
                             Add Employee
                         </div>
                     </div>
@@ -30,7 +27,7 @@ class AddUserContainer extends Component {
                 </div>
                 <div className={"emp-display-container"}>
                     <div className={"emp-display-title"}>
-                        <div style={{"font-weight":"600"}}>Assign Employee</div>
+                        <div style={{"font-weight": "600"}}>Assign Employee</div>
                     </div>
                     <AssignEmployeeContainer/>
 
@@ -46,11 +43,7 @@ class AddUserContainer extends Component {
 function mapStateToProps({employeesReducer, requesterReducer, campusOrgReducer}, {props}) {
 
 
-
-    return {
-
-
-    }
+    return {}
 }
 
 export default withRouter(connect(mapStateToProps)(AddUserContainer))

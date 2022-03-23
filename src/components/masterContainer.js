@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import NavigationMasterContainer from "./componentNavigator/navigationMasterContainer";
 import {
@@ -60,7 +60,7 @@ class MasterContainer extends Component {
             }
         }
 
-        if (this.props.globalsReducer.currentSemester !== prevProps.globalsReducer.currentSemester ) {
+        if (this.props.globalsReducer.currentSemester !== prevProps.globalsReducer.currentSemester) {
 
             this.props.dispatch(allAssetDiscovery(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchIlearnVideosBySemester(this.props.globalsReducer.currentSemester))
@@ -70,13 +70,14 @@ class MasterContainer extends Component {
 
         }
     }
+
     render() {
 
-        return(
+        return (
 
             <div className={"master-container"}>
                 {process.env.NODE_ENV === 'development' &&
-                <div className={"developement-version"}><b> - - - Development Version - - -</b></div>}
+                    <div className={"developement-version"}><b> - - - Development Version - - -</b></div>}
                 <div className={"top-bar"}></div>
                 <Route path='/captioning'><NavigationMasterContainer query={this.props.query}/></Route>
             </div>
@@ -88,7 +89,7 @@ class MasterContainer extends Component {
 }
 
 
-function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer, globalsReducer}, {query}){
+function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer, globalsReducer}, {query}) {
 
     return {
         globalsReducer,

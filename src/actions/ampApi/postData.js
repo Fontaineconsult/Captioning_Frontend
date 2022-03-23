@@ -1,18 +1,18 @@
 import fetch from "cross-fetch";
 import {api_failure} from "../../utilities/api/errors";
 import {endpoint} from '../../constants'
-import {LoadingMedia, LoadingVideoJobs, LoadingAstJob, LoadingInstructors} from "../status";
+import {LoadingAstJob, LoadingInstructors, LoadingMedia, LoadingVideoJobs} from "../status";
 import {addMediaToTempJob, updateTempJobsUploadState} from "../tempJobsForm"
 import {receiveMediaSearch} from '../mediaSearch'
-import { batch } from 'react-redux'
+import {batch} from 'react-redux'
 import {setErrorState} from "../error_state";
-import {receiveCapJobs, addNewAstJob} from "../existingVideoJobs";
-import {addMediaFromCapJobs, addCaptionFileToMedia, addMediaFileToMedia, updateMedia, updateMediaDeep} from "../media";
+import {addNewAstJob, receiveCapJobs} from "../existingVideoJobs";
+import {addCaptionFileToMedia, addMediaFileToMedia, addMediaFromCapJobs, updateMedia} from "../media";
 import {updateEmployees} from "../employees"
-import {receiveTaskId, clearTaskId} from "../asyncTaskIds";
+import {receiveTaskId} from "../asyncTaskIds";
 import {v1 as uuidv1} from "uuid";
 import store from "../../reducers/store_creator"
-import {reFetchMediaAfterUpload, fetchMediaById} from './fetchData'
+import {fetchMediaById, reFetchMediaAfterUpload} from './fetchData'
 import {receiveRequester} from "../requester";
 import AsyncJobChecker from "../../middleware/taskStatusCheck"
 
@@ -20,7 +20,7 @@ import AsyncJobChecker from "../../middleware/taskStatusCheck"
 const server_url = endpoint();
 const jobChecker = new AsyncJobChecker()
 
-function errorHandler(response, dispatch, error_id){
+function errorHandler(response, dispatch, error_id) {
 
     if (!response.ok) {
         response.json()
@@ -28,8 +28,7 @@ function errorHandler(response, dispatch, error_id){
 
                 dispatch(
                     setErrorState(data['error']['error_message'], data['request_payload'], error_id)),
-                alert(data['error']['error_message']))
-
+                    alert(data['error']['error_message']))
             )
 
     }
@@ -40,9 +39,12 @@ function responseHandler(response, dispatch, reducer, unique_id, statusReducer) 
 
     if (response.ok) {
         response.json()
-            .then(data => {reducer.forEach(
-                cur_reducer => {
-                    dispatch(cur_reducer(data['content'], unique_id))})})
+            .then(data => {
+                reducer.forEach(
+                    cur_reducer => {
+                        dispatch(cur_reducer(data['content'], unique_id))
+                    })
+            })
             .then(data => dispatch(statusReducer(false)))
     }
     return response
@@ -50,13 +52,14 @@ function responseHandler(response, dispatch, reducer, unique_id, statusReducer) 
 }
 
 export function AddVideoJob(requester_id, show_date, media_id, output_format, comments, semester) {
-    let data_object = { 'requester_id': requester_id,
-                        'show_date': show_date,
-                        'media_id': media_id,
-                        'output_format': output_format,
-                        'comments': comments,
-                        'semester': semester}
-
+    let data_object = {
+        'requester_id': requester_id,
+        'show_date': show_date,
+        'media_id': media_id,
+        'output_format': output_format,
+        'comments': comments,
+        'semester': semester
+    }
 
 
     let post_object = {
@@ -64,8 +67,8 @@ export function AddVideoJob(requester_id, show_date, media_id, output_format, co
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }}
-
+        }
+    }
 
 
     return dispatch => {
@@ -90,13 +93,14 @@ export function AddVideoJobBatch(jobsReducer) {
         if (currentJob.meta.created === true) {
 
             let data_object = {
-                'requester_id':  parseInt(currentJob.job_info.requester_id, 10),
+                'requester_id': parseInt(currentJob.job_info.requester_id, 10),
                 'show_date': currentJob.job_info.show_date,
                 'media_id': parseInt(currentJob.video.id, 10),
                 'output_format': currentJob.job_info.delivery_format,
                 'comments': currentJob.job_info.comments,
-                'semester': currentJob.job_info.semester}
-                
+                'semester': currentJob.job_info.semester
+            }
+
             return {
                 method: 'POST',
                 body: JSON.stringify(data_object),
@@ -114,8 +118,12 @@ export function AddVideoJobBatch(jobsReducer) {
         batch(() => {
             data_objects.forEach(object => {
                 return fetch(`${server_url}/video-jobs`, object)
-                    .then(response => errorHandler(response, dispatch, error_id), error => {console.log(error)})
-                    .then(response => {responseHandler(response, dispatch, [receiveCapJobs, addMediaFromCapJobs], error_id, LoadingVideoJobs)})
+                    .then(response => errorHandler(response, dispatch, error_id), error => {
+                        console.log(error)
+                    })
+                    .then(response => {
+                        responseHandler(response, dispatch, [receiveCapJobs, addMediaFromCapJobs], error_id, LoadingVideoJobs)
+                    })
 
             })
         });
@@ -125,35 +133,96 @@ export function AddVideoJobBatch(jobsReducer) {
 
 
 };
+
 // Zoprs
 export function AddEmployee(employee_data) {
     let temp_id = uuidv1()
 
     console.log(employee_data)
-    let data_object = { 'employee_id': employee_data.employeeId,
+    let data_object = {
+        'employee_id': employee_data.employeeId,
         'employee_first_name': employee_data.firstName,
         'employee_last_name': employee_data.lastName,
         'employee_email': employee_data.email,
-        'employee_phone': employee_data.phoneNumber}
+        'employee_phone': employee_data.phoneNumber
+    }
 
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }}
+        }
+    }
 
     return dispatch => {
 
         dispatch(LoadingInstructors(true))
         return fetch(`${server_url}/employees?`, post_object)
-            .then(response => {if (response.ok){
-                fetch(`${server_url}/employees?employee_id=all`).then(
-                    response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})
-                    .then(
-                        response => {responseHandler(response, dispatch, [updateEmployees], temp_id, LoadingInstructors)}
-                )
-            } else {alert("Something went wrong when adding Employee")} })
+            .then(response => {
+                if (response.ok) {
+                    fetch(`${server_url}/employees?employee_id=all`).then(
+                        response => errorHandler(response, dispatch, temp_id), error => {
+                            console.log(error)
+                        })
+                        .then(
+                            response => {
+                                responseHandler(response, dispatch, [updateEmployees], temp_id, LoadingInstructors)
+                            }
+                        )
+                } else {
+                    alert("Something went wrong when adding Employee")
+                }
+            })
+
+    }
+
+}
+
+export function AddStudent(student_data) {
+    let temp_id = uuidv1()
+
+    console.log(student_data)
+
+    let data_object = {
+        'student_id': student_data.student_id,
+        'student_first_name': student_data.student_first_name,
+        'student_last_name': student_data.student_last_name,
+        'student_email': student_data.student_email,
+        'student_requests': student_data.student_requests,
+        'captioning_active': student_data.is_captioning_active,
+        'transcripts_only': student_data.is_transcripts_only
+    }
+
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return dispatch => {
+
+        //TODO: Check later
+
+        // dispatch(LoadingStudents(true))
+        // return fetch(`${server_url}/students?student_id=all`, post_object)
+        //     .then(response => {
+        //         if (response.ok) {
+        //             fetch(`${server_url}/students?student_id=all`).then(
+        //                 response => errorHandler(response, dispatch, temp_id), error => {
+        //                     console.log(error)
+        //                 })
+        //                 .then(
+        //                     response => {
+        //                         responseHandler(response, dispatch, [updateStudents], temp_id, LoadingStudents)
+        //                     }
+        //                 )
+        //         } else {
+        //             alert("Something went wrong when adding Student")
+        //         }
+        //     })
 
     }
 
@@ -163,12 +232,12 @@ export function addMediaToDBandTempJob(title, link, type, temp_id) {
 
     let data_object
     if (type === 'URL') {
-        data_object = { title:title, source_url:link, media_type: type};
+        data_object = {title: title, source_url: link, media_type: type};
 
     }
     if (type === 'File') {
 
-        data_object = {title:title, sha_256_hash:link, media_type: type};
+        data_object = {title: title, sha_256_hash: link, media_type: type};
     }
 
 
@@ -177,7 +246,8 @@ export function addMediaToDBandTempJob(title, link, type, temp_id) {
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
 
 
     return dispatch => {
@@ -189,7 +259,7 @@ export function addMediaToDBandTempJob(title, link, type, temp_id) {
             .then(response => {
                 responseHandler(response, dispatch, [receiveMediaSearch, addMediaToTempJob], temp_id, LoadingMedia)
             })
-        }
+    }
 };
 
 export function uploadVideoWithMediaId(video, media_id, temp_id, content_type) {
@@ -201,18 +271,21 @@ export function uploadVideoWithMediaId(video, media_id, temp_id, content_type) {
         headers: {
             'Content-Type': content_type,
             'Media-Id': media_id
-        }};
+        }
+    };
 
     return dispatch => {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/upload/file`, post_object)
-            .then(response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})
+            .then(response => errorHandler(response, dispatch, temp_id), error => {
+                console.log(error)
+            })
             .then(response => {
                 dispatch(updateTempJobsUploadState(temp_id, true),
-                dispatch(LoadingMedia(false)))
+                    dispatch(LoadingMedia(false)))
                 dispatch(reFetchMediaAfterUpload(media_id, temp_id))
             })
-}
+    }
 }
 
 export function uploadMediaFromJobView(video, media_id, temp_id, content_type, sha_256_hash) {
@@ -224,18 +297,27 @@ export function uploadMediaFromJobView(video, media_id, temp_id, content_type, s
         headers: {
             'Content-Type': content_type,
             'Media-Id': media_id
-        }};
+        }
+    };
 
     return dispatch => {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/upload/file`, post_object)
-            .then(response => {if (response.ok){
-                fetch(`${server_url}/media-objects?media_id=${media_id}`).then(
-                    response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})
-                    .then(
-                        response => {responseHandler(response, dispatch, [addMediaFileToMedia], temp_id, LoadingMedia)}
-                    )
-            } else {alert("Something went wrong with upload")} } )
+            .then(response => {
+                if (response.ok) {
+                    fetch(`${server_url}/media-objects?media_id=${media_id}`).then(
+                        response => errorHandler(response, dispatch, temp_id), error => {
+                            console.log(error)
+                        })
+                        .then(
+                            response => {
+                                responseHandler(response, dispatch, [addMediaFileToMedia], temp_id, LoadingMedia)
+                            }
+                        )
+                } else {
+                    alert("Something went wrong with upload")
+                }
+            })
     }
 }
 
@@ -244,24 +326,28 @@ export function uploadCaptionFileWithMediaId(captionFile, media_id, temp_id) {
     let post_object = {
         method: 'POST',
         body: captionFile,
-        headers: {
-
-        }
+        headers: {}
     };
-
 
 
     return dispatch => {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/upload/caption?media_id=${media_id}`, post_object)
-            .then(response => {if (response.ok){
-                fetch(`${server_url}/media-objects?media_id=${media_id}`).then(
-                    response => errorHandler(response, dispatch, temp_id), error => {console.log(error)})
-                    .then(
-                        response => {responseHandler(response, dispatch, [addCaptionFileToMedia], temp_id, LoadingMedia)}
-
-                    )
-            } else {alert("Something went wrong with upload")} } )
+            .then(response => {
+                if (response.ok) {
+                    fetch(`${server_url}/media-objects?media_id=${media_id}`).then(
+                        response => errorHandler(response, dispatch, temp_id), error => {
+                            console.log(error)
+                        })
+                        .then(
+                            response => {
+                                responseHandler(response, dispatch, [addCaptionFileToMedia], temp_id, LoadingMedia)
+                            }
+                        )
+                } else {
+                    alert("Something went wrong with upload")
+                }
+            })
 
     }
 
@@ -271,10 +357,11 @@ export function addAstJobToCaptioningJob(job_id, rate, transcriber_notes, temp_i
 
     let post_object = {
         method: "POST",
-        body: JSON.stringify({"jobid": job_id, "ast_rush": rate, file_id: file_id, "ast_notes":transcriber_notes}),
+        body: JSON.stringify({"jobid": job_id, "ast_rush": rate, file_id: file_id, "ast_notes": transcriber_notes}),
         headers: {
             "Content-Type": "application/json"
-        }};
+        }
+    };
     return dispatch => {
         dispatch(LoadingAstJob(true));
         return fetch(`${server_url}/ast-jobs`, post_object)
@@ -299,7 +386,8 @@ export function createAmaraResource(media_id, file_id) {
             body: JSON.stringify({"action": "create-amara-resource", "media_id": media_id}),
             headers: {
                 'Content-Type': 'application/json'
-            }};
+            }
+        };
 
     } else {
 
@@ -308,21 +396,29 @@ export function createAmaraResource(media_id, file_id) {
             body: JSON.stringify({"action": "create-amara-resource", "media_id": media_id, "file_id": file_id}),
             headers: {
                 'Content-Type': 'application/json'
-            }};
+            }
+        };
     }
 
 
     return dispatch => {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/amara`, post_object)
-            .then(response => {if (response.ok){
-                fetch(`${server_url}/media?id=${media_id}`).then(
-                    response => errorHandler(response, dispatch, error_id), error => {alert(error)})
-                    .then(
-                        response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
-
-                    )
-            } else {alert("Something went wrong with upload")} } )
+            .then(response => {
+                if (response.ok) {
+                    fetch(`${server_url}/media?id=${media_id}`).then(
+                        response => errorHandler(response, dispatch, error_id), error => {
+                            alert(error)
+                        })
+                        .then(
+                            response => {
+                                responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)
+                            }
+                        )
+                } else {
+                    alert("Something went wrong with upload")
+                }
+            })
 
     }
 
@@ -336,7 +432,8 @@ export function addSRTtoAmaraResource(caption_id, amara_id, media_id) {
         body: JSON.stringify({"action": "attach-amara-caption", "caption_id": caption_id, "amara_id": amara_id}),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
 
     console.log(caption_id, amara_id, media_id)
 
@@ -344,37 +441,55 @@ export function addSRTtoAmaraResource(caption_id, amara_id, media_id) {
 
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/amara`, post_object)
-            .then(response => {if (response.ok){
-                fetch(`${server_url}/media?id=${media_id}`).then(
-                    response => errorHandler(response, dispatch, error_id), error => {alert(error)})
-                    .then(
-                        response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
-                    )
-            } else {alert("Something went wrong with upload")} } )
+            .then(response => {
+                if (response.ok) {
+                    fetch(`${server_url}/media?id=${media_id}`).then(
+                        response => errorHandler(response, dispatch, error_id), error => {
+                            alert(error)
+                        })
+                        .then(
+                            response => {
+                                responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)
+                            }
+                        )
+                } else {
+                    alert("Something went wrong with upload")
+                }
+            })
 
-}}
+    }
+}
 
 export function sendVideoExtractRequest(media_id, url, format) {
     let error_id = uuidv1()
-    let data_object = { media_id:media_id, url:url, format:format};
+    let data_object = {media_id: media_id, url: url, format: format};
 
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
 
     return dispatch => {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/services/extract`, post_object)
-            .then(response => {if (response.ok){
-                fetch(`${server_url}/media?id=${media_id}`).then(
-                    response => errorHandler(response, dispatch, error_id), error => {alert(error)})
-                    .then(
-                        response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
-                    )
-            } else {alert("Something went wrong with upload")} } )
+            .then(response => {
+                if (response.ok) {
+                    fetch(`${server_url}/media?id=${media_id}`).then(
+                        response => errorHandler(response, dispatch, error_id), error => {
+                            alert(error)
+                        })
+                        .then(
+                            response => {
+                                responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)
+                            }
+                        )
+                } else {
+                    alert("Something went wrong with upload")
+                }
+            })
 
     }
 };
@@ -382,51 +497,68 @@ export function sendVideoExtractRequest(media_id, url, format) {
 export function addCampusAssociationAssignment(campus_org_id, employee_id, semester) {
 
     let error_id = uuidv1()
-    let data_object = {campus_org_id:campus_org_id, employee_id:employee_id};
+    let data_object = {campus_org_id: campus_org_id, employee_id: employee_id};
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
 
     return dispatch => {
         dispatch(LoadingInstructors(true));
         return fetch(`${server_url}/campus-org-assignment`, post_object)
-            .then(response => {if (response.ok){
-                fetch(`${server_url}/requesters?employee_id=all&semester=${semester}`).then(
-                    response => errorHandler(response, dispatch, error_id), error => {alert(error)})
-                    .then(
-                        response => {responseHandler(response, dispatch, [receiveRequester], error_id, LoadingInstructors)}
-                    )
-            } else {alert("Something went wrong with upload")} } )
+            .then(response => {
+                if (response.ok) {
+                    fetch(`${server_url}/requesters?employee_id=all&semester=${semester}`).then(
+                        response => errorHandler(response, dispatch, error_id), error => {
+                            alert(error)
+                        })
+                        .then(
+                            response => {
+                                responseHandler(response, dispatch, [receiveRequester], error_id, LoadingInstructors)
+                            }
+                        )
+                } else {
+                    alert("Something went wrong with upload")
+                }
+            })
 
 
+    }
 }
-}
-
 
 export function addCaptionedResource(media_id, source_link) {
 
     let error_id = uuidv1()
-    let data_object = {media_id:media_id, source_link:source_link};
+    let data_object = {media_id: media_id, source_link: source_link};
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
 
     return dispatch => {
         dispatch(LoadingMedia(true));
         return fetch(`${server_url}/other-cap-resources`, post_object)
-            .then(response => {if (response.ok){
-                fetch(`${server_url}/media?id=${media_id}`).then(
-                    response => errorHandler(response, dispatch, error_id), error => {alert(error)})
-                    .then(
-                        response => {responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)}
-                    )
-            } else {alert("Something went wrong with upload")} } )
+            .then(response => {
+                if (response.ok) {
+                    fetch(`${server_url}/media?id=${media_id}`).then(
+                        response => errorHandler(response, dispatch, error_id), error => {
+                            alert(error)
+                        })
+                        .then(
+                            response => {
+                                responseHandler(response, dispatch, [updateMedia], error_id, LoadingMedia)
+                            }
+                        )
+                } else {
+                    alert("Something went wrong with upload")
+                }
+            })
 
 
     }
@@ -435,20 +567,21 @@ export function addCaptionedResource(media_id, source_link) {
 
 export function sendVideoExtractRequestDeferred(media_id, url, format) {
     let error_id = uuidv1()
-    let data_object = { media_id:media_id, url:url, format:format};
+    let data_object = {media_id: media_id, url: url, format: format};
 
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
 
     return dispatch => {
 
         return fetch(`${server_url}/services/extract-deferred`, post_object)
             .then(response => response.text())
-            .then(task_id => dispatch(receiveTaskId(task_id, [fetchMediaById.bind(null,media_id)])))
+            .then(task_id => dispatch(receiveTaskId(task_id, [fetchMediaById.bind(null, media_id)])))
             .then(() => checkAsyncStatusResource(dispatch))
 
     }
@@ -458,20 +591,21 @@ export function sendVideoExtractRequestDeferred(media_id, url, format) {
 export function sendVideoConversionRequestDeferred(media_file_id, media_id, task) {
     let error_id = uuidv1()
 
-    let data_object = {media_file_id:media_file_id, media_id:media_id, task:task};
+    let data_object = {media_file_id: media_file_id, media_id: media_id, task: task};
 
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }};
-        console.log("THE POST OBHECT", post_object)
+        }
+    };
+    console.log("THE POST OBHECT", post_object)
     return dispatch => {
 
         return fetch(`${server_url}/services/convert`, post_object)
             .then(response => response.text())
-            .then(task_id => dispatch(receiveTaskId(task_id, [fetchMediaById.bind(null,media_id)])))
+            .then(task_id => dispatch(receiveTaskId(task_id, [fetchMediaById.bind(null, media_id)])))
             .then(() => checkAsyncStatusResource(dispatch))
 
     }
@@ -479,20 +613,21 @@ export function sendVideoConversionRequestDeferred(media_file_id, media_id, task
 
 export function sendOpenCaptionRequestDeferred(media_id, video_file_id, caption_file_id) {
     let error_id = uuidv1()
-    let data_object = {media_id :media_id, video_file_id:video_file_id, caption_file_id:caption_file_id};
+    let data_object = {media_id: media_id, video_file_id: video_file_id, caption_file_id: caption_file_id};
 
     let post_object = {
         method: 'POST',
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
 
     return dispatch => {
 
         return fetch(`${server_url}/services/open-caption`, post_object)
             .then(response => response.text())
-            .then(task_id => dispatch(receiveTaskId(task_id, [fetchMediaById.bind(null,media_id)])))
+            .then(task_id => dispatch(receiveTaskId(task_id, [fetchMediaById.bind(null, media_id)])))
             .then(() => checkAsyncStatusResource(dispatch))
 
     }
@@ -506,20 +641,20 @@ export function checkAsyncStatusResource(dispatch) {
 
     let task_id_list = data_object.map(object => {
         return object.task_id
-    },[])
+    }, [])
 
     let post_object = {
         method: 'POST',
-        body: JSON.stringify({"task_id":task_id_list}),
+        body: JSON.stringify({"task_id": task_id_list}),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
 
 
-
-        return fetch(`${server_url}/services/task-status`, post_object)
-            .then(response => response.json())
-            .then(json => jobChecker.addInitialStatus(json))
+    return fetch(`${server_url}/services/task-status`, post_object)
+        .then(response => response.json())
+        .then(json => jobChecker.addInitialStatus(json))
 
 
 }
