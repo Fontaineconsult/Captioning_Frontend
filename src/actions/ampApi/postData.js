@@ -2,7 +2,7 @@ import fetch from "cross-fetch";
 import {api_failure} from "../../utilities/api/errors";
 import {endpoint} from '../../constants'
 import {LoadingAstJob, LoadingInstructors, LoadingMedia, LoadingVideoJobs} from "../status";
-import {addMediaToTempJob, updateTempJobsUploadState} from "../tempJobsForm"
+import {addMediaToTempJob, updateTempJobsUploadState, addVideoToTempList} from "../tempJobsForm"
 import {receiveMediaSearch} from '../mediaSearch'
 import {batch} from 'react-redux'
 import {setErrorState} from "../error_state";
@@ -632,6 +632,35 @@ export function sendOpenCaptionRequestDeferred(media_id, video_file_id, caption_
 
     }
 }
+
+
+export function addMediaToListTempJob(title, link, temp_id) {
+
+
+    let data_object = {title:title, source_url:link, media_type: "URL"};
+
+
+
+
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }};
+
+
+    return dispatch => {
+        dispatch(LoadingMedia(true));
+        return fetch(`${server_url}/media`, post_object)
+            .then(response => errorHandler(response, dispatch, temp_id), error => {
+                console.log(error)
+            })
+            .then(response => {
+                responseHandler(response, dispatch, [addVideoToTempList], temp_id, LoadingMedia)
+            })
+    }
+};
 
 
 export function checkAsyncStatusResource(dispatch) {
