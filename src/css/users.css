@@ -19,8 +19,6 @@
 /*    margin-bottom: 50px;*/
 
 
-
-
 /*}*/
 
 .emp-display-title {
@@ -66,7 +64,7 @@
     -webkit-justify-content: space-between;
     justify-content: space-between;
     min-height: 38px;
-    outline: 0!important;
+    outline: 0 !important;
     position: relative;
     -webkit-transition: all 100ms;
     transition: all 100ms;
@@ -75,8 +73,10 @@
     font-size: 15px;
     width: 100%;
     margin-bottom: 10px;
-
-
 }
 
 
+.emp-checkbox {
+    width: 40px;
+    height: 40px;
+}

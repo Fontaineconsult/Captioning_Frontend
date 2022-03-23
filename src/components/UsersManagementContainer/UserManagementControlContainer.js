@@ -1,17 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import {
-    Switch,
-    Route,
-    NavLink,
-
-} from "react-router-dom";
+import {NavLink, Route, Switch,} from "react-router-dom";
 import AddUserContainer from "./addUserContainer"
-
-
-
-
+import AddStudentsContainer from "./Students/addStudentsContainer"
 
 
 class UserManagementControlContainer extends Component {
@@ -22,9 +14,6 @@ class UserManagementControlContainer extends Component {
     }
 
 
-
-
-
     render() {
 
         return (
@@ -33,25 +22,29 @@ class UserManagementControlContainer extends Component {
                     <div className="controlBarNavButtons">
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
-                                to={{pathname: "/captioning/users/add-user",
+                                to={{
+                                    pathname: "/captioning/users/add-user",
                                     search: this.props.location.search,
                                 }}>Add User</NavLink>
                         </div>
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
-                                to={{pathname: "/captioning/users/edit-user",
+                                to={{
+                                    pathname: "/captioning/users/edit-user",
                                     search: this.props.location.search,
                                 }}>Edit Users</NavLink>
                         </div>
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
-                                to={{pathname: "/captioning/users/courses",
+                                to={{
+                                    pathname: "/captioning/users/courses",
                                     search: this.props.location.search,
                                 }}>Courses</NavLink>
                         </div>
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
-                                to={{pathname: "/captioning/users/students",
+                                to={{
+                                    pathname: "/captioning/users/students",
                                     search: this.props.location.search,
                                 }}>Students</NavLink>
                         </div>
@@ -61,6 +54,8 @@ class UserManagementControlContainer extends Component {
 
                     <Switch>
                         <Route path="/captioning/users/add-user">{<AddUserContainer/>}</Route>
+                        <Route path="/captioning/users/students">{<AddStudentsContainer/>}</Route>
+
 
                     </Switch>
                 </div>
@@ -77,7 +72,6 @@ class UserManagementControlContainer extends Component {
 
 
 function mapStateToProps({videosJobsReducer}, {props}) {
-
 
 
     return {
