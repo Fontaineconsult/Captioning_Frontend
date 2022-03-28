@@ -141,6 +141,7 @@ function mapStateToProps({videosJobsReducer,
         }
 
 
+
         return {
             id: job.id,
             template: template,
