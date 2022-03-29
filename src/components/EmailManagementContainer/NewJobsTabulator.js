@@ -131,6 +131,9 @@ function mapStateToProps({videosJobsReducer,
             }
 
 
+
+
+
         } else {
             requester_id = requesterReducer[job.requester_id].id
             requester_name = campusOrgReducer[requesterReducer[job.requester_id].campus_org_id].organization_name
@@ -139,6 +142,7 @@ function mapStateToProps({videosJobsReducer,
 
 
         }
+
 
 
         return {
