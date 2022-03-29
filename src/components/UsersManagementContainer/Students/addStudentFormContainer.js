@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
+import {AddStudent} from "../../../actions/ampApi/postData";
 
-class AddEmployeeContainer extends Component {
+class AddStudentContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -135,4 +136,4 @@ function mapStateToProps({videosJobsReducer}, {props}) {
     return {}
 }
 
-export default withRouter(connect(mapStateToProps)(AddEmployeeContainer))
+export default withRouter(connect(mapStateToProps)(AddStudentContainer))
