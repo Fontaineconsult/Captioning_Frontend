@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 
-import {AddStudent} from '../../../actions/ampApi/postData'
-
 class AddEmployeeContainer extends Component {
 
     constructor(props) {
@@ -18,24 +16,22 @@ class AddEmployeeContainer extends Component {
             is_transcripts_only: false,
             //may add course enrolled later
         };
-        this.handleChange = this.handleChange.bind(this)
+        this.handleInputChange = this.handleInputChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
 
     }
 
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
 
-    handleChange(event) {
-        event.preventDefault()
-
-        if (event.target.name === "is_captioning_active" || event.target.name === "is_transcripts_only") {
-            console.log(event.target.checked)
-            this.setState({[event.target.name]: event.target.checked});
-        } else {
-            this.setState({[event.target.name]: event.target.value});
-        }
-
+        this.setState({
+            [name]: value
+        });
 
     }
+
 
     handleSubmit(event) {
         event.preventDefault()
@@ -48,9 +44,13 @@ class AddEmployeeContainer extends Component {
             student_last_name: '',
             student_email: '',
             student_requests: '',
-            captioning_active: false,
-            transcripts_only: false,
+            is_captioning_active: false,
+            is_transcripts_only: false,
         })
+
+        console.log("is captioning active: ", this.state.is_captioning_active)
+        console.log("is transcripts active: ", this.state.is_transcripts_only)
+
 
     }
 
@@ -62,14 +62,14 @@ class AddEmployeeContainer extends Component {
                     <label htmlFor={"student_id"}>
                         <div>Student ID</div>
                         <input className={"emp-input"} maxLength={9} value={this.state.student_id} type={'text'}
-                               name={"student_id"} onChange={this.handleChange}/>
+                               name={"student_id"} onChange={this.handleInputChange}/>
                     </label>
 
                     <label htmlFor={"student_first_name"}>
                         <div>First Name</div>
                         <input className={"emp-input"} required={true} value={this.state.student_first_name}
                                type={'text'}
-                               name={"student_first_name"} onChange={this.handleChange}/>
+                               name={"student_first_name"} onChange={this.handleInputChange}/>
                     </label>
 
 
@@ -77,43 +77,48 @@ class AddEmployeeContainer extends Component {
                         <div>Last Name</div>
                         <input className={"emp-input"} required={true} value={this.state.student_last_name}
                                type={'text'}
-                               name={"student_last_name"} onChange={this.handleChange}/>
+                               name={"student_last_name"} onChange={this.handleInputChange}/>
                     </label>
 
                     <label htmlFor={"student_email"}>
                         <div>E-Mail</div>
                         <input className={"emp-input"} required={true} value={this.state.student_email} type={'text'}
-                               name={"student_email"} onChange={this.handleChange}/>
+                               name={"student_email"} onChange={this.handleInputChange}/>
                     </label>
                     <label htmlFor={"student_requests"}>
                         <div>Student Requests</div>
-                        <textarea value={this.state.student_requests} required={true} onChange={this.handleChange}
+                        <textarea value={this.state.student_requests} required={false} onChange={this.handleInputChange}
                                   name={"student_requests"} rows="4" cols="50">
                         </textarea>
                     </label>
 
                     <label htmlFor={"is_captioning_active"}>
                         <div>Captioning</div>
-
-                        <input className={"emp-checkbox"} checked={this.state.checked} type={'checkbox'}
-                               name={"is_captioning_active"}
-                               onChange={this.handleChange}/>
+                        <input className={"stu-checkbox"}
+                               name="is_captioning_active"
+                               type="checkbox"
+                               checked={this.state.is_captioning_active}
+                               value={this.state.is_captioning_active}
+                               onChange={this.handleInputChange}
+                        />
                     </label>
 
 
                     <label htmlFor={"is_transcripts_only"}>
                         <div>Transcripts</div>
-                        <input className={"emp-checkbox"} checked={this.state.checked} type={'checkbox'}
-                               name={"is_transcripts_only"}
-                               onChange={this.handleChange}/>
+                        <input className={"stu-checkbox"}
+                               name="is_transcripts_only"
+                               type="checkbox"
+                               checked={this.state.is_transcripts_only}
+                               value={this.state.is_transcripts_only}
+                               onChange={this.handleInputChange}
+                        />
                     </label>
 
                     <div>
                         <input type="submit" name="Submit"/>
                     </div>
                 </form>
-
-
             </div>
 
         )

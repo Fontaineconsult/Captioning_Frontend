@@ -1,14 +1,15 @@
 import fetch from "cross-fetch";
 import {api_failure} from "../../utilities/api/errors";
 import {endpoint} from '../../constants'
-import {LoadingAstJob, LoadingInstructors, LoadingMedia, LoadingVideoJobs} from "../status";
-import {addMediaToTempJob, updateTempJobsUploadState, addVideoToTempList} from "../tempJobsForm"
+import {LoadingAstJob, LoadingInstructors, LoadingMedia, LoadingStudents, LoadingVideoJobs} from "../status";
+import {addMediaToTempJob, addVideoToTempList, updateTempJobsUploadState} from "../tempJobsForm"
 import {receiveMediaSearch} from '../mediaSearch'
 import {batch} from 'react-redux'
 import {setErrorState} from "../error_state";
 import {addNewAstJob, receiveCapJobs} from "../existingVideoJobs";
 import {addCaptionFileToMedia, addMediaFileToMedia, addMediaFromCapJobs, updateMedia} from "../media";
 import {updateEmployees} from "../employees"
+import {updateStudents} from "../students";
 import {receiveTaskId} from "../asyncTaskIds";
 import {v1 as uuidv1} from "uuid";
 import store from "../../reducers/store_creator"
@@ -204,25 +205,24 @@ export function AddStudent(student_data) {
 
     return dispatch => {
 
-        //TODO: Check later
-
-        // dispatch(LoadingStudents(true))
-        // return fetch(`${server_url}/students?student_id=all`, post_object)
-        //     .then(response => {
-        //         if (response.ok) {
-        //             fetch(`${server_url}/students?student_id=all`).then(
-        //                 response => errorHandler(response, dispatch, temp_id), error => {
-        //                     console.log(error)
-        //                 })
-        //                 .then(
-        //                     response => {
-        //                         responseHandler(response, dispatch, [updateStudents], temp_id, LoadingStudents)
-        //                     }
-        //                 )
-        //         } else {
-        //             alert("Something went wrong when adding Student")
-        //         }
-        //     })
+        dispatch(LoadingStudents(true))
+        return fetch(`${server_url}/students`, post_object)
+            .then(response => {
+                alert("Student is added Successfully")
+                if (response.ok) {
+                    fetch(`${server_url}/students?student_id=${student_data.student_id}`).then(
+                        response => errorHandler(response, dispatch, temp_id), error => {
+                            console.log(error)
+                        })
+                        .then(
+                            response => {
+                                responseHandler(response, dispatch, [updateStudents], temp_id, LoadingStudents)
+                            }
+                        )
+                } else {
+                    alert("Something went wrong when adding Student")
+                }
+            })
 
     }
 
@@ -638,9 +638,7 @@ export function sendOpenCaptionRequestDeferred(media_id, video_file_id, caption_
 export function addMediaToListTempJob(title, link, temp_id) {
 
 
-    let data_object = {title:title, source_url:link, media_type: "URL"};
-
-
+    let data_object = {title: title, source_url: link, media_type: "URL"};
 
 
     let post_object = {
@@ -648,7 +646,8 @@ export function addMediaToListTempJob(title, link, temp_id) {
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
 
 
     return dispatch => {

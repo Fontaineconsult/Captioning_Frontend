@@ -16,18 +16,16 @@ class AddUserContainer extends Component {
 
         return (
             <div className="masterListItem masterListUser">
-                <div>
-                    <div style={{"margin-bottom": "10px"}} className={"emp-display-container"}>
+                <div className={"stu-scroll-container"}>
+                    <div className={"stu-display-container"}>
                         <div className={"emp-display-title"}>
-                            <div style={{"font-weight": "600"}}>
+                            <div>
                                 Add Student
                             </div>
                         </div>
                         <AddStudentFormContainer/>
                     </div>
                 </div>
-
-
             </div>
         )
     }

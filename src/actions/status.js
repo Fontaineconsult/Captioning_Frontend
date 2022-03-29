@@ -6,8 +6,8 @@ export const _LOADINGSTUDENTS = 'LOADING_STUDENTS';
 export const _LOADINGVIDEOJOBS = 'LOADING_VIDEO_JOBS';
 export const _LOADINGPERMISSIONS = 'LOADING_PERMISSIONS';
 export const _LOADINGREQUESTS = '_LOADINGREQUESTS';
-export const _LOADINGASTJOB = '_LOADINGASTJOB'
-export const _ALLLOADINGON = '_ALLLOADINGON'
+export const _LOADINGASTJOB = '_LOADINGASTJOB';
+export const _ALLLOADINGON = '_ALLLOADINGON';
 
 export function AllLoadingOn() {
 
@@ -15,7 +15,6 @@ export function AllLoadingOn() {
         type: _ALLLOADINGON
 
     }
-
 
 
 }
@@ -26,7 +25,7 @@ export function LoadingCourses(status) {
         type: _LOADINGCOURSES,
         status
     }
-    
+
 }
 
 export function LoadingIlearnVideos(status) {
@@ -76,13 +75,13 @@ export function LoadingVideoJobs(status) {
 
 export function LoadingPermissions(status) {
 
-        return {
-            type: _LOADINGPERMISSIONS,
-            status
-
-        }
+    return {
+        type: _LOADINGPERMISSIONS,
+        status
 
     }
+
+}
 
 
 export function LoadingRequests(status) {
