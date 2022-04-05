@@ -1,15 +1,15 @@
-import {writeCourse, replaceCourseData} from '../courses'
+import {replaceCourseData, writeCourse} from '../courses'
 import {updateMediaDeep} from '../media'
 import {writeiLearnVideo} from '../ilearn_videos'
 import {api_failure} from '../../utilities/api/errors'
 import {endpoint} from '../../constants'
-import { batch } from 'react-redux'
-import {updateCapJob, deleteCapJob, addNewAstJob, replaceCapJobData} from '../existingVideoJobs'
-import {LoadingIlearnVideos, LoadingVideoJobs, LoadingAstJob, LoadingCourses} from '../status'
-import {initASTJob} from '../existingVideoJobs'
+import {batch} from 'react-redux'
+import {deleteCapJob, initASTJob, replaceCapJobData, updateCapJob} from '../existingVideoJobs'
+import {LoadingAstJob, LoadingCourses, LoadingIlearnVideos, LoadingVideoJobs} from '../status'
 import fetch from "cross-fetch";
 import clipboardCopy from "clipboard-copy";
 import {v1 as uuidv1} from "uuid";
+import {writeEmployees} from "../employees";
 
 const server_url = endpoint();
 
@@ -26,10 +26,9 @@ function checkResponse(data) {
 }
 
 
-
 export function updateMedia(media_id, column, value) {
 
-    let data_object = { id: media_id, column: column, value: value };
+    let data_object = {id: media_id, column: column, value: value};
     console.log("ZEERRPSS", data_object)
     let put_object = {
         method: 'PUT',
@@ -44,14 +43,13 @@ export function updateMedia(media_id, column, value) {
         return fetch(`${server_url}/media`, put_object)
             .then(data => dispatch(updateMediaDeep(data_object)))
             .catch(error => api_failure(error))
-    }}
-
-
+    }
+}
 
 
 export function updateCourse(course_gen_id, column, value) {
 
-    let data_object = { course_gen_id: course_gen_id, column: column, value: value };
+    let data_object = {course_gen_id: course_gen_id, column: column, value: value};
 
     let put_object = {
         method: 'PUT',
@@ -66,12 +64,13 @@ export function updateCourse(course_gen_id, column, value) {
         return fetch(`${server_url}/courses`, put_object)
             .then(data => console.log(JSON.stringify(data.response)))
             .catch(error => api_failure(error))
-    }}
+    }
+}
 
 
 export function updateiLearnVideo(video_id, column, value) {
 
-    let data_object = {id: video_id, column: column, value: value };
+    let data_object = {id: video_id, column: column, value: value};
 
     let put_object = {
         method: 'PUT',
@@ -83,15 +82,35 @@ export function updateiLearnVideo(video_id, column, value) {
     return (dispatch, getState) => {
         dispatch(writeiLearnVideo(video_id, data_object));
         return fetch(`${server_url}/ilearn-videos`, put_object)
-                .then(response => response.json())
-                .catch(error => console.log(error))
+            .then(response => response.json())
+            .catch(error => console.log(error))
+    }
+}
+
+export function updateEmployeeData(employee_id, column, value) {
+
+    let data_object = {employee_id: employee_id, column: column, value: value};
+    console.log(data_object)
+
+    let put_object = {
+        method: 'PUT',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    return (dispatch) => {
+        dispatch(writeEmployees(employee_id, data_object));
+        return fetch(`${server_url}/employees`, put_object)
+            .then(response => response.json())
+            .catch(error => console.log(error))
     }
 }
 
 
-export function updateVideoJob(job_id, column, value){
+export function updateVideoJob(job_id, column, value) {
 
-    let data_object = {id: job_id, column: column, value: value };
+    let data_object = {id: job_id, column: column, value: value};
 
     let put_object = {
         method: 'PUT',
@@ -109,9 +128,9 @@ export function updateVideoJob(job_id, column, value){
     }
 }
 
-export function deleteVideoJob(job_id, column, value){
+export function deleteVideoJob(job_id, column, value) {
 
-    let data_object = {id: job_id, column: column, value: value };
+    let data_object = {id: job_id, column: column, value: value};
 
     let put_object = {
         method: 'PUT',
@@ -133,8 +152,7 @@ export function deleteVideoJob(job_id, column, value){
 }
 
 
-
-export function getS3Link(value){
+export function getS3Link(value) {
 
     let data_object = {file_id: value};
 
@@ -147,14 +165,13 @@ export function getS3Link(value){
 
     };
 
-    function clipBoard(data){
-        clipboardCopy(data).then(function (){
+    function clipBoard(data) {
+        clipboardCopy(data).then(function () {
             alert("Copied to Clipboard")
 
         })
 
     }
-
 
 
     return (dispatch) => {
@@ -172,10 +189,12 @@ export function updateiLearnVideoBatch(video_ids, column, value) {
         return {
             request_payload: {
                 method: 'PUT',
-                body: JSON.stringify({id: id, column: column, value: value }),
+                body: JSON.stringify({id: id, column: column, value: value}),
                 headers: {
-                    'Content-Type': 'application/json'}},
-            dispatch_payload: {id: id, column: column, value: value }
+                    'Content-Type': 'application/json'
+                }
+            },
+            dispatch_payload: {id: id, column: column, value: value}
         };
     });
 
@@ -204,7 +223,8 @@ export function submitASTJobToAST(ast_job_id, job_id, file_id) {
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }}
+        }
+    }
 
     return (dispatch) => {
         dispatch(LoadingAstJob(true))
@@ -213,7 +233,7 @@ export function submitASTJobToAST(ast_job_id, job_id, file_id) {
             .then(data => dispatch(initASTJob(data['content']['echo'], ast_job_id, job_id)))
             .then(data => dispatch(LoadingAstJob(false)))
             .catch(error => console.log(error))
-        }
+    }
 
 
 }
@@ -221,29 +241,30 @@ export function submitASTJobToAST(ast_job_id, job_id, file_id) {
 export function sendEmailCommandJobs(requester_id, template, params) {
 
     let error_id = uuidv1()
-    let data_object = { template:template, params: params};
+    let data_object = {template: template, params: params};
 
     let put_object = {
         method: 'PUT',
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
     return (dispatch, getState) => {
         dispatch(LoadingVideoJobs(true))
         return fetch(`${server_url}/services/email`, put_object)
-            .then(response => {if (response.ok){
-                return fetch(`${server_url}/video-jobs?requester_id=${requester_id}`)
-                    .then(response => response.json())
-                    .then(data => dispatch(replaceCapJobData(data['content'])))
-                    .then(dispatch(LoadingVideoJobs(false)))
+            .then(response => {
+                if (response.ok) {
+                    return fetch(`${server_url}/video-jobs?requester_id=${requester_id}`)
+                        .then(response => response.json())
+                        .then(data => dispatch(replaceCapJobData(data['content'])))
+                        .then(dispatch(LoadingVideoJobs(false)))
 
-            }})
+                }
+            })
 
 
-}
-
-
+    }
 
 
 }
@@ -251,29 +272,30 @@ export function sendEmailCommandJobs(requester_id, template, params) {
 export function sendEmailCommandCourses(requester_id, template, params) {
 
     let error_id = uuidv1()
-    let data_object = { template:template, params: params };
+    let data_object = {template: template, params: params};
 
     let put_object = {
         method: 'PUT',
         body: JSON.stringify(data_object),
         headers: {
             'Content-Type': 'application/json'
-        }};
+        }
+    };
     return (dispatch, getState) => {
         dispatch(LoadingCourses(true))
         return fetch(`${server_url}/services/email`, put_object)
-            .then(response => {if (response.ok){
-                return fetch(`${server_url}/courses?requester_id=${requester_id}`)
-                    .then(response => response.json())
-                    .then(data => dispatch(replaceCourseData(data['content'])))
-                    .then(dispatch(LoadingCourses(false)))
+            .then(response => {
+                if (response.ok) {
+                    return fetch(`${server_url}/courses?requester_id=${requester_id}`)
+                        .then(response => response.json())
+                        .then(data => dispatch(replaceCourseData(data['content'])))
+                        .then(dispatch(LoadingCourses(false)))
 
-            }})
+                }
+            })
 
 
     }
-
-
 
 
 }

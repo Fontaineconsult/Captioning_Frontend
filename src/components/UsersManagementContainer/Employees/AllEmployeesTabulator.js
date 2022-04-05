@@ -4,6 +4,7 @@ import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import Tabulator from "tabulator-tables"
+import {updateEmployeeData} from "../../../actions/ampApi/putData";
 
 
 class AllEmployeesTabulator extends Component {
@@ -14,16 +15,18 @@ class AllEmployeesTabulator extends Component {
         this.el = React.createRef();
         this.tabulator = null;
         this.ref = null;
+
+        this.dataEditedFunc = this.dataEditedFunc.bind(this);
     }
 
 
     componentDidMount() {
         let columns = [
             {title: "ID", width: 150, field: "employee_id"},
-            {title: "First Name", field: "employee_first_name"},
-            {title: "Last Name", field: "employee_last_name"},
-            {title: "Email", field: "employee_email"},
-            {title: "Phone", field: "employee_phone"},
+            {title: "First Name", field: "employee_first_name", editor: "input"},
+            {title: "Last Name", field: "employee_last_name", editor: "input"},
+            {title: "Email", field: "employee_email", editor: "input"},
+            {title: "Phone", field: "employee_phone", editor: "input"},
             {title: "Permission Type", field: "permission_type"},
         ];
 
@@ -33,7 +36,9 @@ class AllEmployeesTabulator extends Component {
             data: this.props.data,
             reactiveData: true,
             height: "500px",
+            cellEdited: this.dataEditedFunc
         })
+
 
     }
 
@@ -43,6 +48,11 @@ class AllEmployeesTabulator extends Component {
 
 
     }
+
+    dataEditedFunc(cellData) {
+        this.props.dispatch(updateEmployeeData(cellData._cell.row.data.employee_id, cellData._cell.column.field, cellData._cell.value))
+    };
+
 
     render() {
 
@@ -67,7 +77,7 @@ function mapStateToProps({
     let columns = []
 
 
-    let employeeFormatData = (employee) => {
+    let formatData = (employee) => {
 
         return {
             employee_id: employee.employee_id,
@@ -82,7 +92,7 @@ function mapStateToProps({
 
     if (employeesReducer !== undefined) {
         Object.keys(employeesReducer).forEach(function (key) {
-            data.push(employeeFormatData(employeesReducer[key]))
+            data.push(formatData(employeesReducer[key]))
         });
 
     }
