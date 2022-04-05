@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import JobContainer from "./JobContainer";
@@ -6,11 +6,8 @@ import Select from "react-select";
 import ClearIcon from '@material-ui/icons/Clear';
 import {customStyles} from './selectCustomStyle'
 import moment from "moment"
-import {CSSTransition, TransitionGroup}  from 'react-transition-group';
-import jobContainer from '../../css/jobContainer.css'
-import NavMaster from '../../css/NavMaster.css'
 
-import {List, AutoSizer, Collection  } from "react-virtualized";
+import {AutoSizer, List} from "react-virtualized";
 
 class JobManagementControlContainer extends Component {
 
@@ -36,7 +33,7 @@ class JobManagementControlContainer extends Component {
     }
 
     removeFilters(event) {
-        if (event.charCode  === 13 || event.type === 'click') {
+        if (event.charCode === 13 || event.type === 'click') {
             this.setState({
                 videoJobs: Object.keys(this.props.videosJobsReducer).map((key) => this.props.videosJobsReducer[key].id),
                 job_status_value: '',
@@ -59,8 +56,9 @@ class JobManagementControlContainer extends Component {
                     return accumulator
                 }, []);
 
-                this.setState({videoJobs:filter,
-                                    job_status_value: value
+                this.setState({
+                    videoJobs: filter,
+                    job_status_value: value
                 });
                 break;
             case "requester_id":
@@ -72,7 +70,8 @@ class JobManagementControlContainer extends Component {
                     return accumulator
                 }, []);
 
-                this.setState({videoJobs:filter,
+                this.setState({
+                    videoJobs: filter,
                     filterSelectedCourse: value
                 });
                 break
@@ -83,26 +82,28 @@ class JobManagementControlContainer extends Component {
         let list_filter = this.state.videoJobs.reduce((accumulator, element) => {
             accumulator.push(this.props.videosJobsReducer[element])
             return accumulator
-        },[])
+        }, [])
 
-        let filter = list_filter.sort((a,b) => moment(b[key]) -  moment(a[key]))
+        let filter = list_filter.sort((a, b) => moment(b[key]) - moment(a[key]))
 
         let to_return = filter.reduce((accumulator, element) => {
 
             accumulator.push(element.id)
             return accumulator
-        },[])
+        }, [])
 
         this.setState({
-            videoJobs:to_return,
+            videoJobs: to_return,
             order_by_value: value
         })
     }
 
     updateJobStatusFilter(value) {
 
-        this.setState({job_status:value,
-                            videoJobs: this.props[value].map((key) => this.props.videosJobsReducer[key].id)})
+        this.setState({
+            job_status: value,
+            videoJobs: this.props[value].map((key) => this.props.videosJobsReducer[key].id)
+        })
 
     }
 
@@ -117,27 +118,27 @@ class JobManagementControlContainer extends Component {
         }
 
     }
-    
+
     componentDidMount() {
         this.setState({
             videoJobs: this.props.semesterJobs.map((key) => this.props.videosJobsReducer[key].id)
         })
-
     }
 
     renderRow({index, key, style}) {
 
         if (Object.keys(this.props.mediaReducer).length > 0) {
-            return(
+            return (
                 <div key={key} style={style}>
-                    <JobContainer key={key} jobId={this.state.videoJobs[index]} />
+                    <JobContainer key={key} jobId={this.state.videoJobs[index]}/>
                 </div>
             )
         } else {
-            return(
+            return (
                 "Loading"
             )
-    }}
+        }
+    }
 
     render() {
 
@@ -148,19 +149,31 @@ class JobManagementControlContainer extends Component {
                     <div className="controlBarNavButtons">
                         <div tabIndex={0} role={'button'} className="navButton"
                              onClick={() => this.updateJobStatusFilter("semesterJobs")}
-                             onKeyPress={event => {if (event.key === 'Enter'){this.updateJobStatusFilter("semesterJobs")}}}>
+                             onKeyPress={event => {
+                                 if (event.key === 'Enter') {
+                                     this.updateJobStatusFilter("semesterJobs")
+                                 }
+                             }}>
                             Semester Jobs <span className={"jobCount"}>{this.props.semesterJobsCount}</span>
-                        </div >
+                        </div>
                         <div tabIndex={0} role={'button'} className="navButton"
                              onClick={() => this.updateJobStatusFilter("activeJobs")}
-                             onKeyPress={event => {if (event.key === 'Enter'){this.updateJobStatusFilter("activeJobs")}}}>
+                             onKeyPress={event => {
+                                 if (event.key === 'Enter') {
+                                     this.updateJobStatusFilter("activeJobs")
+                                 }
+                             }}>
                             Active Jobs <span className={"jobCount"}>{this.props.activeJobsCount}</span>
-                        </div >
+                        </div>
                         <div tabIndex={0} role={'button'} className="navButton"
                              onClick={() => this.updateJobStatusFilter("completeJobs")}
-                             onKeyPress={event => {if (event.key === 'Enter'){this.updateJobStatusFilter("completeJobs")}}}>
+                             onKeyPress={event => {
+                                 if (event.key === 'Enter') {
+                                     this.updateJobStatusFilter("completeJobs")
+                                 }
+                             }}>
                             Complete Jobs <span className={"jobCount"}>{this.props.completeJobsCount}</span>
-                        </div >
+                        </div>
                     </div>
                 </div>
                 <div className="filtersMainContainer">
@@ -171,12 +184,12 @@ class JobManagementControlContainer extends Component {
                                     <div className="filterTitles">Job Status</div>
                                     <Select styles={customStyles}
                                             options={[
-                                                {value:"Queued", label:"Queued", job_status:"Queued"},
-                                                {value:"Captioning", label:"Captioning",job_status:"Captioning"},
-                                                {value:"Ready", label:"Ready", job_status:"Ready"},
-                                                {value:"Delivered", label:"Delivered", job_status:"Delivered"},
-                                                {value:"Cancelled", label:"Cancelled", job_status:"Cancelled"},
-                                                {value:"On Hold", label:"On Hold", job_status:"On Hold"},
+                                                {value: "Queued", label: "Queued", job_status: "Queued"},
+                                                {value: "Captioning", label: "Captioning", job_status: "Captioning"},
+                                                {value: "Ready", label: "Ready", job_status: "Ready"},
+                                                {value: "Delivered", label: "Delivered", job_status: "Delivered"},
+                                                {value: "Cancelled", label: "Cancelled", job_status: "Cancelled"},
+                                                {value: "On Hold", label: "On Hold", job_status: "On Hold"},
                                             ]}
                                             value={this.state.job_status_value}
                                             onChange={(value) => this.reductionFilter(value, 'job_status')}/>
@@ -199,15 +212,15 @@ class JobManagementControlContainer extends Component {
                                         styles={customStyles}
                                         value={this.state.order_by_value}
                                         options={[
-                                            {value:"request_date", label:"Request Date", date:"request_date"},
-                                            {value:"show_date", label:"Show Date", date:"show_date"},
-                                            {value:"delivered_date", label:"Delivered Date", date:"delivered_date"},
+                                            {value: "request_date", label: "Request Date", date: "request_date"},
+                                            {value: "show_date", label: "Show Date", date: "show_date"},
+                                            {value: "delivered_date", label: "Delivered Date", date: "delivered_date"},
                                         ]}
                                         onChange={(value, key, event) => this.orderByFilter(value, value.date)}/>
                                 </label>
                             </div>
                             <div>
-                                <ClearIcon tabIndex={0} onKeyPress={this.removeFilters} onClick={this.removeFilters}  />
+                                <ClearIcon tabIndex={0} onKeyPress={this.removeFilters} onClick={this.removeFilters}/>
                             </div>
                         </div>
                     </div>
@@ -215,27 +228,35 @@ class JobManagementControlContainer extends Component {
                 </div>
                 <div key={this.state.job_status} className="contentContainer jobContentContainer">
 
-                        <AutoSizer>
-                            {
-                                ({ width, height }) => {
-                                    return <List
-                                        width={width}
-                                        height={height}
-                                        rowHeight={290}
-                                        rowRenderer={this.renderRow}
-                                        rowCount={this.state.videoJobs.length}
-                                        data={this.state.job_status}
-                                        overscanRowCount={1}/>
-                                }
+                    <AutoSizer>
+                        {
+                            ({width, height}) => {
+                                return <List
+                                    width={width}
+                                    height={height}
+                                    rowHeight={290}
+                                    rowRenderer={this.renderRow}
+                                    rowCount={this.state.videoJobs.length}
+                                    data={this.state.job_status}
+                                    overscanRowCount={1}/>
                             }
-                        </AutoSizer>
+                        }
+                    </AutoSizer>
                 </div>
             </div>
         )
     }
 }
 
-function mapStateToProps({loadingStatusReducer,mediaReducer, errorsReducer, videosJobsReducer, requesterReducer, coursesReducer, campusOrgReducer}, {jobsLoading}) {
+function mapStateToProps({
+                             loadingStatusReducer,
+                             mediaReducer,
+                             errorsReducer,
+                             videosJobsReducer,
+                             requesterReducer,
+                             coursesReducer,
+                             campusOrgReducer
+                         }, {jobsLoading}) {
 
     let requester = {};
     let courseSelectorContent = [];
@@ -262,9 +283,17 @@ function mapStateToProps({loadingStatusReducer,mediaReducer, errorsReducer, vide
         requester = requester_ids.reduce((accumulator, element) => {
 
             if (requesterReducer[element].course_id !== null) {
-                accumulator[element] =  {value: requesterReducer[element].course_id, label:requesterReducer[element].course_id, requester_id:requesterReducer[element].id}
+                accumulator[element] = {
+                    value: requesterReducer[element].course_id,
+                    label: requesterReducer[element].course_id,
+                    requester_id: requesterReducer[element].id
+                }
             } else {
-                accumulator[element] = {value: campusOrgReducer[requesterReducer[element].campus_org_id].organization_name, label:campusOrgReducer[requesterReducer[element].campus_org_id].organization_name, requester_id:requesterReducer[element].id}
+                accumulator[element] = {
+                    value: campusOrgReducer[requesterReducer[element].campus_org_id].organization_name,
+                    label: campusOrgReducer[requesterReducer[element].campus_org_id].organization_name,
+                    requester_id: requesterReducer[element].id
+                }
 
             }
 
@@ -277,8 +306,6 @@ function mapStateToProps({loadingStatusReducer,mediaReducer, errorsReducer, vide
             return requester[key]
 
         })
-
-
 
 
     }

@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {NavLink, Route, Switch,} from "react-router-dom";
 import AddUserContainer from "./addUserContainer"
 import AddStudentsContainer from "./Students/addStudentsContainer"
+import EditEmployees from "./Employees/EditEmployees";
 
 
 class UserManagementControlContainer extends Component {
@@ -55,8 +56,7 @@ class UserManagementControlContainer extends Component {
                     <Switch>
                         <Route path="/captioning/users/add-user">{<AddUserContainer/>}</Route>
                         <Route path="/captioning/users/students">{<AddStudentsContainer/>}</Route>
-
-
+                        <Route path="/captioning/users/edit-user">{<EditEmployees/>}</Route>
                     </Switch>
                 </div>
             </div>
@@ -72,12 +72,9 @@ class UserManagementControlContainer extends Component {
 
 
 function mapStateToProps({videosJobsReducer}, {props}) {
-
-
     return {
         videosJobsReducer,
         props
-
     }
 }
 

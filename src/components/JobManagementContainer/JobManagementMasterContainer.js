@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import {fetchAllVideoJobsBySemester} from '../../actions/ampApi/fetchData'
-import JobContainer from './JobContainer'
-import videosJobsReducer from "../../reducers/existingVideoJobs";
 import JobManagementControlContainer from './JobManagementControlContainer'
-
 
 
 class JobManagementMasterContainer extends Component {
@@ -19,20 +15,15 @@ class JobManagementMasterContainer extends Component {
     componentDidMount() {
 
 
-
-
     }
 
 
     render() {
 
         return (
-
-
             <div className="ContentManagementMasterContainer">
                 <JobManagementControlContainer jobsLoading={this.props.jobsLoading}/>
             </div>
-
         )
 
 
