@@ -11,6 +11,7 @@ import {clearCourses} from "./actions/courses";
 import {clearIlearnVideo} from "./actions/ilearn_videos";
 import {AllLoadingOn} from "./actions/status";
 import {clearEmployees} from "./actions/employees"
+import {clearStudents} from "./actions/students";
 
 
 class App extends Component {
@@ -53,6 +54,7 @@ class App extends Component {
             this.props.dispatch(clearCourses())
             this.props.dispatch(clearIlearnVideo())
             this.props.dispatch(clearEmployees())
+            this.props.dispatch(clearStudents())
 
         }
 

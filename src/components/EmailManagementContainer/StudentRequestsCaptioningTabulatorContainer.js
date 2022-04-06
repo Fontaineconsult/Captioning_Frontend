@@ -1,6 +1,5 @@
-
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
@@ -9,7 +8,6 @@ import {reactFormatter} from "react-tabulator";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
 import {sendEmailCommandCourses} from "../../actions/ampApi/putData";
-
 
 
 class StudentRequestsCaptioningTabulatorContainer extends Component {
@@ -36,39 +34,39 @@ class StudentRequestsCaptioningTabulatorContainer extends Component {
     };
 
 
-
-
-    sendEmailButton(props)  {
+    sendEmailButton(props) {
         const cellData = props.cell;
         if (cellData._cell.row.data.sent === true) {
-            return  <Button variant="contained" disabled={true} color="secondary" size="small" onClick={e => this.sendEmail(cellData)}>Sent</Button>
+            return <Button variant="contained" disabled={true} color="secondary" size="small"
+                           onClick={e => this.sendEmail(cellData)}>Sent</Button>
 
         } else {
-            return  <Button  variant="contained" color="primary" size="small" onClick={e => this.sendEmail(cellData)}>Send</Button>
+            return <Button variant="contained" color="primary" size="small"
+                           onClick={e => this.sendEmail(cellData)}>Send</Button>
         }
     };
 
 
-
     componentDidMount() {
         let columns = [
-            {title:"Course", width:150, field:"course_gen_id"},
+            {title: "Course", width: 150, field: "course_gen_id"},
             {title: "Employee", field: "employee_name"},
             {title: "Email", field: "employee_email"},
-            {title: "Sent", field: "sent", formatter: "tick", width:60},
-            {title: "Sent Date", field: "sent_date" },
-            { title: "Send", width:80, hozAlign :"center",  formatter:reactFormatter(<this.sendEmailButton/>)}
+            {title: "Sent", field: "sent", formatter: "tickCross", width: 60},
+            {title: "Sent Date", field: "sent_date"},
+            {title: "Send", width: 80, hozAlign: "center", formatter: reactFormatter(<this.sendEmailButton/>)}
         ];
 
         this.tabulator = new Tabulator(this.el, {
             columns: columns,
-            layout:"fitColumns",
+            layout: "fitColumns",
             data: this.props.data,
             reactiveData: true,
             height: "500px",
         })
 
     }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
 
 
@@ -82,10 +80,10 @@ class StudentRequestsCaptioningTabulatorContainer extends Component {
 
     render() {
 
-        return(
+        return (
 
             <div className="emailTabulatorContainer">
-                <div ref={el => (this.el = el)} />
+                <div ref={el => (this.el = el)}/>
             </div>
 
         )
@@ -94,27 +92,28 @@ class StudentRequestsCaptioningTabulatorContainer extends Component {
 
 }
 
-function mapStateToProps({coursesReducer,
+function mapStateToProps({
+                             coursesReducer,
                              requesterReducer,
-                             globalsReducer}, {props}) {
+                             globalsReducer
+                         }, {props}) {
 
     let data = []
     let columns = []
 
 
-
     let formatData = (course) => {
 
-        let requester_id =  Object.keys(requesterReducer).find(element => {
+        let requester_id = Object.keys(requesterReducer).find(element => {
 
-            if (requesterReducer[element].course_id === course.course_gen_id){
+            if (requesterReducer[element].course_id === course.course_gen_id) {
                 return true
             }
         })
 
         return {
             requester_id: requester_id,
-            template:"NotifyInstructorsStudentsWantCaptions",
+            template: "NotifyInstructorsStudentsWantCaptions",
             course_gen_id: course.course_gen_id,
             employee_name: course.course_instructor.employee_first_name + " " + course.course_instructor.employee_last_name,
             employee_email: course.course_instructor.employee_email,
@@ -126,7 +125,7 @@ function mapStateToProps({coursesReducer,
 
 
     if (coursesReducer !== undefined) {
-        Object.keys(coursesReducer).forEach(function(key){
+        Object.keys(coursesReducer).forEach(function (key) {
 
             if (coursesReducer[key].students_enrolled.some(capActiveFunc) === true) {
                 data.push(formatData(coursesReducer[key]))
@@ -141,7 +140,6 @@ function mapStateToProps({coursesReducer,
     function capActiveFunc(element, index, array) {
         return element.student_requests_captioning === true
     }
-
 
 
     return {

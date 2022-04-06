@@ -23,10 +23,16 @@ class AllStudentsTabulator extends Component {
     componentDidMount() {
         let columns = [
             {title: "ID", width: 150, field: "student_id"},
-            {title: "First Name", minWidth: 150, field: "student_first_name", editor: "input"},
-            {title: "Last Name", minWidth: 150, field: "student_last_name", editor: "input"},
+            {title: "First Name", minWidth: 200, field: "student_first_name", editor: "input"},
+            {title: "Last Name", minWidth: 200, field: "student_last_name", editor: "input"},
             {title: "Email", minWidth: 200, field: "student_email", editor: "input"},
-            {title: "Transcripts Only", field: "transcripts_only"},
+            {
+                title: "Transcripts Only",
+                width: 50,
+                field: "transcripts_only",
+                hozAlign: "center",
+                formatter: "tickCross"
+            },
             {title: "Requests", minWidth: 215, field: "student_requests", editor: "input"},
 
         ];
