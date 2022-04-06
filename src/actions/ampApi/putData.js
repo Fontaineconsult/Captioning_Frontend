@@ -10,6 +10,7 @@ import fetch from "cross-fetch";
 import clipboardCopy from "clipboard-copy";
 import {v1 as uuidv1} from "uuid";
 import {writeEmployees} from "../employees";
+import {writeStudents} from "../students";
 
 const server_url = endpoint();
 
@@ -107,6 +108,26 @@ export function updateEmployeeData(employee_id, column, value) {
     }
 }
 
+export function updateStudentData(student_id, column, value) {
+
+    let data_object = {student_id: student_id, column: column, value: value};
+    console.log(data_object)
+
+    let put_object = {
+        method: 'PUT',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    return (dispatch) => {
+        console.log("Here")
+        dispatch(writeStudents(student_id, data_object));
+        return fetch(`${server_url}/students`, put_object)
+            .then(response => response.json())
+            .catch(error => console.log(error))
+    }
+}
 
 export function updateVideoJob(job_id, column, value) {
 

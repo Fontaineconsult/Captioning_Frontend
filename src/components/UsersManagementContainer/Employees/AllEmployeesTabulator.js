@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
-import Tabulator from "tabulator-tables"
 import {updateEmployeeData} from "../../../actions/ampApi/putData";
+import Tabulator from "tabulator-tables";
 
 
 class AllEmployeesTabulator extends Component {

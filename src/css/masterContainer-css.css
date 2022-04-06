@@ -1,14 +1,14 @@
 .master-container {
 
-    height: 100vh;
-    overflow: hidden;
+    /*height: 100vh;*/
+    /*overflowY: scroll;*/
     font-size: 15px;
+
 }
 
 .top-bar {
     position: relative;
     height: 5px;
-
     display: flex;
     background-color: #41187d;
 

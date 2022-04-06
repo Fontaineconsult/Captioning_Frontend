@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {NavLink, Route, Switch,} from "react-router-dom";
 import AddUserContainer from "./addUserContainer"
 import AddStudentsContainer from "./Students/addStudentsContainer"
-import EditEmployees from "./Employees/EditEmployees";
+import EditEmployees from "./EditUsers";
 
 
 class UserManagementControlContainer extends Component {
@@ -26,7 +26,7 @@ class UserManagementControlContainer extends Component {
                                 to={{
                                     pathname: "/captioning/users/add-user",
                                     search: this.props.location.search,
-                                }}>Add User</NavLink>
+                                }}>Add Employee</NavLink>
                         </div>
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
