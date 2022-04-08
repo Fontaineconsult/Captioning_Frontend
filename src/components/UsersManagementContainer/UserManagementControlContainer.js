@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {NavLink, Route, Switch,} from "react-router-dom";
-import AddUserContainer from "./addUserContainer"
+import AddUserContainer from "./Employees/addUserContainer"
 import AddStudentsContainer from "./Students/addStudentsContainer"
-import EditEmployees from "./EditUsers";
+import EditEmployees from "./EditUsersContainer";
+import ViewAllCoursesContainer from "./Courses/ViewAllCoursesContainer";
 
 
 class UserManagementControlContainer extends Component {
@@ -57,6 +58,7 @@ class UserManagementControlContainer extends Component {
                         <Route path="/captioning/users/add-user">{<AddUserContainer/>}</Route>
                         <Route path="/captioning/users/students">{<AddStudentsContainer/>}</Route>
                         <Route path="/captioning/users/edit-user">{<EditEmployees/>}</Route>
+                        <Route path="/captioning/users/courses">{<ViewAllCoursesContainer/>}</Route>
                     </Switch>
                 </div>
             </div>

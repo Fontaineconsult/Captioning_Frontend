@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css';
-import EmployeesContainer from "./Employees/EmployeesContainer"
-import StudentsContainer from "./Students/StudentsContainer";
+import CoursesContainer from "./CoursesContainer";
 
 
-class EditUsers extends Component {
+class ViewAllCoursesContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -23,22 +22,14 @@ class EditUsers extends Component {
                     <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
                         <div className={"emp-display-title"}>
                             <div style={{"fontWeight": "600"}}>
-                                All Employees
+                                All Courses
                             </div>
                         </div>
-                        <EmployeesContainer/>
+                        <CoursesContainer/>
 
                     </div>
 
-                    <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
-                        <div className={"emp-display-title"}>
-                            <div style={{"fontWeight": "600"}}>
-                                All Students
-                            </div>
-                        </div>
-                        <StudentsContainer/>
 
-                    </div>
                 </div>
             </div>
 
@@ -47,4 +38,4 @@ class EditUsers extends Component {
 }
 
 
-export default withRouter(EditUsers)
+export default withRouter(ViewAllCoursesContainer)
