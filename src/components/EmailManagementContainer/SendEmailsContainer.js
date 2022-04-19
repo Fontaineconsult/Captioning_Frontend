@@ -17,29 +17,30 @@ class SendEmailsContainer extends Component {
     render() {
 
         return (
-            <div className="masterListItem masterListUser">
-                <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
-                    <div className={"emp-display-title"}>
-                        <div style={{"fontWeight": "600"}}>
-                            Templates
+            <div className={"scroll-inside-div"}>
+                <div className="masterListItem masterListUser">
+                    <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
+                        <div className={"emp-display-title"}>
+                            <div style={{"fontWeight": "600"}}>
+                                Templates
+                            </div>
                         </div>
+                        <EmailTemplatesContainer/>
                     </div>
-                    <EmailTemplatesContainer/>
-                </div>
-                <div className={"emp-display-container"}>
-                    <div className={"emp-display-title"}>
-                        <div style={{"fontWeight": "600"}}>Current Queues</div>
+                    <div className={"emp-display-container"}>
+                        <div className={"emp-display-title"}>
+                            <div style={{"fontWeight": "600"}}>Current Queues</div>
+                        </div>
+                        <NewJobsContainer/>
                     </div>
-                    <NewJobsContainer/>
-                </div>
-                <div className={"emp-display-container"}>
-                    <div className={"emp-display-title"}>
-                        <div style={{"fontWeight": "600"}}>Current Queues</div>
+                    <div className={"emp-display-container"}>
+                        <div className={"emp-display-title"}>
+                            <div style={{"fontWeight": "600"}}>Current Queues</div>
+                        </div>
+                        <ReadyJobsEmailContainer/>
                     </div>
-                    <ReadyJobsEmailContainer/>
-                </div>
 
-
+                </div>
             </div>
         )
     }

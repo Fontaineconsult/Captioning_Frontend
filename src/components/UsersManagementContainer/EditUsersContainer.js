@@ -18,7 +18,7 @@ class EditUsersContainer extends Component {
     render() {
 
         return (<div>
-            <div>
+            <div className={"scroll-inside-div"}>
                 <div className="masterListItem masterListUser">
                     <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
                         <div className={"emp-display-title"}>
