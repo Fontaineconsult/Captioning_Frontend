@@ -23,11 +23,7 @@ class VideosContainer extends Component {
                                 This is video Container
                             </div>
                         </div>
-
-
                     </div>
-
-
                 </div>
             </div>
 
