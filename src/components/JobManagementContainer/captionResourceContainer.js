@@ -52,7 +52,7 @@ class CaptionResourceContainer extends Component {
 
 
     updateNewCaptionInput(event) {
-        console.log("EVENT", event.target.value)
+
         this.setState({
             newCapResource: event.target.value
         });
@@ -66,7 +66,7 @@ class CaptionResourceContainer extends Component {
     }
 
     updatePrimaryCapResource(event) {
-        console.log("EVENT", event)
+
         this.setState({
             captioned_url: event
         });
@@ -111,7 +111,9 @@ class CaptionResourceContainer extends Component {
     addCaptionResourceContent(){
 
         return(<div  style={this.state.modalStyle} className={this.props.classes.paper}>
-            <input type="text" name="newCapResource"  value={this.state.newCapResource} onChange={this.updateNewCaptionInput}>
+            <input type="text" name="newCapResource"
+                   value={this.state.newCapResource}
+                   onChange={this.updateNewCaptionInput}>
             </input>
             <Button disabled={false} name={"extract_video"} size={"small"} onClick={this.addCapResource}>Add Cap Resource</Button>
         </div>)
@@ -171,9 +173,6 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
                 })
 
 
-
-
-
             }
             if (currentValue.other_id !== null) {
                 accumulator.push({
@@ -208,7 +207,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
         }
 
     }
-    console.log("ZOPRS", captionResources)
+
     return {
         media,
         captionResources,
