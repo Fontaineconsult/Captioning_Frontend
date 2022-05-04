@@ -4,6 +4,8 @@
     width: 50%;
     margin-left: auto;
     margin-right: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 
 
 }
@@ -31,8 +33,8 @@
 .emp-display-container {
     /*padding-top: 5px;*/
     /*padding-bottom: 5px;*/
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 10%;
+    margin-right: 10%;
     background-color: #fafafb;
     border-color: #282c34;
     border-style: solid;
@@ -79,4 +81,34 @@
 .emp-checkbox {
     width: 40px;
     height: 40px;
+}
+
+.stu-checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.stu-display-container {
+    margin-bottom: 10px;
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: #fafafb;
+    border-color: #282c34;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 2px;
+    height: 550px;
+}
+
+.stu-scroll-container {
+    /*height: 650px;*/
+    /*overflow-y: scroll;*/
+
+    scroll-behavior: smooth;
+}
+
+.scroll-inside-div {
+    overflow-y: scroll;
+    height: 600px;
+
 }

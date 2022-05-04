@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import '../../css/addJobContainer.css'
@@ -13,7 +13,7 @@ class ListItemsMasterContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            transaction_id:'',
+            transaction_id: '',
             listURL: '',
             is_auto_caption: false
         };
@@ -24,19 +24,15 @@ class ListItemsMasterContainer extends Component {
     }
 
 
-
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
-
-
         this.setState({
             [name]: value
         });
     }
-
 
 
     getVideoList(event) {
@@ -60,7 +56,7 @@ class ListItemsMasterContainer extends Component {
                 <form onSubmit={this.getVideoList}>
                     <label>
                         Name:
-                        <input type="text" name="listURL" value={this.state.listURL} onChange={this.handleInputChange} />
+                        <input type="text" name="listURL" value={this.state.listURL} onChange={this.handleInputChange}/>
                     </label>
                     <input type="submit" value="Submit"/>
                 </form>
@@ -83,10 +79,11 @@ class ListItemsMasterContainer extends Component {
 }
 
 
-
-
-function mapStateToProps({videoListsReducer, errorsReducer, tempJobsFormReducer, loadingStatusReducer}, {requesterId, transaction_id, is_locked}) {
-
+function mapStateToProps({videoListsReducer, errorsReducer, tempJobsFormReducer, loadingStatusReducer}, {
+    requesterId,
+    transaction_id,
+    is_locked
+}) {
 
 
     return {

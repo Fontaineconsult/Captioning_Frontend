@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import "../../css/users.css"
-import EmailTemplatesContainer from "./EmailTemplatesContainer";
-import ReadyJobsEmailContainer from "./ReadyJobsEmailContainer";
-import NewJobsContainer from "./NewJobsContainer";
+import AddEmployeeContainer from "./addEmployeeContainer"
+import AssignEmployeeContainer from "./assignEmployeeContainer";
+import "../../../css/users.css"
 
-class SendEmailsContainer extends Component {
+class AddUserContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -22,22 +21,17 @@ class SendEmailsContainer extends Component {
                     <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
                         <div className={"emp-display-title"}>
                             <div style={{"fontWeight": "600"}}>
-                                Templates
+                                Add Employee
                             </div>
                         </div>
-                        <EmailTemplatesContainer/>
+                        <AddEmployeeContainer/>
                     </div>
                     <div className={"emp-display-container"}>
                         <div className={"emp-display-title"}>
-                            <div style={{"fontWeight": "600"}}>Current Queues</div>
+                            <div style={{"fontWeight": "600"}}>Assign Employee</div>
                         </div>
-                        <NewJobsContainer/>
-                    </div>
-                    <div className={"emp-display-container"}>
-                        <div className={"emp-display-title"}>
-                            <div style={{"fontWeight": "600"}}>Current Queues</div>
-                        </div>
-                        <ReadyJobsEmailContainer/>
+                        <AssignEmployeeContainer/>
+
                     </div>
 
                 </div>
@@ -54,4 +48,4 @@ function mapStateToProps({employeesReducer, requesterReducer, campusOrgReducer},
     return {}
 }
 
-export default withRouter(connect(mapStateToProps)(SendEmailsContainer))
+export default withRouter(connect(mapStateToProps)(AddUserContainer))

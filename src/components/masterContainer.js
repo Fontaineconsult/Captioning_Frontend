@@ -2,27 +2,22 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import NavigationMasterContainer from "./componentNavigator/navigationMasterContainer";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
-
-import {devServerUrl} from '../constants'
+import {Route} from "react-router-dom";
 
 
 import {
+    allAssetDiscovery,
     assetDiscovery,
     fetchAllCourses,
+    fetchAllEmployees,
+    fetchAllOrgs,
+    fetchAllStudents,
+    fetchAllVideoJobsBySemester,
     fetchCourseByCourseGenId,
     fetchiLearnVideosByCourseGenId,
-    fetchIlearnVideosBySemester,
-    allAssetDiscovery, fetchAllVideoJobsBySemester, fetchAllOrgs, fetchAllEmployees
+    fetchIlearnVideosBySemester
 } from "../actions/ampApi/fetchData";
 import '../css/masterContainer-css.css'
-
-import NewCapJobContainer from './AddCapJobView/old/newCapJobContainer'
 
 
 class MasterContainer extends Component {
@@ -35,6 +30,7 @@ class MasterContainer extends Component {
             this.props.dispatch(fetchAllCourses(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllOrgs())
             this.props.dispatch(fetchAllEmployees())
+            this.props.dispatch(fetchAllStudents())
             this.props.dispatch(fetchAllVideoJobsBySemester(this.props.globalsReducer.currentSemester))
 
         }
@@ -74,7 +70,6 @@ class MasterContainer extends Component {
     render() {
 
         return (
-
             <div className={"master-container"}>
                 {process.env.NODE_ENV === 'development' &&
                     <div className={"developement-version"}><b> - - - Development Version - - -</b></div>}

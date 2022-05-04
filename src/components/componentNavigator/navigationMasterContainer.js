@@ -1,10 +1,5 @@
-import React, { Component } from 'react';
-import {
-    Switch,
-    Route,
-    NavLink,
-
-} from "react-router-dom";
+import React, {Component} from 'react';
+import {NavLink, Route, Switch,} from "react-router-dom";
 
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
@@ -16,8 +11,7 @@ import UserManagementMasterContainer from "../UsersManagementContainer/UsersMana
 import {updateGlobalParam} from "../../actions/globals"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import EmailManagementMasterContainer from "../EmailManagementContainer/EmailManagementMasterContainer";
-
-
+import ContentManagerMasterContainer from "../ContentManager/ContentManagerMasterContainer";
 
 
 class NavigationMasterContainer extends Component {
@@ -69,20 +63,23 @@ class NavigationMasterContainer extends Component {
                         <div className="NavControlContainer">
                             <div id="jobManager" role="button" className="navButton">
                                 <NavLink
-                                    to={{pathname: "/captioning/job-manager",
+                                    to={{
+                                        pathname: "/captioning/job-manager",
                                         search: this.props.location.search,
                                     }}>Job Manager</NavLink>
                             </div>
                             <div id="addJob" role="button" className="navButton">
                                 <NavLink
-                                    to={{pathname: "/captioning/add-job",
+                                    to={{
+                                        pathname: "/captioning/add-job",
                                         search: this.props.location.search,
 
                                     }}>Add Job</NavLink>
                             </div>
                             <div id="iLearnScraper" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
-                                    to={{pathname: "/captioning/ilearn-scraper/active-courses",
+                                    to={{
+                                        pathname: "/captioning/ilearn-scraper/active-courses",
                                         search: this.props.location.search,
 
                                     }}>iLearn Scraper</NavLink>
@@ -90,7 +87,8 @@ class NavigationMasterContainer extends Component {
                             </div>
                             <div id="autoCaptioner" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
-                                    to={{pathname: "/captioning/auto-captioner",
+                                    to={{
+                                        pathname: "/captioning/auto-captioner",
                                         search: this.props.location.search,
 
                                     }}>Auto Captioner</NavLink>
@@ -98,21 +96,24 @@ class NavigationMasterContainer extends Component {
                             </div>
                             <div id="autoExplorer" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
-                                    to={{pathname: "/captioning/content-explorer",
+                                    to={{
+                                        pathname: "/captioning/content-explorer",
                                         search: this.props.location.search,
 
                                     }}>Content Manager</NavLink>
                             </div>
                             <div id="email" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
-                                    to={{pathname: "/captioning/email/send",
+                                    to={{
+                                        pathname: "/captioning/email/send",
                                         search: this.props.location.search,
 
                                     }}>Email</NavLink>
                             </div>
                             <div id="email" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
-                                    to={{pathname: "/captioning/users",
+                                    to={{
+                                        pathname: "/captioning/users",
                                         search: this.props.location.search,
                                     }}>Users</NavLink>
                             </div>
@@ -134,7 +135,8 @@ class NavigationMasterContainer extends Component {
                             </form>
                         </div>
                         <div className={"logout-container"}><a href={`/authentication/logout`}>logout</a></div>
-                        <div className={"globalLoadingContainer"}>{this.props.displayLoader && (<CircularProgress size={30}/>)}</div>
+                        <div className={"globalLoadingContainer"}>{this.props.displayLoader && (
+                            <CircularProgress size={30}/>)}</div>
 
                     </div>
 
@@ -142,14 +144,15 @@ class NavigationMasterContainer extends Component {
                 </div>
                 <div className="navContent">
                     <Switch>
-                        <Route path="/captioning/job-manager">{this.props.isLoaded &&  <JobManagementMasterContainer query={this.props.query}/>}</Route>
+                        <Route path="/captioning/job-manager">{this.props.isLoaded &&
+                            <JobManagementMasterContainer query={this.props.query}/>}</Route>
                         <Route path="/captioning/add-job">{<AddJobControlContainer query={this.props.query}/>}</Route>
                         <Route path="/captioning/ilearn-scraper">{<IlearnManagementControlContainer/>}</Route>
+                        <Route path="/captioning/content-explorer">{<ContentManagerMasterContainer/>}</Route>
                         <Route path="/captioning/users">{<UserManagementMasterContainer/>}</Route>
                         <Route path="/captioning/email">{<EmailManagementMasterContainer/>}</Route>
 
                     </Switch>
-
 
 
                 </div>

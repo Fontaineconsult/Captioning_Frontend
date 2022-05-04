@@ -1,14 +1,13 @@
 .master-container {
 
-    height: 100vh;
-    overflow: hidden;
+    height: 92vh;
     font-size: 15px;
+
 }
 
 .top-bar {
     position: relative;
     height: 5px;
-
     display: flex;
     background-color: #41187d;
 
@@ -21,12 +20,9 @@
 
 }
 
-
 .masterListItem {
     width: 1300px;
     margin-left: auto;
     margin-right: auto;
-
-
 }
 

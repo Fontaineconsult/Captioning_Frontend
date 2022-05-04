@@ -1,17 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Select from "react-select";
 import {captionResourceSelectCustomStyles} from "./selectCustomStyle";
 import {updateMedia} from "../../actions/ampApi/putData"
 import {addCaptionedResource} from "../../actions/ampApi/postData"
-import IconButton from "@material-ui/core/IconButton";
-import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
-
 
 
 const useStyles = theme => ({
@@ -52,7 +49,7 @@ class CaptionResourceContainer extends Component {
 
 
     updateNewCaptionInput(event) {
-
+        console.log("EVENT", event.target.value)
         this.setState({
             newCapResource: event.target.value
         });
@@ -62,11 +59,11 @@ class CaptionResourceContainer extends Component {
 
     addCapResource() {
 
-        this.props.dispatch(addCaptionedResource(this.props.media_id,  this.state.newCapResource))
+        this.props.dispatch(addCaptionedResource(this.props.media_id, this.state.newCapResource))
     }
 
     updatePrimaryCapResource(event) {
-
+        console.log("EVENT", event)
         this.setState({
             captioned_url: event
         });
@@ -76,9 +73,9 @@ class CaptionResourceContainer extends Component {
 
     componentDidMount() {
 
-            this.setState({
-                captioned_url: this.props.primaryCapsource
-            })
+        this.setState({
+            captioned_url: this.props.primaryCapsource
+        })
 
     }
 
@@ -92,30 +89,31 @@ class CaptionResourceContainer extends Component {
             transform: `translate(-${top}%, -${left}%)`,
         };
     }
+
     handleOpen() {
 
         this.setState({
             setOpen: true,
-            open:true
+            open: true
         })
     };
 
     handleClose() {
         this.setState({
-            setOpen:false,
+            setOpen: false,
             open: false
         })
 
     };
 
-    addCaptionResourceContent(){
+    addCaptionResourceContent() {
 
-        return(<div  style={this.state.modalStyle} className={this.props.classes.paper}>
-            <input type="text" name="newCapResource"
-                   value={this.state.newCapResource}
+        return (<div style={this.state.modalStyle} className={this.props.classes.paper}>
+            <input type="text" name="newCapResource" value={this.state.newCapResource}
                    onChange={this.updateNewCaptionInput}>
             </input>
-            <Button disabled={false} name={"extract_video"} size={"small"} onClick={this.addCapResource}>Add Cap Resource</Button>
+            <Button disabled={false} name={"extract_video"} size={"small"} onClick={this.addCapResource}>Add Cap
+                Resource</Button>
         </div>)
 
     }
@@ -131,13 +129,14 @@ class CaptionResourceContainer extends Component {
                         onChange={this.updatePrimaryCapResource}
                         styles={captionResourceSelectCustomStyles}
                         value={this.state.captioned_url}
-                        options={this.state.captionResources
+                        options={this.props.captionResources
                         }/>
                 </div>
                 <div className={"addCapResource"}>
 
-                        <Button disabled={false} name={"extract_video"} size={"small"} onClick={this.handleOpen}><AddCircleIcon/>
-                        </Button><Modal
+                    <Button disabled={false} name={"extract_video"} size={"small"}
+                            onClick={this.handleOpen}><AddCircleIcon/>
+                    </Button><Modal
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                     onClose={this.handleClose}
@@ -165,7 +164,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
                     label: currentValue.amara_resource.url,
                 })
 
-          }
+            }
             if (currentValue.s3_file_id !== null) {
                 accumulator.push({
                     value: currentValue.id,
@@ -188,16 +187,24 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
             primaryCapResource = mediaReducer[media_id].captioned_resources.map(item => {
                 if (item.id === media.primary_caption_resource_id) {
                     if (item.amara_id !== null) {
-                        return {value:item.id,
-                            label:<a target="_blank" href={item.amara_resource.url}>{item.amara_resource.url}</a> }
+                        return {
+                            value: item.id,
+                            label: <a target="_blank" href={item.amara_resource.url}>{item.amara_resource.url}</a>
+                        }
                     }
                     if (item.s3_file_id !== null) {
-                        return {value:item.id,
-                            label:<a target="_blank" href={item.s3_file_resource.object_url}>{item.s3_file_resource.file_name}</a> }
+                        return {
+                            value: item.id,
+                            label: <a target="_blank"
+                                      href={item.s3_file_resource.object_url}>{item.s3_file_resource.file_name}</a>
+                        }
                     }
                     if (item.other_id !== null) {
-                        return {value:item.id,
-                            label:<a target="_blank" href={item.other_resource.source_link}>{item.other_resource.source_link}</a> }
+                        return {
+                            value: item.id,
+                            label: <a target="_blank"
+                                      href={item.other_resource.source_link}>{item.other_resource.source_link}</a>
+                        }
                     }
 
 
@@ -207,7 +214,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
         }
 
     }
-
+    console.log("ZOPRS", captionResources)
     return {
         media,
         captionResources,
@@ -217,4 +224,4 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
     }
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(useStyles, { withTheme: true })(CaptionResourceContainer)))
+export default withRouter(connect(mapStateToProps)(withStyles(useStyles, {withTheme: true})(CaptionResourceContainer)))

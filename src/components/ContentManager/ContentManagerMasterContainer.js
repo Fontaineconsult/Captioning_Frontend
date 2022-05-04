@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import JobManagementControlContainer from './JobManagementControlContainer'
+import ContentManagerControlContainer from "./ContentManagerControlContainer";
 
 
-class JobManagementMasterContainer extends Component {
+class ContentManagerMasterContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -12,20 +12,15 @@ class JobManagementMasterContainer extends Component {
     }
 
 
-    componentDidMount() {
-
-
-    }
-
-
     render() {
 
         return (
-            <div className="ContentManagementMasterContainer">
-                <JobManagementControlContainer jobsLoading={this.props.jobsLoading}/>
-            </div>
-        )
 
+            <div className="ContentManagementMasterContainer">
+                <ContentManagerControlContainer/>
+            </div>
+
+        )
 
     }
 
@@ -35,15 +30,13 @@ class JobManagementMasterContainer extends Component {
 
 function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {props}) {
 
-    let jobsLoading = loadingStatusReducer.videoJobsLoading;
 
     return {
 
         errorsReducer,
-        jobsLoading,
         props
 
     }
 }
 
-export default withRouter(connect(mapStateToProps)(JobManagementMasterContainer))
+export default withRouter(connect(mapStateToProps)(ContentManagerMasterContainer))
