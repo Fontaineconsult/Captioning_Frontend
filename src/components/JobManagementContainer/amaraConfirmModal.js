@@ -4,10 +4,10 @@ import Modal from "@material-ui/core/Modal";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {withStyles} from "@material-ui/core/styles";
-import { v1 as uuidv1 } from 'uuid';
+import {v1 as uuidv1} from 'uuid';
 import Select from "react-select";
 import {customStyles} from "./selectCustomStyle";
-import {createAmaraResource, addSRTtoAmaraResource} from "../../actions/ampApi/postData"
+import {addSRTtoAmaraResource, createAmaraResource} from "../../actions/ampApi/postData"
 
 
 const useStyles = theme => ({
@@ -20,7 +20,6 @@ const useStyles = theme => ({
         padding: theme.spacing(2, 4, 3),
     },
 });
-
 
 
 class AmaraModalContainer extends Component {
@@ -36,6 +35,8 @@ class AmaraModalContainer extends Component {
             modalStyle: this.getModalStyle(),
             mediaFiles: this.props.mediaFiles,
             captionFiles: this.props.captionFiles,
+            isCreateButtonEnabled: true,
+
 
         };
         this.handleOpen = this.handleOpen.bind(this);
@@ -46,6 +47,7 @@ class AmaraModalContainer extends Component {
         this.addSRTtoAmaraResource = this.addSRTtoAmaraResource.bind(this)
         this.updateCapSelectState = this.updateCapSelectState.bind(this)
         this.updateMediaSelectState = this.updateMediaSelectState.bind(this)
+        this.updateCreateButtonState = this.updateCreateButtonState.bind(this)
 
 
     }
@@ -66,21 +68,25 @@ class AmaraModalContainer extends Component {
         this.setState({
             temp_id: uuidv1(),
             setOpen: true,
-            open:true
+            open: true
         })
+
+        this.updateCreateButtonState()
     };
 
     handleClose() {
         this.setState({
 
-            setOpen:false,
-            open: false
+            setOpen: false,
+            open: false,
+            media_select: ''
+
 
         })
 
     };
 
-    updateState(event){
+    updateState(event) {
 
         const target = event.target;
         const value = target.value;
@@ -92,8 +98,8 @@ class AmaraModalContainer extends Component {
 
     };
 
-    createAmaraResource(event){
-        if (this.state.media_select === ""){
+    createAmaraResource(event) {
+        if (this.state.media_select === "") {
             this.props.dispatch(createAmaraResource(this.props.media_id))
         } else {
             console.log(this.state.media_select)
@@ -104,7 +110,7 @@ class AmaraModalContainer extends Component {
 
     }
 
-    addSRTtoAmaraResource(event){
+    addSRTtoAmaraResource(event) {
         let caption_id = this.state.caption_select.caption_id
         let amara_index = this.props.media_obj.captioned_resources.findIndex(element => (
             element.amara_id !== null
@@ -114,22 +120,74 @@ class AmaraModalContainer extends Component {
 
     }
 
-    updateCapSelectState(event){
+    updateCapSelectState(event) {
         this.setState({
             caption_select: event
         });
 
     }
 
-    updateMediaSelectState(event){
-        this.setState({
-            media_select: event
-        });
+    updateMediaSelectState(event) {
+        if (event.value.slice(-3) != "mp4") {
+            // this.isCreateButtonEnabled = false;
+            this.setState({isCreateButtonEnabled: false})
+
+            alert("Can only select mp4 files")
+        } else {
+            //this.isCreateButtonEnabled = true;
+
+            this.setState({
+                media_select: event,
+                isCreateButtonEnabled: true
+            });
+            console.log("is create button", this.isCreateButtonEnabled)
+
+        }
+    }
+
+    updateCreateButtonState() {
+        console.log("I am here")
+
+        let source_url = this.props.media_obj.source_url;
+        console.log("Source url: ", source_url)
+        if (source_url === null) {
+            //if file selected is not selected in media then create button is set to false
+            let media_selected_file = this.state.media_select;
+
+            if (media_selected_file == '') {
+                console.log("no file selected in media when source url is null");
+                // this.isCreateButtonEnabled = false;
+                this.setState({isCreateButtonEnabled: false})
+
+            }
+
+
+        } else if (source_url.includes("youtube.com") || source_url.includes("youtu.be")
+            || source_url.includes("vimeo")) {
+            //this is a youtube or vimeo url, no media file is to be selected, just have the create button
+            // this.isCreateButtonEnabled = true;
+            this.setState({isCreateButtonEnabled: true})
+
+            console.log("button: ", this.isCreateButtonEnabled)
+
+        } else {
+            //source url is not null and not youtube or vimeo. Do the same thing as top.
+            let media_selected_file = this.state.media_select;
+
+            if (media_selected_file == '') {
+                console.log("no file selected in media when source url is null");
+                // this.isCreateButtonEnabled = false;
+                this.setState({isCreateButtonEnabled: false})
+
+            }
+        }
+
 
     }
 
+
     modalContent() {
-        return(
+        return (
 
             <div style={this.state.modalStyle} className={this.props.classes.paper}>
                 <div>Add Amara Resource</div>
@@ -142,8 +200,15 @@ class AmaraModalContainer extends Component {
                         value={this.state.media_select}
                         options={this.state.mediaFiles
                         }/>
+
                 </div>
-                <Button onClick={this.createAmaraResource}>Create</Button>
+                {/*{this.isCreateButtonEnabled ? <Button onClick={this.createAmaraResource}*/}
+                {/*>Create</Button> : null}*/}
+
+                <Button onClick={this.createAmaraResource} disabled={!this.state.isCreateButtonEnabled}
+                >Create</Button>
+
+
                 <div>Add Captions</div>
                 <div>
                     <label style={{display: "block", fontSize: '12px'}} form={"caption_select"}>Caption Files</label>
@@ -165,10 +230,10 @@ class AmaraModalContainer extends Component {
 
     render() {
 
-        return(
+        return (
             <React.Fragment>
                 <Button
-                    style={{maxHeight: '25px', padding:'0px 3px'}}
+                    style={{maxHeight: '25px', padding: '0px 3px'}}
                     variant="contained"
                     name={"creatAstJob"}
                     onClick={this.handleOpen}
@@ -192,18 +257,27 @@ function mapStateToProps({mediaReducer}, {media_id}) {
 
     let captionFiles = mediaReducer[media_id].media_objects.reduce((accumulator, currentValue) => {
         if (currentValue.associated_captions !== null) {
-            accumulator.push({caption_id:currentValue.associated_captions.id, value:currentValue.associated_captions.file_name, label:currentValue.associated_captions.file_name, association_id:currentValue.id})
+            accumulator.push({
+                caption_id: currentValue.associated_captions.id,
+                value: currentValue.associated_captions.file_name,
+                label: currentValue.associated_captions.file_name,
+                association_id: currentValue.id
+            })
         }
         return accumulator
-    },[])
+    }, [])
 
     let mediaFiles = mediaReducer[media_id].media_objects.reduce((accumulator, currentValue) => {
         if (currentValue.associated_files !== null) {
-            accumulator.push({file_id:currentValue.associated_files.id, value:currentValue.associated_files.file_name, label:currentValue.associated_files.file_name, association_id:currentValue.id})
+            accumulator.push({
+                file_id: currentValue.associated_files.id,
+                value: currentValue.associated_files.file_name,
+                label: currentValue.associated_files.file_name,
+                association_id: currentValue.id
+            })
         }
         return accumulator
-    },[])
-
+    }, [])
 
     return {
         media_id,
@@ -214,7 +288,4 @@ function mapStateToProps({mediaReducer}, {media_id}) {
 }
 
 
-
-
-
-export default withRouter(connect(mapStateToProps)(withStyles(useStyles, { withTheme: true })(AmaraModalContainer)))
+export default withRouter(connect(mapStateToProps)(withStyles(useStyles, {withTheme: true})(AmaraModalContainer)))
