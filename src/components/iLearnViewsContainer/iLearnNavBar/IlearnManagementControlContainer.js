@@ -1,15 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import ILearnAllCoursesView from '../iLearnViewContainers/iLearnAllCoursesView'
-import {
-    Switch,
-    Route,
-    NavLink,
-
-} from "react-router-dom";
-
-
+import {NavLink, Route, Switch,} from "react-router-dom";
 
 
 class IlearnManagementControlContainer extends Component {
@@ -27,31 +20,27 @@ class IlearnManagementControlContainer extends Component {
                     <div className="controlBarNavButtons">
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
-                                to={{pathname: "/captioning/ilearn-scraper/active-courses",
+                                to={{
+                                    pathname: "/captioning/ilearn-scraper/active-courses",
                                     search: this.props.location.search,
                                 }}>Active Courses </NavLink><span className={"jobCount"}>{this.props.capActive}</span>
                         </div>
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
-                                to={{pathname: "/captioning/ilearn-scraper/inactive-courses",
+                                to={{
+                                    pathname: "/captioning/ilearn-scraper/inactive-courses",
                                     search: this.props.location.search,
-                                }}>Inactive Courses </NavLink><span className={"jobCount"}>{this.props.capInactive}</span>
+                                }}>Inactive Courses </NavLink><span
+                            className={"jobCount"}>{this.props.capInactive}</span>
                         </div>
 
-
-                        {/*<div className="controlButton">*/}
-                        {/*    Active Courses*/}
-                        {/*</div >*/}
-                        {/*<div className="controlButton" >*/}
-                        {/*    Inactive Courses*/}
-                        {/*</div>*/}
                         <div className="controlButton">
                             New Videos
-                        </div >
-                        <div className="controlButton" >
+                        </div>
+                        <div className="controlButton">
                             Search
                         </div>
-                        <div className="controlButton" >
+                        <div className="controlButton">
                             Add
                         </div>
                     </div>
@@ -59,8 +48,10 @@ class IlearnManagementControlContainer extends Component {
                 </div>
                 <div>
                     <Switch>
-                        <Route path="/captioning/ilearn-scraper/active-courses" render={(props) => <ILearnAllCoursesView {...props} studentActive={true} />}  />
-                        <Route path="/captioning/ilearn-scraper/inactive-courses" render={(props) => <ILearnAllCoursesView {...props} studentActive={false} />}  />
+                        <Route path="/captioning/ilearn-scraper/active-courses"
+                               render={(props) => <ILearnAllCoursesView {...props} studentActive={true}/>}/>
+                        <Route path="/captioning/ilearn-scraper/inactive-courses"
+                               render={(props) => <ILearnAllCoursesView {...props} studentActive={false}/>}/>
 
                     </Switch>
                 </div>
@@ -85,7 +76,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
     }
 
 
-    Object.keys(coursesReducer).forEach(function(key){
+    Object.keys(coursesReducer).forEach(function (key) {
 
         if (coursesReducer[key].students_enrolled.some(capActiveFunc) === true) {
             capActive += 1

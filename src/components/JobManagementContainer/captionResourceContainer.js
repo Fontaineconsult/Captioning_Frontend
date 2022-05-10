@@ -158,6 +158,8 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
         media = mediaReducer[media_id]
         captionResources = mediaReducer[media_id].captioned_resources.reduce((accumulator, currentValue) => {
 
+            console.log("Current value", currentValue)
+
             if (currentValue.amara_id !== null) {
                 accumulator.push({
                     value: currentValue.id,
@@ -182,6 +184,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
 
             return accumulator
         }, [])
+
 
         if (media.primary_caption_resource_id !== null) {
             primaryCapResource = mediaReducer[media_id].captioned_resources.map(item => {
@@ -213,8 +216,9 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
 
         }
 
+
     }
-    console.log("ZOPRS", captionResources)
+    console.log("ZOPRS", media)
     return {
         media,
         captionResources,
