@@ -146,10 +146,7 @@ class AmaraModalContainer extends Component {
     }
 
     updateCreateButtonState() {
-        console.log("I am here")
-
         let source_url = this.props.media_obj.source_url;
-        console.log("Source url: ", source_url)
         if (source_url === null) {
             //if file selected is not selected in media then create button is set to false
             let media_selected_file = this.state.media_select;

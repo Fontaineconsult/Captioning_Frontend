@@ -15,7 +15,7 @@
 
 }
 
-.job-container:first-child{
+.job-container:first-child {
     margin-top: 3px;
 
 }
@@ -33,18 +33,17 @@
     border-bottom-left-radius: 3px;
 
 
-
 }
 
 
 .job-container-selected {
-    background: rgb(255,255,255);
+    background: rgb(255, 255, 255);
     background: radial-gradient(circle,
-    rgba(255,255,255,1) 0%,
-    rgba(255,255,255,1) 74%,
-    rgba(237,235,235,1) 95%,
-    rgba(207,207,207,1) 98%,
-    rgba(148,148,148,1) 100%);
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 74%,
+    rgba(237, 235, 235, 1) 95%,
+    rgba(207, 207, 207, 1) 98%,
+    rgba(148, 148, 148, 1) 100%);
 
 }
 
@@ -93,12 +92,11 @@
 .jobMediaContainer {
 
 
-
 }
+
 .mediaContentDescriptor {
     margin-right: 10px;
     display: flex;
-
 
 
 }
@@ -126,9 +124,9 @@
 
 }
 
-.pluginContainer{
+.pluginContainer {
 
-width: 50%;
+    width: 50%;
 
 }
 
@@ -146,7 +144,7 @@ width: 50%;
 }
 
 
-.deleteJobIcon{
+.deleteJobIcon {
     margin-left: 10px;
 
 }
@@ -155,12 +153,13 @@ width: 50%;
     margin-bottom: 5px;
 
 }
+
 .upperJobContainerLeftLabel {
     display: inline-flex;
     width: 100%;
 }
 
-.upperJobContainerRightContent{
+.upperJobContainerRightContent {
 
     margin-left: 10px;
 
@@ -240,30 +239,32 @@ width: 50%;
 }
 
 
-
 .upperJobContainerLeftContentInput {
     width: 100px;
     margin-left: auto;
-    font-size:14px !important;
+    font-size: 14px !important;
     background-color: white;
 
 }
 
 .requesterFilterContainer {
-margin-right: 5px;
+    margin-right: 5px;
 
 }
 
 .item-enter {
     opacity: 0;
 }
+
 .item-enter-active {
     opacity: 1;
     transition: opacity 200ms ease-in;
 }
+
 .item-exit {
     opacity: 1;
 }
+
 .item-exit-active {
     opacity: 0;
     transition: opacity 200ms ease-in;
@@ -291,21 +292,24 @@ margin-right: 5px;
 
 .amaraControls {
     display: flex;
+    height: 2.2rem;
+
 
 }
 
-.extractorButtonsContainer{
+.extractorButtonsContainer {
     display: flex;
     margin-right: 0;
     margin-left: auto;
 
 }
 
-.extractorButton{
+.extractorButton {
     display: flex;
     margin-right: 10px;
 
 }
+
 .extractorLabel {
     margin-right: 5px;
     text-align: center;
@@ -328,9 +332,10 @@ margin-right: 5px;
 
 .astControlsContainer {
     height: 45px;
-    width: 450px;
+    width: 520px;
     margin-right: auto;
-    margin-left: 0;
+    margin-left: 10px;
+
 
 }
 
@@ -342,7 +347,8 @@ margin-right: 5px;
     border-radius: 5px;
     vertical-align: middle;
     text-align: center;
-    height: 100%;
+    height: 97%;
+    width: 100%;
     background-color: #eaeaea;
     margin-left: 5px;
     border-style: solid;
@@ -351,17 +357,16 @@ margin-right: 5px;
 
 }
 
-.sourceUrlLink{
+.sourceUrlLink {
     width: 430px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
 
-
 }
 
-.videoFileControlsContainer{
+.videoFileControlsContainer {
     padding-top: 1px;
     padding-bottom: 1px;
     height: 170px;
@@ -371,10 +376,9 @@ margin-right: 5px;
     border-left-color: #acacac;
 
 
-
 }
 
-.captionMediaContainerLeft{
+.captionMediaContainerLeft {
     width: 95%
 
 }
@@ -387,11 +391,11 @@ lowerUpperJobContainer {
 
 
 .contentTitle {
-    width:430px;
+    width: 430px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    font-weight: bold ;
+    font-weight: bold;
 
 }
 
