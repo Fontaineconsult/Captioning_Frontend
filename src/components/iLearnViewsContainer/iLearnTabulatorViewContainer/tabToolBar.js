@@ -78,16 +78,15 @@ class TabToolBar extends Component {
         // console.log("selected row are: ", this.props.selected_rows);
 
         let rows = this.props.selected_rows;
-        let string = ""
+        let selected_rows_string = ""
 
         rows.map((e) => {
             console.log("selected row title: ", e._row.data.title);
             console.log("selected row link: ", e._row.data.resource_link);
-            string = string + "Title: " + e._row.data.title + "\nLink: " + e._row.data.resource_link + "\n\n";
+            selected_rows_string = selected_rows_string + "Title: " + e._row.data.title + "\nLink: " + e._row.data.resource_link + "\n\n";
         })
 
-        console.log("selected rows string: ", string);
-        navigator.clipboard.writeText(string);
+        navigator.clipboard.writeText(selected_rows_string);
     }
 
     render() {
