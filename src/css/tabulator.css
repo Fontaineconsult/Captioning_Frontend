@@ -1,5 +1,5 @@
 .tabulator-row .tabulator-cell {
-    padding:10px 4px;
+    padding: 10px 4px;
 
 }
 
@@ -10,17 +10,17 @@
 }
 
 
-.tabulator-cell:nth-child(7){
+.tabulator-cell:nth-child(7) {
 
     padding-top: 4px;
 }
 
-.tabulator-cell:nth-child(3){
+.tabulator-cell:nth-child(3) {
 
     padding-top: 4px;
 }
 
-.tabulator-cell:nth-child(9){
+.tabulator-cell:nth-child(9) {
 
     padding-top: 4px;
 }
@@ -63,7 +63,7 @@
     user-select: none;
 }
 
-.video-hidden{
+.video-hidden {
     color: #b5b5b5;
     background-color: #444445 !important;;
 

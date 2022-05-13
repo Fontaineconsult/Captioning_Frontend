@@ -26,7 +26,7 @@ class AmaraControlsContainer extends Component {
 
     render() {
         return (
-            <div style={{border: "1px", borderStyle: "solid", borderRadius: "5px", borderColor: "#A8A8A8"}}>
+            <div>
                 <div style={{margin: "auto", width: "90%"}}>
                     <div className="astControls">
                         <div style={{marginTop: "10px"}}>

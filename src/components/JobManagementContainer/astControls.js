@@ -1,24 +1,21 @@
-import React, { Component, Fragment } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Button from "@material-ui/core/Button";
-import { ReactTabulator, reactFormatter } from 'react-tabulator'
+import {reactFormatter} from 'react-tabulator'
 import moment from 'moment'
 import AstModalContainer from "./astConfirmModal";
 import {submitASTJobToAST} from "../../actions/ampApi/putData"
 import {astJobURL} from "../../constants";
-import {astModal} from "../../css/astModal.css"
 import Tabulator from "tabulator-tables";
 
 
-
 const astRateFormatter = (rateCode) => ({
-    "H":"8 Hour",
-    "R":"1 Day",
-    "T":"2 Day",
-    "L":"4 Day"
+    "H": "8 Hour",
+    "R": "1 Day",
+    "T": "2 Day",
+    "L": "4 Day"
 })[rateCode]
-
 
 
 class AstJobControlMenu extends Component {
@@ -46,21 +43,23 @@ class AstJobControlMenu extends Component {
         let ast_status = props.cell._cell.row.data.ast_link
         if (ast_status === null) {
 
-            return(<Button style={{'padding': '0px'}} onClick={e => this.initASTJob(ast_job_id, this.props.job_id)}>Init</Button>)
+            return (<Button style={{'padding': '0px'}}
+                            onClick={e => this.initASTJob(ast_job_id, this.props.job_id)}>Init</Button>)
         }
         if (ast_status) {
-            return(<Button style={{'padding': '0px'}} onClick={e => window.open(ast_status)}>Job</Button>)
+            return (<Button style={{'padding': '0px'}} onClick={e => window.open(ast_status)}>Job</Button>)
         }
     }
-
 
 
     formatData(astVideoJob) {
 
         let status = astVideoJob.captioning_status
         let date = astVideoJob.added_date
-        if (astVideoJob.ast_status.length === 1) {status=astVideoJob.ast_status[0]['ast_status']
-            date=astVideoJob.ast_status[0]['added_date']}
+        if (astVideoJob.ast_status.length === 1) {
+            status = astVideoJob.ast_status[0]['ast_status']
+            date = astVideoJob.ast_status[0]['added_date']
+        }
         if (astVideoJob.ast_status.length > 1) {
             let newest = astVideoJob.ast_status[astVideoJob.ast_status.length - 1]
 
@@ -83,7 +82,7 @@ class AstJobControlMenu extends Component {
 
         return {
             id: astVideoJob.id,
-            status:status,
+            status: status,
             speed: astRateFormatter(astVideoJob.ast_rush),
             added_date: moment(date).format('MM-DD-YY'),
             ast_link: astJobLink
@@ -92,8 +91,6 @@ class AstJobControlMenu extends Component {
 
     componentDidMount() {
         let data = []
-
-
 
 
         if (!this.props.expanded) {
@@ -107,15 +104,14 @@ class AstJobControlMenu extends Component {
         }
 
 
-
-        let columns = [{title: "Status", field:"status", formatter: "plaintext" },
+        let columns = [{title: "Status", field: "status", formatter: "plaintext"},
             {title: "Speed", field: "speed", formatter: "plaintext"},
-            {title: "Added On", field: "added_date", formatter: "plaintext" },
+            {title: "Added On", field: "added_date", formatter: "plaintext"},
             {title: "Ast Url", field: "ast_link", formatter: reactFormatter(<this.astJobFormatter/>)}]
 
 
         this.setState({
-            data:data
+            data: data
         })
 
 
@@ -123,13 +119,12 @@ class AstJobControlMenu extends Component {
             columns: columns,
             data: data,
             reactiveData: true,
-            resizableColumns:false,
-            responsiveLayout:false,
+            resizableColumns: false,
+            responsiveLayout: false,
             layout: "fitColumns",
-            maxHeight:"40px"
+            maxHeight: "60px"
 
         })
-
 
 
     }
@@ -150,7 +145,7 @@ class AstJobControlMenu extends Component {
                 )
             }
             this.setState({
-                data:data
+                data: data
             })
 
         }
@@ -160,7 +155,7 @@ class AstJobControlMenu extends Component {
     render() {
         console.log(this.state.data.length)
 
-        return ( <div ref={el => (this.el = el)}/> )
+        return (<div ref={el => (this.el = el)}/>)
 
         // if (this.state.data.length > 0) {return (
         //         <div ref={el => (this.el = el)} />
@@ -170,8 +165,8 @@ class AstJobControlMenu extends Component {
         //     return ("loading")
         // }
 
-    }}
-
+    }
+}
 
 
 class AstControls extends Component {
@@ -206,17 +201,17 @@ class AstControls extends Component {
 
         return (
             <div className="astControls">
-                <div className={"astModalActivateButtonContainer"} >
+                <div className={"astModalActivateButtonContainer"}>
                     <AstModalContainer job_id={this.props.job_id}/>
                 </div>
-                <div className={"astControlsContainer"}  tabIndex={0}>
+                <div className={"astControlsContainer"} tabIndex={0}>
                     {this.props.hasJobs && <AstJobControlMenu
                         job_id={this.props.job_id}
                         dispatch={this.props.dispatch}
                         expanded={this.state.expanded}
                         ast_jobs={this.props.ast_jobs}/>}
 
-                    {!this.props.hasJobs && <NoJobsSlug /> }
+                    {!this.props.hasJobs && <NoJobsSlug/>}
                 </div>
             </div>
 

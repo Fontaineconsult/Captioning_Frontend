@@ -16,7 +16,14 @@ class AmaraControls extends Component {
     // amara-controls is display: flex
     render() {
         return (
-            <div className="amaraControls">
+            <div className="amaraControls" style={{
+                border: "2px",
+                borderStyle: "solid",
+                borderRadius: "5px",
+                borderColor: "#A8A8A8",
+                paddingLeft: "10px",
+                width: "100%"
+            }}>
                 <div style={{marginTop: "10px"}}>
                     <a target="_blank" href={this.props.amaraResource.url}>{this.props.amaraResource.url}</a>
                 </div>
@@ -28,7 +35,7 @@ class AmaraControls extends Component {
                         <CloseIcon style={{color: "red", verticalAlign: "bottom", marginTop: "5px"}}/>}</div>
 
 
-                    <div>Complete: {this.props.amaraResource.captions_uploaded ?
+                    <div>Complete: {this.props.amaraResource.captions_complete ?
                         <DoneIcon style={{color: "green", verticalAlign: "bottom", marginTop: "5px"}}/> :
                         <CloseIcon style={{color: "red", verticalAlign: "bottom", marginTop: "5px"}}/>}</div>
 
@@ -43,9 +50,12 @@ class AmaraControls extends Component {
 
 
 function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer}, {amaraResource}) {
+    console.log("amara resource ", amaraResource);
+
 
     return {
-        amaraResource
+        amaraResource,
+
 
     }
 }

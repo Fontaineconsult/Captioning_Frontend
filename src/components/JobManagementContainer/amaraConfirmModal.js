@@ -6,7 +6,6 @@ import {connect} from "react-redux";
 import {withStyles} from "@material-ui/core/styles";
 import {v1 as uuidv1} from 'uuid';
 import Select from "react-select";
-import {customStyles} from "./selectCustomStyle";
 import {addSRTtoAmaraResource, createAmaraResource} from "../../actions/ampApi/postData"
 
 
@@ -48,6 +47,7 @@ class AmaraModalContainer extends Component {
         this.updateCapSelectState = this.updateCapSelectState.bind(this)
         this.updateMediaSelectState = this.updateMediaSelectState.bind(this)
         this.updateCreateButtonState = this.updateCreateButtonState.bind(this)
+        this.updateButtonState = this.updateButtonState(this)
 
 
     }
@@ -145,6 +145,19 @@ class AmaraModalContainer extends Component {
         }
     }
 
+    updateButtonState() {
+        let captionArray = this.props.media_obj.captioned_resources;
+        console.log("captionArray ", captionArray);
+
+        if (captionArray.length > 0) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+
     updateCreateButtonState() {
         let source_url = this.props.media_obj.source_url;
         if (source_url === null) {
@@ -189,11 +202,12 @@ class AmaraModalContainer extends Component {
             <div style={this.state.modalStyle} className={this.props.classes.paper}>
                 <div>Add Amara Resource</div>
                 <div>
-                    <label style={{display: "block", fontSize: '12px'}} form={"caption_select"}>Media Files</label>
+                    <label style={{display: "block", fontSize: '15px', marginTop: "10px"}} form={"caption_select"}>Media
+                        Files</label>
                     <Select
                         name="media_select"
                         onChange={this.updateMediaSelectState}
-                        styles={customStyles}
+                        styles={{width: "400px"}}
                         value={this.state.media_select}
                         options={this.state.mediaFiles
                         }/>
@@ -203,22 +217,24 @@ class AmaraModalContainer extends Component {
                 {/*>Create</Button> : null}*/}
 
                 <Button onClick={this.createAmaraResource} disabled={!this.state.isCreateButtonEnabled}
+                        style={{marginLeft: "-8px"}}
                 >Create</Button>
 
 
                 <div>Add Captions</div>
                 <div>
-                    <label style={{display: "block", fontSize: '12px'}} form={"caption_select"}>Caption Files</label>
+                    <label style={{display: "block", fontSize: '15px', marginTop: "10px"}} form={"caption_select"}>Caption
+                        Files</label>
                     <Select
                         style={{display: "block"}}
                         name="caption_select"
                         onChange={this.updateCapSelectState}
-                        styles={customStyles}
+                        styles={{width: "400px"}}
                         value={this.state.caption_select}
                         options={this.state.captionFiles
                         }/>
                 </div>
-                <Button onClick={this.addSRTtoAmaraResource}>Add Caption</Button>
+                <Button onClick={this.addSRTtoAmaraResource} style={{marginLeft: "-8px"}}>Add Caption</Button>
             </div>
 
         )
@@ -229,14 +245,23 @@ class AmaraModalContainer extends Component {
 
         return (
             <React.Fragment>
-                <Button
+
+                {this.props.amaraResource ? <Button
                     style={{maxHeight: '25px', padding: '0px 3px'}}
                     variant="contained"
                     name={"creatAstJob"}
                     onClick={this.handleOpen}
                     title={"Send to Ast"}
 
-                >ADD</Button>
+                >UPDATE</Button> : <Button
+                    style={{maxHeight: '25px', padding: '0px 3px'}}
+                    variant="contained"
+                    name={"creatAstJob"}
+                    onClick={this.handleOpen}
+                    title={"Send to Ast"}
+
+                >ADD</Button>}
+
                 <Modal open={this.state.open}
                        onClose={this.handleClose}
                        aria-labelledby="simple-modal-title"
@@ -248,9 +273,12 @@ class AmaraModalContainer extends Component {
 }
 
 
-function mapStateToProps({mediaReducer}, {media_id}) {
+function mapStateToProps({loadingStatusReducer, mediaReducer}, {media_id}) {
 
     let media_obj = mediaReducer[media_id]
+    let amaraResource
+    let amara_index
+
 
     let captionFiles = mediaReducer[media_id].media_objects.reduce((accumulator, currentValue) => {
         if (currentValue.associated_captions !== null) {
@@ -276,11 +304,30 @@ function mapStateToProps({mediaReducer}, {media_id}) {
         return accumulator
     }, [])
 
+
+    if (loadingStatusReducer.mediaLoading === false) {
+
+        if (Object.keys(mediaReducer).length > 0) {
+
+            amara_index = Object.keys(mediaReducer[media_id].captioned_resources).find(index => {
+                    if (mediaReducer[media_id].captioned_resources[index].amara_id !== null) {
+                        return true
+                    }
+                }
+            )
+
+            amaraResource = mediaReducer[media_id].captioned_resources[amara_index]
+        }
+    }
+
+
     return {
         media_id,
         captionFiles,
         mediaFiles,
-        media_obj
+        media_obj,
+        amaraResource
+
     }
 }
 
