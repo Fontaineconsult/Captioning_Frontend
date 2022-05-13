@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
 import {withRouter} from "react-router";
-import Checkbox from "@material-ui/core/Checkbox";
 import Button from '@material-ui/core/Button'
-import {updateiLearnVideo, updateiLearnVideoBatch} from '../../../actions/ampApi/putData'
+import {updateiLearnVideoBatch} from '../../../actions/ampApi/putData'
 import '../../../css/tabulator.css'
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
 import AddJobModal from "./addJobModal"
 
 class TabToolBar extends Component {
@@ -15,9 +12,10 @@ class TabToolBar extends Component {
         super(props);
 
         this.passed = this.passed.bind(this);
-        this.ignore =  this.ignore.bind(this);
-        this.remove =  this.remove.bind(this);
-        this.selectable =  this.selectable.bind(this);
+        this.ignore = this.ignore.bind(this);
+        this.remove = this.remove.bind(this);
+        this.copyToClipboard = this.copyToClipboard.bind(this);
+        this.selectable = this.selectable.bind(this);
 
     }
 
@@ -30,7 +28,6 @@ class TabToolBar extends Component {
         this.props.dispatch(updateiLearnVideoBatch(row_ids, "auto_caption_passed", true))
         this.props.table.deselectRow()
     };
-
 
 
     ignore(e) {
@@ -77,40 +74,58 @@ class TabToolBar extends Component {
 
     }
 
+    copyToClipboard() {
+        // console.log("selected row are: ", this.props.selected_rows);
+
+        let rows = this.props.selected_rows;
+        let string = ""
+
+        rows.map((e) => {
+            console.log("selected row title: ", e._row.data.title);
+            console.log("selected row link: ", e._row.data.resource_link);
+            string = string + "Title: " + e._row.data.title + "\nLink: " + e._row.data.resource_link + "\n\n";
+        })
+
+        console.log("selected rows string: ", string);
+        navigator.clipboard.writeText(string);
+    }
 
     render() {
 
-        return(
+        return (
             <div className={"toolbar-container"}>
                 {this.selectable() ?
-                    <Button size="small"  onClick={e => this.passed(e)}>Passed</Button>:
+                    <Button size="small" onClick={e => this.passed(e)}>Passed</Button> :
                     <Button size="small" disabled onClick={e => this.passed(e)}>Passed</Button>
                 }
                 {this.selectable() ?
-                    <Button size="small"  onClick={e => this.ignore(e)}>Ignore</Button>:
+                    <Button size="small" onClick={e => this.ignore(e)}>Ignore</Button> :
                     <Button size="small" disabled onClick={e => this.ignore(e)}>Ignore</Button>
                 }
                 {this.selectable() ?
-                    <Button size="small"  onClick={e => this.remove(e)}>Remove</Button>:
+                    <Button size="small" onClick={e => this.remove(e)}>Remove</Button> :
                     <Button size="small" disabled onClick={e => this.remove(e)}>Remove</Button>
 
                 }
                 {this.selectable() && !this.noTitle() ?
-                    <AddJobModal disabled={false} selected_rows={this.props.selected_rows} course_gen_id={this.props.course_gen_id}/>:
-                    <AddJobModal disabled={true} selected_rows={this.props.selected_rows} course_gen_id={this.props.course_gen_id}/>
+                    <AddJobModal disabled={false} selected_rows={this.props.selected_rows}
+                                 course_gen_id={this.props.course_gen_id}/> :
+                    <AddJobModal disabled={true} selected_rows={this.props.selected_rows}
+                                 course_gen_id={this.props.course_gen_id}/>
 
                 }
 
+                {this.selectable() && !this.noTitle() ?
+                    <Button size="small" onClick={e => this.copyToClipboard(e)}>Copy to Clipboard</Button> :
+                    <Button size="small" disabled onClick={e => this.copyToClipboard(e)}>Copy to Clipboard</Button>
+
+                }
 
             </div>
         )
     }
 
 }
-
-
-
-
 
 
 function mapStateToProps(state, {course_gen_id, selected_rows, table}) {
