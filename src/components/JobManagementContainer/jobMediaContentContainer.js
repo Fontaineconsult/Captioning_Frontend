@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Select from "react-select";
@@ -6,11 +6,10 @@ import {mediaSelectCustomStyles} from "./selectCustomStyle";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PublishIcon from '@material-ui/icons/Publish';
 import Button from "@material-ui/core/Button";
-import {downloadCaptionFile, downloadMediaFile} from '../../actions/ampApi/fetchData'
-import {uploadCaptionFileWithMediaId, uploadMediaFromJobView} from "../../actions/ampApi/postData"
+import {downloadCaptionFile} from '../../actions/ampApi/fetchData'
+import {uploadCaptionFileWithMediaId} from "../../actions/ampApi/postData"
 import green from "@material-ui/core/colors/green";
 import {v1 as uuidv1} from "uuid";
-import CryptoJS from "crypto-js";
 
 
 class MediaContentContainer extends Component {
@@ -22,11 +21,11 @@ class MediaContentContainer extends Component {
             caption_select: "",
             media_select: "",
             mediaFiles: this.props.mediaFiles,
-            capFileUpload:"",
-            mediaFileUpload:"",
+            capFileUpload: "",
+            mediaFileUpload: "",
             cap_temp_id: "",
-            media_temp_id:"",
-            sha_256_hash:""
+            media_temp_id: "",
+            sha_256_hash: ""
 
         };
 
@@ -44,7 +43,7 @@ class MediaContentContainer extends Component {
     downloadCaption() {
         this.props.dispatch(downloadCaptionFile(this.state.caption_select.caption_id, this.props.mediaId))
         this.setState({
-            capFileUpload:""
+            capFileUpload: ""
         })
     }
 
@@ -60,7 +59,7 @@ class MediaContentContainer extends Component {
                 document.getElementById('captionUpload').files[0])
 
             this.setState({
-                capFileUpload:fileToSend,
+                capFileUpload: fileToSend,
                 cap_temp_id: uuidv1()
             });
         }
@@ -74,14 +73,14 @@ class MediaContentContainer extends Component {
     }
 
 
-    updateCapSelectState(event){
+    updateCapSelectState(event) {
         this.setState({
             caption_select: event
         });
 
     }
 
-    updateMediaSelectState(event){
+    updateMediaSelectState(event) {
         this.setState({
             media_select: event
         });
@@ -98,7 +97,7 @@ class MediaContentContainer extends Component {
 
                 <div className={"mediaContentSelectors"}>
                     <div>
-                        <label  form={"caption_select"}>Caption Files</label>
+                        <label form={"caption_select"}>Caption Files</label>
                         <Select
                             style={{display: "block"}}
                             name="caption_select"
@@ -109,14 +108,21 @@ class MediaContentContainer extends Component {
                             }/>
                     </div>
                     <div>
-                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"caption_select"}>Download</label>
-                        <Button disabled={downloadCCDisabled} onClick={this.downloadCaption}><GetAppIcon fontSize="small"/></Button>
+                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
+                               form={"caption_select"}>Download</label>
+                        <Button disabled={downloadCCDisabled} onClick={this.downloadCaption}><GetAppIcon
+                            fontSize="small"/></Button>
                         <input id='captionUpload' type='file' accept="text/*" hidden={true}/>
                     </div>
                     <div>
-                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"caption_select"}>Upload</label>
-                        {this.state.capFileUpload === "" && <Button onClick={this.setCaptionFile}><PublishIcon color="primary" fontSize="small"/></Button>}
-                        {this.state.capFileUpload !== "" && <Button onClick={this.uploadCaptionFile}><PublishIcon style={{ color: green[500] }} fontSize="small"/></Button>}
+                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
+                               form={"caption_select"}>Upload</label>
+                        {this.state.capFileUpload === "" &&
+                            <Button onClick={this.setCaptionFile}><PublishIcon color="primary"
+                                                                               fontSize="small"/></Button>}
+                        {this.state.capFileUpload !== "" &&
+                            <Button onClick={this.uploadCaptionFile}><PublishIcon style={{color: green[500]}}
+                                                                                  fontSize="small"/></Button>}
                     </div>
                 </div>
             </div>
@@ -134,14 +140,17 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
     if (loadingStatusReducer.mediaLoading === false) {
 
 
-
-        console.log("SOMETHING WRONG HERE", mediaId, mediaReducer[mediaId])
         captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
             if (currentValue.associated_captions !== null) {
-                accumulator.push({caption_id:currentValue.associated_captions.id, value:currentValue.associated_captions.file_name, label:currentValue.associated_captions.file_name, association_id:currentValue.id})
+                accumulator.push({
+                    caption_id: currentValue.associated_captions.id,
+                    value: currentValue.associated_captions.file_name,
+                    label: currentValue.associated_captions.file_name,
+                    association_id: currentValue.id
+                })
             }
             return accumulator
-        },[])
+        }, [])
 
         // mediaFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
         //     if (currentValue.associated_files !== null) {
@@ -151,10 +160,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
         // },[])
 
 
-
     }
-
-
 
 
     return {
