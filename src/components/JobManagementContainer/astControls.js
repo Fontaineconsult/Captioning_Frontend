@@ -129,9 +129,6 @@ class AstJobControlMenu extends Component {
 
     }
 
-    //this is a test
-
-    //this is  test comment
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         let data = []
