@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import AmaraControls from "./amaraControls";
@@ -15,8 +15,6 @@ function NoJobsSlug(props) {
 }
 
 
-
-
 class AmaraControlsContainer extends Component {
 
     constructor(props) {
@@ -28,17 +26,30 @@ class AmaraControlsContainer extends Component {
 
     render() {
         return (
-            <div className="astControls">
-                <AmaraModalContainer media_id = {this.props.media_id}/>
+            <div>
+                <div style={{margin: "auto", width: "90%"}}>
+                    <div className="astControls">
+                        <div style={{marginTop: "10px"}}>
+                            <AmaraModalContainer media_id={this.props.media_id}/>
+                        </div>
 
-                <div className={"astControlsContainer"}>
 
-                    {this.props.amaraResource  && <AmaraControls amaraResource={this.props.amaraResource.amara_resource}/>}
-                    {this.props.amaraResource === undefined && <NoJobsSlug/>}
+                        <div>
+                            <div className={"astControlsContainer"}>
 
+                                {this.props.amaraResource &&
+                                    <AmaraControls amaraResource={this.props.amaraResource.amara_resource}/>}
+                                {this.props.amaraResource === undefined && <NoJobsSlug/>}
+
+                            </div>
+                        </div>
+
+
+                    </div>
                 </div>
 
             </div>
+
 
         )
     }
@@ -64,8 +75,6 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
             amaraResource = mediaReducer[media_id].captioned_resources[amara_index]
         }
     }
-
-
 
 
     return {

@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import {sendVideoExtractRequestDeferred,
-    uploadMediaFromJobView,
+import {
+    sendOpenCaptionRequestDeferred,
     sendVideoConversionRequestDeferred,
-    sendOpenCaptionRequestDeferred} from "../../actions/ampApi/postData";
+    sendVideoExtractRequestDeferred,
+    uploadMediaFromJobView
+} from "../../actions/ampApi/postData";
 
 import {fileDownloadUrl} from "../../constants";
-import IconButton from "@material-ui/core/IconButton";
-import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
 import Select from "react-select";
-import {mediaSelectCustomStyles, s3ResourceSelect} from "./selectCustomStyle";
-import {makeStyles, withStyles} from '@material-ui/core/styles';
+import {s3ResourceSelect} from "./selectCustomStyle";
+import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import {getS3Link} from "../../actions/ampApi/putData"
 import GetAppIcon from "@material-ui/icons/GetApp";
@@ -21,7 +21,6 @@ import {downloadMediaFile} from "../../actions/ampApi/fetchData";
 import CryptoJS from "crypto-js";
 import {v1 as uuidv1} from "uuid";
 import Modal from "@material-ui/core/Modal";
-
 
 
 const useStyles = theme => ({
@@ -55,9 +54,9 @@ class VideoFileControlsContainer extends Component {
             s3Resources: "",
             media_select: "",
             mediaFiles: this.props.mediaFiles,
-            mediaFileUpload:"",
-            media_temp_id:"",
-            sha_256_hash:"",
+            mediaFileUpload: "",
+            media_temp_id: "",
+            sha_256_hash: "",
             setOpen: false,
             open: false,
             modalStyle: this.getModalStyle(),
@@ -96,6 +95,7 @@ class VideoFileControlsContainer extends Component {
         })
 
     }
+
     getModalStyle() {
         const top = 50
         const left = 50
@@ -105,24 +105,25 @@ class VideoFileControlsContainer extends Component {
             transform: `translate(-${top}%, -${left}%)`,
         };
     }
+
     handleOpen() {
 
         this.setState({
             temp_id: uuidv1(),
             setOpen: true,
-            open:true
+            open: true
         })
     };
 
     handleClose() {
         this.setState({
-            setOpen:false,
+            setOpen: false,
             open: false
         })
 
     };
 
-    updateMediaSelectState(event){
+    updateMediaSelectState(event) {
         let file_type = event.label.split('.').pop();
         this.setState({
             media_select: event
@@ -133,7 +134,7 @@ class VideoFileControlsContainer extends Component {
             file_type === 'wmv' ||
             file_type === 'avi' ||
             file_type === 'mpg' ||
-            file_type === 'mpeg'){
+            file_type === 'mpeg') {
 
             this.setState({
                 videoConvertDisabled: false,
@@ -165,8 +166,6 @@ class VideoFileControlsContainer extends Component {
         }
 
 
-
-
     }
 
     updateCaptionSelectState(event) {
@@ -180,22 +179,23 @@ class VideoFileControlsContainer extends Component {
     convertVideoToMp4() {
         //media_file_id media_id task
 
-            this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'convert-video'))
+        this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'convert-video'))
 
     }
 
     extractAudioFromVideo() {
-            console.log("START", this.state.media_select.value, this.props.mediaId,)
-            this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'extract-audio'))
+        console.log("START", this.state.media_select.value, this.props.mediaId,)
+        this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'extract-audio'))
 
     }
 
     convertAudioToM4a() {
 
 
-            this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'extract-audio'))
+        this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'extract-audio'))
 
     }
+
     // YouTubeDL
     extractVideoYTDL() {
         if (this.props.media.media_type === 'URL') {
@@ -223,13 +223,10 @@ class VideoFileControlsContainer extends Component {
     // Open Caption
     createOpenCaption() {
 
-            this.props.dispatch(sendOpenCaptionRequestDeferred(this.props.mediaId,
-                this.state.media_select.value, this.state.captionSelect.caption_id))
+        this.props.dispatch(sendOpenCaptionRequestDeferred(this.props.mediaId,
+            this.state.media_select.value, this.state.captionSelect.caption_id))
 
     }
-
-
-
 
 
     // Download / Upload
@@ -265,8 +262,8 @@ class VideoFileControlsContainer extends Component {
             let type = document.getElementById('mediaFileUpload').files[0].type
             let blobFile = new Blob([document.getElementById('mediaFileUpload').files[0]], {type: type})
             this.setState({
-                mediaFileUpload:blobFile,
-                content_type:type,
+                mediaFileUpload: blobFile,
+                content_type: type,
                 media_temp_id: uuidv1()
             });
         }
@@ -277,9 +274,10 @@ class VideoFileControlsContainer extends Component {
 
         this.props.dispatch(uploadMediaFromJobView(this.state.mediaFileUpload, this.props.mediaId, this.state.cap_temp_id, this.state.content_type, this.state.sha_256_hash))
         this.setState({
-            mediaFileUpload:"",
-            content_type:""
+            mediaFileUpload: "",
+            content_type: ""
         })
+
 
     }
 
@@ -294,11 +292,13 @@ class VideoFileControlsContainer extends Component {
     }
 
 
-    openCaptionModalContent(){
-        return(<div  style={this.state.modalStyle} className={this.props.classes.paper}>
-            <Select name="rate" options={this.props.captionFiles} value={this.state.captionSelect} onChange={this.updateCaptionSelectState}>
+    openCaptionModalContent() {
+        return (<div style={this.state.modalStyle} className={this.props.classes.paper}>
+            <Select name="rate" options={this.props.captionFiles} value={this.state.captionSelect}
+                    onChange={this.updateCaptionSelectState}>
             </Select>
-            <Button disabled={false} name={"extract_video"} size={"small"} onClick={this.createOpenCaption}>Create Open Caption</Button>
+            <Button disabled={false} name={"extract_video"} size={"small"} onClick={this.createOpenCaption}>Create Open
+                Caption</Button>
         </div>)
 
     }
@@ -309,56 +309,72 @@ class VideoFileControlsContainer extends Component {
 
         return (
 
-                <div className={"videoFileControlsContainer"}>
-                    <label className="capJobMediaContentContainer">
-                        <div className="mediaContentDescriptor">
-                            <label style={{'margin-right': '8px'}}>Videos:</label>
-                            <Select
-                                style={{border_radius: "6px", width: "50px"}}
-                                name="s3_links"
-                                onChange={this.updateMediaSelectState}
-                                styles={s3ResourceSelect}
-                                value={this.state.media_select}
-                                options={this.props.s3Resources}
-                            />
-                        </div>
-                    </label>
-                    <div className={"extractorButtonsContainer"}>
-                        <label style={{'margin-right': '8px'}}>FFmpeg:</label>
-                        <div><Button classes={{root: useStyles.padding}} disabled={this.state.audioConvertDisabled} name={"extract_audio"} size={"small"} onClick={this.extractAudioFromVideo}>m4a</Button></div>
-                        <div><Button disabled={this.state.videoConvertDisabled} name={"extract_video"} size={"small"} onClick={this.convertVideoToMp4}>mp4</Button></div>
-                        <div><Button disabled={this.state.OcDisabled} name={"open_caption"} size={"small"} onClick={this.handleOpen}>OC</Button><Modal open={this.state.open}
-                                                                                                                                       onClose={this.handleClose}
-                                                                                                                                       aria-labelledby="simple-modal-title"
-                                                                                                                                       aria-describedby="simple-modal-description">{this.openCaptionModalContent()}</Modal></div>
+            <div className={"videoFileControlsContainer"}>
+                <label className="capJobMediaContentContainer">
+                    <div className="mediaContentDescriptor">
+                        <label style={{'margin-right': '8px'}}>Videos:</label>
+                        <Select
+                            style={{border_radius: "6px", width: "50px"}}
+                            name="s3_links"
+                            onChange={this.updateMediaSelectState}
+                            styles={s3ResourceSelect}
+                            value={this.state.media_select}
+                            options={this.props.s3Resources}
+                        />
                     </div>
-                    <div className={"extractorButtonsContainer"}>
-                        <label style={{'margin-right': '33px'}}>YTdl:</label>
-                        <div><Button classes={{root: useStyles.padding}} disabled={this.state.ytdlConvertDisabled   } name={"extract_audio_ytl"} size={"small"} onClick={this.extractAudioYTDL}>m4a</Button></div>
-                        <div><Button disabled={this.state.ytdlConvertDisabled} name={"extract_video_ytl"} size={"small"} onClick={this.extractVideoYTDL}>mp4</Button></div>
-
+                </label>
+                <div className={"extractorButtonsContainer"}>
+                    <label style={{'margin-right': '8px'}}>FFmpeg:</label>
+                    <div><Button classes={{root: useStyles.padding}} disabled={this.state.audioConvertDisabled}
+                                 name={"extract_audio"} size={"small"} onClick={this.extractAudioFromVideo}>m4a</Button>
                     </div>
-                    <div className={"extractorButtonsContainer"}>
-                        <label style={{'margin-right': '37px'}}>Links:</label>
-                        <div><Button classes={{root: useStyles.padding}} disabled={this.state.s3linkDisabled} name={"s3_link"} size={"small"} onClick={this.getS3Link}>S3 Link</Button></div>
+                    <div><Button disabled={this.state.videoConvertDisabled} name={"extract_video"} size={"small"}
+                                 onClick={this.convertVideoToMp4}>mp4</Button></div>
+                    <div><Button disabled={this.state.OcDisabled} name={"open_caption"} size={"small"}
+                                 onClick={this.handleOpen}>OC</Button><Modal open={this.state.open}
+                                                                             onClose={this.handleClose}
+                                                                             aria-labelledby="simple-modal-title"
+                                                                             aria-describedby="simple-modal-description">{this.openCaptionModalContent()}</Modal>
                     </div>
-                    <div style={{'margin-top': '5px'}} className={"extractorButtonsContainer"}>
-                        <label style={{'margin-right': '37px'}}>DL:</label>
-                        <div>
-                            <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"media_select"}>Download</label>
-                            <Button style={{marginRight: "4px"}} disabled={downloadMediaDisabled} onClick={this.downloadMedia}><GetAppIcon fontSize="small"/></Button>
-                            <input id='mediaFileUpload' type='file' accept="video/*, audio/*" hidden={true}/>
-                        </div>
-                        <div>
-                            <label style={{display: "block", fontSize: '12px', textAlign: "center"}} form={"media_select"}>Upload</label>
-                            {this.state.mediaFileUpload === "" && <Button onClick={this.setMediaFile}><PublishIcon color="primary" fontSize="small"/></Button>}
-                            {this.state.mediaFileUpload !== "" && <Button onClick={this.uploadMediaFile}><PublishIcon style={{ color: green[500] }} fontSize="small"/></Button>}
-                        </div>
-
+                </div>
+                <div className={"extractorButtonsContainer"}>
+                    <label style={{'margin-right': '33px'}}>YTdl:</label>
+                    <div><Button classes={{root: useStyles.padding}} disabled={this.state.ytdlConvertDisabled}
+                                 name={"extract_audio_ytl"} size={"small"} onClick={this.extractAudioYTDL}>m4a</Button>
                     </div>
-
+                    <div><Button disabled={this.state.ytdlConvertDisabled} name={"extract_video_ytl"} size={"small"}
+                                 onClick={this.extractVideoYTDL}>mp4</Button></div>
 
                 </div>
+                <div className={"extractorButtonsContainer"}>
+                    <label style={{'margin-right': '37px'}}>Links:</label>
+                    <div><Button classes={{root: useStyles.padding}} disabled={this.state.s3linkDisabled}
+                                 name={"s3_link"} size={"small"} onClick={this.getS3Link}>S3 Link</Button></div>
+                </div>
+                <div style={{'margin-top': '5px'}} className={"extractorButtonsContainer"}>
+                    <label style={{'margin-right': '37px'}}>DL:</label>
+                    <div>
+                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
+                               form={"media_select"}>Download</label>
+                        <Button style={{marginRight: "4px"}} disabled={downloadMediaDisabled}
+                                onClick={this.downloadMedia}><GetAppIcon fontSize="small"/></Button>
+                        <input id='mediaFileUpload' type='file' accept="video/*, audio/*" hidden={true}/>
+                    </div>
+                    <div>
+                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
+                               form={"media_select"}>Upload</label>
+                        {this.state.mediaFileUpload === "" &&
+                            <Button onClick={this.setMediaFile}><PublishIcon color="primary"
+                                                                             fontSize="small"/></Button>}
+                        {this.state.mediaFileUpload !== "" &&
+                            <Button onClick={this.uploadMediaFile}><PublishIcon style={{color: green[500]}}
+                                                                                fontSize="small"/></Button>}
+                    </div>
+
+                </div>
+
+
+            </div>
 
         )
 
@@ -368,8 +384,7 @@ class VideoFileControlsContainer extends Component {
 }
 
 
-
-function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer, }, {mediaId}) {
+function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer,}, {mediaId}) {
 
     let media = mediaReducer[mediaId]
     let fileObject = null
@@ -378,7 +393,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer, }, 
     let captionFiles
     let media_type = true
     if (media.media_type === 'File') {
-        fileObject =  media.media_objects.find(item => {
+        fileObject = media.media_objects.find(item => {
             return item.associated_files.sha_256_hash === media.sha_256_hash
 
         })
@@ -396,28 +411,39 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer, }, 
     if (Object.keys(mediaReducer).length > 0) {
         media = mediaReducer[mediaId]
 
-
         s3Resources = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
-            if (currentValue.associated_files !== null){
+            if (currentValue.associated_files !== null) {
 
                 accumulator.push({
                     value: currentValue.associated_files.id,
                     label: currentValue.associated_files.file_name,
                 })
             }
+
+
+            console.log("inside s3 accumulator: ", accumulator);
+
             return accumulator
-        }, [])}
+        }, [])
+    }
 
     if (Object.keys(mediaReducer).length > 0) {
         media = mediaReducer[mediaId]
 
         captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
             if (currentValue.associated_captions !== null) {
-                accumulator.push({caption_id:currentValue.associated_captions.id, value:currentValue.associated_captions.file_name, label:currentValue.associated_captions.file_name, association_id:currentValue.id})
+                accumulator.push({
+                    caption_id: currentValue.associated_captions.id,
+                    value: currentValue.associated_captions.file_name,
+                    label: currentValue.associated_captions.file_name,
+                    association_id: currentValue.id
+                })
             }
             return accumulator
-        },[])}
+        }, [])
+    }
 
+    console.log("s3 resources ", s3Resources)
     return {
         media,
         fileObject,
@@ -430,4 +456,4 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer, }, 
 }
 
 
-export default withRouter(connect(mapStateToProps)(withStyles(useStyles, { withTheme: true })(VideoFileControlsContainer)))
+export default withRouter(connect(mapStateToProps)(withStyles(useStyles, {withTheme: true})(VideoFileControlsContainer)))
