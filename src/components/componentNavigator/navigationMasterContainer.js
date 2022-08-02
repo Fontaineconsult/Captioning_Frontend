@@ -85,13 +85,13 @@ class NavigationMasterContainer extends Component {
                                     }}>iLearn Scraper</NavLink>
 
                             </div>
-                            <div id="autoCaptioner" role="button" className="navButton" onClick={this.selectNavigator}>
+                            <div id="canvasScraper" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
                                     to={{
-                                        pathname: "/captioning/auto-captioner",
+                                        pathname: "/captioning/canvas-scraper-captioner",
                                         search: this.props.location.search,
 
-                                    }}>Auto Captioner</NavLink>
+                                    }}>Canvas Scaper</NavLink>
 
                             </div>
                             <div id="autoExplorer" role="button" className="navButton" onClick={this.selectNavigator}>
@@ -131,6 +131,7 @@ class NavigationMasterContainer extends Component {
                                         <option value={"fa21"}>Fall 2021</option>
                                         <option value={"sp22"}>Spring 2022</option>
                                         <option value={"su22"}>Summer 2022</option>
+                                        <option value={"fa22"}>Fall 2022</option>
                                     </select>
                                 </label>
                             </form>
