@@ -109,6 +109,6 @@
 
 .scroll-inside-div {
     overflow-y: scroll;
-    height: 600px;
+    height: 100%;
 
 }

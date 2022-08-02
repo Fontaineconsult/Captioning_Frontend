@@ -308,12 +308,7 @@ class JobContainer extends Component {
                                     </label>
                                 </div>
 
-
-
-
                         </div>
-
-
 
                     </div>
 

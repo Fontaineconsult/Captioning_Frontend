@@ -20,6 +20,7 @@ pipeline {
 
                 sh '''
                     sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace
+
                     cd /var/lib/jenkins/workspace/amp-dev-build-pipeline
                     pwd
                     sudo -u jenkins rm -rf *
@@ -129,7 +130,7 @@ pipeline {
                     ls workspace/backend/root/deployment/docker/
                     docker stop $(docker ps -aq)
                     docker run -d -it --net=host --env-file workspace/backend/root/deployment/docker/env.list -v /home/ubuntu/sharedlogs:/var/www/sharedlogs amp-dev:latest
-                    docker rmi $(docker images -f dangling=true -q) --force
+
                     docker system prune -a -f
                      
 
@@ -144,3 +145,5 @@ pipeline {
 
 
 }
+
+//                     docker rmi $(docker images -f dangling=true -q) --force
