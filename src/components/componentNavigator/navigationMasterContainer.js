@@ -113,7 +113,7 @@ class NavigationMasterContainer extends Component {
                             <div id="email" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
                                     to={{
-                                        pathname: "/captioning/users",
+                                        pathname: "/captioning/users/add-user",
                                         search: this.props.location.search,
                                     }}>Users</NavLink>
                             </div>
