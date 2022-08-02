@@ -19,6 +19,7 @@ import asyncTaskIdReducer from "./asyncTaskIds"
 import asyncStatusReducer from "./asyncTaskStatus"
 import videoListsReducer from "./videoLists";
 import tempFormDataReducer from "./tempFormData";
+import searchFilter from "./searchFilter";
 
 export default combineReducers({
 
@@ -41,7 +42,8 @@ export default combineReducers({
     globalsReducer,
     asyncTaskIdReducer,
     asyncStatusReducer,
-    videoListsReducer
+    videoListsReducer,
+    searchFilterReducer: searchFilter
 
 
 })

@@ -97,7 +97,7 @@ class NavigationMasterContainer extends Component {
                             <div id="autoExplorer" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
                                     to={{
-                                        pathname: "/captioning/content-explorer",
+                                        pathname: "/captioning/content-explorer/videos",
                                         search: this.props.location.search,
 
                                     }}>Content Manager</NavLink>
