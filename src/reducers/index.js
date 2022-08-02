@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import {combineReducers} from 'redux'
 import coursesReducer from './courses'
 import employeesReducer from './employees'
 import studentsReducer from './students'
@@ -18,6 +18,7 @@ import globalsReducer from "./globals";
 import asyncTaskIdReducer from "./asyncTaskIds"
 import asyncStatusReducer from "./asyncTaskStatus"
 import videoListsReducer from "./videoLists";
+import tempFormDataReducer from "./tempFormData";
 
 export default combineReducers({
 
@@ -35,6 +36,7 @@ export default combineReducers({
     errorsReducer,
     requestsReducer,
     tempJobsFormReducer,
+    tempFormDataReducer,
     mediaSearchReducer,
     globalsReducer,
     asyncTaskIdReducer,

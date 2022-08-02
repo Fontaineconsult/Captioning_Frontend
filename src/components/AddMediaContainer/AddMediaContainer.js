@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import {addMediaToDBandTempJob, uploadVideoWithMediaId} from '../../actions/ampApi/postData'
-import {fetchMediaBySourceUrl, fetchMediaByShaHash, reFetchMediaAfterUpload} from '../../actions/ampApi/fetchData'
+import {fetchMediaByShaHash, fetchMediaBySourceUrl} from '../../actions/ampApi/fetchData'
 import Button from "@material-ui/core/Button";
 import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import Hidden from '@material-ui/core/Hidden';
-import MediaDisplayContainer from './mediaDisplayContainer'
 import {removeErrorState} from '../../actions/error_state'
 import {clearMediaSearch} from '../../actions/mediaSearch'
-import {addMediaToTempJob, addMediaToTempJobNoId, updateTempJobsUploadState} from "../../actions/tempJobsForm";
+import {addMediaToTempJobNoId} from "../../actions/tempJobsForm";
 import CryptoJS from 'crypto-js'
+import {updateSingleSourceLocation, updateSingleVideoTitle, updateSingleVideoType} from "../../actions/tempFormData";
 
 class NewMediaContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
+            title: this.props.video_title,
             cap_location: '',
-            source_location: '',
+            source_location: this.props.source_location,
             type: 'URL',
             sha_256_hash: ''
 
@@ -49,6 +48,7 @@ class NewMediaContainer extends Component {
 
 
     }
+
 
     addNewMediaFileInfoToDB(event) {
         event.preventDefault();
@@ -88,14 +88,11 @@ class NewMediaContainer extends Component {
             }
 
             this.setState({
-                title:this.props.mediaSearchReducer[this.props.transaction_id].title
+                title: this.props.mediaSearchReducer[this.props.transaction_id].title
 
             })
 
-
         }
-
-
 
     }
 
@@ -106,6 +103,12 @@ class NewMediaContainer extends Component {
         if (!this.props.isLocked) {
             this.setState({
                 [name]: value
+            }, () => {
+                this.props.dispatch(updateSingleVideoType(this.state.type))
+                this.props.dispatch(updateSingleSourceLocation(this.state.source_location))
+                this.props.dispatch(updateSingleVideoTitle(this.state.title))
+
+
             });
 
         }
@@ -115,29 +118,29 @@ class NewMediaContainer extends Component {
 
     checkIfFileExists(event) {
 
-            let fileReader = new FileReader()
+        let fileReader = new FileReader()
 
-            fileReader.onload = (completionEvent) => {
-                let slicedFile = fileReader.result.slice(0, 1024)
-                let wordArray = CryptoJS.lib.WordArray.create(slicedFile)
-                let fileHash = CryptoJS.SHA256(wordArray).toString()
+        fileReader.onload = (completionEvent) => {
+            let slicedFile = fileReader.result.slice(0, 1024)
+            let wordArray = CryptoJS.lib.WordArray.create(slicedFile)
+            let fileHash = CryptoJS.SHA256(wordArray).toString()
 
-                this.props.dispatch(removeErrorState(this.props.transaction_id));
-                this.props.dispatch(clearMediaSearch(this.props.transaction_id));
-                this.props.dispatch(fetchMediaByShaHash(fileHash, this.props.transaction_id))
-                this.setState({
-                    sha_256_hash: fileHash,
-                })
-
-            }
-
-            fileReader.readAsArrayBuffer(event.target.files[0])
-
-            let blobFile = new Blob([event.target.files[0]], {type: event.target.files[0].type})
+            this.props.dispatch(removeErrorState(this.props.transaction_id));
+            this.props.dispatch(clearMediaSearch(this.props.transaction_id));
+            this.props.dispatch(fetchMediaByShaHash(fileHash, this.props.transaction_id))
             this.setState({
-                fileToSend: blobFile,
-                content_type: event.target.files[0].type
+                sha_256_hash: fileHash,
             })
+
+        }
+
+        fileReader.readAsArrayBuffer(event.target.files[0])
+
+        let blobFile = new Blob([event.target.files[0]], {type: event.target.files[0].type})
+        this.setState({
+            fileToSend: blobFile,
+            content_type: event.target.files[0].type
+        })
 
     }
 
@@ -192,8 +195,6 @@ class NewMediaContainer extends Component {
             }
 
 
-
-
         }
     }
 
@@ -224,73 +225,98 @@ class NewMediaContainer extends Component {
             />
         }
 
-        return(
+        return (
             <div className="newMediaOuterContainer">
-            <div className="addMediaContainer">
-                <div className="videoFormContainer">
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="videoInputs">
-                            <label className="newJobLabel">
-                                Video Type:
-                                <Select
-                                    disabled={this.props.inputsDisabled}
-                                    className="videoType"
-                                    name="type"
-                                    onChange={this.handleInputChange}
-                                    value={this.state.type}
-                                >
-                                    <MenuItem value={'URL'}>URL</MenuItem>
-                                    <MenuItem value={"File"}>File</MenuItem>
-                                </Select>
-                            </label>
+                <div className="addMediaContainer">
+                    <div className="videoFormContainer">
+                        <form onSubmit={this.handleSubmit}>
+                            <div className="videoInputs">
+                                <label className="newJobLabel">
+                                    Video Type:
+                                    <Select
+                                        disabled={this.props.inputsDisabled}
+                                        className="videoType"
+                                        name="type"
+                                        onChange={this.handleInputChange}
+                                        value={this.state.type}
+                                    >
+                                        <MenuItem value={'URL'}>URL</MenuItem>
+                                        <MenuItem value={"File"}>File</MenuItem>
+                                    </Select>
+                                </label>
 
-                            <label className="newJobLabel">
-                                Source Location
-                                {SourceInput}
-                            </label>
-                            <label className="newJobLabel">
-                                Video Title
-                                <Input
-                                    className="addJobInput"
-                                    name="title"
-                                    type='text'
-                                    size="50"
-                                    required={true}
-                                    disabled={this.props.inputsDisabled}
-                                    maxLength="128"
-                                    value={this.state.title}
-                                    onChange={this.handleInputChange}/>
+                                <label className="newJobLabel">
+                                    Source Location
+                                    {SourceInput}
+                                </label>
+                                <label className="newJobLabel">
+                                    Video Title
+                                    <Input
+                                        className="addJobInput"
+                                        name="title"
+                                        type='text'
+                                        size="50"
+                                        required={true}
+                                        disabled={this.props.inputsDisabled}
+                                        maxLength="128"
+                                        value={this.state.title}
+                                        onChange={this.handleInputChange}
+                                    />
 
-                            </label>
-                        </div>
+                                </label>
+                            </div>
 
-                        <div className="videoInputs inputsLower">
+                            <div className="videoInputs inputsLower">
 
                                 <div className="mediaSubmitButton">
-                                    {!this.props.videoSelected && !this.props.submitDisabled && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={true}>Add Video</Button>}
+                                    {!this.props.videoSelected && !this.props.submitDisabled &&
+                                        <Button size="small" color="secondary" variant="contained" name="submit"
+                                                type="submit" disabled={true}>Add Video</Button>}
 
-                                    {this.state.type === 'URL' && this.props.inMedia && !this.props.videoSelected && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={!this.props.submitDisabled} onClick={this.addNewMediaToJob}>Use Video</Button>}
-                                    {this.state.type === 'URL' && this.props.inError && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={!this.props.submitDisabled} onClick={this.addNewMediaToJob}>Add Video</Button>}
-                                    {this.state.type === 'URL' && this.props.videoSelected && <Button size="small" color="primary"  variant="contained" name="submit"  type="submit" disabled={true}>Video Selected</Button>}
+                                    {this.state.type === 'URL' && this.props.inMedia && !this.props.videoSelected &&
+                                        <Button size="small" color="secondary" variant="contained" name="submit"
+                                                type="submit" disabled={!this.props.submitDisabled}
+                                                onClick={this.addNewMediaToJob}>Use Video</Button>}
+                                    {this.state.type === 'URL' && this.props.inError &&
+                                        <Button size="small" color="secondary" variant="contained" name="submit"
+                                                type="submit" disabled={!this.props.submitDisabled}
+                                                onClick={this.addNewMediaToJob}>Add Video</Button>}
+                                    {this.state.type === 'URL' && this.props.videoSelected &&
+                                        <Button size="small" color="primary" variant="contained" name="submit"
+                                                type="submit" disabled={true}>Video Selected</Button>}
 
 
                                     {/* not in media table. Need to add */}
-                                    {this.state.type === 'File' && this.props.inError && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={!this.props.submitDisabled} onClick={this.addNewMediaFileInfoToDB}>Add File</Button>}
+                                    {this.state.type === 'File' && this.props.inError &&
+                                        <Button size="small" color="secondary" variant="contained" name="submit"
+                                                type="submit" disabled={!this.props.submitDisabled}
+                                                onClick={this.addNewMediaFileInfoToDB}>Add File</Button>}
                                     {/* In Media Table and file present. */}
-                                    {this.state.type === 'File' && this.props.inMedia && !this.props.videoSelected && this.props.filePresent && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={!this.props.submitDisabled} onClick={this.addNewMediaFileToJob}>Use File</Button>}
+                                    {this.state.type === 'File' && this.props.inMedia && !this.props.videoSelected && this.props.filePresent &&
+                                        <Button size="small" color="secondary" variant="contained" name="submit"
+                                                type="submit" disabled={!this.props.submitDisabled}
+                                                onClick={this.addNewMediaFileToJob}>Use File</Button>}
                                     {/* Added to media table but no file uploaded video not in job yet*/}
-                                    {this.state.type === 'File' && this.props.inMedia && !this.props.videoSelected && !this.props.filePresent && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={!this.props.submitDisabled} onClick={this.uploadVideoAndAddToTempJob}>- Upload File</Button>}
+                                    {this.state.type === 'File' && this.props.inMedia && !this.props.videoSelected && !this.props.filePresent &&
+                                        <Button size="small" color="secondary" variant="contained" name="submit"
+                                                type="submit" disabled={!this.props.submitDisabled}
+                                                onClick={this.uploadVideoAndAddToTempJob}>- Upload File</Button>}
                                     {/* Added to media table but no file uploaded*/}
-                                    {this.state.type === 'File' && this.props.inMedia && this.props.videoSelected && !this.props.filePresent && <Button size="small" color="secondary"  variant="contained" name="submit"  type="submit" disabled={!this.props.submitDisabled} onClick={this.uploadVideoAndAddToTempJob}>Upload File</Button>}
+                                    {this.state.type === 'File' && this.props.inMedia && this.props.videoSelected && !this.props.filePresent &&
+                                        <Button size="small" color="secondary" variant="contained" name="submit"
+                                                type="submit" disabled={!this.props.submitDisabled}
+                                                onClick={this.uploadVideoAndAddToTempJob}>Upload File</Button>}
                                     {/* File Uploaded and Video info complete*/}
-                                    {this.state.type === 'File' && this.props.fileUploaded && this.props.videoSelected && <Button size="small" color="primary"  variant="contained" name="submit"  type="submit" disabled={true}>Video Selected</Button>}
+                                    {this.state.type === 'File' && this.props.fileUploaded && this.props.videoSelected &&
+                                        <Button size="small" color="primary" variant="contained" name="submit"
+                                                type="submit" disabled={true}>Video Selected</Button>}
                                 </div>
-                        </div>
-                    </form>
+                            </div>
+                        </form>
+
+                    </div>
 
                 </div>
-
-            </div>
             </div>
 
         )
@@ -316,14 +342,18 @@ class NewMediaContainer extends Component {
 }
 
 
-function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {transaction_id, transaction_link, isLocked}) {
+function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer, tempFormDataReducer}, {
+    transaction_id,
+    transaction_link,
+    isLocked
+}) {
     let videoSelected = false;
     let inputsDisabled = transaction_id === ''
     let filePresent = false
     let fileUploaded = false
 
-
-
+    let source_location = '';
+    let video_title = '';
 
     let submitDisabled = mediaSearchReducer.hasOwnProperty(transaction_id) || errorsReducer.hasOwnProperty(transaction_id)
 
@@ -331,6 +361,7 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
 
         videoSelected = tempJobsFormReducer[transaction_id].video.hasOwnProperty("id")
         fileUploaded = tempJobsFormReducer[transaction_id].meta.uploaded
+
     }
 
 
@@ -339,8 +370,29 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
 
                 return item.associated_files.sha_256_hash === mediaSearchReducer[transaction_id].sha_256_hash
             }
-
         )
+
+    }
+
+
+    if (Object.keys(tempFormDataReducer).length > 0) {
+        //checking if formvalue exists
+
+        if (tempFormDataReducer.data.single_source_location != null) {
+            source_location = tempFormDataReducer.data.single_source_location;
+        }
+
+
+        if (tempFormDataReducer.data.single_video_title != null) {
+            video_title = tempFormDataReducer.data.single_video_title;
+        }
+
+
+        if (tempFormDataReducer.data.btn_clicked === "single") {
+            inputsDisabled = false;
+            isLocked = false;
+        }
+
 
     }
 
@@ -360,7 +412,9 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
         inputsDisabled,
         videoSelected,
         filePresent,
-        fileUploaded
+        fileUploaded,
+        source_location,
+        video_title
 
     }
 }
