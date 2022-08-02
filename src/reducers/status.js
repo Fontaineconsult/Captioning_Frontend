@@ -23,7 +23,6 @@ export default function loadingStatusReducer (state={
 
 
 
-
 }, action) {
 
     switch (action.type) {
