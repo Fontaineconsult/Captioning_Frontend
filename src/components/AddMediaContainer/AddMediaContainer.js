@@ -18,9 +18,9 @@ class NewMediaContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
+            title: this.props.video_title,
             cap_location: '',
-            source_location: '',
+            source_location: this.props.source_location,
             type: 'URL',
             sha_256_hash: ''
 
@@ -107,6 +107,7 @@ class NewMediaContainer extends Component {
                 this.props.dispatch(updateSingleVideoType(this.state.type))
                 this.props.dispatch(updateSingleSourceLocation(this.state.source_location))
                 this.props.dispatch(updateSingleVideoTitle(this.state.title))
+
 
             });
 
@@ -341,7 +342,7 @@ class NewMediaContainer extends Component {
 }
 
 
-function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer}, {
+function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer, tempFormDataReducer}, {
     transaction_id,
     transaction_link,
     isLocked
@@ -351,6 +352,8 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
     let filePresent = false
     let fileUploaded = false
 
+    let source_location = '';
+    let video_title = '';
 
     let submitDisabled = mediaSearchReducer.hasOwnProperty(transaction_id) || errorsReducer.hasOwnProperty(transaction_id)
 
@@ -371,6 +374,28 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
 
     }
 
+
+    if (Object.keys(tempFormDataReducer).length > 0) {
+        //checking if formvalue exists
+
+        if (tempFormDataReducer.data.single_source_location != null) {
+            source_location = tempFormDataReducer.data.single_source_location;
+        }
+
+
+        if (tempFormDataReducer.data.single_video_title != null) {
+            video_title = tempFormDataReducer.data.single_video_title;
+        }
+
+
+        if (tempFormDataReducer.data.btn_clicked === "single") {
+            inputsDisabled = false;
+            isLocked = false;
+        }
+
+
+    }
+
     let inError = errorsReducer.hasOwnProperty(transaction_id);
     let inMedia = mediaSearchReducer.hasOwnProperty(transaction_id);
 
@@ -387,7 +412,9 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
         inputsDisabled,
         videoSelected,
         filePresent,
-        fileUploaded
+        fileUploaded,
+        source_location,
+        video_title
 
     }
 }

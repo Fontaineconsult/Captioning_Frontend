@@ -26,7 +26,7 @@ class NewJobMasterContainer extends Component {
     }
 
     applyRequesterId(value) {
-        //modified by KG
+        //NOTE: This is only clears on submit, not on clicking the "Clear" Button
         this.setState({formValue: value}, () => {
             this.props.dispatch(addTempFormValue(this.state.formValue))
         })

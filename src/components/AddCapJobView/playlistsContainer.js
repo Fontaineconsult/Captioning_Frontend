@@ -5,6 +5,7 @@ import '../../css/addJobContainer.css'
 import {getVideoList} from "../../actions/ampApi/fetchData";
 import PlayListViewContainer from "./playlistViewContainer";
 import {emptyVideoList} from "../../actions/videoLists";
+import {updateListName} from "../../actions/tempFormData";
 
 
 class ListItemsMasterContainer extends Component {
@@ -14,7 +15,7 @@ class ListItemsMasterContainer extends Component {
         super(props);
         this.state = {
             transaction_id: '',
-            listURL: '',
+            listURL: this.props.list_url,
             is_auto_caption: false
         };
 
@@ -32,6 +33,8 @@ class ListItemsMasterContainer extends Component {
         this.setState({
             [name]: value
         });
+
+        this.props.dispatch(updateListName(value))
     }
 
 
@@ -79,18 +82,36 @@ class ListItemsMasterContainer extends Component {
 }
 
 
-function mapStateToProps({videoListsReducer, errorsReducer, tempJobsFormReducer, loadingStatusReducer}, {
-    requesterId,
-    transaction_id,
-    is_locked
-}) {
+function mapStateToProps({
+                             videoListsReducer,
+                             errorsReducer,
+                             tempJobsFormReducer,
+                             loadingStatusReducer,
+                             tempFormDataReducer
+                         }, {
+                             requesterId,
+                             transaction_id,
+                             is_locked
+                         }) {
 
+    let list_url = '';
+
+    if (Object.keys(tempFormDataReducer).length > 0) {
+        //checking if formValue exists
+
+        if (tempFormDataReducer.data.list_url != null) {
+            list_url = tempFormDataReducer.data.list_url;
+        }
+
+
+    }
 
     return {
 
         requesterId,
         transaction_id,
-        is_locked
+        is_locked,
+        list_url
     }
 }
 

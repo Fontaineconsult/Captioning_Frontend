@@ -12,11 +12,10 @@ import NewJobFormContainer from "./newJobFormContainer"
 import MediaDisplayContainer from "../AddMediaContainer/mediaDisplayContainer";
 import ListItemsMasterContainer from "../AddCapJobView/playlistsContainer"
 import '../../css/addJobContainer.css'
-import {clearFormData, updateBtnClickedInTempFormValue} from "../../actions/tempFormData";
+import {clearFormData, updateBtnClickedInTempFormValue, updateTransactionId} from "../../actions/tempFormData";
 
 
 function MediaSearcher(props) {
-    console.log("SDFSDFDS", props)
     return (
 
         <div className="videoSearchFeedbackContainer">
@@ -34,8 +33,10 @@ class JobPrepContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            transaction_id: '',
-            listItemsView: false
+            //modified by KG
+            transaction_id: this.props.transactionId,
+            //listItemsView: false
+            listItemsView: this.props.listItemView
         };
 
 
@@ -44,12 +45,6 @@ class JobPrepContainer extends Component {
         this.clearTransaction = this.clearTransaction.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
 
-        //TODO
-        // if (this.props.btn_clicked === "single") {
-        //     this.createTransaction()
-        // } else if (this.props.btn_clicked === "list") {
-        //     this.createListTransaction()
-        // }
 
     }
 
@@ -72,7 +67,8 @@ class JobPrepContainer extends Component {
             listItemsView: false,
         });
         this.props.dispatch(addTempJob(transaction_id, this.props.requesterId.requester_id))
-        this.props.dispatch(updateBtnClickedInTempFormValue("single"))
+        this.props.dispatch(updateBtnClickedInTempFormValue("single", this.props.requesterId))
+        this.props.dispatch(updateTransactionId(transaction_id))
 
     }
 
@@ -126,8 +122,21 @@ class JobPrepContainer extends Component {
 
     render() {
         let formDisabled = (this.props.requesterId === "" || this.props.tempJobsFormReducer.hasOwnProperty(this.state.transaction_id))
-        let isLocked = this.state.transaction_id === '';
 
+        //form disabled has to be true when changing page and coming back
+        //problem is transaction id is getting null on page change
+
+        //The above problem is solved
+        // console.log("transaction id is ", this.state.transaction_id)
+        // console.log("JopPrepContainer: tempJobsFormReducer has property", this.props.tempJobsFormReducer.hasOwnProperty(this.state.transaction_id))
+        // console.log("JopPrepContainer: Requester ID", this.props.requesterId)
+ 
+        if (this.props.listItemView) {
+            formDisabled = false
+        }
+
+
+        let isLocked = this.state.transaction_id === '';
         return (
 
             <div className="jobPrepMasterContainer">
@@ -199,19 +208,36 @@ function mapStateToProps({
                          }, {requesterId}) {
     let mediaSearchLoading = loadingStatusReducer.mediaLoading
     let formDisabled = requesterId === ""
-
+    let transactionId = '';
     let btn_clicked = '';
+    let listItemView = false;
+
     let clearDisabled = Object.keys(tempJobsFormReducer).filter(job => {
         return tempJobsFormReducer[job].meta.created === false
 
 
     }).length === 0
 
+
     if (Object.keys(tempFormDataReducer).length > 0) {
         //checking if formvalue exists
 
         if (tempFormDataReducer.data.btn_clicked != null) {
             btn_clicked = tempFormDataReducer.data.btn_clicked;
+
+            if (btn_clicked !== null) {
+
+
+                if (btn_clicked === "list") {
+                    listItemView = true;
+                } else {
+                    formDisabled = true;
+                }
+            }
+        }
+
+        if (tempFormDataReducer.data.transaction_id != null) {
+            transactionId = tempFormDataReducer.data.transaction_id;
         }
 
 
@@ -226,7 +252,9 @@ function mapStateToProps({
         formDisabled,
         requesterId,
         mediaSearchLoading,
-        btn_clicked
+        btn_clicked,
+        transactionId,
+        listItemView
     }
 }
 
