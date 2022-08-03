@@ -27,6 +27,7 @@ import {v1 as uuidv1} from 'uuid';
 
 import fetch from "cross-fetch";
 import {receiveVideoList} from "../videoLists";
+import {receiveCanvasVideos} from "../canvas_videos";
 
 
 const server_url = endpoint();
@@ -261,6 +262,57 @@ export function fetchiLearnVideosByCourseGenId(CourseGenId) {
     }
 
 }
+
+
+export function fetchCanvasVideosBySemester(semester) {
+    let error_id = uuidv1()
+    return dispatch => {
+        dispatch(receiveCanvasVideos());
+        dispatch(LoadingIlearnVideos(true))
+        return fetch(`${server_url}/canvas-videos?semester=${semester}`)
+            .then(response => errorHandler(response, dispatch, error_id, LoadingIlearnVideos), error => {
+                console.log(error)
+            })
+            .then(response => (responseHandler(response, dispatch, [receiveCanvasVideos], error_id, LoadingIlearnVideos)))
+
+
+    }
+
+}
+
+export function fetchCanvasVideosByInstructorId(instructor_id, semester) {
+
+    return dispatch => {
+
+        dispatch(receiveCanvasVideos());
+        dispatch(LoadingIlearnVideos(true))
+
+        return fetch(`${server_url}/canvas-videos?instructor_id=${instructor_id}&semester=${semester}`)
+            .then(response => response.json())
+            .then(data => dispatch(receiveCanvasVideos(data)))
+            .then(() => dispatch(LoadingIlearnVideos(false)))
+            .then(data => console.log(data))
+
+    }
+
+}
+
+export function fetchCanvasVideosByCourseGenId(CourseGenId) {
+
+    return dispatch => {
+        dispatch(receiveCanvasVideos());
+        dispatch(LoadingIlearnVideos(true))
+        return fetch(`${server_url}/canvas-videos?course_gen_id=${CourseGenId}`)
+            .then(response => response.json())
+            .then(data => checkResponse(data))
+            .then(data => dispatch(receiveCanvasVideos(data)))
+            .then(() => dispatch(LoadingIlearnVideos(false)))
+            .then(data => console.log(data))
+    }
+
+}
+
+
 
 export function fetchMediaById(id) {
     let unique_id = uuidv1()

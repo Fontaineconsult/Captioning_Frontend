@@ -12,6 +12,7 @@ import {updateGlobalParam} from "../../actions/globals"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import EmailManagementMasterContainer from "../EmailManagementContainer/EmailManagementMasterContainer";
 import ContentManagerMasterContainer from "../ContentManager/ContentManagerMasterContainer";
+import CanvasManagementControlContainer from "../CanvasViewsContainer/CanvasNavBar/CanvasManagementControlContainer";
 
 
 class NavigationMasterContainer extends Component {
@@ -88,10 +89,10 @@ class NavigationMasterContainer extends Component {
                             <div id="canvasScraper" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
                                     to={{
-                                        pathname: "/captioning/canvas-scraper-captioner",
+                                        pathname: "/captioning/canvas-scraper/active-courses",
                                         search: this.props.location.search,
 
-                                    }}>Canvas Scaper</NavLink>
+                                    }}>Canvas Scraper</NavLink>
 
                             </div>
                             <div id="autoExplorer" role="button" className="navButton" onClick={this.selectNavigator}>
@@ -150,6 +151,7 @@ class NavigationMasterContainer extends Component {
                             <JobManagementMasterContainer query={this.props.query}/>}</Route>
                         <Route path="/captioning/add-job">{<AddJobControlContainer query={this.props.query}/>}</Route>
                         <Route path="/captioning/ilearn-scraper">{<IlearnManagementControlContainer/>}</Route>
+                        <Route path="/captioning/canvas-scraper">{<CanvasManagementControlContainer/>}</Route>
                         <Route path="/captioning/content-explorer">{<ContentManagerMasterContainer/>}</Route>
                         <Route path="/captioning/users">{<UserManagementMasterContainer/>}</Route>
                         <Route path="/captioning/email">{<EmailManagementMasterContainer/>}</Route>

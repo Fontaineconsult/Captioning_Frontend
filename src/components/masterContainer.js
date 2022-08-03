@@ -12,7 +12,7 @@ import {
     fetchAllEmployees,
     fetchAllOrgs,
     fetchAllStudents,
-    fetchAllVideoJobsBySemester,
+    fetchAllVideoJobsBySemester, fetchCanvasVideosBySemester,
     fetchCourseByCourseGenId,
     fetchiLearnVideosByCourseGenId,
     fetchIlearnVideosBySemester
@@ -60,6 +60,7 @@ class MasterContainer extends Component {
 
             this.props.dispatch(allAssetDiscovery(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchIlearnVideosBySemester(this.props.globalsReducer.currentSemester))
+            this.props.dispatch(fetchCanvasVideosBySemester(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllCourses(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllVideoJobsBySemester(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllEmployees())
