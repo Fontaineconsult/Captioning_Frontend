@@ -16,7 +16,7 @@ class SearchFilterContainer extends Component {
         this.state = {
             search: '',
             type: "title",
-            isDataPresent: false
+
         };
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -39,23 +39,22 @@ class SearchFilterContainer extends Component {
     handleSubmit(event) {
         event.preventDefault()
         let searchTerm = this.state.search;
-        this.setState({isDataPresent: false}, () => {
-            if (this.state.type === "source_url") {
-                if (isValidHttpUrl(searchTerm)) {
 
-                    this.props.dispatch(fetchDataFromSourceUrl(this.state.search))
-                    this.setState({isDataPresent: true})
-                } else {
-                    //This is not a search term
-                    console.log("Not a valid URL")
-                    alert("Please enter a valid URL")
-                }
+        if (this.state.type === "source_url") {
+            if (isValidHttpUrl(searchTerm)) {
+
+                this.props.dispatch(fetchDataFromSourceUrl(this.state.search))
+
             } else {
-                //this is a title
-                console.log("We search for title here");
+                //This is not a search term
+                console.log("Not a valid URL")
+                alert("Please enter a valid URL")
             }
+        } else {
+            //this is a title
+            console.log("We search for title here");
+        }
 
-        })
 
     }
 
@@ -111,15 +110,14 @@ class SearchFilterContainer extends Component {
 
                 {
 
-                    this.state.isDataPresent ?
 
-                        Object.keys(this.props.searchFilterReducer).map(key => (
+                    Object.keys(this.props.searchFilterReducer).map(key => (
 
 
-                                <SearchFilterResultContainer key={key} media_id={key}
-                                                             reducer={this.props.searchFilterReducer}/>
-                            )
-                        ) : null
+                            <SearchFilterResultContainer key={key} media_id={key}
+                                                         reducer={this.props.searchFilterReducer}/>
+                        )
+                    )
                 }
 
 
