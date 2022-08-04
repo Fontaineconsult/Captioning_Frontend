@@ -19,7 +19,7 @@ import asyncTaskIdReducer from "./asyncTaskIds"
 import asyncStatusReducer from "./asyncTaskStatus"
 import videoListsReducer from "./videoLists";
 import tempFormDataReducer from "./tempFormData";
-import CanvasVideoReducer from "./canvas_videos";
+import canvasVideoReducer from "./canvas_videos";
 
 export default combineReducers({
 
@@ -43,7 +43,7 @@ export default combineReducers({
     asyncTaskIdReducer,
     asyncStatusReducer,
     videoListsReducer,
-    CanvasVideoReducer
+    canvasVideoReducer
 
 
 })

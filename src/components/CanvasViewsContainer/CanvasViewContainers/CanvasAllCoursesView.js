@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
-import ILearnCourseContainer from '../../CanvasViewsContainer/CanvasCourseContainer/CanvasCourseContainerView'
-import ILearnCourseLoadingContainer from '../../CanvasViewsContainer/CanvasCourseContainer/CanvasCourseLoadingContainerView'
+import CanvasCourseContainer from '../../CanvasViewsContainer/CanvasCourseContainer/CanvasCourseContainerView'
 import '../../../css/courseContainer-css.css'
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache} from "react-virtualized";
 import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 class CanvasAllCoursesView extends Component {
 
@@ -25,28 +25,28 @@ class CanvasAllCoursesView extends Component {
     componentDidMount() {
 
         if (this.props.studentActive === true) {
-
+            console.log("SDFSDFSDF", this.props.requests_captioning)
             this.setState({
                 cache: new CellMeasurerCache({
                     fixedWidth: true,
                     defaultHeight: 200
                 }),
-                ilearnVideoRowCount: Object.keys(this.props.requests_captioning).length,
+                canvasVideoRowCount: Object.keys(this.props.requests_captioning).length,
                 captioningCourses: Object.keys(this.props.requests_captioning)
 
             })
 
-        } else {
-
-            this.setState({
-                cache: new CellMeasurerCache({
-                    fixedWidth: true,
-                    defaultHeight: 200
-                }),
-                ilearnVideoRowCount:Object.keys(this.props.no_captioning).length,
-                captioningCourses:Object.keys(this.props.no_captioning)
-
-            })
+        // } else {
+        //
+        //     this.setState({
+        //         cache: new CellMeasurerCache({
+        //             fixedWidth: true,
+        //             defaultHeight: 200
+        //         }),
+        //         canvasVideoRowCount:Object.keys(this.props.no_captioning).length,
+        //         captioningCourses:Object.keys(this.props.no_captioning)
+        //
+        //     })
         }
 
     }
@@ -60,7 +60,7 @@ class CanvasAllCoursesView extends Component {
                         fixedWidth: true,
                         defaultHeight: 200
                     }),
-                    ilearnVideoRowCount: Object.keys(this.props.requests_captioning).length,
+                    canvasVideoRowCount: Object.keys(this.props.requests_captioning).length,
                     captioningCourses: Object.keys(this.props.requests_captioning)
 
                 })
@@ -71,7 +71,7 @@ class CanvasAllCoursesView extends Component {
                         fixedWidth: true,
                         defaultHeight: 200
                     }),
-                    ilearnVideoRowCount:Object.keys(this.props.no_captioning).length,
+                    canvasVideoRowCount:Object.keys(this.props.no_captioning).length,
                     captioningCourses:Object.keys(this.props.no_captioning)
                 })
 
@@ -88,7 +88,7 @@ class CanvasAllCoursesView extends Component {
                         fixedWidth: true,
                         defaultHeight: 200
                     }),
-                    ilearnVideoRowCount: Object.keys(this.props.requests_captioning).length,
+                    canvasVideoRowCount: Object.keys(this.props.requests_captioning).length,
                     captioningCourses: Object.keys(this.props.requests_captioning)
 
                 })
@@ -100,7 +100,7 @@ class CanvasAllCoursesView extends Component {
                         fixedWidth: true,
                         defaultHeight: 200
                     }),
-                    ilearnVideoRowCount:Object.keys(this.props.no_captioning).length,
+                    canvasVideoRowCount:Object.keys(this.props.no_captioning).length,
                     captioningCourses:Object.keys(this.props.no_captioning)
 
                 })
@@ -125,7 +125,7 @@ class CanvasAllCoursesView extends Component {
                     <div key={index.key} style={index.style} className="row">
 
 
-                            <ILearnCourseContainer ilearnvideos={this.props.courseilearnVideos}
+                            <CanvasCourseContainer canvasvideos={this.props.courseCanvasVideos}
                                                    course_id={this.state.captioningCourses[index.index]}
                                                    key={this.state.captioningCourses[index.index]}/>
 
@@ -144,11 +144,11 @@ class CanvasAllCoursesView extends Component {
 
             <div>
                 <div className={"iLearnContentContainer"}>
-                    {Object.keys(this.props.courseilearnVideos).length === 0 && ("No iLearn Videos")}
+                    {Object.keys(this.props.courseCanvasVideos).length === 0 && ("No Canvas Videos")}
 
 
-                {Object.keys(this.props.courseilearnVideos).length > 0 && this.props.showCourseStubs  && <CircularProgress/>}
-                {Object.keys(this.props.courseilearnVideos).length > 0 && !this.props.showCourseStubs && (
+                {Object.keys(this.props.courseCanvasVideos).length > 0 && this.props.showCourseStubs  && <CircularProgress/>}
+                {Object.keys(this.props.courseCanvasVideos).length > 0 && !this.props.showCourseStubs && (
                         <div key={this.props.studentActive} className="list">
                             <AutoSizer>
                                 {
@@ -159,7 +159,7 @@ class CanvasAllCoursesView extends Component {
                                             deferredMeasurementCache={this.state.cache}
                                             rowHeight={this.state.cache.rowHeight}
                                             rowRenderer={this.renderRowAlpha}
-                                            rowCount={this.state.ilearnVideoRowCount}
+                                            rowCount={this.state.canvasVideoRowCount}
                                             overscanRowCount={1} />
                                     }
                                 }
@@ -176,51 +176,46 @@ class CanvasAllCoursesView extends Component {
 }
 
 
-function mapStateToProps({CanvasVideoReducer, loadingStatusReducer, coursesReducer}, {studentActive})  {
+function mapStateToProps({canvasVideoReducer, loadingStatusReducer, coursesReducer}, {studentActive})  {
 
 
 
 
     let courseIsLoading = loadingStatusReducer['coursesLoading'] && Object.keys(coursesReducer).length === 0;
-    let isLoading = loadingStatusReducer['iLearnVideosLoading'] && Object.keys(CanvasVideoReducer).length === 0;
+    let isLoading = loadingStatusReducer['iLearnVideosLoading'] && Object.keys(canvasVideoReducer).length === 0;
     let showCourseStubs = courseIsLoading || isLoading;
 
     let requests_captioning = {};
     let no_captioning = {};
 
-    let canvasVideosSearchTemp = {...CanvasVideoReducer}
+    let canvasVideosSearchTemp = {...canvasVideoReducer}
     let courseCanvasVideos = {}
 
-    // build ilearn-videos dict
+    // build canvas-videos dict
     Object.keys(coursesReducer).forEach(courseKey => {
-        courseCanvasVideos[courseKey] = {};
 
-        Object.keys(canvasVideosSearchTemp).forEach(videoKey => {
-            if (canvasVideosSearchTemp[videoKey]['course_gen_id'] === courseKey) {
-                courseCanvasVideos[courseKey][videoKey] = canvasVideosSearchTemp[videoKey]
-                delete canvasVideosSearchTemp[videoKey]
-            }
+        if (coursesReducer[courseKey].canvas_page_id !== null) {
 
-        })
+            courseCanvasVideos[courseKey] = {};
+            Object.keys(canvasVideosSearchTemp).forEach(videoKey => {
+                if (canvasVideosSearchTemp[videoKey]['course_gen_id'] === courseKey) {
+                    courseCanvasVideos[courseKey][videoKey] = canvasVideosSearchTemp[videoKey]
+                    delete canvasVideosSearchTemp[videoKey]
+                }
+            })
+        }
+
     });
-
-    function capActive(element, index, array) {
-        return element.student_requests_captioning === true
-    }
 
     let showCourseContainer = !courseIsLoading && !isLoading && Object.keys(courseCanvasVideos).length > 0;
 
     Object.keys(coursesReducer).forEach(function(key){
 
+        if (coursesReducer[key].canvas_page_id !== null) {
 
-        if (coursesReducer[key].students_enrolled.some(capActive) === true) {
             requests_captioning[key] = coursesReducer[key]
-        } else {
-            no_captioning[key] = coursesReducer[key]
         }
-
-
-    });
+        });
 
         return {
         courseIsLoading,

@@ -1,6 +1,6 @@
 import {RECEIVE_CANVAS_VIDEOS, UPDATE_CANVAS_VIDEO, CLEAR_CANVAS_VIDEO} from "../actions/canvas_videos";
 
-export default function CanvasVideoReducer (state={}, action) {
+export default function canvasVideoReducer (state={}, action) {
 
     switch (action.type) {
 

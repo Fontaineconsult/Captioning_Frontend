@@ -221,7 +221,7 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
 
     });
-
+        console.log("ILLEARRNNNN", requests_captioning)
         return {
         courseIsLoading,
         coursesReducer,

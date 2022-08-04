@@ -27,6 +27,7 @@ class MasterContainer extends Component {
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'admin') {
             this.props.dispatch(allAssetDiscovery(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchIlearnVideosBySemester(this.props.globalsReducer.currentSemester))
+            this.props.dispatch(fetchCanvasVideosBySemester(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllCourses(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllOrgs())
             this.props.dispatch(fetchAllEmployees())
@@ -60,7 +61,7 @@ class MasterContainer extends Component {
 
             this.props.dispatch(allAssetDiscovery(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchIlearnVideosBySemester(this.props.globalsReducer.currentSemester))
-            this.props.dispatch(fetchCanvasVideosBySemester(this.props.globalsReducer.currentSemester))
+
             this.props.dispatch(fetchAllCourses(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllVideoJobsBySemester(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllEmployees())

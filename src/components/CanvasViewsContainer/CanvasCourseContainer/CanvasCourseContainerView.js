@@ -78,11 +78,8 @@ class CanvasCourseContainer extends Component {
 
     }
 
-
-
     render()
         {
-
         return(
             <div className={"courseContainer masterListItem"}>
                 <div className={"courseUpperContainer"}>
@@ -91,7 +88,6 @@ class CanvasCourseContainer extends Component {
                         <div>Instructor: {this.props.instructor}</div>
                         <div>Email: {this.props.email}</div>
                     </div>
-
                     <div className={"courseUpperContainerRight"}>
                         <div className={"infoContainerLeft"}>
                             <div>Students Enrolled: {this.props.numStudentsEnrolled}</div>
@@ -102,7 +98,6 @@ class CanvasCourseContainer extends Component {
                                 <label htmlFor={"ignore_course_check"}>Ignore Course</label>
                                 <input checked={this.state.ignore_course_check} onChange={this.handleInputChange} name={"ignore_course_check"} id={"ignore_course_check" + this.props.course_id} type="checkbox"/>
                             </form></div>
-
                         </div>
                         <div className={"infoContainerRight"}>
                             <div className={"infoContainerRight"}>
@@ -118,15 +113,13 @@ class CanvasCourseContainer extends Component {
                                     <div>ilearnID: <a target="_blank" href={this.ilearnPage}>{this.props.ilearnId}</a> </div>
                                 </div>
                             </div>
-
-
                         </div>
 
                     </div>
                 </div>
                 <div className={"courseLowerContainer"}>
 
-                    {this.props.courseHasVideos === true && (<TabulatorContainer ilearnvideos={this.props.courseilearnvideos} course_gen_id = {this.props.course_id}/>)}
+                    {this.props.courseHasVideos === true && (<TabulatorContainer ilearnvideos={this.props.courseCanvasVideos} course_gen_id = {this.props.course_id}/>)}
                     {this.props.courseHasVideos === false && (<div className={"courseNoVideos"}>Course Has No Videos</div>)}
                 </div>
             </div>
@@ -138,19 +131,18 @@ class CanvasCourseContainer extends Component {
 }
 
 
-function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, ilearnvideos}) {
-
+function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, canvasvideos}) {
 
     let numStudentsEnrolled = 0;
     let studentRequestsCaptioning = false;
     let ilearn_video_active_check = null
     let instructor = ""
     let email = ""
-    let courseilearnvideos = {}
+    let courseCanvasVideos = {}
     let course_name = ''
     let courseSection = ''
     let semester = ''
-    let ilearnId = ''
+    let canvasID = ''
 
     if (loadingStatusReducer.coursesLoading === false && loadingStatusReducer.iLearnVideosLoading === false) {
         if (Object.keys(coursesReducer).length > 0) {
@@ -162,28 +154,28 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, ile
                         studentRequestsCaptioning = true
                     }
                 }
-
             });
-            courseilearnvideos = ilearnvideos[course_id]
+            courseCanvasVideos = canvasvideos[course_id]
             course_name = coursesReducer[course_id].course_name
             courseSection = coursesReducer[course_id].course_section
             semester = coursesReducer[course_id].semester;
-            ilearnId = coursesReducer[course_id].ilearn_page_id == null ? "No iLearn ID" : coursesReducer[course_id].ilearn_page_id.ilearn_page_id
+            canvasID = coursesReducer[course_id].ilearn_page_id == null ? "No Canvas ID" : coursesReducer[course_id].ilearn_page_id.ilearn_page_id
             instructor = coursesReducer[course_id].course_instructor.employee_first_name + " " + coursesReducer[course_id].course_instructor.employee_last_name
             email = coursesReducer[course_id].course_instructor.employee_email
         }
 
-
     }
 
     // counts enrollement and captioning request state
+    console.log("SDFSDFSDFSDFEEE", canvasvideos, course_id, courseCanvasVideos)
 
-    let courseHasVideos = Object.keys(courseilearnvideos).length > 0
+    let courseHasVideos = Object.keys(canvasvideos[course_id]).length > 0
+
 
     return {
         instructor,
         email,
-        ilearnId,
+        canvasID,
         semester,
         courseSection,
         course_name,
@@ -191,7 +183,7 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, ile
         courseHasVideos,
         numStudentsEnrolled,
         studentRequestsCaptioning,
-        courseilearnvideos,
+        courseCanvasVideos,
         ilearn_video_active_check,
         course_comments: coursesReducer[course_id].course_comments
 
