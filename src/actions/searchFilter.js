@@ -13,6 +13,7 @@ export function receiveSourceURLData(data) {
 
 }
 
+
 export function clearSourceUrlData() {
     return {
         type: CLEAR_SOURCE_URL_DATA

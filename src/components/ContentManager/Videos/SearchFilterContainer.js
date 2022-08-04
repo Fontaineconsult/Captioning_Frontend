@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from '@material-ui/core/Select';
 import Input from "@material-ui/core/Input";
-import {fetchDataFromSourceUrl} from "../../../actions/ampApi/fetchData";
+import {fetchDataFromSourceUrl, fetchDataFromTitle} from "../../../actions/ampApi/fetchData";
 import {Button} from "@material-ui/core";
 import "../../../css/searchFilter.css"
 import SearchFilterResultContainer from "./SearchFilterResultContainer";
@@ -53,6 +53,8 @@ class SearchFilterContainer extends Component {
         } else {
             //this is a title
             console.log("We search for title here");
+
+            this.props.dispatch(fetchDataFromTitle(this.state.search))
         }
 
 

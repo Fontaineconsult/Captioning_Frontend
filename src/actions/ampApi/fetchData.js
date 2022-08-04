@@ -428,3 +428,19 @@ export function fetchDataFromSourceUrl(source_url) {
 
     }
 }
+
+export function fetchDataFromTitle(search_word) {
+    let word = search_word.toLowerCase();
+    return dispatch => {
+
+        dispatch(clearSourceUrlData());
+
+        return fetch(`${server_url}/media?title=${word}`)
+            .then(response => response.json())
+            .then(data => checkResponse(data))
+            .then(data => dispatch(receiveSourceURLData(data)))
+            .then(data => console.log("data is ", data))
+
+
+    }
+}
