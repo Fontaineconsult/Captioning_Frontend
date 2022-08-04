@@ -59,8 +59,6 @@ class SearchFilterResultContainer extends Component {
 
 
         if (Object.keys(reducer).length > 0) {
-
-
             Object.keys(reducer).forEach(function (key) {
 
                 if (key == media_id) {
@@ -68,9 +66,6 @@ class SearchFilterResultContainer extends Component {
 
                 }
             });
-
-
-            console.log("data array ", data)
 
         }
 
@@ -153,10 +148,8 @@ class SearchFilterResultContainer extends Component {
 
         return (
             <div>
-
                 <div className="job-container-search masterListItemSearch" style={this.jobFocusedStyle()} tabIndex={0}
                      onBlur={this.clearFocus}>
-
                     <div className="inner-container-left">
                         <div className={"text-container"}>
                             <label className={"title"}>Title: </label>
@@ -167,10 +160,9 @@ class SearchFilterResultContainer extends Component {
                             <div className={"source-container"}>
                                 <div style={{"display": "flex"}}>
                                     <label className={"label"}>Source: </label>
-                                    <label
-                                        className={"description"}>{data[0].source_url}</label>
+                                    <a
+                                        className={"description"} href={data[0].source_url}>{data[0].source_url}</a>
                                 </div>
-
                             </div>
 
                             <div className={"caption-container"}>
@@ -180,7 +172,6 @@ class SearchFilterResultContainer extends Component {
                                     name="caption_select"
                                     value={this.state.caption_select}
                                     onChange={this.handleInputChange}
-
                                 >
                                     {
                                         captionFiles.map(e => {
@@ -206,10 +197,7 @@ class SearchFilterResultContainer extends Component {
                                             return (<MenuItem value={e.label}>{e.label}</MenuItem>)
                                         })
                                     }
-
                                 </Select>
-
-
                                 <div>
                                     <div className={"caption-dropdown"}>
                                         <label className={"label"}>Video Files: &nbsp; </label>
@@ -227,11 +215,9 @@ class SearchFilterResultContainer extends Component {
                                         </Select>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div className={"upload-download"}>
-
                                 <div>
                                     <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
                                     >Download</label>
@@ -243,24 +229,18 @@ class SearchFilterResultContainer extends Component {
                                         >Upload</label>
                                         <Button><PublishIcon fontSize="small"/></Button>
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         )
-
-
     }
 }
 
 
 function mapStateToProps({loadingStatusReducer, mediaReducer}) {
-
-
     return {
         mediaReducer,
         loadingStatusReducer

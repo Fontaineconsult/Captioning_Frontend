@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import SearchFilterContainer from "./SearchFilterContainer"
 import {connect} from "react-redux";
+import {clearSourceUrlData} from "../../../actions/searchFilter";
 
 class VideosContainer extends Component {
 
@@ -28,6 +29,9 @@ class VideosContainer extends Component {
 
     }
 
+    componentDidMount() {
+        this.props.dispatch(clearSourceUrlData())
+    }
 
     render() {
         return (<div>
