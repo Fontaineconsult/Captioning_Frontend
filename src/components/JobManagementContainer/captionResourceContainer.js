@@ -185,7 +185,6 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
             return accumulator
         }, [])
 
-
         if (media.primary_caption_resource_id !== null) {
             primaryCapResource = mediaReducer[media_id].captioned_resources.map(item => {
                 if (item.id === media.primary_caption_resource_id) {

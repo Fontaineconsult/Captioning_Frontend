@@ -16,26 +16,29 @@ class AddUserContainer extends Component {
     render() {
 
         return (
-            <div className={"scroll-inside-div"}>
-                <div className="masterListItem masterListUser">
-                    <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
-                        <div className={"emp-display-title"}>
-                            <div style={{"fontWeight": "600"}}>
-                                Add Employee
+            <div style={{"height": "85vh"}}>
+                <div className={"scroll-inside-div"}>
+                    <div className="masterListItem masterListUser">
+                        <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
+                            <div className={"emp-display-title"}>
+                                <div style={{"fontWeight": "600"}}>
+                                    Add Employee
+                                </div>
                             </div>
+                            <AddEmployeeContainer/>
                         </div>
-                        <AddEmployeeContainer/>
-                    </div>
-                    <div className={"emp-display-container"}>
-                        <div className={"emp-display-title"}>
-                            <div style={{"fontWeight": "600"}}>Assign Employee</div>
+                        <div className={"emp-display-container"}>
+                            <div className={"emp-display-title"}>
+                                <div style={{"fontWeight": "600"}}>Assign Employee</div>
+                            </div>
+                            <AssignEmployeeContainer/>
+
                         </div>
-                        <AssignEmployeeContainer/>
 
                     </div>
-
                 </div>
             </div>
+
         )
     }
 

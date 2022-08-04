@@ -27,7 +27,7 @@ import {v1 as uuidv1} from 'uuid';
 
 import fetch from "cross-fetch";
 import {receiveVideoList} from "../videoLists";
-import {receiveSourceURLData} from "../searchFilter";
+import {clearSourceUrlData, receiveSourceURLData} from "../searchFilter";
 
 
 const server_url = endpoint();
@@ -414,18 +414,9 @@ export function getVideoList(list_id, task) {
 
 
 export function fetchDataFromSourceUrl(source_url) {
-    console.log("fetchDataFromSourceUrl: here ")
     return dispatch => {
 
-        //dispatch(receiveSourceURL());
-        //dispatch(LoadingCourses(true)) - TODO: do loading courses later
-
-        // return fetch(`${server_url}/media?source_url=${source_url}`)
-        //     .then(response => response.json())
-        //     .then(data => checkResponse(data))
-        //     .then(data => dispatch(receiveCourses(data)))
-        //     .then(() => dispatch(LoadingCourses(false)))
-        //     .then(data => console.log(data))
+        dispatch(clearSourceUrlData());
 
 
         return fetch(`${server_url}/media?source_url=${source_url}`)
@@ -433,6 +424,7 @@ export function fetchDataFromSourceUrl(source_url) {
             .then(data => checkResponse(data))
             .then(data => dispatch(receiveSourceURLData(data)))
             .then(data => console.log("data is ", data))
+
 
     }
 }

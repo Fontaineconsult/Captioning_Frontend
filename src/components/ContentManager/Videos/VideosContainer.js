@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import SearchFilterContainer from "./SearchFilterContainer"
+import {connect} from "react-redux";
 
 class VideosContainer extends Component {
 
@@ -8,7 +9,8 @@ class VideosContainer extends Component {
         super(props);
 
         this.state = {
-            search: ''
+            search: '',
+            data: this.props.data
         }
 
         this.handleInputChange = this.handleInputChange.bind(this)
@@ -29,18 +31,22 @@ class VideosContainer extends Component {
 
     render() {
         return (<div>
-                
-                <div className={"scroll-inside-div"}>
-                    <div className="masterListItem masterListUser">
-                        <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
-                            <div className={"emp-display-title"}>
-                                <div style={{"fontWeight": "600"}}>
-                                    Search and Title Filter
-                                </div>
-                            </div>
-                            <SearchFilterContainer/>
-                        </div>
 
+                <div style={{height: "80vh"}}>
+                    <div className={"scroll-inside-div"}>
+                        <div className="masterListItem masterListUser">
+                            <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
+                                <div className={"emp-display-title"}>
+                                    <div style={{"fontWeight": "600"}}>
+                                        Search and Title Filter
+                                    </div>
+                                </div>
+                                <SearchFilterContainer/>
+
+                            </div>
+
+
+                        </div>
 
                     </div>
                 </div>
@@ -51,5 +57,9 @@ class VideosContainer extends Component {
     }
 }
 
+function mapStateToProps({searchFilterReducer}, {props}) {
 
-export default withRouter(VideosContainer)
+    return {}
+}
+
+export default withRouter(connect(mapStateToProps)(VideosContainer))

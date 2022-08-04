@@ -81,7 +81,6 @@ function mapStateToProps({state, userPermissionReducer, requesterReducer, loadin
     let assetPass = requesterReducer.hasOwnProperty("message") || Object.keys(requesterReducer).length === 0
     let permissionsLoading = loadingStatusReducer['userPermissionLoading']
 
-
     return {
         userPass,
         assetPass,

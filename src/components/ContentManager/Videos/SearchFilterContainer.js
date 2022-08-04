@@ -1,21 +1,28 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from '@material-ui/core/Select';
+import Input from "@material-ui/core/Input";
 import {fetchDataFromSourceUrl} from "../../../actions/ampApi/fetchData";
-import SearchFilterTabulator from "./SearchFilterTabulator";
+import {Button} from "@material-ui/core";
+import "../../../css/searchFilter.css"
+import SearchFilterResultContainer from "./SearchFilterResultContainer";
 
 class SearchFilterContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            search: ''
+            search: '',
+            type: "title",
+            isDataPresent: false
         };
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
 
     }
+
 
     handleInputChange(event) {
         const target = event.target;
@@ -31,42 +38,93 @@ class SearchFilterContainer extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        console.log(this.state.search)
-        //first we check if search term is url or not
-
         let searchTerm = this.state.search;
-        if (isValidHttpUrl(searchTerm)) {
-            this.props.dispatch(fetchDataFromSourceUrl(this.state.search))
-        } else {
-            //This is not a search term
-            console.log("Not a search term")
-        }
+        this.setState({isDataPresent: false}, () => {
+            if (this.state.type === "source_url") {
+                if (isValidHttpUrl(searchTerm)) {
 
+                    this.props.dispatch(fetchDataFromSourceUrl(this.state.search))
+                    this.setState({isDataPresent: true})
+                } else {
+                    //This is not a search term
+                    console.log("Not a valid URL")
+                    alert("Please enter a valid URL")
+                }
+            } else {
+                //this is a title
+                console.log("We search for title here");
+            }
+
+        })
 
     }
+
 
     render() {
 
         return (
             <div>
                 <div style={{padding: "1rem"}}>
-                    <form>
-                        {/*Todo: Get this in one line*/}
-                        <label>
-                            <div>Search Video Url or Title</div>
-                            <div style={{marginTop: "5px"}}></div>
-                            <input className={"emp-input"} value={this.state.search} type={'text'}
-                                   name={"search"} onChange={this.handleInputChange}/>
-                            <Button name="add_single" size="small" variant="contained" onClick={this.handleSubmit}
-                            >Search</Button>
-                        </label>
-                    </form>
+                    <div style={{width: "100%"}}>
+                        <form style={{width: "50%"}}>
+                            <div style={{display: "flex"}}>
+                                <label>Search Type:</label>
+                                <Select
+                                    style={{marginLeft: "1rem", marginTop: "-0.5rem"}}
+                                    name="type"
+                                    onChange={this.handleInputChange}
+                                    value={this.state.type}
+                                >
+                                    <MenuItem value={'title'}>Title</MenuItem>
+                                    <MenuItem value={"source_url"}>Video URL</MenuItem>
+                                </Select>
 
-                    <SearchFilterTabulator/>
+                            </div>
+
+
+                            <label style={{display: "flex", marginTop: "1rem"}}>Search Term:
+                                <Input
+                                    style={{marginLeft: "1rem", marginTop: "-0.5rem", width: "70%"}}
+                                    name="search"
+                                    type='text'
+                                    required={true}
+                                    size="50"
+                                    value={this.state.search}
+                                    onChange={this.handleInputChange}
+                                />
+
+                            </label>
+
+
+                        </form>
+
+                        <div className={"button-submit"}>
+                            <Button size="medium" variant="contained"
+                                    onClick={this.handleSubmit}>Submit</Button>
+                        </div>
+
+
+                    </div>
+
                 </div>
 
 
+                {
+
+                    this.state.isDataPresent ?
+
+                        Object.keys(this.props.searchFilterReducer).map(key => (
+
+
+                                <SearchFilterResultContainer key={key} media_id={key}
+                                                             reducer={this.props.searchFilterReducer}/>
+                            )
+                        ) : null
+                }
+
+
             </div>
+
 
         )
 
@@ -77,22 +135,21 @@ class SearchFilterContainer extends Component {
 
 function isValidHttpUrl(string) {
     let url;
-
     try {
         url = new URL(string);
     } catch (_) {
         return false;
     }
-
     return url.protocol === "http:" || url.protocol === "https:";
 }
 
-
 function mapStateToProps({searchFilterReducer}, {props}) {
 
-    //TODO: Set data here now, in tabulator maybe? Check it out
+    console.log("props filter ", searchFilterReducer)
 
-    return {}
+    return {
+        searchFilterReducer
+    }
 }
 
 export default withRouter(connect(mapStateToProps)(SearchFilterContainer))
