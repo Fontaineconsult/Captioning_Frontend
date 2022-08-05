@@ -4,8 +4,8 @@ export const iLearnURL = () => ('https://ilearn.support.at.sfsu.edu/ay2122/cours
 export const canvasURL = () => ('https://sfsu.instructure.com/courses/')
 export const fileDownloadUrl = () => ("http://localhost:5000/api/v2/captioning/services/download/file")
 export const astJobURL = () =>  ("https://web.automaticsync.com/show_details.php?show_id=")
-export const devServerUrl = () => ("http:localhost:5000")
-export const deployURL = () => ("https://amp-dev.sfsu.edu/")
+export const devServerUrl = () => ("http://localhost:5000")
+export const deployURL = () => ("http://app.dprc-captioning.services/")
 export const currentSemester = () => ("fa22")
 
 function environment(value) {
@@ -13,10 +13,19 @@ function environment(value) {
         return deployServerApiURL()
     } else {
         return devServerApiURL()
+    }
+}
 
+function requestsPageURL(value) {
+
+    if (value === 'production') {
+        return deployURL() + '/service/requests/'
+    } else {
+        return devServerUrl() + '/service/requests/'
     }
 }
 
 let env_value = process.env.NODE_ENV
 
 export const endpoint = () => (environment(env_value))
+export const requestsPage = () => (requestsPageURL(env_value))

@@ -9,7 +9,7 @@ import AmaraControls from "./amaraControlsContainer";
 import DatePicker from 'react-date-picker';
 import ClearIcon from '@material-ui/icons/Clear';
 import moment from "moment";
-import {canvasURL, iLearnURL} from "../../constants";
+import {canvasURL, iLearnURL, requestsPage} from "../../constants";
 import VideoFileControlsContainer from "./videoFileControlsContainer";
 
 const statusColor = (status) => ({
@@ -300,6 +300,9 @@ class JobContainer extends Component {
                                                     <a target={"_blank"} href={this.CanvasPage}>{this.props.canvas_page_id}</a>
                                                 </label>
                                             )}
+                                            <label style={{'margin-right': '10px'}}>Public:
+                                                <a target={"_blank"} href={this.props.requestsPageURL}>Page</a>
+                                            </label>
                                         </form>
                                     </div>
                                 </div>
@@ -336,21 +339,18 @@ class JobContainer extends Component {
 
 }
 
-
 function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, requesterReducer, coursesReducer, employeesReducer, campusOrgReducer}, {props, jobId}) {
     let job = videosJobsReducer[jobId];
 
     let mediaId = ''
     if (job !== undefined){mediaId = job.media.id}
 
+    let requestsPageURL = requestsPage() + requesterReducer[videosJobsReducer[jobId].requester_id].id_hash
+
 
     // let course = coursesReducer[requesterResource]
     let employee = '';
     let requesterResource = '';
-
-
-
-
 
     if (job !== undefined){
 
@@ -368,13 +368,11 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
             employee = employeesReducer[requesterReducer[job.requester_id].org_employee_id]
         }
 
-
     }
 
     function capActiveFunc(element, index, array) {
         return element.student_requests_captioning === true
     }
-
 
     let student_active = 1
     let ilearn_page_id = undefined
@@ -421,7 +419,8 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
         requesterResource,
         ilearn_page_id,
         student_active,
-        canvas_page_id
+        canvas_page_id,
+        requestsPageURL
 
     }
 }
