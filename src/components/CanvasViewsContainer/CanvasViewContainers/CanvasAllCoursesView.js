@@ -20,6 +20,7 @@ class CanvasAllCoursesView extends Component {
         };
         this.renderRowAlpha = this.renderRowAlpha.bind(this)
 
+
     }
 
     componentDidMount() {

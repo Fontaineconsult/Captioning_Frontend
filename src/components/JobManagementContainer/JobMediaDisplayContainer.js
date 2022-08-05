@@ -72,16 +72,11 @@ class JobMediaDisplayContainer extends Component {
                                     <CaptionResourceContainer media_id={this.props.mediaId}/>
                                 </div>
                             </label>
-
-
                         </div>
                         <div className="joMediaContentContainer">
                             <MediaContentContainer mediaId={this.props.mediaId}/>
-
                         </div>
                     </div>
-
-
                 </div>
             </div>
         )

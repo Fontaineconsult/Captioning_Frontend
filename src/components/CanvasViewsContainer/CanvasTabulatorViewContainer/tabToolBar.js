@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import Button from '@material-ui/core/Button'
-import {updateiLearnVideoBatch} from '../../../actions/ampApi/putData'
+import {updateCanvasVideoBatch, updateiLearnVideoBatch} from '../../../actions/ampApi/putData'
 import '../../../css/tabulator.css'
 import AddJobModal from "./addJobModal"
 
@@ -25,7 +25,7 @@ class TabToolBar extends Component {
             return row._row.data.id
         });
 
-        this.props.dispatch(updateiLearnVideoBatch(row_ids, "auto_caption_passed", true))
+        this.props.dispatch(updateCanvasVideoBatch(row_ids, "auto_caption_passed", true))
         this.props.table.deselectRow()
     };
 
@@ -36,7 +36,7 @@ class TabToolBar extends Component {
             return row._row.data.id
         });
 
-        this.props.dispatch(updateiLearnVideoBatch(row_ids, "ignore_video", true))
+        this.props.dispatch(updateCanvasVideoBatch(row_ids, "ignore_video", true))
         this.props.table.deselectRow()
     };
 
@@ -46,7 +46,7 @@ class TabToolBar extends Component {
             return row._row.data.id
         });
 
-        this.props.dispatch(updateiLearnVideoBatch(row_ids, "invalid_link", true))
+        this.props.dispatch(updateCanvasVideoBatch(row_ids, "invalid_link", true))
         this.props.table.deselectRow()
 
 

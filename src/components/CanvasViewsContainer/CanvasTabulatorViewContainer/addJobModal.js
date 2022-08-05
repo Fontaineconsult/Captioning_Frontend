@@ -8,8 +8,7 @@ import AddJobsiLearnContainer from "./addJobsContainer";
 import {AddVideoJobBatch} from "../../../actions/ampApi/postData"
 import {clearTempCapJobs} from "../../../actions/tempJobsForm"
 import {clearMediaSearch} from "../../../actions/mediaSearch";
-import * as tabFuncs from "./TabulatorDataConstructor";
-import {updateiLearnVideo} from "../../../actions/ampApi/putData";
+import {updateCanvasVideo, updateiLearnVideo} from "../../../actions/ampApi/putData";
 
 
 
@@ -48,7 +47,7 @@ class AddJobModal extends Component {
         this.props.selected_rows.forEach(row => {
             row.update({"submitted_for_processing": true})
             let rowData = row._row.data
-            this.props.dispatch(updateiLearnVideo(rowData.id, "submitted_for_processing", true))
+            this.props.dispatch(updateCanvasVideo(rowData.id, "submitted_for_processing", true))
 
         })
 

@@ -11,6 +11,7 @@ import clipboardCopy from "clipboard-copy";
 import {v1 as uuidv1} from "uuid";
 import {writeEmployees} from "../employees";
 import {writeStudents} from "../students";
+import {writeCanvasVideo} from "../canvas_videos";
 
 const server_url = endpoint();
 
@@ -83,6 +84,25 @@ export function updateiLearnVideo(video_id, column, value) {
     return (dispatch, getState) => {
         dispatch(writeiLearnVideo(video_id, data_object));
         return fetch(`${server_url}/ilearn-videos`, put_object)
+            .then(response => response.json())
+            .catch(error => console.log(error))
+    }
+}
+
+export function updateCanvasVideo(video_id, column, value) {
+
+    let data_object = {id: video_id, column: column, value: value};
+
+    let put_object = {
+        method: 'PUT',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    return (dispatch, getState) => {
+        dispatch(writeCanvasVideo(video_id, data_object));
+        return fetch(`${server_url}/canvas-videos`, put_object)
             .then(response => response.json())
             .catch(error => console.log(error))
     }
@@ -219,7 +239,6 @@ export function updateiLearnVideoBatch(video_ids, column, value) {
         };
     });
 
-
     return (dispatch, getState) => {
         dispatch(LoadingIlearnVideos(true))
         batch(() => {
@@ -234,6 +253,38 @@ export function updateiLearnVideoBatch(video_ids, column, value) {
         dispatch(LoadingIlearnVideos(false))
     }
 }
+
+
+export function updateCanvasVideoBatch(video_ids, column, value) {
+    let data_objects = video_ids.map(id => {
+        return {
+            request_payload: {
+                method: 'PUT',
+                body: JSON.stringify({id: id, column: column, value: value}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            },
+            dispatch_payload: {id: id, column: column, value: value}
+        };
+    });
+
+    return (dispatch, getState) => {
+
+        dispatch(LoadingIlearnVideos(true))
+        batch(() => {
+            data_objects.forEach(object => {
+
+                dispatch(writeCanvasVideo(object.dispatch_payload.id, object.dispatch_payload));
+                return fetch(`${server_url}/canvas-videos`, object.request_payload)
+                    .then(response => response.json())
+                    .catch(error => console.log(error))
+            })
+        })
+        dispatch(LoadingIlearnVideos(false))
+    }
+}
+
 
 export function submitASTJobToAST(ast_job_id, job_id, file_id) {
     console.log(ast_job_id)
@@ -283,10 +334,7 @@ export function sendEmailCommandJobs(requester_id, template, params) {
 
                 }
             })
-
-
     }
-
 
 }
 
@@ -314,10 +362,7 @@ export function sendEmailCommandCourses(requester_id, template, params) {
 
                 }
             })
-
-
     }
-
 
 }
 

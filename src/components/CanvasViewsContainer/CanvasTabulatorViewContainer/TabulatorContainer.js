@@ -5,7 +5,7 @@ import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import { reactFormatter } from 'react-tabulator'
 import * as tabFuncs from './TabulatorDataConstructor'
-import {updateiLearnVideo} from '../../../actions/ampApi/putData'
+import {updateCanvasVideo, updateiLearnVideo} from '../../../actions/ampApi/putData'
 import Button from '@material-ui/core/Button'
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from '@material-ui/core/IconButton';
@@ -149,7 +149,7 @@ class TabulatorContainer extends Component {
 
     dataEditedFunc(cellData) {
 
-        this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, cellData._cell.value))
+        this.props.dispatch(updateCanvasVideo(cellData._cell.row.data.id, cellData._cell.column.field, cellData._cell.value))
     };
 
     cellClick(e, row) {
@@ -161,14 +161,14 @@ class TabulatorContainer extends Component {
 
         e.preventDefault()
         let submitCapStatus = tabFuncs.capSubmitToggle(cellData._cell.value);
-        this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, submitCapStatus))
+        this.props.dispatch(updateCanvasVideo(cellData._cell.row.data.id, cellData._cell.column.field, submitCapStatus))
     };
 
     submitCapStatus(e, cellData) {
 
         e.preventDefault();
         let captionStatus = tabFuncs.capStatToggle2(cellData._cell.value);
-        this.props.dispatch(updateiLearnVideo(cellData._cell.row.data.id, cellData._cell.column.field, captionStatus))
+        this.props.dispatch(updateCanvasVideo(cellData._cell.row.data.id, cellData._cell.column.field, captionStatus))
 
     };
 
