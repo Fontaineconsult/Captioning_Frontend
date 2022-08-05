@@ -189,10 +189,7 @@ export function getS3Link(value, filename) {
     function clipBoard(data) {
         clipboardCopy(data).then(function () {
             alert("Copied to Clipboard")
-
         })
-
-
     }
 
     const downloadVideo = async (url, filename) => {

@@ -24,7 +24,7 @@
 .inner-container-left {
 
     padding-left: 2%;
-    width: 90%;
+    width: 100%;
 
 }
 
@@ -86,9 +86,10 @@
     display: flex;
 }
 
-.upload-download {
+.upload-download-video {
     display: flex;
-    margin-top: 85%;
+    margin-top: 30px;
+    padding-left: 20px;
 }
 
 .button-submit {
@@ -103,17 +104,17 @@
 .video-selector {
     margin-top: 10px;
     padding-left: 5px;
-    width: 25rem;
+    width: 22rem;
 }
 
-/*.caption-container {*/
-/*    padding-left: 50px;*/
-/*}*/
+.video-container {
+    display: flex;
+}
 
 
 .caption-selector {
     padding-left: 5px;
-    width: 25rem;
+    width: 22rem;
     margin-top: 10px;
 }
 
@@ -128,4 +129,8 @@
     padding-left: 5px;
     width: 25rem;
     margin-top: 10px;
+}
+
+.caption-master-container {
+    display: flex;
 }
