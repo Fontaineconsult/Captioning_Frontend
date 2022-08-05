@@ -188,7 +188,7 @@ export function getS3Link(value) {
 
     function clipBoard(data) {
         clipboardCopy(data).then(function () {
-            alert("Copied to Clipboard")
+            //alert("Copied to Clipboard")
             downloadVideo(data).then((res) => {
                 console.log("result ", res)
             }).catch((e) => {
@@ -198,30 +198,27 @@ export function getS3Link(value) {
     }
 
     const downloadVideo = async (url) => {
-        let blob = await fetch(url).then(r => r.blob());
-        const href = URL.createObjectURL(blob)
+        await fetch(url).then(r => r.blob())
+            .then((blob) => {
 
-        URL.revokeObjectURL(href)
-        const a = Object.assign(document.createElement('a'), {
-                href,
-                style: "display:none",
-                download: "video.mp4"
+                const blobURL = (window.URL && window.URL.createObjectURL) ? window.URL.createObjectURL(blob) : window.webkitURL.createObjectURL(blob);
+                const tempLink = document.createElement('a');
+                tempLink.style.display = 'none';
+                tempLink.href = blobURL;
+                tempLink.setAttribute('download', "video.mp4");
 
-            }
-        )
+                if (typeof tempLink.download === 'undefined') {
+                    tempLink.setAttribute('target', '_blank');
+                }
 
-        document.body.appendChild(a)
-        a.click();
-        a.remove()
+                document.body.appendChild(tempLink);
+                tempLink.click();
 
-
-        // let blob = await fetch(url).then(r => r.blob())
-        //     .then((res) => {
-        //
-        //         console.log("res  is ", res)
-        //         fileDownload(res, "video.mp4")
-        //     });
-
+                setTimeout(function () {
+                    document.body.removeChild(tempLink);
+                    window.URL.revokeObjectURL(blobURL);
+                }, 200)
+            });
     }
 
     return (dispatch) => {
