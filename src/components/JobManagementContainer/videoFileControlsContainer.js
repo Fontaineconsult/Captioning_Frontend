@@ -161,11 +161,7 @@ class VideoFileControlsContainer extends Component {
                 s3linkDisabled: false
 
             })
-
-
         }
-
-
     }
 
     updateCaptionSelectState(event) {
@@ -219,7 +215,6 @@ class VideoFileControlsContainer extends Component {
 
     }
 
-
     // Open Caption
     createOpenCaption() {
 
@@ -227,7 +222,6 @@ class VideoFileControlsContainer extends Component {
             this.state.media_select.value, this.state.captionSelect.caption_id))
 
     }
-
 
     // Download / Upload
     downloadMedia() {
@@ -258,7 +252,6 @@ class VideoFileControlsContainer extends Component {
 
 
             fileReader.readAsArrayBuffer(document.getElementById('mediaFileUpload').files[0])
-
             let type = document.getElementById('mediaFileUpload').files[0].type
             let blobFile = new Blob([document.getElementById('mediaFileUpload').files[0]], {type: type})
             this.setState({
@@ -278,7 +271,6 @@ class VideoFileControlsContainer extends Component {
             content_type: ""
         })
 
-
     }
 
     setConverterButtons() {
@@ -286,9 +278,7 @@ class VideoFileControlsContainer extends Component {
             this.setState({
                 videoConvertDisabled: false
             })
-
         }
-
     }
 
 
@@ -300,7 +290,6 @@ class VideoFileControlsContainer extends Component {
             <Button disabled={false} name={"extract_video"} size={"small"} onClick={this.createOpenCaption}>Create Open
                 Caption</Button>
         </div>)
-
     }
 
 
@@ -370,17 +359,11 @@ class VideoFileControlsContainer extends Component {
                             <Button onClick={this.uploadMediaFile}><PublishIcon style={{color: green[500]}}
                                                                                 fontSize="small"/></Button>}
                     </div>
-
                 </div>
-
-
             </div>
 
         )
-
-
     }
-
 }
 
 

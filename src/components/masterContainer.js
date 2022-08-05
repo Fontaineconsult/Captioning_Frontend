@@ -12,12 +12,13 @@ import {
     fetchAllEmployees,
     fetchAllOrgs,
     fetchAllStudents,
-    fetchAllVideoJobsBySemester, fetchCanvasVideosBySemester,
+    fetchAllVideoJobsBySemester, fetchCanvasVideosByCourseGenId, fetchCanvasVideosBySemester,
     fetchCourseByCourseGenId,
     fetchiLearnVideosByCourseGenId,
     fetchIlearnVideosBySemester
 } from "../actions/ampApi/fetchData";
 import '../css/masterContainer-css.css'
+import {clearMedia} from "../actions/media";
 
 
 class MasterContainer extends Component {
@@ -33,14 +34,11 @@ class MasterContainer extends Component {
             this.props.dispatch(fetchAllEmployees())
             this.props.dispatch(fetchAllStudents())
             this.props.dispatch(fetchAllVideoJobsBySemester(this.props.globalsReducer.currentSemester))
-
         }
 
         if (this.props.userPermissionReducer[this.props.query.id].permission_type === 'user') {
             this.props.dispatch(assetDiscovery(this.props.query.id))
-
         }
-
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -53,18 +51,20 @@ class MasterContainer extends Component {
                 Object.keys(this.props.requesterReducer).map(key => (
                     this.props.dispatch(fetchiLearnVideosByCourseGenId(this.props.requesterReducer[key].course_id))
                 ))
+                Object.keys(this.props.requesterReducer).map(key => (
+                    this.props.dispatch(fetchCanvasVideosByCourseGenId(this.props.requesterReducer[key].course_id))
+                ))
 
             }
         }
 
         if (this.props.globalsReducer.currentSemester !== prevProps.globalsReducer.currentSemester) {
-
+            this.props.dispatch(clearMedia())
             this.props.dispatch(allAssetDiscovery(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchIlearnVideosBySemester(this.props.globalsReducer.currentSemester))
-
+            this.props.dispatch(fetchCanvasVideosBySemester(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllCourses(this.props.globalsReducer.currentSemester))
             this.props.dispatch(fetchAllVideoJobsBySemester(this.props.globalsReducer.currentSemester))
-            this.props.dispatch(fetchAllEmployees())
 
         }
     }
@@ -82,7 +82,6 @@ class MasterContainer extends Component {
         )
     }
 
-
 }
 
 
@@ -97,6 +96,5 @@ function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatus
     }
 
 }
-
 
 export default withRouter(connect(mapStateToProps)(MasterContainer))

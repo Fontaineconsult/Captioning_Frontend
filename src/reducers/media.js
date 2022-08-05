@@ -4,6 +4,7 @@ import {RECEIVE_MEDIA,
     ADD_CAP_FILE_TO_MEDIA,
     ADD_MEDIA_FILE_TO_MEDIA,
     UPDATE_MEDIA,
+    CLEAR_MEDIA,
     UPDATE_MEDIA_DEEP} from "../actions/media";
 
 export default function mediaReducer (state={}, action) {
@@ -25,6 +26,11 @@ export default function mediaReducer (state={}, action) {
                 ...action.media
 
             }
+
+        case CLEAR_MEDIA:
+
+            return {}
+
 
         case ADD_MEDIA_FROM_CAP_JOBS:
 

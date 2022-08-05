@@ -9,7 +9,7 @@ import AmaraControls from "./amaraControlsContainer";
 import DatePicker from 'react-date-picker';
 import ClearIcon from '@material-ui/icons/Clear';
 import moment from "moment";
-import {iLearnURL} from "../../constants";
+import {canvasURL, iLearnURL} from "../../constants";
 import VideoFileControlsContainer from "./videoFileControlsContainer";
 
 const statusColor = (status) => ({
@@ -60,6 +60,7 @@ class JobContainer extends Component {
         this.setFocus = this.setFocus.bind(this)
         this.clearFocus = this.clearFocus.bind(this)
         this.ilearnPage = iLearnURL() + this.props.ilearn_page_id;
+        this.CanvasPage = canvasURL() + this.props.canvas_page_id;
     }
 
 
@@ -293,6 +294,12 @@ class JobContainer extends Component {
                                                     <a target={"_blank"} href={this.ilearnPage}>{this.props.ilearn_page_id}</a>
                                                 </label>
                                             )}
+                                            {this.props.canvas_page_id !== undefined && (
+                                                <label style={{'margin-right': '10px'}}>
+                                                    Canvas:
+                                                    <a target={"_blank"} href={this.CanvasPage}>{this.props.canvas_page_id}</a>
+                                                </label>
+                                            )}
                                         </form>
                                     </div>
                                 </div>
@@ -371,13 +378,25 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
 
     let student_active = 1
     let ilearn_page_id = undefined
+    let canvas_page_id = undefined
+
     if (coursesReducer[requesterResource] !== undefined){
 
         if (coursesReducer[requesterResource].ilearn_page_id !== null) {
             ilearn_page_id = coursesReducer[requesterResource].ilearn_page_id.ilearn_page_id
+            canvas_page_id = undefined
         } else {
             ilearn_page_id = 'Not Available'
         }
+
+
+        if (coursesReducer[requesterResource].canvas_page_id !== null) {
+            canvas_page_id = coursesReducer[requesterResource].canvas_page_id.canvas_page_id
+            ilearn_page_id = undefined
+        } else {
+            canvas_page_id = 'Not Available'
+        }
+
 
     student_active = 0
     if (coursesReducer[requesterResource].students_enrolled.some(capActiveFunc) === true) {
@@ -385,8 +404,6 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
     } else {
         student_active += 0
     }
-
-
 
     }
     student_active = student_active > 0
@@ -403,7 +420,8 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
         employee,
         requesterResource,
         ilearn_page_id,
-        student_active
+        student_active,
+        canvas_page_id
 
     }
 }

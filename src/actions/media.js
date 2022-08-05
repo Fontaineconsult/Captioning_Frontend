@@ -5,6 +5,7 @@ export const ADD_CAP_FILE_TO_MEDIA = 'ADD_CAP_FILE_TO_MEDIA'
 export const ADD_MEDIA_FILE_TO_MEDIA = 'ADD_MEDIA_FILE_TO_MEDIA'
 export const UPDATE_MEDIA = 'UPDATE_MEDIA'
 export const UPDATE_MEDIA_DEEP = 'UPDATE_MEDIA_DEEP'
+export const CLEAR_MEDIA = 'CLEAR_MEDIA'
 
 
 export function receiveMedia(media) {
@@ -16,18 +17,13 @@ export function receiveMedia(media) {
 }
 
 
-export function addMedia(media) {
+export function clearMedia() {
 
     return {
-        type: ADD_MEDIA,
-        media
-
+        type: CLEAR_MEDIA,
     }
 
-
 }
-
-
 
 export function addMediaFromCapJobs(capJobs) {
 
