@@ -173,7 +173,7 @@ export function deleteVideoJob(job_id, column, value) {
 }
 
 
-export function getS3Link(value) {
+export function getS3Link(value, filename) {
 
     let data_object = {file_id: value};
 
@@ -188,16 +188,14 @@ export function getS3Link(value) {
 
     function clipBoard(data) {
         clipboardCopy(data).then(function () {
-            //alert("Copied to Clipboard")
-            downloadVideo(data).then((res) => {
-                console.log("result ", res)
-            }).catch((e) => {
-                console.log("Error ", e)
-            })
+            alert("Copied to Clipboard")
+
         })
+
+
     }
 
-    const downloadVideo = async (url) => {
+    const downloadVideo = async (url, filename) => {
         await fetch(url).then(r => r.blob())
             .then((blob) => {
 
@@ -205,7 +203,7 @@ export function getS3Link(value) {
                 const tempLink = document.createElement('a');
                 tempLink.style.display = 'none';
                 tempLink.href = blobURL;
-                tempLink.setAttribute('download', "video.mp4");
+                tempLink.setAttribute('download', filename);
 
                 if (typeof tempLink.download === 'undefined') {
                     tempLink.setAttribute('target', '_blank');
@@ -225,7 +223,8 @@ export function getS3Link(value) {
         dispatch(LoadingVideoJobs(true))
         return fetch(`${server_url}/services/make-public`, put_object)
             .then(response => response.text())
-            .then(data => clipBoard(data))
+            // .then(data => clipBoard(data))
+            .then(data => downloadVideo(data, filename))
             .then(data => dispatch(LoadingVideoJobs(false)))
             .catch(error => alert(error))
 

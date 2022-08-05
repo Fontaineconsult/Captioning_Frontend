@@ -80,7 +80,7 @@ class SearchFilterResultContainer extends Component {
             //We need to download the video
             //This logic might change later when there are other thins to download? Mostly, not sure!
             console.log("video id ", this.state.video_select.value)
-            this.props.dispatch(getS3Link(this.state.video_select.value))
+            this.props.dispatch(getS3Link(this.state.video_select.value, this.state.video_select.label))
 
         }
     }
@@ -105,7 +105,6 @@ class SearchFilterResultContainer extends Component {
     }
 
     render() {
-
         let data = this.getData()
         let captionFiles = data[0].media_objects.reduce((accumulator, currentValue) => {
             if (currentValue.associated_captions !== null) {
@@ -118,7 +117,6 @@ class SearchFilterResultContainer extends Component {
             }
             return accumulator
         }, [])
-
         let outputFiles = data[0].captioned_resources.reduce((accumulator, currentValue) => {
 
             console.log("Current value", currentValue)
@@ -147,7 +145,6 @@ class SearchFilterResultContainer extends Component {
 
             return accumulator
         }, [])
-
         let videoFiles = data[0].media_objects.reduce((accumulator, currentValue) => {
             if (currentValue.associated_files !== null) {
 
@@ -160,7 +157,6 @@ class SearchFilterResultContainer extends Component {
 
             return accumulator
         }, [])
-
 
         return (
             <div>
@@ -216,7 +212,6 @@ class SearchFilterResultContainer extends Component {
                                 />
                             </div>
                         </div>
-
                     </div>
                     <div className={"inner-container-right"}>
                         <div className={"upload-download"}>
@@ -224,11 +219,6 @@ class SearchFilterResultContainer extends Component {
                                 <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
                                 >Download</label>
                                 <Button onClick={this.downloadMedia}><GetAppIcon fontSize="small"/></Button>
-
-                                {/*<a href="/images/myw3schoolsimage.jpg" download>*/}
-                                {/*    Download file*/}
-                                {/*</a>*/}
-
                             </div>
                             <div>
                                 <div>

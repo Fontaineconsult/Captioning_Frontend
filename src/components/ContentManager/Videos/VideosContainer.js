@@ -8,14 +8,11 @@ class VideosContainer extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             search: '',
             data: this.props.data
         }
-
         this.handleInputChange = this.handleInputChange.bind(this)
-
     }
 
     handleInputChange(event) {
@@ -26,7 +23,6 @@ class VideosContainer extends Component {
         this.setState({
             [name]: value
         });
-
     }
 
     componentDidMount() {
@@ -35,7 +31,6 @@ class VideosContainer extends Component {
 
     render() {
         return (<div>
-
                 <div style={{height: "80vh"}}>
                     <div className={"scroll-inside-div"}>
                         <div className="masterListItem masterListUser">
