@@ -189,11 +189,40 @@ export function getS3Link(value) {
     function clipBoard(data) {
         clipboardCopy(data).then(function () {
             alert("Copied to Clipboard")
-
+            downloadVideo(data).then((res) => {
+                console.log("result ", res)
+            }).catch((e) => {
+                console.log("Error ", e)
+            })
         })
-
     }
 
+    const downloadVideo = async (url) => {
+        let blob = await fetch(url).then(r => r.blob());
+        const href = URL.createObjectURL(blob)
+
+        URL.revokeObjectURL(href)
+        const a = Object.assign(document.createElement('a'), {
+                href,
+                style: "display:none",
+                download: "video.mp4"
+
+            }
+        )
+
+        document.body.appendChild(a)
+        a.click();
+        a.remove()
+
+
+        // let blob = await fetch(url).then(r => r.blob())
+        //     .then((res) => {
+        //
+        //         console.log("res  is ", res)
+        //         fileDownload(res, "video.mp4")
+        //     });
+
+    }
 
     return (dispatch) => {
         dispatch(LoadingVideoJobs(true))
@@ -202,6 +231,7 @@ export function getS3Link(value) {
             .then(data => clipBoard(data))
             .then(data => dispatch(LoadingVideoJobs(false)))
             .catch(error => alert(error))
+
     }
 }
 

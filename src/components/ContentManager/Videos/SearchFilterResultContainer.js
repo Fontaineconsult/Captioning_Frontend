@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css';
-import {withRouter} from "react-router";
-import {connect} from "react-redux";
 import "../../../css/searchFilter.css"
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import Select from "react-select";
+import {getS3Link} from "../../../actions/ampApi/putData";
 import Button from "@material-ui/core/Button";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import PublishIcon from "@material-ui/icons/Publish";
+import withRouter from "react-router-dom/es/withRouter";
+import {connect} from "react-redux";
 
 
 class SearchFilterResultContainer extends Component {
@@ -22,12 +22,16 @@ class SearchFilterResultContainer extends Component {
             reducer: this.props.reducer,
             caption_select: "",
             output_select: "",
-            video_select: ""
+            video_select: "",
+            video_label: "",
+            video_selected_id: 0
         };
 
         this.getData = this.getData.bind(this)
-        this.handleInputChange = this.handleInputChange.bind(this)
-
+        this.downloadMedia = this.downloadMedia.bind(this)
+        this.updateCapSelectState = this.updateCapSelectState.bind(this)
+        this.updateVideoSelectState = this.updateVideoSelectState.bind(this)
+        this.updateOutputSelectState = this.updateOutputSelectState.bind(this)
 
     }
 
@@ -57,35 +61,48 @@ class SearchFilterResultContainer extends Component {
             }
         }
 
-
         if (Object.keys(reducer).length > 0) {
             Object.keys(reducer).forEach(function (key) {
 
                 if (key == media_id) {
                     data.push(formatData(reducer[key]))
-
                 }
             });
-
         }
 
         return data
     }
 
-    handleInputChange(event) {
 
+    downloadMedia() {
 
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
+        if (this.video_selected_id !== 0) {
+            //We need to download the video
+            //This logic might change later when there are other thins to download? Mostly, not sure!
+            console.log("video id ", this.state.video_select.value)
+            this.props.dispatch(getS3Link(this.state.video_select.value))
 
-        this.setState({
-            [name]: value
-        });
-
-
+        }
     }
 
+    updateCapSelectState(event) {
+        this.setState({
+            caption_select: event
+        });
+    }
+
+    updateOutputSelectState(event) {
+        this.setState({
+            output_select: event
+        });
+    }
+
+    updateVideoSelectState(event) {
+        console.log("event", event)
+        this.setState({
+            video_select: event
+        });
+    }
 
     render() {
 
@@ -141,10 +158,9 @@ class SearchFilterResultContainer extends Component {
             }
 
 
-            console.log("inside s3 accumulator: ", accumulator);
-
             return accumulator
         }, [])
+
 
         return (
             <div>
@@ -155,7 +171,6 @@ class SearchFilterResultContainer extends Component {
                             <label className={"title"}>Title: </label>
                             <label className={"title"}>{data[0].title}</label>
                         </div>
-
                         <div className={"source-caption-container"}>
                             <div className={"source-container"}>
                                 <div style={{"display": "flex"}}>
@@ -171,15 +186,9 @@ class SearchFilterResultContainer extends Component {
                                     className={"caption-selector"}
                                     name="caption_select"
                                     value={this.state.caption_select}
-                                    onChange={this.handleInputChange}
-                                >
-                                    {
-                                        captionFiles.map(e => {
-                                            return (<MenuItem value={e.label}>{e.label}</MenuItem>)
-                                        })
-                                    }
-
-                                </Select>
+                                    onChange={this.updateCapSelectState}
+                                    options={captionFiles}
+                                />
                             </div>
                         </div>
 
@@ -190,45 +199,42 @@ class SearchFilterResultContainer extends Component {
                                     name="output_select"
                                     value={this.state.output_select}
                                     className={"output-selector"}
-                                    onChange={this.handleInputChange}
-                                >
-                                    {
-                                        outputFiles.map(e => {
-                                            return (<MenuItem value={e.label}>{e.label}</MenuItem>)
-                                        })
-                                    }
-                                </Select>
-                                <div>
-                                    <div className={"caption-dropdown"}>
-                                        <label className={"label"}>Video Files: &nbsp; </label>
-                                        <Select
-                                            name="video_select"
-                                            className={"video-selector"}
-                                            onChange={this.handleInputChange}
-                                            value={this.state.video_select}
-                                        >
-                                            {
-                                                videoFiles.map(e => {
-                                                    return (<MenuItem value={e.label}>{e.label}</MenuItem>)
-                                                })
-                                            }
-                                        </Select>
-                                    </div>
-                                </div>
+                                    onChange={this.updateOutputSelectState}
+                                    options={outputFiles}
+
+                                />
                             </div>
 
-                            <div className={"upload-download"}>
+                            <div className={"video-dropdown"}>
+                                <label className={"label"}>Video Files: </label>
+                                <Select
+                                    name="video_select"
+                                    className={"video-selector"}
+                                    onChange={this.updateVideoSelectState}
+                                    value={this.state.video_select}
+                                    options={videoFiles}
+                                />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className={"inner-container-right"}>
+                        <div className={"upload-download"}>
+                            <div>
+                                <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
+                                >Download</label>
+                                <Button onClick={this.downloadMedia}><GetAppIcon fontSize="small"/></Button>
+
+                                {/*<a href="/images/myw3schoolsimage.jpg" download>*/}
+                                {/*    Download file*/}
+                                {/*</a>*/}
+
+                            </div>
+                            <div>
                                 <div>
                                     <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
-                                    >Download</label>
-                                    <Button><GetAppIcon fontSize="small"/></Button>
-                                </div>
-                                <div>
-                                    <div>
-                                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
-                                        >Upload</label>
-                                        <Button><PublishIcon fontSize="small"/></Button>
-                                    </div>
+                                    >Upload</label>
+                                    <Button><PublishIcon fontSize="small"/></Button>
                                 </div>
                             </div>
                         </div>
@@ -240,7 +246,11 @@ class SearchFilterResultContainer extends Component {
 }
 
 
-function mapStateToProps({loadingStatusReducer, mediaReducer}) {
+function mapStateToProps(
+    {
+        loadingStatusReducer, mediaReducer
+    }
+) {
     return {
         mediaReducer,
         loadingStatusReducer

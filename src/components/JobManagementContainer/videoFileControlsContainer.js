@@ -395,7 +395,6 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer,}, {
     if (media.media_type === 'File') {
         fileObject = media.media_objects.find(item => {
             return item.associated_files.sha_256_hash === media.sha_256_hash
-
         })
     }
 
@@ -420,8 +419,6 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer,}, {
                 })
             }
 
-
-            console.log("inside s3 accumulator: ", accumulator);
 
             return accumulator
         }, [])

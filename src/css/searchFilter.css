@@ -24,7 +24,7 @@
 .inner-container-left {
 
     padding-left: 2%;
-    width: 100%;
+    width: 90%;
 
 }
 
@@ -47,35 +47,6 @@
 
 }
 
-
-.output-selector {
-    padding-left: 5px;
-    width: 20rem;
-}
-
-.output-dropdown {
-    margin-top: 5px;
-    margin-bottom: 30px;
-
-}
-
-
-.caption-container {
-    padding-left: 50px;
-}
-
-
-.caption-selector {
-    padding-left: 5px;
-    width: 20rem;
-}
-
-
-.video-selector {
-    margin-top: 10px;
-    padding-left: 5px;
-    width: 20rem;
-}
 
 .source-caption-container {
     margin-top: 30px;
@@ -111,15 +82,50 @@
 }
 
 .search-lower-container {
+    margin-top: 10px;
     display: flex;
 }
 
 .upload-download {
-    margin-left: 132px;
     display: flex;
-    margin-top: 2rem;
+    margin-top: 85%;
 }
 
 .button-submit {
     margin-top: 1rem;
+}
+
+.video-dropdown {
+    margin-top: 5px;
+}
+
+
+.video-selector {
+    margin-top: 10px;
+    padding-left: 5px;
+    width: 25rem;
+}
+
+/*.caption-container {*/
+/*    padding-left: 50px;*/
+/*}*/
+
+
+.caption-selector {
+    padding-left: 5px;
+    width: 25rem;
+    margin-top: 10px;
+}
+
+.output-dropdown {
+    margin-top: 5px;
+    margin-bottom: 30px;
+    width: 50%;
+
+}
+
+.output-selector {
+    padding-left: 5px;
+    width: 25rem;
+    margin-top: 10px;
 }
