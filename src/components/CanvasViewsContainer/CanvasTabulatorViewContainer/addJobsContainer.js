@@ -8,7 +8,7 @@ import { v1 as uuidv1 } from 'uuid';
 import {clearMediaSearch} from "../../../actions/mediaSearch"
 import moment from 'moment'
 
-class AddJobsiLearnContainer extends Component {
+class AddJobsCanvasContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -62,6 +62,7 @@ class AddJobsiLearnContainer extends Component {
         return (
 
             <div>
+                <h3>Add Canvas Video</h3>
                 <PreparedJobsContainer/>
             </div>
 
@@ -95,4 +96,4 @@ function mapStateToProps({globalsReducer, coursesReducer, requesterReducer}, {co
     }
 }
 
-export default withRouter(connect(mapStateToProps)(AddJobsiLearnContainer))
+export default withRouter(connect(mapStateToProps)(AddJobsCanvasContainer))

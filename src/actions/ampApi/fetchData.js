@@ -7,6 +7,7 @@ import {addMediaFromCapJobs, receiveMedia} from '../media'
 import {receiveRequester} from '../requester'
 import receiveRequesterResources from '../requests'
 import {
+    LoadingCanvasVideos,
     LoadingCourses,
     LoadingIlearnVideos,
     LoadingInstructors,
@@ -264,18 +265,16 @@ export function fetchiLearnVideosByCourseGenId(CourseGenId) {
 }
 
 
-
-
 export function fetchCanvasVideosBySemester(semester) {
     let error_id = uuidv1()
     return dispatch => {
         dispatch(receiveCanvasVideos());
-        dispatch(LoadingIlearnVideos(true))
+        dispatch(LoadingCanvasVideos(true))
         return fetch(`${server_url}/canvas-videos?semester=${semester}`)
             .then(response => errorHandler(response, dispatch, error_id, LoadingIlearnVideos), error => {
                 console.log(error)
             })
-            .then(response => (responseHandler(response, dispatch, [receiveCanvasVideos], error_id, LoadingIlearnVideos)))
+            .then(response => (responseHandler(response, dispatch, [receiveCanvasVideos], error_id, LoadingCanvasVideos)))
 
 
     }
@@ -287,12 +286,12 @@ export function fetchCanvasVideosByInstructorId(instructor_id, semester) {
     return dispatch => {
 
         dispatch(receiveCanvasVideos());
-        dispatch(LoadingIlearnVideos(true))
+        dispatch(LoadingCanvasVideos(true))
 
         return fetch(`${server_url}/canvas-videos?instructor_id=${instructor_id}&semester=${semester}`)
             .then(response => response.json())
             .then(data => dispatch(receiveCanvasVideos(data)))
-            .then(() => dispatch(LoadingIlearnVideos(false)))
+            .then(() => dispatch(LoadingCanvasVideos(false)))
             .then(data => console.log(data))
 
     }
@@ -303,12 +302,12 @@ export function fetchCanvasVideosByCourseGenId(CourseGenId) {
 
     return dispatch => {
         dispatch(receiveCanvasVideos());
-        dispatch(LoadingIlearnVideos(true))
+        dispatch(LoadingCanvasVideos(true))
         return fetch(`${server_url}/canvas-videos?course_gen_id=${CourseGenId}`)
             .then(response => response.json())
             .then(data => checkResponse(data))
             .then(data => dispatch(receiveCanvasVideos(data)))
-            .then(() => dispatch(LoadingIlearnVideos(false)))
+            .then(() => dispatch(LoadingCanvasVideos(false)))
             .then(data => console.log(data))
     }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from "react-router";
-import TabulatorContainer from '../CanvasTabulatorViewContainer/TabulatorContainer'
+import CanvasTabulatorContainer from '../CanvasTabulatorViewContainer/TabulatorContainer'
 import '../../../css/courseContainer-css.css'
 import {canvasURL} from '../../../constants'
 import {updateCourse} from '../../../actions/ampApi/putData'
@@ -108,7 +108,7 @@ class CanvasCourseContainer extends Component {
                 </div>
                 <div className={"courseLowerContainer"}>
 
-                    {this.props.courseHasVideos === true && (<TabulatorContainer ilearnvideos={this.props.courseCanvasVideos} course_gen_id = {this.props.course_id}/>)}
+                    {this.props.courseHasVideos === true && (<CanvasTabulatorContainer canvasVideos={this.props.courseCanvasVideos} course_gen_id = {this.props.course_id}/>)}
                     {this.props.courseHasVideos === false && (<div className={"courseNoVideos"}>Course Has No Videos</div>)}
                 </div>
             </div>

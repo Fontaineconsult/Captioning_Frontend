@@ -9,6 +9,7 @@ import {AddVideoJobBatch} from "../../../actions/ampApi/postData"
 import {clearTempCapJobs} from "../../../actions/tempJobsForm"
 import {clearMediaSearch} from "../../../actions/mediaSearch";
 import {updateCanvasVideo, updateiLearnVideo} from "../../../actions/ampApi/putData";
+import AddJobsCanvasContainer from "./addJobsContainer";
 
 
 
@@ -101,7 +102,7 @@ class AddJobModal extends Component {
                 >
                     {<div style={this.state.modalStyle} className={this.props.classes.paper}>
                         <h2 id="simple-modal-title">Create Jobs</h2>
-                        <AddJobsiLearnContainer course_gen_id = {this.props.course_gen_id} selected_rows = {this.props.selected_rows}/>
+                        <AddJobsCanvasContainer course_gen_id = {this.props.course_gen_id} selected_rows = {this.props.selected_rows}/>
                         <Button size={"small"} disabled={Object.keys(this.props.tempJobsFormReducer).length === 0}  onClick={this.submitVideoJobs}>Create Jobs</Button>
                     </div>}
                 </Modal>

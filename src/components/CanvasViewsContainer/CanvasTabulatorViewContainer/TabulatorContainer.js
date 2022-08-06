@@ -20,7 +20,7 @@ import TabToolBar from "./tabToolBar";
 
 
 
-class TabulatorContainer extends Component {
+class CanvasTabulatorContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -282,10 +282,10 @@ class TabulatorContainer extends Component {
 
 }
 
-function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReducer}, {course_gen_id, ilearnvideos}) {
+function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_gen_id, canvasVideos}) {
 
     let course_id = course_gen_id;
-    let ilearn_videos = ilearnvideos;
+    let canvas_videos = canvasVideos;
 
     let formatData = (video) => {
         return {
@@ -297,7 +297,7 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
             resource_link: video.resource_link,
             scan_date: moment(video.scan_date).format('MM-DD-YY'),
             submitted_for_processing: video.submitted_for_processing,
-            page_section: video.page_section,
+            page_section: video.page_component_count,
             ignore_video: video.ignore_video,
             invalid_link: video.invalid_link,
             resource_type: video.resource_type,
@@ -310,8 +310,8 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 
     let videos_list = [];
 
-    Object.keys(ilearn_videos).forEach((video) => (
-        videos_list.push(formatData(ilearn_videos[video]))
+    Object.keys(canvas_videos).forEach((video) => (
+        videos_list.push(formatData(canvas_videos[video]))
     ))
 
 
@@ -322,4 +322,4 @@ function mapStateToProps({iLearnVideoReducer, loadingStatusReducer, coursesReduc
 }
 
 
-export default withRouter(connect(mapStateToProps)(TabulatorContainer))
+export default withRouter(connect(mapStateToProps)(CanvasTabulatorContainer))

@@ -6,7 +6,7 @@ import {
     _LOADINGSTUDENTS,
     _LOADINGVIDEOJOBS,
     _LOADINGPERMISSIONS,
-    _LOADINGREQUESTS, _LOADINGASTJOB, _ALLLOADINGON
+    _LOADINGREQUESTS, _LOADINGASTJOB, _ALLLOADINGON, _LOADINGCANVASVIDEOS
 } from "../actions/status";
 
 export default function loadingStatusReducer (state={
@@ -19,7 +19,8 @@ export default function loadingStatusReducer (state={
     videoJobsLoading: true,
     userPermissionLoading: true,
     requestersLoading: true,
-    astRequestsLoading: false
+    astRequestsLoading: false,
+    canvasVideosLoading: true,
 
 
 
@@ -38,7 +39,8 @@ export default function loadingStatusReducer (state={
                 videoJobsLoading: true,
                 userPermissionLoading: false,
                 requestersLoading: true,
-                astRequestsLoading: false
+                astRequestsLoading: false,
+                canvasVideosLoading: true,
 
             }
 
@@ -99,6 +101,11 @@ export default function loadingStatusReducer (state={
                 "astRequestsLoading": action.status,
             };
 
+        case _LOADINGCANVASVIDEOS:
+            return {
+                ...state,
+                "canvasVideosLoading": action.status,
+            };
 
         default:
             return state

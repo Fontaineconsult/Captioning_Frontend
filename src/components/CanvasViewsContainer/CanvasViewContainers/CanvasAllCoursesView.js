@@ -37,17 +37,7 @@ class CanvasAllCoursesView extends Component {
 
             })
 
-        // } else {
-        //
-        //     this.setState({
-        //         cache: new CellMeasurerCache({
-        //             fixedWidth: true,
-        //             defaultHeight: 200
-        //         }),
-        //         canvasVideoRowCount:Object.keys(this.props.no_captioning).length,
-        //         captioningCourses:Object.keys(this.props.no_captioning)
-        //
-        //     })
+
         }
 
     }
@@ -183,7 +173,7 @@ function mapStateToProps({canvasVideoReducer, loadingStatusReducer, coursesReduc
 
 
     let courseIsLoading = loadingStatusReducer['coursesLoading'] && Object.keys(coursesReducer).length === 0;
-    let isLoading = loadingStatusReducer['iLearnVideosLoading'] && Object.keys(canvasVideoReducer).length === 0;
+    let isLoading = loadingStatusReducer['canvasVideosLoading'] && Object.keys(canvasVideoReducer).length === 0;
     let showCourseStubs = courseIsLoading || isLoading;
 
     let requests_captioning = {};

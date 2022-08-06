@@ -382,17 +382,13 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
 
         if (coursesReducer[requesterResource].ilearn_page_id !== null) {
             ilearn_page_id = coursesReducer[requesterResource].ilearn_page_id.ilearn_page_id
-            canvas_page_id = undefined
-        } else {
-            ilearn_page_id = 'Not Available'
+
         }
 
 
         if (coursesReducer[requesterResource].canvas_page_id !== null) {
             canvas_page_id = coursesReducer[requesterResource].canvas_page_id.canvas_page_id
-            ilearn_page_id = undefined
-        } else {
-            canvas_page_id = 'Not Available'
+
         }
 
 
