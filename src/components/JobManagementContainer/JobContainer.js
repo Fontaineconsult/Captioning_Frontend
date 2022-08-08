@@ -218,6 +218,7 @@ class JobContainer extends Component {
                                                         <option value="SRT">.SRT</option>
                                                         <option value="File">File</option>
                                                         <option value="Open Caption">Open Cap</option>
+                                                        <option value="Described Video">Described Video</option>
                                                     </select>
                                                 </label>
                                             </div>

@@ -103,6 +103,7 @@ class NewJobFormContainer extends Component {
                                     <MenuItem value={"SRT"}>SRT</MenuItem>
                                     <MenuItem value={"Video File"}>Video File</MenuItem>
                                     <MenuItem value={"Open Caption"}>Open Caption</MenuItem>
+                                    <MenuItem value={"Described Video"}>Described Video</MenuItem>
                                 </Select>
                             </label>
                         </div>

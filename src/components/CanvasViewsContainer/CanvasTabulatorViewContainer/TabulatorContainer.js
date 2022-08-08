@@ -198,7 +198,7 @@ class CanvasTabulatorContainer extends Component {
             { title: "Title", field: "title", editor:"input"},
             { title: "Captioned", field: "captioned", width: 130, hozAlign :"center", formatter: reactFormatter(<this.IsCaptionedButton />) },
             { title: "CC",  width: 75, field: "captioned_link", hozAlign :"center", formatter: reactFormatter(<this.ClosedCaptionLink />)},
-            { title: "Parent", width: 80, field: "resource_type",  hozAlign :"center", formatter: "link", formatterParams:{target:"_blank", urlField:'parent'}},
+            { title: "Parent", width: 95, field: "resource_type",  hozAlign :"center", formatter: "link", formatterParams:{target:"_blank", urlField:'parent'}},
             { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
             { title: "Scan Date", hozAlign:"center", field: "scan_date", width: 105 },
             { title: "Submitted", field: "submitted_for_processing",  hozAlign :"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
