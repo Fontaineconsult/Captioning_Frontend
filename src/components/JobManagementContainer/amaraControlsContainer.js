@@ -66,14 +66,17 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer}, {m
         if (mediaReducer != null) {
             if (Object.keys(mediaReducer).length > 0) {
 
-                amara_index = Object.keys(mediaReducer[media_id].captioned_resources).find(index => {
-                        if (mediaReducer[media_id].captioned_resources[index].amara_id !== null) {
-                            return true
+                if (mediaReducer[media_id] !== undefined) {
+                    amara_index = Object.keys(mediaReducer[media_id].captioned_resources).find(index => {
+                            if (mediaReducer[media_id].captioned_resources[index].amara_id !== null) {
+                                return true
+                            }
                         }
-                    }
-                )
+                    )
 
-                amaraResource = mediaReducer[media_id].captioned_resources[amara_index]
+                    amaraResource = mediaReducer[media_id].captioned_resources[amara_index]
+                }
+
             }
         }
 

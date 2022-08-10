@@ -10,9 +10,10 @@ import withRouter from "react-router-dom/es/withRouter";
 import {connect} from "react-redux";
 import {getS3Link} from "../../../actions/ampApi/putData";
 import {downloadCaptionFile} from "../../../actions/ampApi/fetchData";
-import {uploadCaptionFileWithMediaId} from "../../../actions/ampApi/postData";
+import {uploadCaptionFileWithMediaId, uploadMediaFromJobView} from "../../../actions/ampApi/postData";
 import {v1 as uuidv1} from "uuid";
 import green from "@material-ui/core/colors/green";
+import CryptoJS from "crypto-js";
 
 
 class SearchFilterResultContainer extends Component {
@@ -30,7 +31,12 @@ class SearchFilterResultContainer extends Component {
             video_label: "",
             video_selected_id: 0,
             capFileUpload: "",
-            cap_temp_id: ""
+            cap_temp_id: "",
+            mediaFileUpload: "",
+            media_temp_id: "",
+            sha_256_hash: "",
+            isCapDownBtnDisabled: true,
+            isVideoDownBtnDisabled: true
         };
 
         this.getData = this.getData.bind(this)
@@ -42,6 +48,7 @@ class SearchFilterResultContainer extends Component {
         this.uploadCaption = this.uploadCaption.bind(this)
         this.uploadVideo = this.uploadVideo.bind(this)
         this.setCaptionFile = this.setCaptionFile.bind(this)
+        this.setMediaFile = this.setMediaFile.bind(this)
 
 
     }
@@ -95,13 +102,12 @@ class SearchFilterResultContainer extends Component {
     }
 
     uploadVideo() {
-        //upload video work here
+        this.props.dispatch(uploadMediaFromJobView(this.state.mediaFileUpload, this.state.media_id, this.state.cap_temp_id, this.state.content_type, this.state.sha_256_hash))
+        this.setState({
+            mediaFileUpload: "",
+            content_type: ""
+        })
 
-        // if(this.state.video_select.value != undefined){
-        //     this.props.dispatch(uploadVideoWithMediaId())
-        // }
-
-        console.log("ID", this.state.video_select);
     }
 
     downloadCaption() {
@@ -119,7 +125,8 @@ class SearchFilterResultContainer extends Component {
 
     updateCapSelectState(event) {
         this.setState({
-            caption_select: event
+            caption_select: event,
+            isCapDownBtnDisabled: false
         });
     }
 
@@ -131,7 +138,8 @@ class SearchFilterResultContainer extends Component {
 
     updateVideoSelectState(event) {
         this.setState({
-            video_select: event
+            video_select: event,
+            isVideoDownBtnDisabled: false
         });
     }
 
@@ -155,6 +163,37 @@ class SearchFilterResultContainer extends Component {
 
     }
 
+    setMediaFile(event) {
+
+        document.getElementById('mediaFileUpload').click();
+        document.getElementById('mediaFileUpload').onchange = () => {
+
+            let fileReader = new FileReader()
+
+            fileReader.onload = (completionEvent) => {
+                let slicedFile = fileReader.result.slice(0, 1024)
+                let wordArray = CryptoJS.lib.WordArray.create(slicedFile)
+                let fileHash = CryptoJS.SHA256(wordArray).toString()
+
+                this.setState({
+                    sha_256_hash: fileHash,
+                })
+
+            }
+
+
+            fileReader.readAsArrayBuffer(document.getElementById('mediaFileUpload').files[0])
+
+            let type = document.getElementById('mediaFileUpload').files[0].type
+            let blobFile = new Blob([document.getElementById('mediaFileUpload').files[0]], {type: type})
+            this.setState({
+                mediaFileUpload: blobFile,
+                content_type: type,
+                media_temp_id: uuidv1()
+            });
+        }
+
+    }
 
     render() {
         let data = this.getData()
@@ -245,7 +284,9 @@ class SearchFilterResultContainer extends Component {
                                     <div>
                                         <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
                                         >Download</label>
-                                        <Button onClick={this.downloadCaption}><GetAppIcon fontSize="small"/></Button>
+                                        <Button onClick={this.downloadCaption}
+                                                disabled={this.state.isCapDownBtnDisabled}><GetAppIcon
+                                            fontSize="small"/></Button>
                                         <input id='captionUpload' type='file' accept="text/*" hidden={true}/>
                                     </div>
                                     <div>
@@ -298,13 +339,23 @@ class SearchFilterResultContainer extends Component {
                                     <div>
                                         <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
                                         >Download</label>
-                                        <Button onClick={this.downloadVideo}><GetAppIcon fontSize="small"/></Button>
+                                        <Button onClick={this.downloadVideo}
+                                                disabled={this.state.isVideoDownBtnDisabled}><GetAppIcon
+                                            fontSize="small"/></Button>
+                                        <input id='mediaFileUpload' type='file' accept="video/*, audio/*"
+                                               hidden={true}/>
                                     </div>
                                     <div>
                                         <div>
                                             <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
                                             >Upload</label>
-                                            <Button onClick={this.uploadVideo}><PublishIcon fontSize="small"/></Button>
+                                            {this.state.mediaFileUpload === "" &&
+                                                <Button onClick={this.setMediaFile}><PublishIcon color="primary"
+                                                                                                 fontSize="small"/></Button>}
+                                            {this.state.mediaFileUpload !== "" &&
+                                                <Button onClick={this.uploadVideo}><PublishIcon
+                                                    style={{color: green[500]}}
+                                                    fontSize="small"/></Button>}
                                         </div>
                                     </div>
                                 </div>
