@@ -24,7 +24,15 @@ class AddJobsCanvasContainer extends Component {
             let id = uuidv1()
             this.props.dispatch(addTempJob(id, this.props.requester_id))
 
-            this.props.dispatch(addMediaToDBandTempJob(row._row.data.title, row._row.data.resource_link, 'URL', id))
+            if (this.props.useParent === false){
+                this.props.dispatch(addMediaToDBandTempJob(row._row.data.title, row._row.data.resource_link, 'URL', id))
+            }
+
+            if (this.props.useParent === true) {
+
+                this.props.dispatch(addMediaToDBandTempJob(row._row.data.title, row._row.data.parent, 'URL', id))
+            }
+
 
             let requester_id = Object.keys(this.props.requesterReducer).find(requester => {
                 return this.props.requesterReducer[requester].course_id === this.props.course_gen_id

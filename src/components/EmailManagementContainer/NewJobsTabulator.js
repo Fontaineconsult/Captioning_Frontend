@@ -127,11 +127,7 @@ function mapStateToProps({videosJobsReducer,
                 employee_id = requesterReducer[job.requester_id].employee_id
                 template = "NotifyJobReceivediLearnAutoCaption"
 
-
             }
-
-
-
 
 
         } else {

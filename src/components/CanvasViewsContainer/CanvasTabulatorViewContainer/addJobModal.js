@@ -33,6 +33,7 @@ class AddJobModal extends Component {
         this.state = {
             open: false,
             setOpen: false,
+            useParent: false,
             modalStyle: this.getModalStyle()
 
         };
@@ -69,18 +70,31 @@ class AddJobModal extends Component {
         };
     }
 
-    handleOpen() {
-        // console.log("plerrrbsssss", this.props.selected_rows)
-        this.setState({
+    handleOpen(name) {
+        console.log("plerrrbsssss",name)
+
+        if (name==='create_job') {
+            this.setState({
             setOpen: true,
             open:true
-        })
+        })}
+        if (name==='create_job_from_parent') {
+            this.setState({
+                setOpen: true,
+                open:true,
+                useParent: true
+
+            })}
+
+
+
     };
 
     handleClose() {
         this.setState({
             setOpen:false,
-            open: false
+            open: false,
+            useParent: false
 
         })
 
@@ -91,8 +105,11 @@ class AddJobModal extends Component {
 
         return (
             <React.Fragment>
-                <Button size="small" disabled={this.props.disabled} type="button" onClick={this.handleOpen}>
+                <Button size="small" disabled={this.props.disabled} type="button" id={"creat_job"} onClick={e => this.handleOpen("create_job")}>
                     CREATE JOB
+                </Button>
+                <Button size="small" id={"create_job_from_parent"} disabled={this.props.disabled} type="button" onClick={e => this.handleOpen("create_job_from_parent")}>
+                    CREATE JOB FROM PARENT
                 </Button>
                 <Modal
                     open={this.state.open}
@@ -102,7 +119,7 @@ class AddJobModal extends Component {
                 >
                     {<div style={this.state.modalStyle} className={this.props.classes.paper}>
                         <h2 id="simple-modal-title">Create Jobs</h2>
-                        <AddJobsCanvasContainer course_gen_id = {this.props.course_gen_id} selected_rows = {this.props.selected_rows}/>
+                        <AddJobsCanvasContainer useParent = {this.state.useParent} course_gen_id = {this.props.course_gen_id} selected_rows = {this.props.selected_rows}/>
                         <Button size={"small"} disabled={Object.keys(this.props.tempJobsFormReducer).length === 0}  onClick={this.submitVideoJobs}>Create Jobs</Button>
                     </div>}
                 </Modal>
