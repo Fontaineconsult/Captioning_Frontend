@@ -9,6 +9,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import withRouter from "react-router-dom/es/withRouter";
 import {connect} from "react-redux";
 import {getS3Link} from "../../../actions/ampApi/putData";
+import {downloadCaptionFile} from "../../../actions/ampApi/fetchData";
 
 
 class SearchFilterResultContainer extends Component {
@@ -89,10 +90,18 @@ class SearchFilterResultContainer extends Component {
 
     uploadVideo() {
         //upload video work here
+
+        // if(this.state.video_select.value != undefined){
+        //     this.props.dispatch(uploadVideoWithMediaId())
+        // }
+
+        console.log("ID", this.state.video_select);
     }
 
     downloadCaption() {
         //download caption work here
+        this.props.dispatch(downloadCaptionFile(this.state.caption_select.caption_id, this.state.media_id))
+
     }
 
     uploadCaption() {
@@ -112,7 +121,6 @@ class SearchFilterResultContainer extends Component {
     }
 
     updateVideoSelectState(event) {
-        console.log("event", event)
         this.setState({
             video_select: event
         });
@@ -120,6 +128,7 @@ class SearchFilterResultContainer extends Component {
 
     render() {
         let data = this.getData()
+
         let captionFiles = data[0].media_objects.reduce((accumulator, currentValue) => {
             if (currentValue.associated_captions !== null) {
                 accumulator.push({
