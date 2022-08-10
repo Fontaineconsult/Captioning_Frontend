@@ -86,8 +86,6 @@ class AddJobModal extends Component {
 
             })}
 
-
-
     };
 
     handleClose() {
