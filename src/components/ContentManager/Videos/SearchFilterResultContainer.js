@@ -105,7 +105,6 @@ class SearchFilterResultContainer extends Component {
     }
 
     downloadCaption() {
-        //download caption here
         this.props.dispatch(downloadCaptionFile(this.state.caption_select.caption_id, this.state.media_id))
         this.setState({
             capFileUpload: ""
@@ -114,7 +113,6 @@ class SearchFilterResultContainer extends Component {
     }
 
     uploadCaption() {
-        //upload caption here
         this.props.dispatch(uploadCaptionFileWithMediaId(this.state.capFileUpload, this.state.media_id, this.state.cap_temp_id))
 
     }
