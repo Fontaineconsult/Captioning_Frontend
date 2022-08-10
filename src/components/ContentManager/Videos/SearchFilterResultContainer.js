@@ -10,6 +10,9 @@ import withRouter from "react-router-dom/es/withRouter";
 import {connect} from "react-redux";
 import {getS3Link} from "../../../actions/ampApi/putData";
 import {downloadCaptionFile} from "../../../actions/ampApi/fetchData";
+import {uploadCaptionFileWithMediaId} from "../../../actions/ampApi/postData";
+import {v1 as uuidv1} from "uuid";
+import green from "@material-ui/core/colors/green";
 
 
 class SearchFilterResultContainer extends Component {
@@ -25,7 +28,9 @@ class SearchFilterResultContainer extends Component {
             output_select: "",
             video_select: "",
             video_label: "",
-            video_selected_id: 0
+            video_selected_id: 0,
+            capFileUpload: "",
+            cap_temp_id: ""
         };
 
         this.getData = this.getData.bind(this)
@@ -36,6 +41,7 @@ class SearchFilterResultContainer extends Component {
         this.downloadVideo = this.downloadVideo.bind(this)
         this.uploadCaption = this.uploadCaption.bind(this)
         this.uploadVideo = this.uploadVideo.bind(this)
+        this.setCaptionFile = this.setCaptionFile.bind(this)
 
 
     }
@@ -99,13 +105,18 @@ class SearchFilterResultContainer extends Component {
     }
 
     downloadCaption() {
-        //download caption work here
+        //download caption here
         this.props.dispatch(downloadCaptionFile(this.state.caption_select.caption_id, this.state.media_id))
+        this.setState({
+            capFileUpload: ""
+        })
 
     }
 
     uploadCaption() {
-        //upload caption work here
+        //upload caption here
+        this.props.dispatch(uploadCaptionFileWithMediaId(this.state.capFileUpload, this.state.media_id, this.state.cap_temp_id))
+
     }
 
     updateCapSelectState(event) {
@@ -125,6 +136,27 @@ class SearchFilterResultContainer extends Component {
             video_select: event
         });
     }
+
+
+    setCaptionFile(event) {
+
+        document.getElementById('captionUpload').click();
+        document.getElementById('captionUpload').onchange = () => {
+
+            let fileReader = new FileReader()
+            fileReader.readAsArrayBuffer(document.getElementById('captionUpload').files[0])
+            let fileToSend = new FormData()
+            fileToSend.append(document.getElementById('captionUpload').files[0].name,
+                document.getElementById('captionUpload').files[0])
+
+            this.setState({
+                capFileUpload: fileToSend,
+                cap_temp_id: uuidv1()
+            });
+        }
+
+    }
+
 
     render() {
         let data = this.getData()
@@ -216,13 +248,21 @@ class SearchFilterResultContainer extends Component {
                                         <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
                                         >Download</label>
                                         <Button onClick={this.downloadCaption}><GetAppIcon fontSize="small"/></Button>
+                                        <input id='captionUpload' type='file' accept="text/*" hidden={true}/>
                                     </div>
                                     <div>
                                         <div>
                                             <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
                                             >Upload</label>
-                                            <Button onClick={this.uploadCaption}><PublishIcon
-                                                fontSize="small"/></Button>
+                                            {/*<Button onClick={this.uploadCaption}><PublishIcon*/}
+                                            {/*    fontSize="small"/></Button>*/}
+                                            {this.state.capFileUpload === "" &&
+                                                <Button onClick={this.setCaptionFile}><PublishIcon color="primary"
+                                                                                                   fontSize="small"/></Button>}
+                                            {this.state.capFileUpload !== "" &&
+                                                <Button onClick={this.uploadCaption}><PublishIcon
+                                                    style={{color: green[500]}}
+                                                    fontSize="small"/></Button>}
                                         </div>
                                     </div>
                                 </div>
