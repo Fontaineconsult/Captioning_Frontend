@@ -49,7 +49,6 @@ class NewMediaContainer extends Component {
 
     }
 
-
     addNewMediaFileInfoToDB(event) {
         event.preventDefault();
         if (this.state.title === '') {
@@ -62,7 +61,6 @@ class NewMediaContainer extends Component {
 
         }
     }
-
 
     uploadVideoAndAddToTempJob(event) {
 

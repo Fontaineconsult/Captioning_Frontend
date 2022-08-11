@@ -193,7 +193,7 @@ export function deleteVideoJob(job_id, column, value) {
 }
 
 
-export function getS3Link(value) {
+export function getS3Link(value, filename) {
 
     let data_object = {file_id: value};
 
@@ -209,19 +209,42 @@ export function getS3Link(value) {
     function clipBoard(data) {
         clipboardCopy(data).then(function () {
             alert("Copied to Clipboard")
-
         })
-
     }
 
+    const downloadVideo = async (url, filename) => {
+        await fetch(url).then(r => r.blob())
+            .then((blob) => {
+
+                const blobURL = (window.URL && window.URL.createObjectURL) ? window.URL.createObjectURL(blob) : window.webkitURL.createObjectURL(blob);
+                const tempLink = document.createElement('a');
+                tempLink.style.display = 'none';
+                tempLink.href = blobURL;
+                tempLink.setAttribute('download', filename);
+
+                if (typeof tempLink.download === 'undefined') {
+                    tempLink.setAttribute('target', '_blank');
+                }
+
+                document.body.appendChild(tempLink);
+                tempLink.click();
+
+                setTimeout(function () {
+                    document.body.removeChild(tempLink);
+                    window.URL.revokeObjectURL(blobURL);
+                }, 200)
+            });
+    }
 
     return (dispatch) => {
         dispatch(LoadingVideoJobs(true))
         return fetch(`${server_url}/services/make-public`, put_object)
             .then(response => response.text())
-            .then(data => clipBoard(data))
+            // .then(data => clipBoard(data))
+            .then(data => downloadVideo(data, filename))
             .then(data => dispatch(LoadingVideoJobs(false)))
             .catch(error => alert(error))
+
     }
 }
 

@@ -29,6 +29,7 @@ import {v1 as uuidv1} from 'uuid';
 import fetch from "cross-fetch";
 import {receiveVideoList} from "../videoLists";
 import {receiveCanvasVideos} from "../canvas_videos";
+import {clearSourceUrlData, receiveSourceURLData} from "../searchFilter";
 
 
 const server_url = endpoint();
@@ -460,6 +461,39 @@ export function getVideoList(list_id, task) {
             .then(data => dispatch(receiveVideoList(data)))
             .then(data => console.log(data))
             .then(data => dispatch(LoadingMedia(false)))
+
+    }
+}
+
+
+export function fetchDataFromSourceUrl(source_url) {
+    return dispatch => {
+
+        dispatch(clearSourceUrlData());
+
+
+        return fetch(`${server_url}/media?source_url=${source_url}`)
+            .then(response => response.json())
+            .then(data => checkResponse(data))
+            .then(data => dispatch(receiveSourceURLData(data)))
+            .then(data => console.log("data is ", data))
+
+
+    }
+}
+
+export function fetchDataFromTitle(search_word) {
+    let word = search_word.toLowerCase();
+    return dispatch => {
+
+        dispatch(clearSourceUrlData());
+
+        return fetch(`${server_url}/media?title=${word}`)
+            .then(response => response.json())
+            .then(data => checkResponse(data))
+            .then(data => dispatch(receiveSourceURLData(data)))
+            .then(data => console.log("data is ", data))
+
 
     }
 }

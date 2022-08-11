@@ -17,32 +17,36 @@ class EditUsersContainer extends Component {
 
     render() {
 
-        return (<div>
-            <div className={"scroll-inside-div"}>
-                <div className="masterListItem masterListUser">
-                    <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
-                        <div className={"emp-display-title"}>
-                            <div style={{"fontWeight": "600"}}>
-                                All Employees
+        return (
+            <div>
+                <div className={"scroll-container"}>
+                    <div className={"scroll-inside-div"}>
+                        <div className="masterListItem masterListUser">
+                            <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
+                                <div className={"emp-display-title"}>
+                                    <div style={{"fontWeight": "600"}}>
+                                        All Employees
+                                    </div>
+                                </div>
+                                <EmployeesContainer/>
+
+                            </div>
+
+                            <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
+                                <div className={"emp-display-title"}>
+                                    <div style={{"fontWeight": "600"}}>
+                                        All Students
+                                    </div>
+                                </div>
+                                <StudentsContainer/>
+
                             </div>
                         </div>
-                        <EmployeesContainer/>
-
-                    </div>
-
-                    <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
-                        <div className={"emp-display-title"}>
-                            <div style={{"fontWeight": "600"}}>
-                                All Students
-                            </div>
-                        </div>
-                        <StudentsContainer/>
-
                     </div>
                 </div>
-            </div>
 
-        </div>)
+
+            </div>)
     }
 }
 

@@ -1,0 +1,145 @@
+.job-container-search {
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 30px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #66282c34;
+    padding-right: 5px;
+    display: flex;
+    width: 98%;
+    border-radius: 3px;
+    background-color: #fafafa;
+    box-shadow: 3px 3px 2px #808385;
+
+}
+
+.masterListItemSearch {
+    margin-left: auto;
+    margin-right: auto;
+
+
+}
+
+.inner-container-left {
+
+    padding-left: 2%;
+    width: 100%;
+
+}
+
+
+.text-container {
+    display: flex;
+    margin-top: 10px;
+}
+
+.title {
+    padding-left: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+
+}
+
+.label {
+    padding-left: 5px;
+    font-weight: bold;
+
+}
+
+
+.source-caption-container {
+    margin-top: 30px;
+    display: flex;
+
+}
+
+.source-container {
+    margin-top: 7px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 50%;
+
+}
+
+.description {
+    padding-left: 5px;
+    width: 18rem;
+    height: auto;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-overflow: ellipsis;
+
+}
+
+.label {
+    padding-left: 5px;
+    flex-direction: column;
+    font-weight: bold;
+    flex-wrap: wrap;
+
+}
+
+.search-lower-container {
+    margin-top: 10px;
+    display: flex;
+}
+
+.upload-download-video {
+    display: flex;
+    margin-top: 30px;
+    padding-left: 20px;
+}
+
+.copy-icon {
+    display: flex;
+    margin-top: 20px;
+    padding-left: 10px;
+}
+
+.button-submit {
+    margin-top: 1rem;
+}
+
+.video-dropdown {
+    margin-top: 5px;
+}
+
+
+.video-selector {
+    margin-top: 10px;
+    padding-left: 5px;
+    width: 22rem;
+}
+
+.video-container {
+    display: flex;
+}
+
+.output-container {
+    display: flex;
+    width: 50%;
+}
+
+.caption-selector {
+    padding-left: 5px;
+    width: 22rem;
+    margin-top: 10px;
+}
+
+.output-dropdown {
+    margin-top: 5px;
+    margin-bottom: 30px;
+
+}
+
+.output-selector {
+    padding-left: 5px;
+    width: 22rem;
+    margin-top: 10px;
+}
+
+.caption-master-container {
+    display: flex;
+}

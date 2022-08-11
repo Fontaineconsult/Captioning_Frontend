@@ -375,58 +375,60 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer,}, {
     let s3Resources
     let captionFiles
     let media_type = true
-    if (media.media_type === 'File') {
-        fileObject = media.media_objects.find(item => {
-            return item.associated_files.sha_256_hash === media.sha_256_hash
 
-        })
+    if (media !== undefined) {
+        if (media.media_type === 'File') {
+            fileObject = media.media_objects.find(item => {
+                return item.associated_files.sha_256_hash === media.sha_256_hash
+            })
+        }
+
+        if (media.media_type === 'URL') {
+            media_type = false
+        }
+
+        if (fileObject) {
+            let endpoint = fileDownloadUrl()
+            download_url = `${endpoint}?media_id=${media.id}`
+        }
+
+        if (Object.keys(mediaReducer).length > 0) {
+            media = mediaReducer[mediaId]
+
+            s3Resources = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
+                if (currentValue.associated_files !== null) {
+
+                    accumulator.push({
+                        value: currentValue.associated_files.id,
+                        label: currentValue.associated_files.file_name,
+                    })
+                }
+
+
+                return accumulator
+            }, [])
+        }
+
+        if (Object.keys(mediaReducer).length > 0) {
+            media = mediaReducer[mediaId]
+
+            captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
+                if (currentValue.associated_captions !== null) {
+                    accumulator.push({
+                        caption_id: currentValue.associated_captions.id,
+                        value: currentValue.associated_captions.file_name,
+                        label: currentValue.associated_captions.file_name,
+                        association_id: currentValue.id
+                    })
+                }
+                return accumulator
+            }, [])
+        }
+
+        console.log("s3 resources ", s3Resources)
+
     }
 
-    if (media.media_type === 'URL') {
-        media_type = false
-    }
-
-    if (fileObject) {
-        let endpoint = fileDownloadUrl()
-        download_url = `${endpoint}?media_id=${media.id}`
-    }
-
-    if (Object.keys(mediaReducer).length > 0) {
-        media = mediaReducer[mediaId]
-
-        s3Resources = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
-            if (currentValue.associated_files !== null) {
-
-                accumulator.push({
-                    value: currentValue.associated_files.id,
-                    label: currentValue.associated_files.file_name,
-                })
-            }
-
-
-            console.log("inside s3 accumulator: ", accumulator);
-
-            return accumulator
-        }, [])
-    }
-
-    if (Object.keys(mediaReducer).length > 0) {
-        media = mediaReducer[mediaId]
-
-        captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
-            if (currentValue.associated_captions !== null) {
-                accumulator.push({
-                    caption_id: currentValue.associated_captions.id,
-                    value: currentValue.associated_captions.file_name,
-                    label: currentValue.associated_captions.file_name,
-                    association_id: currentValue.id
-                })
-            }
-            return accumulator
-        }, [])
-    }
-
-    console.log("s3 resources ", s3Resources)
     return {
         media,
         fileObject,

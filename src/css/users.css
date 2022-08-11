@@ -112,3 +112,7 @@
     height: 100%;
 
 }
+
+.scroll-container {
+    height: 86vh;
+}

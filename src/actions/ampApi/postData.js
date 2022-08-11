@@ -264,6 +264,7 @@ export function addMediaToDBandTempJob(title, link, type, temp_id) {
     }
 };
 
+//TODO: THIS METHOD TO UPLOAD VIDEO
 export function uploadVideoWithMediaId(video, media_id, temp_id, content_type) {
 
     // imports fetch statement to fetch new media info after file upload. Directly updates tempJobstate
@@ -275,6 +276,7 @@ export function uploadVideoWithMediaId(video, media_id, temp_id, content_type) {
             'Media-Id': media_id
         }
     };
+
 
     return dispatch => {
         dispatch(LoadingMedia(true));
@@ -436,8 +438,6 @@ export function addSRTtoAmaraResource(caption_id, amara_id, media_id) {
             'Content-Type': 'application/json'
         }
     };
-
-
 
 
     return dispatch => {
