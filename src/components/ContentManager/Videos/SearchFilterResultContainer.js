@@ -6,6 +6,7 @@ import Select from "react-select";
 import Button from "@material-ui/core/Button";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import PublishIcon from "@material-ui/icons/Publish";
+import ContentCopyIcon from "@material-ui/icons/FileCopy";
 import withRouter from "react-router-dom/es/withRouter";
 import {connect} from "react-redux";
 import {getS3Link} from "../../../actions/ampApi/putData";
@@ -14,6 +15,7 @@ import {uploadCaptionFileWithMediaId, uploadMediaFromJobView} from "../../../act
 import {v1 as uuidv1} from "uuid";
 import green from "@material-ui/core/colors/green";
 import CryptoJS from "crypto-js";
+import clipboardCopy from "clipboard-copy";
 
 
 class SearchFilterResultContainer extends Component {
@@ -36,7 +38,8 @@ class SearchFilterResultContainer extends Component {
             media_temp_id: "",
             sha_256_hash: "",
             isCapDownBtnDisabled: true,
-            isVideoDownBtnDisabled: true
+            isVideoDownBtnDisabled: true,
+            isCopyBtnDisabled: true
         };
 
         this.getData = this.getData.bind(this)
@@ -49,6 +52,7 @@ class SearchFilterResultContainer extends Component {
         this.uploadVideo = this.uploadVideo.bind(this)
         this.setCaptionFile = this.setCaptionFile.bind(this)
         this.setMediaFile = this.setMediaFile.bind(this)
+        this.copyContent = this.copyContent.bind(this)
 
 
     }
@@ -132,7 +136,8 @@ class SearchFilterResultContainer extends Component {
 
     updateOutputSelectState(event) {
         this.setState({
-            output_select: event
+            output_select: event,
+            isCopyBtnDisabled: false
         });
     }
 
@@ -141,6 +146,14 @@ class SearchFilterResultContainer extends Component {
             video_select: event,
             isVideoDownBtnDisabled: false
         });
+    }
+
+    copyContent() {
+        //copy output content here
+        clipboardCopy(this.state.output_select.label)
+            .then(() => {
+                alert("Copied to Clipboard")
+            })
     }
 
 
@@ -311,17 +324,32 @@ class SearchFilterResultContainer extends Component {
                         </div>
 
                         <div className={"search-lower-container"}>
-                            <div className={"output-dropdown"}>
-                                <label className={"label"}>Output Files: </label>
-                                <Select
-                                    name="output_select"
-                                    value={this.state.output_select}
-                                    className={"output-selector"}
-                                    onChange={this.updateOutputSelectState}
-                                    options={outputFiles}
+                            <div className={"output-container"}>
+                                <div className={"output-dropdown"}>
+                                    <label className={"label"}>Output Files: </label>
+                                    <Select
+                                        name="output_select"
+                                        value={this.state.output_select}
+                                        className={"output-selector"}
+                                        onChange={this.updateOutputSelectState}
+                                        options={outputFiles}
 
-                                />
+                                    />
+                                </div>
+                                <div className={"copy-icon"}>
+                                    <div>
+                                        <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
+                                        >Copy</label>
+                                        <Button onClick={this.copyContent}
+                                                disabled={this.state.isCopyBtnDisabled}><ContentCopyIcon
+                                            fontSize="medium"/></Button>
+                                    </div>
+
+                                </div>
+
+
                             </div>
+
 
                             <div className={"video-container"}>
                                 <div className={"video-dropdown"}>
