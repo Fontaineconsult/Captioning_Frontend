@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import Button from '@material-ui/core/Button'
-import {updateCanvasVideoBatch, updateiLearnVideoBatch} from '../../../actions/ampApi/putData'
+import {updateCanvasVideoBatch} from '../../../actions/ampApi/putData'
 import '../../../css/tabulator.css'
 import AddJobModal from "./addJobModal"
+import clipboardCopy from "clipboard-copy";
 
 class TabToolBar extends Component {
 
@@ -86,7 +87,12 @@ class TabToolBar extends Component {
             selected_rows_string = selected_rows_string + "Title: " + e._row.data.title + "\nLink: " + e._row.data.resource_link + "\n\n";
         })
 
-        navigator.clipboard.writeText(selected_rows_string);
+        // navigator.clipboard.writeText(selected_rows_string);
+        clipboardCopy(selected_rows_string)
+            .then(console.log("copied: "))
+            .catch((e) => {
+                alert(e)
+            });
     }
 
     render() {
