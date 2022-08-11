@@ -85,6 +85,7 @@ export function AddVideoJob(requester_id, show_date, media_id, output_format, co
 
 };
 
+
 export function AddVideoJobBatch(jobsReducer) {
 
     let error_id = uuidv1()
