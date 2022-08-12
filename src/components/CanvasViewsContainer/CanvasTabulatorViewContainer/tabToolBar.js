@@ -65,25 +65,18 @@ class TabToolBar extends Component {
     };
 
     noTitle() {
-
         return this.props.selected_rows.some(row => {
             console.log(this.props.selected_rows)
             return row._row.data.title === "" || row._row.data.title === null;
 
         })
-
-
     }
 
     copyToClipboard() {
-        // console.log("selected row are: ", this.props.selected_rows);
-
         let rows = this.props.selected_rows;
         let selected_rows_string = ""
 
         rows.map((e) => {
-            console.log("selected row title: ", e._row.data.title);
-            console.log("selected row link: ", e._row.data.resource_link);
             selected_rows_string = selected_rows_string + "Title: " + e._row.data.title + "\nLink: " + e._row.data.resource_link + "\n\n";
         })
 
@@ -96,7 +89,6 @@ class TabToolBar extends Component {
     }
 
     render() {
-
         return (
             <div className={"toolbar-container"}>
                 {this.selectable() ?
