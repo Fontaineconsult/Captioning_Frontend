@@ -143,3 +143,14 @@
 .caption-master-container {
     display: flex;
 }
+
+.source-input {
+    width: 21.1rem;
+    margin-left: 5px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    border: 2px solid #acacac73;
+
+}

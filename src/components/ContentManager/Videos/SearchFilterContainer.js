@@ -145,8 +145,6 @@ function isValidHttpUrl(string) {
 
 function mapStateToProps({searchFilterReducer}, {props}) {
 
-    console.log("props filter ", searchFilterReducer)
-
     return {
         searchFilterReducer
     }
