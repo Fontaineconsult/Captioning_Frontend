@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import PublishIcon from "@material-ui/icons/Publish";
 import ContentCopyIcon from "@material-ui/icons/FileCopy";
+import EditIcon from "@material-ui/icons/Edit";
+import SubmitIcon from "@material-ui/icons/CheckBoxOutlined"
 import withRouter from "react-router-dom/es/withRouter";
 import {connect} from "react-redux";
 import {downloadCaptionFile, downloadMediaFile} from "../../../actions/ampApi/fetchData";
@@ -15,6 +17,7 @@ import {v1 as uuidv1} from "uuid";
 import green from "@material-ui/core/colors/green";
 import CryptoJS from "crypto-js";
 import clipboardCopy from "clipboard-copy";
+import {updateMedia} from "../../../actions/ampApi/putData";
 
 
 class SearchFilterResultContainer extends Component {
@@ -23,7 +26,6 @@ class SearchFilterResultContainer extends Component {
 
         this.state = {
             title: '',
-            source_url: '',
             media_id: this.props.media_id,
             reducer: this.props.reducer,
             data: [],
@@ -44,6 +46,8 @@ class SearchFilterResultContainer extends Component {
             isCapDownBtnDisabled: true,
             isVideoDownBtnDisabled: true,
             isCopyBtnDisabled: true,
+            isInputDisabled: true,
+
         };
 
         this.setData = this.setData.bind(this)
@@ -57,7 +61,9 @@ class SearchFilterResultContainer extends Component {
         this.setCaptionFile = this.setCaptionFile.bind(this)
         this.setMediaFile = this.setMediaFile.bind(this)
         this.copyContent = this.copyContent.bind(this)
-        this.updateInput = this.updateInput.bind(this)
+        this.updateInputState = this.updateInputState.bind(this)
+        this.updateSource = this.updateSource.bind(this)
+        this.toggleEdit = this.toggleEdit.bind(this)
     }
 
 
@@ -275,19 +281,35 @@ class SearchFilterResultContainer extends Component {
 
     }
 
-    updateInput(event) {
+    updateInputState(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
 
         this.setState({
             [name]: value
-        }, () => {
-            console.log("New input is ", this.state.source_input)
         });
 
     }
 
+    updateSource() {
+        if (isValidHttpUrl(this.state.source_input)) {
+            this.props.dispatch(updateMedia(this.state.media_id, "source_url", this.state.source_input))
+            this.setState({
+                isInputDisabled: true,
+
+            })
+
+        } else {
+            alert("Please enter a valid URL")
+        }
+    }
+
+    toggleEdit() {
+        this.setState({
+            isInputDisabled: false
+        })
+    }
 
     render() {
         return (
@@ -300,17 +322,37 @@ class SearchFilterResultContainer extends Component {
                             <label className={"title"}>{this.state.title}</label>
                         </div>
 
-                        {/*//TODO*/}
                         <div className={"source-caption-container"}>
                             <div className={"source-container"}>
                                 <div style={{"display": "flex"}}>
                                     <label className={"label"}>Source: </label>
                                     {/*<a className={"description"} href={data[0].source_url}>{data[0].source_url}</a>*/}
+                                </div>
+                                <div style={{display: "flex"}}>
+                                    <input className={"source-input"} value={this.state.source_input} type="input"
+                                           name="source_input" onChange={this.updateInputState}
+                                           disabled={this.state.isInputDisabled}/>
 
+                                    <div className={"source-icons"}>
+                                        <div>
+                                            <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
+                                            >Edit</label>
+                                            <Button onClick={this.toggleEdit}
+                                                    disabled={!this.state.isInputDisabled}><EditIcon
+                                                fontSize="medium"/></Button>
+                                        </div>
+                                        <div>
+                                            <label style={{display: "block", fontSize: '12px', textAlign: "center"}}
+                                            >Submit</label>
+                                            <Button onClick={this.updateSource} disabled={this.state.isInputDisabled}
+                                            ><SubmitIcon
+                                                fontSize="medium"/></Button>
+                                        </div>
+
+                                    </div>
 
                                 </div>
-                                <input className={"source-input"} value={this.state.source_input} type="input"
-                                       name="source_input" onChange={this.updateInput}/>
+
                             </div>
 
                             <div className={"caption-master-container"}>
@@ -427,6 +469,16 @@ class SearchFilterResultContainer extends Component {
             </div>
         )
     }
+}
+
+function isValidHttpUrl(string) {
+    let url;
+    try {
+        url = new URL(string);
+    } catch (_) {
+        return false;
+    }
+    return url.protocol === "http:" || url.protocol === "https:";
 }
 
 
