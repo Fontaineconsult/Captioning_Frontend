@@ -9,8 +9,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import ContentCopyIcon from "@material-ui/icons/FileCopy";
 import withRouter from "react-router-dom/es/withRouter";
 import {connect} from "react-redux";
-import {getS3Link} from "../../../actions/ampApi/putData";
-import {downloadCaptionFile} from "../../../actions/ampApi/fetchData";
+import {downloadCaptionFile, downloadMediaFile} from "../../../actions/ampApi/fetchData";
 import {uploadCaptionFileWithMediaId, uploadMediaFromJobView} from "../../../actions/ampApi/postData";
 import {v1 as uuidv1} from "uuid";
 import green from "@material-ui/core/colors/green";
@@ -100,7 +99,8 @@ class SearchFilterResultContainer extends Component {
 
         if (this.state.video_select.value != undefined) {
             console.log("video id ", this.state.video_select.value)
-            this.props.dispatch(getS3Link(this.state.video_select.value, this.state.video_select.label))
+            // this.props.dispatch(getS3Link(this.state.video_select.value, this.state.video_select.label))
+            this.props.dispatch(downloadMediaFile(this.state.video_select.value, this.state.media_id))
 
         }
     }

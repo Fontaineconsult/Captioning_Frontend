@@ -315,7 +315,6 @@ export function fetchCanvasVideosByCourseGenId(CourseGenId) {
 }
 
 
-
 export function fetchMediaById(id) {
     let unique_id = uuidv1()
     console.log("MEDIA SEARCH", id)
@@ -433,7 +432,6 @@ export function downloadCaptionFile(item_id, media_id) {
 }
 
 export function downloadMediaFile(item_id, media_id) {
-
 
     return dispatch => {
 

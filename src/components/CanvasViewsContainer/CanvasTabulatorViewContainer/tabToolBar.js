@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import Button from '@material-ui/core/Button'
-import {updateCanvasVideoBatch, updateiLearnVideoBatch} from '../../../actions/ampApi/putData'
+import {updateCanvasVideoBatch} from '../../../actions/ampApi/putData'
 import '../../../css/tabulator.css'
 import AddJobModal from "./addJobModal"
+import clipboardCopy from "clipboard-copy";
 
 class TabToolBar extends Component {
 
@@ -64,33 +65,30 @@ class TabToolBar extends Component {
     };
 
     noTitle() {
-
         return this.props.selected_rows.some(row => {
             console.log(this.props.selected_rows)
             return row._row.data.title === "" || row._row.data.title === null;
 
         })
-
-
     }
 
     copyToClipboard() {
-        // console.log("selected row are: ", this.props.selected_rows);
-
         let rows = this.props.selected_rows;
         let selected_rows_string = ""
 
         rows.map((e) => {
-            console.log("selected row title: ", e._row.data.title);
-            console.log("selected row link: ", e._row.data.resource_link);
             selected_rows_string = selected_rows_string + "Title: " + e._row.data.title + "\nLink: " + e._row.data.resource_link + "\n\n";
         })
 
-        navigator.clipboard.writeText(selected_rows_string);
+        // navigator.clipboard.writeText(selected_rows_string);
+        clipboardCopy(selected_rows_string)
+            .then(console.log("copied: "))
+            .catch((e) => {
+                alert(e)
+            });
     }
 
     render() {
-
         return (
             <div className={"toolbar-container"}>
                 {this.selectable() ?
