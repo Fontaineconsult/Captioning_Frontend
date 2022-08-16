@@ -40,7 +40,7 @@ class SearchFilterResultContainer extends Component {
             mediaFileUpload: "",
             media_temp_id: "",
             sha_256_hash: "",
-            source_input: "asdfghjkl",
+            source_input: "",
             isCapDownBtnDisabled: true,
             isVideoDownBtnDisabled: true,
             isCopyBtnDisabled: true,
@@ -157,7 +157,7 @@ class SearchFilterResultContainer extends Component {
                 videoFiles: videoFiles,
                 data: data,
                 title: data[0].title,
-                source_input: data[0].source_input,
+                source_input: data[0].source_url,
 
             })
         }
