@@ -104,7 +104,7 @@ function mapStateToProps({videosJobsReducer,
 
 
     let formatData = (job) => {
-        console.log("JOBBBBB", job)
+
         let block_send = false
         let requester_id
         let requester_name
