@@ -55,7 +55,6 @@
 }
 
 .source-container {
-    margin-top: 7px;
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -95,7 +94,10 @@
 .copy-icon {
     display: flex;
     margin-top: 20px;
-    padding-left: 10px;
+}
+
+.source-icons {
+    display: flex;
 }
 
 .button-submit {
@@ -143,3 +145,15 @@
 .caption-master-container {
     display: flex;
 }
+
+.source-input {
+    width: 21.1rem;
+    margin-left: 5px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    border: 2px solid #acacac73;
+
+}
+

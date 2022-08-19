@@ -27,7 +27,6 @@ function checkResponse(data) {
     }
 }
 
-
 export function updateMedia(media_id, column, value) {
 
     let data_object = {id: media_id, column: column, value: value};
@@ -43,7 +42,7 @@ export function updateMedia(media_id, column, value) {
 
 
         return fetch(`${server_url}/media`, put_object)
-            .then(data => dispatch(updateMediaDeep(data_object)))
+            .then(data => dispatch(updateMediaDeep(data_object.id, data_object.column, data_object.value)))
             .catch(error => api_failure(error))
     }
 }
@@ -211,7 +210,7 @@ export function getS3Link(value, filename) {
             alert("Copied to Clipboard")
         })
     }
-    
+
     return (dispatch) => {
         dispatch(LoadingVideoJobs(true))
         return fetch(`${server_url}/services/make-public`, put_object)
