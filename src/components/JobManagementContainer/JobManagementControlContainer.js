@@ -147,7 +147,7 @@ class JobManagementControlContainer extends Component {
             <div className="JobManagementControlContainer">
                 <div className="control-bar">
                     <div className="controlBarNavButtons">
-                        <div tabIndex={0} role={'button'} className="navButton"
+                        <div tabIndex={0} role={'button'} style={{'borderLefttWidth':'1px', borderLefttStyle: 'solid'}} className="navButton"
                              onClick={() => this.updateJobStatusFilter("semesterJobs")}
                              onKeyPress={event => {
                                  if (event.key === 'Enter') {
@@ -156,7 +156,7 @@ class JobManagementControlContainer extends Component {
                              }}>
                             Semester Jobs <span className={"jobCount"}>{this.props.semesterJobsCount}</span>
                         </div>
-                        <div tabIndex={0} role={'button'} className="navButton"
+                        <div tabIndex={0} style={{'borderRightWidth':'1px', borderRightStyle: 'solid'}} role={'button'} className="navButton"
                              onClick={() => this.updateJobStatusFilter("activeJobs")}
                              onKeyPress={event => {
                                  if (event.key === 'Enter') {
@@ -165,15 +165,63 @@ class JobManagementControlContainer extends Component {
                              }}>
                             Active Jobs <span className={"jobCount"}>{this.props.activeJobsCount}</span>
                         </div>
-                        <div tabIndex={0} role={'button'} className="navButton"
+                        <span style={{width: '30px'}}/>
+                        <div tabIndex={0} role={'button'} className="navButton queuedBtn"
+                             onClick={() => this.updateJobStatusFilter("queuedJobs")}
+                             onKeyPress={event => {
+                                 if (event.key === 'Enter') {
+                                     this.updateJobStatusFilter("queuedJobs")
+                                 }
+                             }}>
+                            Queued <span className={"jobCount"}>{this.props.queuedJobsCount}</span>
+                        </div>
+                        <div tabIndex={0} role={'button'} className="navButton captioningBtn"
+                             onClick={() => this.updateJobStatusFilter("captioningJobs")}
+                             onKeyPress={event => {
+                                 if (event.key === 'Enter') {
+                                     this.updateJobStatusFilter("captioningJobs")
+                                 }
+                             }}>
+                            Captioning <span className={"jobCount"}>{this.props.captioningJobsCount}</span>
+                        </div>
+                        <div tabIndex={0} role={'button'} className="navButton readyBtn"
+                             onClick={() => this.updateJobStatusFilter("readyJobs")}
+                             onKeyPress={event => {
+                                 if (event.key === 'Enter') {
+                                     this.updateJobStatusFilter("readyJobs")
+                                 }
+                             }}>
+                            Ready <span className={"jobCount"}>{this.props.readyJobsCount}</span>
+                        </div>
+                        <div tabIndex={0} style={{'borderRightWidth':'1px', borderRightStyle: 'solid'}} role={'button'} className="navButton deliveredBtn"
                              onClick={() => this.updateJobStatusFilter("completeJobs")}
                              onKeyPress={event => {
                                  if (event.key === 'Enter') {
                                      this.updateJobStatusFilter("completeJobs")
                                  }
                              }}>
-                            Complete Jobs <span className={"jobCount"}>{this.props.completeJobsCount}</span>
+                            Delivered <span className={"jobCount"}>{this.props.completeJobsCount}</span>
                         </div>
+                        <span style={{width: '30px'}}/>
+                        <div tabIndex={0} role={'button'} className="navButton onHoldBtn"
+                             onClick={() => this.updateJobStatusFilter("onHoldJobs")}
+                             onKeyPress={event => {
+                                 if (event.key === 'Enter') {
+                                     this.updateJobStatusFilter("onHoldJobs")
+                                 }
+                             }}>
+                            On Hold <span className={"jobCount"}>{this.props.onHoldJobsCount}</span>
+                        </div>
+                        <div tabIndex={0} role={'button'} style={{'borderRightWidth':'1px', borderRightStyle: 'solid'}} className="navButton cancelledBtn"
+                             onClick={() => this.updateJobStatusFilter("cancelledJobs")}
+                             onKeyPress={event => {
+                                 if (event.key === 'Enter') {
+                                     this.updateJobStatusFilter("cancelledJobs")
+                                 }
+                             }}>
+                            Cancelled <span className={"jobCount"}>{this.props.cancelledJobsCount}</span>
+                        </div>
+
                     </div>
                 </div>
                 <div className="filtersMainContainer">
@@ -268,10 +316,30 @@ function mapStateToProps({
             videosJobsReducer[videoJobId].job_status === 'Ready'
 
     })
+
+    let captioningJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
+        return videosJobsReducer[videoJobId].job_status === 'Captioning'
+    })
+
+    let readyJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
+        return videosJobsReducer[videoJobId].job_status === 'Ready'
+    })
+
+    let onHoldJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
+        return videosJobsReducer[videoJobId].job_status === 'On Hold'
+    })
+
+
     let completeJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
         return videosJobsReducer[videoJobId].job_status === 'Delivered'
     })
 
+    let cancelledJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
+        return videosJobsReducer[videoJobId].job_status === 'Cancelled'
+    })
+    let queuedJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
+        return videosJobsReducer[videoJobId].job_status === 'Queued'
+    })
 
     if (Object.keys(requesterReducer).length > 0 && Object.keys(videosJobsReducer).length > 0) {
 
@@ -301,17 +369,14 @@ function mapStateToProps({
 
         }, {});
 
-
         courseSelectorContent = Object.keys(requester).map(key => {
             return requester[key]
-
         })
-
-
     }
 
 
     return {
+
         videosJobsReducer,
         jobsLoading,
         requesterReducer,
@@ -323,7 +388,16 @@ function mapStateToProps({
         semesterJobs,
         completeJobs,
         mediaReducer,
-
+        captioningJobs,
+        readyJobs,
+        onHoldJobs,
+        cancelledJobs,
+        queuedJobs,
+        queuedJobsCount: queuedJobs.length,
+        captioningJobsCount: captioningJobs.length,
+        readyJobsCount: readyJobs.length,
+        onHoldJobsCount: onHoldJobs.length,
+        cancelledJobsCount: cancelledJobs.length,
         semesterJobsCount: semesterJobs.length,
         activeJobsCount: activeJobs.length,
         completeJobsCount: completeJobs.length

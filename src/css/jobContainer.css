@@ -411,3 +411,40 @@ lowerUpperJobContainer {
 }
 
 
+.queuedBtn {
+background: #fafafb;
+background: linear-gradient(180deg, rgba(63, 123, 191, 0) 84%,rgb(63, 123, 191) 100%);
+}
+
+.captioningBtn {
+    background: #fafafb;
+    background: linear-gradient(180deg,rgba(172, 57, 91, 0) 84%, rgb(172, 57, 91) 100%);
+}
+
+.readyBtn {
+    background: #fafafb;
+    background: linear-gradient(180deg, rgba(172, 143, 57, 0) 84%, rgb(172, 143, 573) 100%);
+
+}
+
+.deliveredBtn {
+    background: #fafafb;
+    background: linear-gradient(180deg, rgba(114, 172, 57, 0) 84%, rgb(114, 172, 57) 100%);
+
+}
+
+.onHoldBtn {
+    background: #fafafb;
+    background: linear-gradient(180deg, rgba(257, 172, 139, 0) 84%, rgb(57, 172, 139) 100%);
+
+}
+
+.cancelledBtn {
+    background: #fafafb;
+    background: linear-gradient(180deg, rgba(17, 18, 38, 0) 84%, rgb(17, 18, 38) 100%);
+
+}
+
+
+
+
