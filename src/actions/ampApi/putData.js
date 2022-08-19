@@ -48,6 +48,7 @@ export function updateMedia(media_id, column, value) {
 }
 
 
+
 export function updateCourse(course_gen_id, column, value) {
 
     let data_object = {course_gen_id: course_gen_id, column: column, value: value};
