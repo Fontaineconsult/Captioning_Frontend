@@ -107,17 +107,17 @@ class JobManagementControlContainer extends Component {
 
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        // Only runs if no filters are set.
-        if (this.state.filterSelectedCourse === '' && this.state.job_status_value === '' && this.state.order_by_value === '') {
-            if (this.state.videoJobs.length !== this.props[this.state.job_status].length) {
-                this.setState({
-                    videoJobs: this.props[this.state.job_status].map((key) => this.props.videosJobsReducer[key].id)
-                })
-            }
-        }
-
-    }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     // Only runs if no filters are set.
+    //     if (this.state.filterSelectedCourse === '' && this.state.job_status_value === '' && this.state.order_by_value === '') {
+    //         if (this.state.videoJobs.length !== this.props[this.state.job_status].length) {
+    //             this.setState({
+    //                 videoJobs: this.props[this.state.job_status].map((key) => this.props.videosJobsReducer[key].id)
+    //             })
+    //         }
+    //     }
+    //
+    // }
 
     componentDidMount() {
         this.setState({
