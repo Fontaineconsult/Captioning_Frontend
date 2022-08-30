@@ -52,6 +52,11 @@ class CanvasCourseContainer extends Component {
 
     }
 
+    componentDidMount() {
+        this.setState({'course_comments': this.props.course_comments})
+
+    }
+
     updateCommentsChange(event){
 
         const target = event.target;
