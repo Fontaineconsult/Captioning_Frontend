@@ -206,6 +206,22 @@ class CanvasTabulatorContainer extends Component {
             { title: "Select", width:60, hozAlign :"center",  formatter:reactFormatter(<this.IsChecked/>)},
         ];
 
+        if (this.props.type === 'newVideos') {
+
+            columns = [
+                { title: "Title", field: "title", editor:"input"},
+                { title: "Course", field: 'course'},
+                { title: "Captioned", field: "captioned", width: 130, hozAlign :"center", formatter: reactFormatter(<this.IsCaptionedButton />) },
+                { title: "CC",  width: 75, field: "captioned_link", hozAlign :"center", formatter: reactFormatter(<this.ClosedCaptionLink />)},
+                { title: "Parent", width: 95, field: "resource_type",  hozAlign :"center", formatter: "link", formatterParams:{target:"_blank", urlField:'parent'}},
+                { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
+                { title: "Scan Date", hozAlign:"center", field: "scan_date", width: 105 },
+                { title: "Submitted", field: "submitted_for_processing",  hozAlign :"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
+                { title: "Section", field: "page_section", hozAlign :"center", width: 80 },
+                { title: "Select", width:60, hozAlign :"center",  formatter:reactFormatter(<this.IsChecked/>)},
+            ];
+
+        }
 
 
         this.tableData = this.props.videosList;
@@ -303,7 +319,8 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_gen_id,
             resource_type: video.resource_type,
             parent: video.parent_url,
             video_passed: video.auto_caption_passed,
-            content_hidden: video.content_hidden
+            content_hidden: video.content_hidden,
+            course: video.course_gen_id
 
         }
     };

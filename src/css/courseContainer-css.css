@@ -65,6 +65,14 @@ textarea{
 
 }
 
+.canvasContentContainer {
+
+    border-width: 1px;
+    overflow-y: scroll;
+    height: 90vh;
+}
+
+
 .courseNoVideos {
 
     margin-left: auto;

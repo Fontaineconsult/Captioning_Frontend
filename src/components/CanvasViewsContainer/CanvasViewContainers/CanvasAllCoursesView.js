@@ -26,7 +26,6 @@ class CanvasAllCoursesView extends Component {
     componentDidMount() {
 
         if (this.props.studentActive === true) {
-            console.log("SDFSDFSDF", this.props.requests_captioning)
             this.setState({
                 cache: new CellMeasurerCache({
                     fixedWidth: true,
@@ -53,7 +52,6 @@ class CanvasAllCoursesView extends Component {
                     }),
                     canvasVideoRowCount: Object.keys(this.props.requests_captioning).length,
                     captioningCourses: Object.keys(this.props.requests_captioning)
-
                 })
             } else {
 
@@ -65,10 +63,7 @@ class CanvasAllCoursesView extends Component {
                     canvasVideoRowCount:Object.keys(this.props.no_captioning).length,
                     captioningCourses:Object.keys(this.props.no_captioning)
                 })
-
             }
-
-
         }
 
         if (this.props.studentActive !== prevProps.studentActive) {
