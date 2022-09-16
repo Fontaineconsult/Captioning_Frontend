@@ -71,7 +71,6 @@ class AddJobModal extends Component {
     }
 
     handleOpen(name) {
-        console.log("plerrrbsssss",name)
 
         if (name==='create_job') {
             this.setState({
