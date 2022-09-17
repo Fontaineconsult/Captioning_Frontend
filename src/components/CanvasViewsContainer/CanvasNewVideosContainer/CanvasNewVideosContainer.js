@@ -55,7 +55,6 @@ class CanvasNewVideosContainer extends Component {
     }
 
 
-
     componentDidUpdate(prevProps, prevState, snapshot) {
 
 
@@ -76,8 +75,6 @@ class CanvasNewVideosContainer extends Component {
             }
             return accumulator
         },[]);
-
-
 
 
 

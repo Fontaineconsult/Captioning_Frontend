@@ -12,25 +12,25 @@ class AddJobsCanvasContainer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-
-        };
 
     }
 
     componentDidMount() {
+
         this.props.selected_rows.forEach(row => {
 
             let id = uuidv1()
+
             this.props.dispatch(addTempJob(id, this.props.requester_id))
 
             if (this.props.useParent === false){
-                this.props.dispatch(addMediaToDBandTempJob(row._row.data.title, row._row.data.resource_link, 'URL', id))
+                this.props.dispatch(addMediaToDBandTempJob(row._row.data.title,
+                    row._row.data.resource_link, 'URL', id))
             }
 
             if (this.props.useParent === true) {
-
-                this.props.dispatch(addMediaToDBandTempJob(row._row.data.title, row._row.data.parent, 'URL', id))
+                this.props.dispatch(addMediaToDBandTempJob(row._row.data.title,
+                    row._row.data.parent, 'URL', id))
             }
 
 
@@ -50,20 +50,16 @@ class AddJobsCanvasContainer extends Component {
             this.props.dispatch(addJobInfoToTempJob(id, reducer_obj))
             this.props.dispatch(completeTempJob(id,true))
 
-
-
         });
 
     }
 
     componentWillUnmount() {
 
-
         this.props.dispatch(clearTempCapJobs())
         this.props.dispatch(clearMediaSearch())
 
     }
-
 
     render() {
 
@@ -77,23 +73,38 @@ class AddJobsCanvasContainer extends Component {
         )
     }
 
-
 }
 
 
 function mapStateToProps({globalsReducer, coursesReducer, requesterReducer}, {course_gen_id, selected_rows}) {
 
+    console.log("ROWS", selected_rows)
+    console.log("GEN ID", course_gen_id)
+
     let semester = globalsReducer.currentSemester
+    let requester_ids = []
 
-    let requester_id = Object.keys(requesterReducer).find(requester => {
-        if (requesterReducer[requester].course_id === course_gen_id) {
-            return requesterReducer[requester].id
 
-        }
+    selected_rows.forEach(row => {
+        console.log(row._row.data.course)
+        requester_ids.push(
+            Object.keys(requesterReducer).find(requester => {
+                if (requesterReducer[requester].course_id === row._row.data.course) {
+                    return requesterReducer[requester].id
+
+                }
+
+            })
+        )
+
 
     })
 
+    console.log(requester_ids)
+    console.log([... new Set(requester_ids)])
 
+
+    let requester_id = undefined
     return {
         requesterReducer,
         coursesReducer,

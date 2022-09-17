@@ -98,13 +98,10 @@ function mapStateToProps({tempJobsFormReducer, requesterReducer, campusOrgReduce
 
         if (requesterReducer[requester_id].course_id) {
             return requesterReducer[requester_id].course_id
-
         } else {
             return campusOrgReducer[requesterReducer[requester_id].campus_org_id].organization_name
 
         }
-
-
 
     };
 

@@ -107,12 +107,10 @@ class CanvasCourseContainer extends Component {
                     </div>
                 </div>
                 <div className={"courseLowerContainer"}>
-
                     {this.props.courseHasVideos === true && (<CanvasTabulatorContainer canvasVideos={this.props.courseCanvasVideos} course_gen_id = {this.props.course_id}/>)}
                     {this.props.courseHasVideos === false && (<div className={"courseNoVideos"}>Course Has No Videos</div>)}
                 </div>
             </div>
-
         )
     }
 
