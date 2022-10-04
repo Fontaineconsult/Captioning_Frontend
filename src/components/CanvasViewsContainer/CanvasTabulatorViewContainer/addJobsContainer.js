@@ -61,6 +61,7 @@ class AddJobsCanvasContainer extends Component {
 
     }
 
+
     render() {
 
         return (
