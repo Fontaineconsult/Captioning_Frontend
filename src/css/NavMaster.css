@@ -98,9 +98,14 @@
 
 .navButton:hover {
 
+    background-color: #d4d4d4;
+
+
+}
+
+.navButton:active {
+
     background-color: #acacac;
-
-
 }
 
 

@@ -51,8 +51,6 @@ class SearchFilterContainer extends Component {
                 alert("Please enter a valid URL")
             }
         } else {
-            //this is a title
-            console.log("We search for title here");
 
             this.props.dispatch(fetchDataFromTitle(this.state.search))
         }
@@ -144,8 +142,6 @@ function isValidHttpUrl(string) {
 }
 
 function mapStateToProps({searchFilterReducer}, {props}) {
-
-    console.log("props filter ", searchFilterReducer)
 
     return {
         searchFilterReducer
