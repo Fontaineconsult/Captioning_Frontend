@@ -1,12 +1,11 @@
-
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import Tabulator from "tabulator-tables"
 import {datePicker, showDateToggle} from "../iLearnViewsContainer/iLearnTabulatorViewContainer/TabulatorDataConstructor"
-import {updateTempJobsFormJobsInfo, removeJobfromTempCapJobs} from "../../actions/tempJobsForm"
+import {removeJobfromTempCapJobs, updateTempJobsFormJobsInfo} from "../../actions/tempJobsForm"
 
 class PreparedJobsContainer extends Component {
 
@@ -19,14 +18,25 @@ class PreparedJobsContainer extends Component {
         this.dataEditedFunc = this.dataEditedFunc.bind(this)
         this.removeItem = this.removeItem.bind(this)
         this.columns = [
-            {title:"Remove", field:"remove", align:'center', width:60, formatter:"buttonCross", cellClick:(e, cell) => this.removeItem(e, cell)},
-            {title:"Requester", width:150, field:"requester_name"},
+            {
+                title: "Remove",
+                field: "remove",
+                align: 'center',
+                width: 60,
+                formatter: "buttonCross",
+                cellClick: (e, cell) => this.removeItem(e, cell)
+            },
+            {title: "Requester", width: 150, field: "requester_name"},
             {title: "Title", field: "video_title"},
             {title: "URL", field: "video_url"},
-            {title: "Show Date", editor:datePicker, width:120, field: "show_date"},
-            {title: "Delivery Format", editor:"select", width:80, field: "delivery_format", editorParams:{"Amara": "Amara",
-                    "SRT":"SRT",
-                    "Video File":"Video File"}},
+            {title: "Show Date", editor: datePicker, width: 120, field: "show_date"},
+            {
+                title: "Delivery Format", editor: "select", width: 80, field: "delivery_format", editorParams: {
+                    "Amara": "Amara",
+                    "SRT": "SRT",
+                    "Video File": "Video File"
+                }
+            },
         ];
     }
 
@@ -35,7 +45,7 @@ class PreparedJobsContainer extends Component {
         if (this.props.videoJobsList.length > 0) {
             this.tabulator = new Tabulator(this.el, {
                 columns: this.columns,
-                layout:"fitColumns",
+                layout: "fitColumns",
                 data: this.props.videoJobsList,
                 reactiveData: true,
                 cellEdited: this.dataEditedFunc,
@@ -52,20 +62,23 @@ class PreparedJobsContainer extends Component {
     }
 
 
-    dataEditedFunc(cellData)  {
-        this.props.dispatch(updateTempJobsFormJobsInfo(cellData._cell.row.data.id, {"column":cellData._cell.column.field, "value": cellData._cell.value}))
+    dataEditedFunc(cellData) {
+        console.log("cellidata", cellData);
+        this.props.dispatch(updateTempJobsFormJobsInfo(cellData._cell.row.data.id, {
+            "column": cellData._cell.column.field,
+            "value": cellData._cell.value
+        }))
     };
-
 
 
     render() {
 
-        return(
+        return (
 
             <div className="preparedJobsContainer">
 
                 {this.props.videoJobsList.length === 0 && <EmptyContainer/>}
-                {this.props.videoJobsList.length > 0 && <div ref={el => (this.el = el)} />}
+                {this.props.videoJobsList.length > 0 && <div ref={el => (this.el = el)}/>}
 
             </div>
 
@@ -82,11 +95,13 @@ class PreparedJobsContainer extends Component {
 }
 
 
-
 function EmptyContainer() {
 
     return (<div className="emptyCreatedJobsContainer">
-        <div className="emptyCreatedJobsContainerText"><div style={{'text-align': 'center'}}>No Jobs Created</div><div>Select Requester To Begin</div></div>
+        <div className="emptyCreatedJobsContainerText">
+            <div style={{'text-align': 'center'}}>No Jobs Created</div>
+            <div>Select Requester To Begin</div>
+        </div>
 
     </div>)
 
@@ -96,7 +111,7 @@ function mapStateToProps({tempJobsFormReducer, requesterReducer, campusOrgReduce
 
     let findRequesterName = (requester_id) => {
 
-        if (requesterReducer[requester_id].course_id) {
+        if (requesterReducer[requester_id].course_id !== null && requesterReducer[requester_id].course_id) {
             return requesterReducer[requester_id].course_id
         } else {
             return campusOrgReducer[requesterReducer[requester_id].campus_org_id].organization_name
@@ -110,7 +125,7 @@ function mapStateToProps({tempJobsFormReducer, requesterReducer, campusOrgReduce
 
         return {
             id: videoJob.meta.transaction_id,
-            requester_name: findRequesterName(videoJob.meta.requester_id),
+            requester_name: findRequesterName(videoJob.job_info.requester_id),
             video_title: videoJob.video.title,
             video_url: videoJob.video.source_url,
             show_date: showDateToggle(videoJob.job_info.show_date),
@@ -122,6 +137,7 @@ function mapStateToProps({tempJobsFormReducer, requesterReducer, campusOrgReduce
 
     let video_job_list = [];
 
+    //where are you adding data in temp jobs form reducer? Why is the requester id null when this is added.
     Object.keys(tempJobsFormReducer).forEach((videoJob) => {
 
         if (tempJobsFormReducer[videoJob].meta.created === true) {

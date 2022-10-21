@@ -7,6 +7,8 @@ import '../../../css/tabulator.css'
 import AddJobModal from "./addJobModal"
 import clipboardCopy from "clipboard-copy";
 
+
+//selecting rows and getting it here (new videos)
 class TabToolBar extends Component {
 
     constructor(props) {
@@ -127,7 +129,7 @@ class TabToolBar extends Component {
 
 function mapStateToProps(state, {course_gen_id, selected_rows, table}) {
 
-    console.log("ROWS", table)
+    console.log("selected rows in tab tool bar", selected_rows)
     return {
         state,
         course_gen_id,

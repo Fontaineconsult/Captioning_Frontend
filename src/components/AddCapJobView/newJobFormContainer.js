@@ -1,5 +1,5 @@
 import DatePicker from 'react-date-picker';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {addJobInfoToTempJob, completeTempJob} from "../../actions/tempJobsForm";
@@ -34,6 +34,7 @@ class NewJobFormContainer extends Component {
 
 
     addJobInfo(event) {
+
         let reducer_obj = {
             show_date: this.state.show_date,
             delivery_format: this.state.delivery_format,
@@ -79,65 +80,67 @@ class NewJobFormContainer extends Component {
 
         return (
             <div className="newJobFormOuterContainer">
-            <div>
-                <form className="jobForm">
+                <div>
+                    <form className="jobForm">
 
-                    <div className="jobFormLeft">
-                        <div>
-                            <label>
-                                Show Date:
-                                <DatePicker disabled={!this.props.formEnabled} name="show_date" value={this.state.show_date} onChange={this.handleSetDate}/>
-                            </label>
+                        <div className="jobFormLeft">
+                            <div>
+                                <label>
+                                    Show Date:
+                                    <DatePicker disabled={!this.props.formEnabled} name="show_date"
+                                                value={this.state.show_date} onChange={this.handleSetDate}/>
+                                </label>
+                            </div>
+
+                            <div>
+                                <label>
+                                    Output:
+                                    <Select
+                                        value={this.state.delivery_format}
+                                        onChange={this.handleInputChange}
+                                        disabled={!this.props.formEnabled}
+                                        name="delivery_format"
+                                    >
+                                        <MenuItem value={'Amara'}>Amara</MenuItem>
+                                        <MenuItem value={"SRT"}>SRT</MenuItem>
+                                        <MenuItem value={"Video File"}>Video File</MenuItem>
+                                        <MenuItem value={"Open Caption"}>Open Caption</MenuItem>
+                                        <MenuItem value={"Described Video"}>Described Video</MenuItem>
+                                    </Select>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    iLearn Auto Caption
+                                    <input name="is_auto_caption"
+                                           type="checkbox"
+                                           value={this.state.is_auto_caption}
+                                           onChange={this.handleInputChange}
+                                    />
+                                </label>
+
+                            </div>
                         </div>
-
-                        <div>
+                        <div className="jobFormRight">
                             <label>
-                                Output:
-                                <Select
-                                    value={this.state.delivery_format}
-                                    onChange={this.handleInputChange}
+                                <TextField
+                                    className="jobFormComments"
+                                    multiline
+                                    rows={7}
+
+                                    placeholder="comments"
+                                    name="comments"
                                     disabled={!this.props.formEnabled}
-                                    name="delivery_format"
-                                >
-                                    <MenuItem value={'Amara'}>Amara</MenuItem>
-                                    <MenuItem value={"SRT"}>SRT</MenuItem>
-                                    <MenuItem value={"Video File"}>Video File</MenuItem>
-                                    <MenuItem value={"Open Caption"}>Open Caption</MenuItem>
-                                    <MenuItem value={"Described Video"}>Described Video</MenuItem>
-                                </Select>
+                                    value={this.state.comments}
+                                    onChange={this.handleInputChange}/>
                             </label>
                         </div>
-                        <div>
-                            <label>
-                                iLearn Auto Caption
-                                <input name="is_auto_caption"
-                                       type="checkbox"
-                                       value={this.state.is_auto_caption}
-                                       onChange={this.handleInputChange}
-                                />
-                            </label>
 
-                        </div>
-                    </div>
-                    <div className="jobFormRight">
-                        <label>
-                            <TextField
-                                className="jobFormComments"
-                                multiline
-                                rows={7}
+                    </form>
+                    <Button size="small" variant="contained" onClick={e => this.addJobInfo(e)}
+                            disabled={!this.props.submitButtonEnabled}>Complete Request</Button>
 
-                                placeholder="comments"
-                                name="comments"
-                                disabled={!this.props.formEnabled}
-                                value={this.state.comments}
-                                onChange={this.handleInputChange} />
-                        </label>
-                    </div>
-
-                </form>
-                <Button size="small"  variant="contained" onClick={e => this.addJobInfo(e)} disabled={!this.props.submitButtonEnabled}>Complete Request</Button>
-
-            </div>
+                </div>
             </div>
 
         )
@@ -145,7 +148,14 @@ class NewJobFormContainer extends Component {
 
 }
 
-function mapStateToProps({globalsReducer, coursesReducer, mediaSearchReducer, errorsReducer, tempJobsFormReducer, requesterReducer}, {props, requesterId,transaction_id, isLocked}) {
+function mapStateToProps({
+                             globalsReducer,
+                             coursesReducer,
+                             mediaSearchReducer,
+                             errorsReducer,
+                             tempJobsFormReducer,
+                             requesterReducer
+                         }, {props, requesterId, transaction_id, isLocked}) {
     let formEnabled = transaction_id in tempJobsFormReducer;
     let submitButtonEnabled = false
     let filePresent = false
@@ -153,33 +163,33 @@ function mapStateToProps({globalsReducer, coursesReducer, mediaSearchReducer, er
 
     // Controls the submit button disabled feature
     if (tempJobsFormReducer.hasOwnProperty(transaction_id)) {
-            if (tempJobsFormReducer[transaction_id].hasOwnProperty('video')) {
-                if (tempJobsFormReducer[transaction_id].video.hasOwnProperty('id')) {
-                    if (tempJobsFormReducer[transaction_id].video.media_type === 'File') {
-                        submitButtonEnabled = true
+        if (tempJobsFormReducer[transaction_id].hasOwnProperty('video')) {
+            if (tempJobsFormReducer[transaction_id].video.hasOwnProperty('id')) {
+                if (tempJobsFormReducer[transaction_id].video.media_type === 'File') {
+                    submitButtonEnabled = true
 
-                    }
+                }
 
-                    // {
-                    //     submitButtonEnabled = tempJobsFormReducer[transaction_id].video.media_objects.some(item => {
-                    //             return item.associated_files.sha_256_hash === tempJobsFormReducer[transaction_id].video.sha_256_hash
-                    //       # Temporarly removed until better solution available see job AMS-62  }
-                    //
-                    //     )}
-                    if (tempJobsFormReducer[transaction_id].video.media_type === 'URL') {
-                        submitButtonEnabled = true
+                // {
+                //     submitButtonEnabled = tempJobsFormReducer[transaction_id].video.media_objects.some(item => {
+                //             return item.associated_files.sha_256_hash === tempJobsFormReducer[transaction_id].video.sha_256_hash
+                //       # Temporarly removed until better solution available see job AMS-62  }
+                //
+                //     )}
+                if (tempJobsFormReducer[transaction_id].video.media_type === 'URL') {
+                    submitButtonEnabled = true
 
-                    }
                 }
             }
+        }
 
     }
 
     if (formEnabled) {
-            if (tempJobsFormReducer[transaction_id].hasOwnProperty('video')) {
-                formEnabled = tempJobsFormReducer[transaction_id].video.hasOwnProperty('id');
-            }
+        if (tempJobsFormReducer[transaction_id].hasOwnProperty('video')) {
+            formEnabled = tempJobsFormReducer[transaction_id].video.hasOwnProperty('id');
         }
+    }
 
 
     return {
