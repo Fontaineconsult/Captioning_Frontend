@@ -16,7 +16,7 @@ class AddUserContainer extends Component {
     render() {
 
         return (
-            <div style={{"height": "85vh"}}>
+            <div style={{"height": "90vh"}}>
                 <div className={"scroll-inside-div"}>
                     <div className="masterListItem masterListUser">
                         <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
