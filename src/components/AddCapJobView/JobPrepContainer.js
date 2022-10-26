@@ -130,7 +130,7 @@ class JobPrepContainer extends Component {
         // console.log("transaction id is ", this.state.transaction_id)
         // console.log("JopPrepContainer: tempJobsFormReducer has property", this.props.tempJobsFormReducer.hasOwnProperty(this.state.transaction_id))
         // console.log("JopPrepContainer: Requester ID", this.props.requesterId)
- 
+
         if (this.props.listItemView) {
             formDisabled = false
         }

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
-import { reactFormatter } from 'react-tabulator'
+import {reactFormatter} from 'react-tabulator'
 import * as tabFuncs from './TabulatorDataConstructor'
-import {updateCanvasVideo, updateiLearnVideo} from '../../../actions/ampApi/putData'
+import {updateCanvasVideo} from '../../../actions/ampApi/putData'
 import Button from '@material-ui/core/Button'
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from '@material-ui/core/IconButton';
@@ -18,16 +18,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TabToolBar from "./tabToolBar";
 
 
-
-
 class CanvasTabulatorContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selected_rows: []
         };
-
-
 
 
         this.SubmitButton = this.SubmitButton.bind(this);
@@ -55,19 +51,19 @@ class CanvasTabulatorContainer extends Component {
 
         if (cellData._cell.value === false || cellData._cell.value === null) {
             if (disabled) {
-                return <IconButton size="small" disabled><RemoveIcon /></IconButton>;
+                return <IconButton size="small" disabled><RemoveIcon/></IconButton>;
 
             } else {
-                return <IconButton size="small" onClick={e => this.submitCap(e,cellData)}><RemoveIcon /></IconButton>;
+                return <IconButton size="small" onClick={e => this.submitCap(e, cellData)}><RemoveIcon/></IconButton>;
             }
 
         } else {
 
             if (disabled) {
-                return <IconButton size="small" disabled><DoneIcon /></IconButton>;
+                return <IconButton size="small" disabled><DoneIcon/></IconButton>;
 
             } else {
-                return <IconButton size="small" onClick={e => this.submitCap(e,cellData)}><DoneIcon /></IconButton>;
+                return <IconButton size="small" onClick={e => this.submitCap(e, cellData)}><DoneIcon/></IconButton>;
 
             }
 
@@ -78,17 +74,20 @@ class CanvasTabulatorContainer extends Component {
     ClosedCaptionLink(props) {
         const cellData = props.cell;
         if (cellData._cell.row.data.captioned_link) {
-            return <Tooltip title={cellData._cell.value}><Button  size="small" onClick={e => window.open(cellData._cell.value, '_blank')}>
+            return <Tooltip title={cellData._cell.value}><Button size="small"
+                                                                 onClick={e => window.open(cellData._cell.value, '_blank')}>
                 <tabFuncs.ClosedCaptionIcon/>
             </Button></Tooltip>
-        } else if (cellData._cell.row.data.captioned === true){
-            return <Tooltip title={cellData._cell.row.data.resource_link}><Button  size="small" onClick={e => window.open(cellData._cell.row.data.resource_link, '_blank')}>
+        } else if (cellData._cell.row.data.captioned === true) {
+            return <Tooltip title={cellData._cell.row.data.resource_link}><Button size="small"
+                                                                                  onClick={e => window.open(cellData._cell.row.data.resource_link, '_blank')}>
                 <tabFuncs.ClosedCaptionIcon/>
             </Button></Tooltip>
 
         } else {
             return ''
-        }};
+        }
+    };
 
     checkBoxFunction(e, cellData) {
 
@@ -99,12 +98,14 @@ class CanvasTabulatorContainer extends Component {
                 cellData.cell._cell.table.selectRow(cellData.cell._cell.row.data.id);
 
                 let test = cellData.cell._cell.table.getSelectedRows();
+                console.log("test123", test);
                 this.setState({selected_rows: test})
 
             } else {
                 cellData.cell._cell.table.deselectRow(cellData.cell._cell.row.data.id);
 
                 let test = cellData.cell._cell.table.getSelectedRows();
+                console.log("test123", test);
                 this.setState({selected_rows: test})
 
             }
@@ -120,27 +121,30 @@ class CanvasTabulatorContainer extends Component {
 
         if (cellData._cell.value === false) {
             if (disabled) {
-                return <Button  size="small" color="secondary" disabled >Unavailable</Button>;
+                return <Button size="small" color="secondary" disabled>Unavailable</Button>;
             } else {
-                return <Button  size="small" color="secondary" onClick={e => this.submitCapStatus(e,cellData)}>Unavailable</Button>;
+                return <Button size="small" color="secondary"
+                               onClick={e => this.submitCapStatus(e, cellData)}>Unavailable</Button>;
             }
         }
 
         if (cellData._cell.value === true) {
 
             if (disabled) {
-                return <Button  size="small" color="primary" disabled >Available</Button>;
+                return <Button size="small" color="primary" disabled>Available</Button>;
             } else {
-                return <Button  size="small" color="primary" onClick={e => this.submitCapStatus(e,cellData)}>Available</Button>;
+                return <Button size="small" color="primary"
+                               onClick={e => this.submitCapStatus(e, cellData)}>Available</Button>;
             }
         }
 
         if (cellData._cell.value === null) {
 
             if (disabled) {
-                return <Button  size="small" color="tertiary" disabled >Unknown</Button>;
+                return <Button size="small" color="tertiary" disabled>Unknown</Button>;
             } else {
-                return <Button  size="small" color="tertiary" onClick={e => this.submitCapStatus(e,cellData)}>Unknown</Button>;
+                return <Button size="small" color="tertiary"
+                               onClick={e => this.submitCapStatus(e, cellData)}>Unknown</Button>;
             }
         }
 
@@ -157,7 +161,7 @@ class CanvasTabulatorContainer extends Component {
         console.log("rowClick id: ${row.getData().id}", row, e);
     };
 
-    submitCap(e,cellData) {
+    submitCap(e, cellData) {
 
         e.preventDefault()
         let submitCapStatus = tabFuncs.capSubmitToggle(cellData._cell.value);
@@ -172,19 +176,19 @@ class CanvasTabulatorContainer extends Component {
 
     };
 
-    IsChecked(props)  {
+    IsChecked(props) {
 
         if (props.cell._cell.row.modules.hasOwnProperty("select")) {
-            if (props.cell._cell.row.modules.select.selected === false){
+            if (props.cell._cell.row.modules.select.selected === false) {
 
-                return  <Checkbox size="small" onClick={e => this.checkBoxFunction(e, props)}/>
+                return <Checkbox size="small" onClick={e => this.checkBoxFunction(e, props)}/>
 
             } else {
 
-                return  <Checkbox size="small" checked onClick={e => this.checkBoxFunction(e, props)}/>
+                return <Checkbox size="small" checked onClick={e => this.checkBoxFunction(e, props)}/>
             }
         } else {
-            return  <Checkbox size="small" onClick={e => this.checkBoxFunction(e, props)}/>
+            return <Checkbox size="small" onClick={e => this.checkBoxFunction(e, props)}/>
 
 
         }
@@ -195,41 +199,125 @@ class CanvasTabulatorContainer extends Component {
     componentDidMount() {
 
         let columns = [
-            { title: "Title", field: "title", editor:"input"},
-            { title: "Captioned", field: "captioned", width: 130, hozAlign :"center", formatter: reactFormatter(<this.IsCaptionedButton />) },
-            { title: "CC",  width: 75, field: "captioned_link", hozAlign :"center", formatter: reactFormatter(<this.ClosedCaptionLink />)},
-            { title: "Parent", width: 95, field: "resource_type",  hozAlign :"center", formatter: "link", formatterParams:{target:"_blank", urlField:'parent'}},
-            { title: "Link", field: "resource_link", width: 350, widthShrink:1, formatter: "link", tooltip:true, formatterParams:{target:"_blank", urlField:'resource_link'} },
-            { title: "Scan Date", hozAlign:"center", field: "scan_date", width: 105 },
-            { title: "Submitted", field: "submitted_for_processing",  hozAlign :"center", width: 100, formatter: reactFormatter(<this.SubmitButton />)},
-            { title: "Section", field: "page_section", hozAlign :"center", width: 80 },
-            { title: "Select", width:60, hozAlign :"center",  formatter:reactFormatter(<this.IsChecked/>)},
+            {title: "Title", field: "title", editor: "input"},
+            {
+                title: "Captioned",
+                field: "captioned",
+                width: 130,
+                hozAlign: "center",
+                formatter: reactFormatter(<this.IsCaptionedButton/>)
+            },
+            {
+                title: "CC",
+                width: 75,
+                field: "captioned_link",
+                hozAlign: "center",
+                formatter: reactFormatter(<this.ClosedCaptionLink/>)
+            },
+            {
+                title: "Parent",
+                width: 95,
+                field: "resource_type",
+                hozAlign: "center",
+                formatter: "link",
+                formatterParams: {target: "_blank", urlField: 'parent'}
+            },
+            {
+                title: "Link",
+                field: "resource_link",
+                width: 350,
+                widthShrink: 1,
+                formatter: "link",
+                tooltip: true,
+                formatterParams: {target: "_blank", urlField: 'resource_link'}
+            },
+            {title: "Scan Date", hozAlign: "center", field: "scan_date", width: 105},
+            {
+                title: "Submitted",
+                field: "submitted_for_processing",
+                hozAlign: "center",
+                width: 100,
+                formatter: reactFormatter(<this.SubmitButton/>)
+            },
+            {title: "Section", field: "page_section", hozAlign: "center", width: 80},
+            {title: "Select", width: 60, hozAlign: "center", formatter: reactFormatter(<this.IsChecked/>)},
         ];
 
+        if (this.props.type === 'newVideos') {
+
+            columns = [
+                {title: "Title", field: "title", editor: "input"},
+                {title: "Course", field: 'course'},
+                {
+                    title: "Captioned",
+                    field: "captioned",
+                    width: 130,
+                    hozAlign: "center",
+                    formatter: reactFormatter(<this.IsCaptionedButton/>)
+                },
+                {
+                    title: "CC",
+                    width: 75,
+                    field: "captioned_link",
+                    hozAlign: "center",
+                    formatter: reactFormatter(<this.ClosedCaptionLink/>)
+                },
+                {
+                    title: "Parent",
+                    width: 95,
+                    field: "resource_type",
+                    hozAlign: "center",
+                    formatter: "link",
+                    formatterParams: {target: "_blank", urlField: 'parent'}
+                },
+                {
+                    title: "Link",
+                    field: "resource_link",
+                    width: 350,
+                    widthShrink: 1,
+                    formatter: "link",
+                    tooltip: true,
+                    formatterParams: {target: "_blank", urlField: 'resource_link'}
+                },
+                {title: "Scan Date", hozAlign: "center", field: "scan_date", width: 105},
+                {
+                    title: "Submitted",
+                    field: "submitted_for_processing",
+                    hozAlign: "center",
+                    width: 100,
+                    formatter: reactFormatter(<this.SubmitButton/>)
+                },
+                {title: "Section", field: "page_section", hozAlign: "center", width: 80},
+                {title: "Select", width: 60, hozAlign: "center", formatter: reactFormatter(<this.IsChecked/>)},
+            ];
+
+        }
 
 
         this.tableData = this.props.videosList;
 
         this.tabulator = new Tabulator(this.el, {
             columns: columns,
-            layout:"fitColumns",
+            layout: "fitColumns",
             data: this.props.videosList,
             cellEdited: this.dataEditedFunc,
             reactiveData: true,
-            rowFormatter:function (row) {
-                if(row.getData().ignore_video === true) {
-                    row.getElement().classList.remove("tabulator-selectable")
-                    row.getElement().classList.add("ignore-video")
+            rowFormatter: function (row) {
+                console.log("TabulatorContainer: row is ", row)
+                if (row.getData().ignore_video === true) {
+                    //TODO: fix this: classlist.remove and add does not exist?? 
+                    // row.getElement().classList.remove("tabulator-selectable")
+                    // row.getElement().classList.add("ignore-video")
                 }
-                if(row.getData().video_passed === true){
+                if (row.getData().video_passed === true) {
                     row.getElement().classList.remove("tabulator-selectable")
                     row.getElement().classList.add("video-passed")
                 }
-                if(row.getData().content_hidden === true){
+                if (row.getData().content_hidden === true) {
                     row.getElement().classList.add("video-hidden")
                 }
             },
-            initialFilter: [{field:"invalid_link", type:"!=", value:true}]
+            initialFilter: [{field: "invalid_link", type: "!=", value: true}]
 
         })
     }
@@ -266,14 +354,15 @@ class CanvasTabulatorContainer extends Component {
 
     render() {
 
-        return(
+        return (
             <div className={"tabMainContainer"}>
                 <div className={"tabUpperContainer"}>
-                    <TabToolBar table={this.tabulator} course_gen_id = {this.props.course_id} selected_rows={this.state.selected_rows}/>
+                    <TabToolBar table={this.tabulator} course_gen_id={this.props.course_id}
+                                selected_rows={this.state.selected_rows}/>
                 </div>
 
                 <div className={"tabLowerContainer"}>
-                    <div ref={el => (this.el = el)} />
+                    <div ref={el => (this.el = el)}/>
                 </div>
 
             </div>
@@ -288,6 +377,7 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_gen_id,
     let canvas_videos = canvasVideos;
 
     let formatData = (video) => {
+
         return {
             id: video.id,
             title: video.title,
@@ -303,7 +393,8 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_gen_id,
             resource_type: video.resource_type,
             parent: video.parent_url,
             video_passed: video.auto_caption_passed,
-            content_hidden: video.content_hidden
+            content_hidden: video.content_hidden,
+            course: video.course_gen_id
 
         }
     };

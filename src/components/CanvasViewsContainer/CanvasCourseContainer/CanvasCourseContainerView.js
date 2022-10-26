@@ -115,7 +115,6 @@ class CanvasCourseContainer extends Component {
                     {this.props.courseHasVideos === false && (<div className={"courseNoVideos"}>Course Has No Videos</div>)}
                 </div>
             </div>
-
         )
     }
 
