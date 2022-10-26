@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {NavLink, Route, Switch,} from "react-router-dom";
 import CanvasAllCoursesView from "../CanvasViewContainers/CanvasAllCoursesView";
 import CanvasNewJobView from "../CanvasNewVideosContainer/CanvasNewJobsView";
+import moment from "moment";
 
 
 class CanvasManagementControlContainer extends Component {
@@ -71,7 +72,7 @@ class CanvasManagementControlContainer extends Component {
 }
 
 
-function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer, coursesReducer}, {jobsLoading}) {
+function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer, coursesReducer, canvasVideoReducer}, {jobsLoading}) {
 
     let capActive = 0;
     let capInactive = 0;
@@ -93,13 +94,31 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
 
     });
 
+    let newVideos = Object.keys(canvasVideoReducer).reduce((accumulator, element) => {
+        if (moment(canvasVideoReducer[element].scan_date).isAfter(moment().subtract(90, 'days'))) {
+
+            if (canvasVideoReducer[element].captioned === false &&
+                (canvasVideoReducer[element].submitted_for_processing === null || canvasVideoReducer[element].submitted_for_processing === false)) {
+
+                if (canvasVideoReducer[element].ignore_video === false || canvasVideoReducer[element].auto_caption_passed === false) {
+                    accumulator.push(canvasVideoReducer[element])
+                }
+
+
+            }
+
+
+        }
+        return accumulator
+    }, []);
+
 
     return {
         videosJobsReducer,
         jobsLoading,
         capActive,
         capInactive,
-        newVideos: 33
+        newVideos: newVideos.length
     }
 }
 

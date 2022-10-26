@@ -6,6 +6,7 @@ import '../../../css/courseContainer-css.css'
 import moment from "moment"
 
 
+
 class CanvasNewVideosContainer extends Component {
 
 
@@ -17,59 +18,41 @@ class CanvasNewVideosContainer extends Component {
         };
 
         this.handleInputChange = this.handleInputChange.bind(this)
-
+        this.recentVideos = this.recentVideos.bind(this)
     }
 
+
+    recentVideos() {
+
+        return Object.keys(this.props.canvasVideoReducer).reduce((accumulator, element) => {
+            if (moment(this.props.canvasVideoReducer[element].scan_date).isAfter(moment().subtract(this.state.pastDays, 'days'))) {
+
+                if (this.props.canvasVideoReducer[element].captioned === false &&
+                    (this.props.canvasVideoReducer[element].submitted_for_processing === null || this.props.canvasVideoReducer[element].submitted_for_processing === false)) {
+
+                    if (this.props.canvasVideoReducer[element].ignore_video === false || this.props.canvasVideoReducer[element].auto_caption_passed === false) {
+                        accumulator.push(this.props.canvasVideoReducer[element])
+                    }
+
+
+                }
+
+
+            }
+            return accumulator
+        }, []);
+    }
 
     componentDidMount(prevProps, prevState, snapshot) {
 
-
-        let recent_videos = Object.keys(this.props.canvasVideoReducer).reduce((accumulator, element) => {
-            if (moment(this.props.canvasVideoReducer[element].scan_date).isAfter(moment().subtract(this.state.pastDays, 'days'))) {
-
-                if (this.props.canvasVideoReducer[element].captioned === false &&
-                    (this.props.canvasVideoReducer[element].submitted_for_processing === null || this.props.canvasVideoReducer[element].submitted_for_processing === false)) {
-
-                    if (this.props.canvasVideoReducer[element].ignore_video === false || this.props.canvasVideoReducer[element].auto_caption_passed === false) {
-                        accumulator.push(this.props.canvasVideoReducer[element])
-                    }
-
-
-                }
-
-
-            }
-            return accumulator
-        }, []);
-
         this.setState({
-            canvasVids: recent_videos
+            canvasVids: this.recentVideos()
         })
-
-
     }
-
 
     componentDidUpdate(prevProps, prevState, snapshot) {
 
-
-        let recent_videos = Object.keys(this.props.canvasVideoReducer).reduce((accumulator, element) => {
-            if (moment(this.props.canvasVideoReducer[element].scan_date).isAfter(moment().subtract(this.state.pastDays, 'days'))) {
-
-                if (this.props.canvasVideoReducer[element].captioned === false &&
-                    (this.props.canvasVideoReducer[element].submitted_for_processing === null || this.props.canvasVideoReducer[element].submitted_for_processing === false)) {
-
-                    if (this.props.canvasVideoReducer[element].ignore_video === false || this.props.canvasVideoReducer[element].auto_caption_passed === false) {
-                        accumulator.push(this.props.canvasVideoReducer[element])
-                    }
-
-
-                }
-
-
-            }
-            return accumulator
-        }, []);
+        let recent_videos = this.recentVideos()
 
 
         if (JSON.stringify(prevState.canvasVids) !== JSON.stringify(recent_videos)) {
@@ -82,31 +65,10 @@ class CanvasNewVideosContainer extends Component {
 
     }
 
-
     handleInputChange(event) {
 
-
-        let recent_videos = Object.keys(this.props.canvasVideoReducer).reduce((accumulator, element) => {
-            if (moment(this.props.canvasVideoReducer[element].scan_date).isAfter(moment().subtract(event.target.value, 'days'))) {
-
-                if (this.props.canvasVideoReducer[element].captioned === false &&
-                    (this.props.canvasVideoReducer[element].submitted_for_processing === null || this.props.canvasVideoReducer[element].submitted_for_processing === false)) {
-
-                    if (this.props.canvasVideoReducer[element].ignore_video === false || this.props.canvasVideoReducer[element].auto_caption_passed === false) {
-                        accumulator.push(this.props.canvasVideoReducer[element])
-                    }
-
-
-                }
-
-
-            }
-            return accumulator
-        }, []);
-        console.log(recent_videos)
-
         this.setState({
-            canvasVids: recent_videos,
+            canvasVids: this.recentVideos(),
             pastDays: event.target.value
         });
 
@@ -152,25 +114,7 @@ class CanvasNewVideosContainer extends Component {
 
 function mapStateToProps({loadingStatusReducer, coursesReducer, canvasVideoReducer}, {}) {
 
-    // let recent_videos = Object.keys(canvasVideoReducer).reduce((accumulator, element) => {
-    //     if (moment(canvasVideoReducer[element].scan_date).isAfter(moment().subtract(this.state.pastDays, 'days'))) {
-    //
-    //         if (canvasVideoReducer[element].submitted_for_processing === false ||
-    //             canvasVideoReducer[element].ignore_video === true ||
-    //             canvasVideoReducer[element].captioned === true ||
-    //             canvasVideoReducer[element].auto_captioned_passed === true) {
-    //
-    //             accumulator.push(canvasVideoReducer[element])
-    //         }
-    //
-    //
-    //     }
-    //     return accumulator
-    // },[]);
-
-
     return {
-        // recent_videos,
         new_videos_available: true,
         canvasVideoReducer
 
