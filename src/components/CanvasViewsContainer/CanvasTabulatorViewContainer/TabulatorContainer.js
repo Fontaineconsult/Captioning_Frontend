@@ -306,8 +306,8 @@ class CanvasTabulatorContainer extends Component {
                 console.log("TabulatorContainer: row is ", row)
                 if (row.getData().ignore_video === true) {
                     //TODO: fix this: classlist.remove and add does not exist?? 
-                    // row.getElement().classList.remove("tabulator-selectable")
-                    // row.getElement().classList.add("ignore-video")
+                    row.getElement().classList.remove("tabulator-selectable")
+                    row.getElement().classList.add("ignore-video")
                 }
                 if (row.getData().video_passed === true) {
                     row.getElement().classList.remove("tabulator-selectable")

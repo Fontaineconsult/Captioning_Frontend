@@ -77,7 +77,7 @@ class SearchFilterResultContainer extends Component {
         )
     }
 
-    setData = () => {
+    setData()  {
         let data = []
 
         let reducer = this.state.reducer;
@@ -174,7 +174,7 @@ class SearchFilterResultContainer extends Component {
     }
 
     downloadVideo() {
-        if (this.state.video_select.value != undefined) {
+        if (this.state.video_select.value !== undefined) {
             this.props.dispatch(downloadMediaFile(this.state.video_select.value, this.state.media_id))
         }
     }
