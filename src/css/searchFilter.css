@@ -54,6 +54,11 @@
 
 }
 
+.text-label-title {
+    display: flex;
+    min-width: 25.5rem;
+}
+
 
 .source-caption-container {
     margin-top: 30px;

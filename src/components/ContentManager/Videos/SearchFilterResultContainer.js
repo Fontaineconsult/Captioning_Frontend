@@ -319,11 +319,10 @@ class SearchFilterResultContainer extends Component {
         }, () => {
 
             if (!this.state.isTitleEditPressed) {
-                let text = document.getElementById("title").textContent;
+                let text = document.getElementById(this.state.media_id).textContent;
                 //this is the submitted text to update
 
                 if (text.length != 0) {
-
                     this.props.dispatch(updateMedia(this.state.media_id, "title", text))
                     this.setState({
                         isTitleEditPressed: false,
@@ -336,7 +335,7 @@ class SearchFilterResultContainer extends Component {
 
 
             } else {
-                document.getElementById("title").focus()
+                document.getElementById(this.state.media_id).focus()
 
             }
 
@@ -352,10 +351,10 @@ class SearchFilterResultContainer extends Component {
                      onBlur={this.clearFocus}>
                     <div className="inner-container-left">
                         <div className={"text-container"}>
-                            <div style={{display: "flex"}}>
+                            <div className={"text-label-title"}>
                                 <label className={"title"}>Title: </label>
 
-                                <label id="title" contentEditable={this.state.isTitleEditPressed}
+                                <label id={this.state.media_id} contentEditable={this.state.isTitleEditPressed}
                                        className={"title"}>{this.state.title}</label>
                             </div>
 
