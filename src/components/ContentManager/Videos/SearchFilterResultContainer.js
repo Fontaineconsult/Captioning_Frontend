@@ -47,6 +47,7 @@ class SearchFilterResultContainer extends Component {
             isVideoDownBtnDisabled: true,
             isCopyBtnDisabled: true,
             isInputDisabled: true,
+            isTitleEditPressed: false
 
         };
 
@@ -64,6 +65,7 @@ class SearchFilterResultContainer extends Component {
         this.updateInputState = this.updateInputState.bind(this)
         this.updateSource = this.updateSource.bind(this)
         this.toggleEdit = this.toggleEdit.bind(this)
+        this.toggleEditTitle = this.toggleEditTitle.bind(this)
     }
 
 
@@ -311,6 +313,38 @@ class SearchFilterResultContainer extends Component {
         })
     }
 
+    toggleEditTitle() {
+        this.setState({
+            isTitleEditPressed: !this.state.isTitleEditPressed
+        }, () => {
+
+            if (!this.state.isTitleEditPressed) {
+                let text = document.getElementById("title").textContent;
+                //this is the submitted text to update
+
+                if (text.length != 0) {
+
+                    this.props.dispatch(updateMedia(this.state.media_id, "title", text))
+                    this.setState({
+                        isTitleEditPressed: false,
+
+                    })
+
+                } else {
+                    alert("Title Cannot be Empty")
+                }
+
+
+            } else {
+                document.getElementById("title").focus()
+
+            }
+
+
+        })
+    }
+
+
     render() {
         return (
             <div>
@@ -318,15 +352,35 @@ class SearchFilterResultContainer extends Component {
                      onBlur={this.clearFocus}>
                     <div className="inner-container-left">
                         <div className={"text-container"}>
-                            <label className={"title"}>Title: </label>
-                            <label className={"title"}>{this.state.title}</label>
+                            <div style={{display: "flex"}}>
+                                <label className={"title"}>Title: </label>
+
+                                <label id="title" contentEditable={this.state.isTitleEditPressed}
+                                       className={"title"}>{this.state.title}</label>
+                            </div>
+
+                            <div className={"source-icons"}>
+                                <div>
+                                    {this.state.isTitleEditPressed ?
+
+                                        <Button onClick={this.toggleEditTitle} className={"title-edit-btn"}
+                                        ><SubmitIcon
+                                            fontSize="medium"/></Button> :
+                                        <Button onClick={this.toggleEditTitle} className={"title-edit-btn"}
+                                        ><EditIcon
+                                            fontSize="medium"/></Button>}
+
+                                </div>
+
+
+                            </div>
                         </div>
 
                         <div className={"source-caption-container"}>
                             <div className={"source-container"}>
                                 <div style={{"display": "flex"}}>
                                     <label className={"label"}>Source: </label>
-                                    {/*<a className={"description"} href={data[0].source_url}>{data[0].source_url}</a>*/}
+
                                 </div>
                                 <div style={{display: "flex"}}>
                                     <input className={"source-input"} value={this.state.source_input} type="input"
