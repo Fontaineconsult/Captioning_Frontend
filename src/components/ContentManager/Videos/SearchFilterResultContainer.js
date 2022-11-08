@@ -295,16 +295,16 @@ class SearchFilterResultContainer extends Component {
     }
 
     updateSource() {
-        if (isValidHttpUrl(this.state.source_input)) {
-            this.props.dispatch(updateMedia(this.state.media_id, "source_url", this.state.source_input))
-            this.setState({
-                isInputDisabled: true,
+        // if (isValidHttpUrl(this.state.source_input)) {
+        this.props.dispatch(updateMedia(this.state.media_id, "source_url", this.state.source_input))
+        this.setState({
+            isInputDisabled: true,
 
-            })
+        })
 
-        } else {
-            alert("Please enter a valid URL")
-        }
+        // } else {
+        //     alert("Please enter a valid URL")
+        // }
     }
 
     toggleEdit() {
