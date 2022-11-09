@@ -29,8 +29,9 @@ function checkResponse(data) {
 
 export function updateMedia(media_id, column, value) {
 
+
     let data_object = {id: media_id, column: column, value: value};
-    console.log("ZEERRPSS", data_object)
+    console.log("data object in update media is ", data_object)
     let put_object = {
         method: 'PUT',
         body: JSON.stringify(data_object),
@@ -46,7 +47,6 @@ export function updateMedia(media_id, column, value) {
             .catch(error => api_failure(error))
     }
 }
-
 
 
 export function updateCourse(course_gen_id, column, value) {

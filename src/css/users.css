@@ -101,7 +101,6 @@
 .stu-scroll-container {
     /*height: 650px;*/
     /*overflow-y: scroll;*/
-
     scroll-behavior: smooth;
 }
 
