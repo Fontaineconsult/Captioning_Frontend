@@ -31,7 +31,7 @@ class VideosContainer extends Component {
 
     render() {
         return (<div>
-                <div style={{height: "80vh"}}>
+                <div style={{height: "96vh"}}>
                     <div className={"scroll-inside-div"}>
                         <div className="masterListItem masterListUser">
                             <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
