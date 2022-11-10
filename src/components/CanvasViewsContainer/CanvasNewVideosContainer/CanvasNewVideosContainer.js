@@ -27,8 +27,7 @@ class CanvasNewVideosContainer extends Component {
         return Object.keys(this.props.canvasVideoReducer).reduce((accumulator, element) => {
             if (moment(this.props.canvasVideoReducer[element].scan_date).isAfter(moment().subtract(this.state.pastDays, 'days'))) {
 
-                if (this.props.canvasVideoReducer[element].captioned === false &&
-                    (this.props.canvasVideoReducer[element].submitted_for_processing === null || this.props.canvasVideoReducer[element].submitted_for_processing === false)) {
+                if ( (this.props.canvasVideoReducer[element].captioned === false || this.props.canvasVideoReducer[element].captioned === null) && (this.props.canvasVideoReducer[element].submitted_for_processing === null || this.props.canvasVideoReducer[element].submitted_for_processing === false)) {
 
                     if (this.props.canvasVideoReducer[element].ignore_video === false || this.props.canvasVideoReducer[element].auto_caption_passed === false) {
                         accumulator.push(this.props.canvasVideoReducer[element])
