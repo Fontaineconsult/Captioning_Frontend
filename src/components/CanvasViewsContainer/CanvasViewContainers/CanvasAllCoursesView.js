@@ -97,7 +97,7 @@ class CanvasAllCoursesView extends Component {
     }
 
     renderRowAlpha(index) {
-        console.log(index)
+
 
         if (this.state.cache !== undefined) {
 

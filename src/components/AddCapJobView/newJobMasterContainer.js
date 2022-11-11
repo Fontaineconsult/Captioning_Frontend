@@ -144,8 +144,6 @@ function mapStateToProps({
 
         if (Object.keys(tempFormDataReducer).length > 0) {
 
-            console.log("Data: exists", tempFormDataReducer)
-
             //checking if formvalue exists
 
             if (tempFormDataReducer.data.formValue != null) {

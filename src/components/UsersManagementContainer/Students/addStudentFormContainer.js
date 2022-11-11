@@ -49,8 +49,6 @@ class AddStudentContainer extends Component {
             is_transcripts_only: false,
         })
 
-        console.log("is captioning active: ", this.state.is_captioning_active)
-        console.log("is transcripts active: ", this.state.is_transcripts_only)
 
 
     }

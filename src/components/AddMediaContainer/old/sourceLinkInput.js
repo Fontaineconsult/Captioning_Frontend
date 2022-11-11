@@ -29,7 +29,7 @@ class SourceURLInput extends Component {
         }
 
         if (this.state.link === '') {
-            console.log("GEERRRRERERERERERERERE")
+
             this.props.dispatch(clearMediaSearch())
         }
 
@@ -44,7 +44,7 @@ class SourceURLInput extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        console.log("TARGET", event)
+
         console.log(this.state)
         this.setState({
             [name]: value

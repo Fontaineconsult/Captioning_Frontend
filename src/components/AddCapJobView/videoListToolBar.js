@@ -24,7 +24,7 @@ class VideoListToolBar extends Component {
 
 
     add(e) {
-        console.log(this.props.selected_rows)
+
         let row_ids = this.props.selected_rows.map(row => {
             return {
                 video: {title:row._row.data.title,
@@ -48,10 +48,10 @@ class VideoListToolBar extends Component {
 
         });
 
-        console.log(row_ids)
+
 
         row_ids.forEach(row => {
-            console.log(row)
+
             this.props.dispatch(addListTempJob(row.meta.transaction_id, this.props.requesterId.requester_id))
             this.props.dispatch(addMediaToListTempJob(row.video.title, row.video.url, row.meta.transaction_id))
             this.props.dispatch(addJobInfoToTempJob(row.meta.transaction_id, row.job_info))

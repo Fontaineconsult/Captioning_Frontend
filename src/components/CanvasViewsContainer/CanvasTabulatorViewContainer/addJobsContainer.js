@@ -46,7 +46,7 @@ class AddJobsCanvasContainer extends Component {
                 }
             })
 
-            console.log("requester id is ", requester_id)
+
             let reducer_obj = {
                 show_date: moment(row._row.data.indicated_due_date, "MM/DD/YYYY", true).isValid() ? row._row.data.indicated_due_date : moment().add(2, 'days'),
                 delivery_format: "Amara",
@@ -88,8 +88,6 @@ class AddJobsCanvasContainer extends Component {
 
 function mapStateToProps({globalsReducer, coursesReducer, requesterReducer}, {course_gen_id, selected_rows}) {
 
-    console.log("ROWS", selected_rows)
-    console.log("GEN ID", course_gen_id)
 
     let semester = globalsReducer.currentSemester
     let requester_ids = []

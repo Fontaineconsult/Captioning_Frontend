@@ -12,10 +12,36 @@ class CanvasManagementControlContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.recentVideos = this.recentVideos.bind(this)
     }
 
-    render() {
 
+    recentVideos() {
+
+        return Object.keys(this.props.canvasVideoReducer).reduce((accumulator, element) => {
+            if (moment(this.props.canvasVideoReducer[element].scan_date).isAfter(moment().subtract(3, 'days'))) {
+
+                if ( (this.props.canvasVideoReducer[element].captioned === false || this.props.canvasVideoReducer[element].captioned === null) && (this.props.canvasVideoReducer[element].submitted_for_processing === null || this.props.canvasVideoReducer[element].submitted_for_processing === false)) {
+
+                    if (this.props.canvasVideoReducer[element].ignore_video === false || this.props.canvasVideoReducer[element].auto_caption_passed === false) {
+                        accumulator.push(this.props.canvasVideoReducer[element])
+                    }
+
+
+                }
+
+
+            }
+            return accumulator
+        }, []);
+    }
+
+
+
+
+
+    render() {
+        console.log("RECEMTS", this.recentVideos())
         return (
             <div className="ContentManagementMasterContainer">
                 <div className="control-bar">
@@ -41,7 +67,7 @@ class CanvasManagementControlContainer extends Component {
                                 to={{
                                     pathname: "/captioning/canvas-scraper/new-videos",
                                     search: this.props.location.search,
-                                }}>New Videos </NavLink><span className={"jobCount"}>{this.props.newVideos}</span>
+                                }}>New Videos </NavLink><span className={"jobCount"}>{this.recentVideos().length}</span>
                         </div>
                         {/*<div className="controlButton">*/}
                         {/*    Search*/}
@@ -59,7 +85,7 @@ class CanvasManagementControlContainer extends Component {
                         {/*<Route path="/captioning/canvas-scraper/inactive-courses"*/}
                         {/*       render={(props) => <CanvasAllCoursesView {...props} studentActive={false}/>}/>*/}
                         <Route path="/captioning/canvas-scraper/new-videos"
-                               render={(props) => <CanvasNewJobView {...props} studentActive={true}/>}/>
+                               render={(props) => <CanvasNewJobView {...props} recent_videos={this.recentVideos()} studentActive={true}/>}/>
                     </Switch>
                 </div>
             </div>
@@ -94,23 +120,23 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
 
     });
 
-    let newVideos = Object.keys(canvasVideoReducer).reduce((accumulator, element) => {
-        if (moment(canvasVideoReducer[element].scan_date).isAfter(moment().subtract(3, 'days'))) {
-
-            if ((this.props.canvasVideoReducer[element].captioned === false || this.props.canvasVideoReducer[element].captioned === null) &&
-                (canvasVideoReducer[element].submitted_for_processing === null || canvasVideoReducer[element].submitted_for_processing === false)) {
-
-                if (canvasVideoReducer[element].ignore_video === false || canvasVideoReducer[element].auto_caption_passed === false) {
-                    accumulator.push(canvasVideoReducer[element])
-                }
-
-
-            }
-
-
-        }
-        return accumulator
-    }, []);
+    // let newVideos = Object.keys(canvasVideoReducer).reduce((accumulator, element) => {
+    //     if (moment(canvasVideoReducer[element].scan_date).isAfter(moment().subtract(3, 'days'))) {
+    //
+    //         if ( (this.props.canvasVideoReducer[element].captioned === false || this.props.canvasVideoReducer[element].captioned === null) &&
+    //             (canvasVideoReducer[element].submitted_for_processing === null || canvasVideoReducer[element].submitted_for_processing === false)) {
+    //
+    //             if (canvasVideoReducer[element].ignore_video === false || canvasVideoReducer[element].auto_caption_passed === false) {
+    //                 accumulator.push(canvasVideoReducer[element])
+    //             }
+    //
+    //
+    //         }
+    //
+    //
+    //     }
+    //     return accumulator
+    // }, []);
 
 
     return {
@@ -118,7 +144,8 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         jobsLoading,
         capActive,
         capInactive,
-        newVideos: newVideos.length
+        canvasVideoReducer
+
     }
 }
 

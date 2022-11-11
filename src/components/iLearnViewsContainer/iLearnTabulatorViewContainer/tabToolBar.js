@@ -81,8 +81,7 @@ class TabToolBar extends Component {
         let selected_rows_string = ""
 
         rows.map((e) => {
-            console.log("selected row title: ", e._row.data.title);
-            console.log("selected row link: ", e._row.data.resource_link);
+
             selected_rows_string = selected_rows_string + "Title: " + e._row.data.title + "\nLink: " + e._row.data.resource_link + "\n\n";
         })
 
@@ -129,7 +128,7 @@ class TabToolBar extends Component {
 
 function mapStateToProps(state, {course_gen_id, selected_rows, table}) {
 
-    console.log("ROWS", table)
+
     return {
         state,
         course_gen_id,

@@ -63,7 +63,7 @@ class PreparedJobsContainer extends Component {
 
 
     dataEditedFunc(cellData) {
-        console.log("cellidata", cellData);
+
         this.props.dispatch(updateTempJobsFormJobsInfo(cellData._cell.row.data.id, {
             "column": cellData._cell.column.field,
             "value": cellData._cell.value

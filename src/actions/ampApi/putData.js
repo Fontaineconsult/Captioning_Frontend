@@ -141,7 +141,7 @@ export function updateStudentData(student_id, column, value) {
         }
     };
     return (dispatch) => {
-        console.log("Here")
+
         dispatch(writeStudents(student_id, data_object));
         return fetch(`${server_url}/students`, put_object)
             .then(response => response.json())

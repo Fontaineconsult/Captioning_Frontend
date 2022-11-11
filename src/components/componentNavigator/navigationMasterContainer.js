@@ -175,7 +175,7 @@ function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatus
         loadingStatusReducer.astRequestsLoading
 
 
-    console.log("DSGFSDFG", displayLoader)
+
 
     let isLoaded = !loadingStatusReducer.userRequestsLoading && !loadingStatusReducer.coursesLoading
     return {

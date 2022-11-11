@@ -13,7 +13,7 @@ export default function mediaSearchReducer (state={}, action) {
 
 
         case CLEAR_MEDIA_SEARCH:
-            console.log("FGFG", action.transaction_id)
+
             return Object.keys(state).reduce((accumulator, element) => {
                 if (element !== action.transaction_id) {
                     accumulator[element] = state[element]

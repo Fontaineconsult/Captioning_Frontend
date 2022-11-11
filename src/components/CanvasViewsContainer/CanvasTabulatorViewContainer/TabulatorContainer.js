@@ -98,14 +98,14 @@ class CanvasTabulatorContainer extends Component {
                 cellData.cell._cell.table.selectRow(cellData.cell._cell.row.data.id);
 
                 let test = cellData.cell._cell.table.getSelectedRows();
-                console.log("test123", test);
+
                 this.setState({selected_rows: test})
 
             } else {
                 cellData.cell._cell.table.deselectRow(cellData.cell._cell.row.data.id);
 
                 let test = cellData.cell._cell.table.getSelectedRows();
-                console.log("test123", test);
+
                 this.setState({selected_rows: test})
 
             }

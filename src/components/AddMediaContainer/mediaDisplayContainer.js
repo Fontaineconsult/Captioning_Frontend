@@ -112,7 +112,7 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
     let itemFound = mediaSearchReducer.hasOwnProperty(transaction_id);
     let itemNotFound = errorsReducer.hasOwnProperty(transaction_id);
     let startedSearch = itemFound || itemNotFound;
-    console.log("GRUHHS", transaction_id)
+
     if (transaction_id !== "") {
         if (mediaSearchReducer.hasOwnProperty(transaction_id)) {
             if (mediaSearchReducer[transaction_id].hasOwnProperty("captioned_resources")) {

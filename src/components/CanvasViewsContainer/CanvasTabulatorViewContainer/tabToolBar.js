@@ -129,7 +129,6 @@ class TabToolBar extends Component {
 
 function mapStateToProps(state, {course_gen_id, selected_rows, table}) {
 
-    console.log("selected rows in tab tool bar", selected_rows)
     return {
         state,
         course_gen_id,

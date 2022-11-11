@@ -138,7 +138,6 @@ class AddJobModal extends Component {
 function mapStateToProps({tempJobsFormReducer}, {course_gen_id, selected_rows}) {
 
     //te requester id is null in this form reducer.
-    console.log("Temp jobs form reducer ", tempJobsFormReducer);
 
     return {
         tempJobsFormReducer,

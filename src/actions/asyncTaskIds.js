@@ -4,7 +4,6 @@ export const CLEAR_TASK_ID = 'CLEAR_TASK_ID';
 
 
 export function receiveTaskId(task_id, callback_list) {
-    console.log("CALLLLBACCKKSSS", callback_list)
     return {
         type: RECEIVE_TASK_ID,
         task_id,

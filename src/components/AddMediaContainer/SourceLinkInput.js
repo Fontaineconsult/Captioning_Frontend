@@ -22,14 +22,14 @@ class SourceURLInput extends Component {
     }
     checkURL(event) {
         event.preventDefault();
-        console.log(this.state.link)
+
         if (this.state.link !== ''){
             this.state.error_id = uuidv1();
             this.props.dispatch(fetchMediaBySourceUrl(this.state.link, this.state.error_id))
         }
 
         if (this.state.link === '') {
-            console.log("GEERRRRERERERERERERERE")
+
             this.props.dispatch(clearMediaSearch())
         }
 
@@ -44,7 +44,6 @@ class SourceURLInput extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        console.log("TARGET", event)
         console.log(this.state)
         this.setState({
             [name]: value
