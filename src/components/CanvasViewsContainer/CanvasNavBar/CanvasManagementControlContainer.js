@@ -97,7 +97,7 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
     let newVideos = Object.keys(canvasVideoReducer).reduce((accumulator, element) => {
         if (moment(canvasVideoReducer[element].scan_date).isAfter(moment().subtract(3, 'days'))) {
 
-            if (canvasVideoReducer[element].captioned === false &&
+            if ((this.props.canvasVideoReducer[element].captioned === false || this.props.canvasVideoReducer[element].captioned === null) &&
                 (canvasVideoReducer[element].submitted_for_processing === null || canvasVideoReducer[element].submitted_for_processing === false)) {
 
                 if (canvasVideoReducer[element].ignore_video === false || canvasVideoReducer[element].auto_caption_passed === false) {
