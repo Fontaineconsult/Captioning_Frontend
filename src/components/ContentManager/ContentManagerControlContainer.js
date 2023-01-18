@@ -38,6 +38,7 @@ class ContentManagerControlContainer extends Component {
                 </div>
                 <div>
 
+
                     <Switch>
                         <Route path="/captioning/content-explorer/videos">{<VideosContainer/>}</Route>
                     </Switch>
