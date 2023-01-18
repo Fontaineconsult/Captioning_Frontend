@@ -295,16 +295,12 @@ class SearchFilterResultContainer extends Component {
     }
 
     updateSource() {
-        // if (isValidHttpUrl(this.state.source_input)) {
         this.props.dispatch(updateMedia(this.state.media_id, "source_url", this.state.source_input))
         this.setState({
             isInputDisabled: true,
 
         })
 
-        // } else {
-        //     alert("Please enter a valid URL")
-        // }
     }
 
     toggleEdit() {
@@ -319,6 +315,7 @@ class SearchFilterResultContainer extends Component {
         }, () => {
 
             if (!this.state.isTitleEditPressed) {
+                //submit btn pressed
                 let text = document.getElementById(this.state.media_id).textContent;
                 //this is the submitted text to update
 
@@ -326,7 +323,6 @@ class SearchFilterResultContainer extends Component {
                     this.props.dispatch(updateMedia(this.state.media_id, "title", text))
                     this.setState({
                         isTitleEditPressed: false,
-
                     })
 
                 } else {
@@ -335,6 +331,7 @@ class SearchFilterResultContainer extends Component {
 
 
             } else {
+                //edit button pressed
                 document.getElementById(this.state.media_id).focus()
 
             }

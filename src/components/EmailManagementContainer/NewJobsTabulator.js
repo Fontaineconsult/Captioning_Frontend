@@ -1,6 +1,5 @@
-
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
 import {withRouter} from "react-router";
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
@@ -8,7 +7,6 @@ import Tabulator from "tabulator-tables"
 import {reactFormatter} from "react-tabulator";
 import Button from "@material-ui/core/Button";
 import {sendEmailCommandJobs} from "../../actions/ampApi/putData"
-
 
 
 class NewJobsTabulator extends Component {
@@ -35,15 +33,16 @@ class NewJobsTabulator extends Component {
             params))
 
 
-
     };
 
-    sendEmailButton(props)  {
+    sendEmailButton(props) {
         const cellData = props.cell;
         if (cellData._cell.row.data.sent === true) {
-            return  <Button variant="contained" color="secondary" size="small" onClick={e => this.sendEmail}>Sent</Button>
+            return <Button variant="contained" color="secondary" size="small"
+                           onClick={e => this.sendEmail}>Sent</Button>
         } else {
-            return  <Button disabled={props.cell._cell.row.data.block_send} variant="contained" color="primary" size="small" onClick={(e) =>  this.sendEmail(cellData)}>Send</Button>
+            return <Button disabled={props.cell._cell.row.data.block_send} variant="contained" color="primary"
+                           size="small" onClick={(e) => this.sendEmail(cellData)}>Send</Button>
         }
 
     };
@@ -52,22 +51,23 @@ class NewJobsTabulator extends Component {
     componentDidMount() {
         let columns = [
 
-            {title:"Requester", width:150, field:"requester_name"},
+            {title: "Requester", width: 150, field: "requester_name"},
             {title: "Employee", field: "employee_name"},
             {title: "Email", field: "employee_email"},
             {title: "Title", field: "media_title"},
-            { title: "Send", width:80, hozAlign :"center",  formatter:reactFormatter(<this.sendEmailButton/>)}
+            {title: "Send", width: 80, hozAlign: "center", formatter: reactFormatter(<this.sendEmailButton/>)}
         ];
 
         this.tabulator = new Tabulator(this.el, {
             columns: columns,
-            layout:"fitColumns",
+            layout: "fitColumns",
             data: this.props.data,
             reactiveData: true,
 
         })
 
     }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         if (JSON.stringify(prevProps.videosJobsReducer) !== JSON.stringify(this.props.videosJobsReducer)) {
@@ -79,10 +79,10 @@ class NewJobsTabulator extends Component {
 
     render() {
 
-        return(
+        return (
 
             <div className="emailTabulatorContainer">
-                <div ref={el => (this.el = el)} />
+                <div ref={el => (this.el = el)}/>
             </div>
 
         )
@@ -90,7 +90,8 @@ class NewJobsTabulator extends Component {
 
 }
 
-function mapStateToProps({videosJobsReducer,
+function mapStateToProps({
+                             videosJobsReducer,
                              requesterReducer,
                              campusOrgReducer,
                              employeesReducer,
@@ -140,7 +141,6 @@ function mapStateToProps({videosJobsReducer,
         }
 
 
-
         return {
             id: job.id,
             template: template,
@@ -152,7 +152,7 @@ function mapStateToProps({videosJobsReducer,
         }
     };
 
-    if (videosJobsReducer !== undefined){
+    if (videosJobsReducer !== undefined) {
 
         Object.keys(videosJobsReducer).forEach((job) => {
 
@@ -160,7 +160,7 @@ function mapStateToProps({videosJobsReducer,
 
                 if (videosJobsReducer[job].job_added_confirmation_email_sent === false) {
                     data.push(formatData(videosJobsReducer[job]))
-                    }
+                }
 
             }
         })

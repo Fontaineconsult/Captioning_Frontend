@@ -13,7 +13,7 @@ import {updateStudents} from "../students";
 import {receiveTaskId} from "../asyncTaskIds";
 import {v1 as uuidv1} from "uuid";
 import store from "../../reducers/store_creator"
-import {fetchMediaById, reFetchMediaAfterUpload} from './fetchData'
+import {fetchCourseByCourseGenId, fetchMediaById, reFetchMediaAfterUpload} from './fetchData'
 import {receiveRequester} from "../requester";
 import AsyncJobChecker from "../../middleware/taskStatusCheck"
 
@@ -664,6 +664,27 @@ export function addMediaToListTempJob(title, link, temp_id) {
     }
 };
 
+export function addCanvasIdToCourse(data) {
+
+    let data_object = {course_gen_id: data.course_gen_id, canvas_page_id: data.canvas_page_id, semester: data.semester}
+
+    let post_object = {
+        method: 'POST',
+        body: JSON.stringify(data_object),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+
+    }
+
+    return dispatch => {
+        return fetch(`${server_url}/canvas-ids`, post_object)
+            .then(response => console.log("RESPONSE HERE", response))
+            .then(data => dispatch(fetchCourseByCourseGenId(data_object.course_gen_id)))
+
+    }
+}
 
 export function checkAsyncStatusResource(dispatch) {
     let error_id = uuidv1()

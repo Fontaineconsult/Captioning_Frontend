@@ -277,7 +277,7 @@
 }
 
 .tabulator-header {
-    height: 0;
+    /*height: 0;*/
 }
 
 .mediaContentContainer {
@@ -412,13 +412,13 @@ lowerUpperJobContainer {
 
 
 .queuedBtn {
-background: #fafafb;
-background: linear-gradient(180deg, rgba(63, 123, 191, 0) 84%,rgb(63, 123, 191) 100%);
+    background: #fafafb;
+    background: linear-gradient(180deg, rgba(63, 123, 191, 0) 84%, rgb(63, 123, 191) 100%);
 }
 
 .captioningBtn {
     background: #fafafb;
-    background: linear-gradient(180deg,rgba(172, 57, 91, 0) 84%, rgb(172, 57, 91) 100%);
+    background: linear-gradient(180deg, rgba(172, 57, 91, 0) 84%, rgb(172, 57, 91) 100%);
 }
 
 .readyBtn {
