@@ -122,7 +122,7 @@ class AstJobControlMenu extends Component {
             resizableColumns: false,
             responsiveLayout: false,
             layout: "fitColumns",
-            maxHeight: "60px"
+            maxHeight: "80px"
 
         })
 

@@ -1,7 +1,7 @@
 .job-container {
     margin-right: 10px;
     margin-left: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     border-style: solid;
     border-width: 1px;
     border-color: #282c34;
@@ -11,8 +11,6 @@
     width: 98%;
     border-radius: 3px;
     background-color: #fafafa;
-
-
 }
 
 .job-container:first-child {
@@ -105,7 +103,7 @@
 
     display: flex;
     margin-bottom: 10px;
-    height: 40px;
+    height: 70px;
 
 }
 
@@ -332,7 +330,7 @@
 }
 
 .astControlsContainer {
-    height: 50px;
+    height: 60px;
     width: 520px;
     margin-right: auto;
     margin-left: 10px;
