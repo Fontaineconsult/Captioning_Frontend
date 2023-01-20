@@ -111,14 +111,14 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
 
     Object.keys(coursesReducer).forEach(function (key) {
 
-
-        if (coursesReducer[key].canvas_page_id !== null) {
+        if (coursesReducer[key].students_enrolled.some(capActiveFunc) === true) {
             capActive += 1
-
+        } else {
+            capInactive += 1
         }
 
-
     });
+
 
     // let newVideos = Object.keys(canvasVideoReducer).reduce((accumulator, element) => {
     //     if (moment(canvasVideoReducer[element].scan_date).isAfter(moment().subtract(3, 'days'))) {

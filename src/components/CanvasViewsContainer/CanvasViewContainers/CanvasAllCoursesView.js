@@ -126,6 +126,7 @@ class CanvasAllCoursesView extends Component {
 
 
     render() {
+        console.log("SDFSDFSDFSDFF",this.props.courseCanvasVideos)
         return(
 
             <div>
@@ -177,10 +178,23 @@ function mapStateToProps({canvasVideoReducer, loadingStatusReducer, coursesReduc
     let canvasVideosSearchTemp = {...canvasVideoReducer}
     let courseCanvasVideos = {}
 
-    // build canvas-videos dict
-    Object.keys(coursesReducer).forEach(courseKey => {
 
-        if (coursesReducer[courseKey].canvas_page_id !== null) {
+
+    function capActiveFunc(element, index, array) {
+        return element.student_requests_captioning === true
+    }
+
+
+    Object.keys(coursesReducer).forEach(function (key) {
+
+        if (coursesReducer[key].students_enrolled.some(capActiveFunc) === true) {
+            requests_captioning[key] = coursesReducer[key]
+        }
+    });
+
+    console.log("REQUESTRS", requests_captioning)
+    // build canvas-videos dict
+    Object.keys(requests_captioning).forEach(courseKey => {
 
             courseCanvasVideos[courseKey] = {};
             Object.keys(canvasVideosSearchTemp).forEach(videoKey => {
@@ -189,24 +203,21 @@ function mapStateToProps({canvasVideoReducer, loadingStatusReducer, coursesReduc
                     delete canvasVideosSearchTemp[videoKey]
                 }
             })
-        }
+
 
     });
 
     let showCourseContainer = !courseIsLoading && !isLoading && Object.keys(courseCanvasVideos).length > 0;
 
-    Object.keys(coursesReducer).forEach(function(key){
 
-        if (coursesReducer[key].canvas_page_id !== null) {
 
-            requests_captioning[key] = coursesReducer[key]
-        }
-        });
+
+
 
         return {
         courseIsLoading,
         coursesReducer,
-        showCourseStubs,
+        showCourseStubs:false,
         showCourseContainer,
         requests_captioning,
         no_captioning,
