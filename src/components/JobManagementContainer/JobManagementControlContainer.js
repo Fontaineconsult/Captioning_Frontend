@@ -147,7 +147,8 @@ class JobManagementControlContainer extends Component {
             <div className="JobManagementControlContainer">
                 <div className="control-bar">
                     <div className="controlBarNavButtons">
-                        <div tabIndex={0} role={'button'} style={{'borderLefttWidth':'1px', borderLefttStyle: 'solid'}} className="navButton"
+                        <div tabIndex={0} role={'button'} style={{'borderLefttWidth': '1px', borderLefttStyle: 'solid'}}
+                             className="navButton"
                              onClick={() => this.updateJobStatusFilter("semesterJobs")}
                              onKeyPress={event => {
                                  if (event.key === 'Enter') {
@@ -156,7 +157,8 @@ class JobManagementControlContainer extends Component {
                              }}>
                             Semester Jobs <span className={"jobCount"}>{this.props.semesterJobsCount}</span>
                         </div>
-                        <div tabIndex={0} style={{'borderRightWidth':'1px', borderRightStyle: 'solid'}} role={'button'} className="navButton"
+                        <div tabIndex={0} style={{'borderRightWidth': '1px', borderRightStyle: 'solid'}} role={'button'}
+                             className="navButton"
                              onClick={() => this.updateJobStatusFilter("activeJobs")}
                              onKeyPress={event => {
                                  if (event.key === 'Enter') {
@@ -193,7 +195,8 @@ class JobManagementControlContainer extends Component {
                              }}>
                             Ready <span className={"jobCount"}>{this.props.readyJobsCount}</span>
                         </div>
-                        <div tabIndex={0} style={{'borderRightWidth':'1px', borderRightStyle: 'solid'}} role={'button'} className="navButton deliveredBtn"
+                        <div tabIndex={0} style={{'borderRightWidth': '1px', borderRightStyle: 'solid'}} role={'button'}
+                             className="navButton deliveredBtn"
                              onClick={() => this.updateJobStatusFilter("completeJobs")}
                              onKeyPress={event => {
                                  if (event.key === 'Enter') {
@@ -212,7 +215,8 @@ class JobManagementControlContainer extends Component {
                              }}>
                             On Hold <span className={"jobCount"}>{this.props.onHoldJobsCount}</span>
                         </div>
-                        <div tabIndex={0} role={'button'} style={{'borderRightWidth':'1px', borderRightStyle: 'solid'}} className="navButton cancelledBtn"
+                        <div tabIndex={0} role={'button'} style={{'borderRightWidth': '1px', borderRightStyle: 'solid'}}
+                             className="navButton cancelledBtn"
                              onClick={() => this.updateJobStatusFilter("cancelledJobs")}
                              onKeyPress={event => {
                                  if (event.key === 'Enter') {
@@ -282,7 +286,7 @@ class JobManagementControlContainer extends Component {
                                 return <List
                                     width={width}
                                     height={height}
-                                    rowHeight={290}
+                                    rowHeight={320}
                                     rowRenderer={this.renderRow}
                                     rowCount={this.state.videoJobs.length}
                                     data={this.state.job_status}
