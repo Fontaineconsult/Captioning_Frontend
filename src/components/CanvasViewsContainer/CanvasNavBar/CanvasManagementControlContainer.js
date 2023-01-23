@@ -53,14 +53,14 @@ class CanvasManagementControlContainer extends Component {
                                     search: this.props.location.search,
                                 }}>Active Courses </NavLink><span className={"jobCount"}>{this.props.capActive}</span>
                         </div>
-                        {/*<div id="jobManager" role="button" className="navButton">*/}
-                        {/*    <NavLink*/}
-                        {/*        to={{*/}
-                        {/*            pathname: "/captioning/canvas-scraper/inactive-courses",*/}
-                        {/*            search: this.props.location.search,*/}
-                        {/*        }}>Inactive Courses </NavLink><span*/}
-                        {/*    className={"jobCount"}>{this.props.capInactive}</span>*/}
-                        {/*</div>*/}
+                        <div id="jobManager" role="button" className="navButton">
+                            <NavLink
+                                to={{
+                                    pathname: "/captioning/canvas-scraper/inactive-courses",
+                                    search: this.props.location.search,
+                                }}>Inactive Courses </NavLink><span
+                            className={"jobCount"}>{this.props.capInactive}</span>
+                        </div>
 
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
@@ -82,8 +82,8 @@ class CanvasManagementControlContainer extends Component {
                     <Switch>
                         <Route path="/captioning/canvas-scraper/active-courses"
                                render={(props) => <CanvasAllCoursesView {...props} studentActive={true}/>}/>
-                        {/*<Route path="/captioning/canvas-scraper/inactive-courses"*/}
-                        {/*       render={(props) => <CanvasAllCoursesView {...props} studentActive={false}/>}/>*/}
+                        <Route path="/captioning/canvas-scraper/inactive-courses"
+                               render={(props) => <CanvasAllCoursesView {...props} studentActive={false}/>}/>
                         <Route path="/captioning/canvas-scraper/new-videos"
                                render={(props) => <CanvasNewJobView {...props} recent_videos={this.recentVideos()} studentActive={true}/>}/>
                     </Switch>

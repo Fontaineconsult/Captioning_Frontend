@@ -60,8 +60,8 @@ class CanvasAllCoursesView extends Component {
                         fixedWidth: true,
                         defaultHeight: 200
                     }),
-                    canvasVideoRowCount:Object.keys(this.props.no_captioning).length,
-                    captioningCourses:Object.keys(this.props.no_captioning)
+                    canvasVideoRowCount:Object.keys(this.props.requests_captioning).length,
+                    captioningCourses:Object.keys(this.props.requests_captioning)
                 })
             }
         }
@@ -86,8 +86,8 @@ class CanvasAllCoursesView extends Component {
                         fixedWidth: true,
                         defaultHeight: 200
                     }),
-                    canvasVideoRowCount:Object.keys(this.props.no_captioning).length,
-                    captioningCourses:Object.keys(this.props.no_captioning)
+                    canvasVideoRowCount:Object.keys(this.props.requests_captioning).length,
+                    captioningCourses:Object.keys(this.props.requests_captioning)
 
                 })
 
@@ -109,12 +109,9 @@ class CanvasAllCoursesView extends Component {
                     columnIndex={0}
                     rowIndex={index.index}>
                     <div key={index.key} style={index.style} className="row">
-
-
                             <CanvasCourseContainer canvasvideos={this.props.courseCanvasVideos}
                                                    course_id={this.state.captioningCourses[index.index]}
                                                    key={this.state.captioningCourses[index.index]}/>
-
                     </div>
                 </CellMeasurer>
 
@@ -124,9 +121,8 @@ class CanvasAllCoursesView extends Component {
 
     }
 
-
     render() {
-        console.log("SDFSDFSDFSDFF",this.props.courseCanvasVideos)
+
         return(
 
             <div>
@@ -181,7 +177,7 @@ function mapStateToProps({canvasVideoReducer, loadingStatusReducer, coursesReduc
 
 
     function capActiveFunc(element, index, array) {
-        return element.student_requests_captioning === true
+        return element.student_requests_captioning === studentActive
     }
 
 
@@ -192,7 +188,7 @@ function mapStateToProps({canvasVideoReducer, loadingStatusReducer, coursesReduc
         }
     });
 
-    console.log("REQUESTRS", requests_captioning)
+
     // build canvas-videos dict
     Object.keys(requests_captioning).forEach(courseKey => {
 
