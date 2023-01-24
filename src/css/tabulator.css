@@ -37,6 +37,18 @@
     border-radius: 5px;
 }
 
+.tabulatorAst {
+    height: 0;
+    margin-left: 100px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.tabulator-header {
+    /*height: 0;*/
+
+}
+
 
 .tabMainContainer {
 
@@ -67,3 +79,29 @@
     background-color: #444445 !important;;
 
 }
+
+
+/*html table css*/
+
+table {
+    border: solid rgb(168, 168, 168) 2px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 5px;
+    width: 520px;
+
+}
+
+td {
+    padding: 10px;
+    border-left: solid rgb(168, 168, 168) 2px;
+
+    text-align: center;
+
+
+}
+
+td:first-child {
+    border-left: 0;
+}
+
