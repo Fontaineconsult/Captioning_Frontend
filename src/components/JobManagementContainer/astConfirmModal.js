@@ -5,8 +5,7 @@ import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {withStyles} from "@material-ui/core/styles";
 import {addAstJobToCaptioningJob} from "../../actions/ampApi/postData"
-import { v1 as uuidv1 } from 'uuid';
-import astModal from "../../css/astModal.css"
+import {v1 as uuidv1} from 'uuid';
 import {astMediaSelectCustomStyles} from "./selectCustomStyle"
 
 import Select from "react-select";
@@ -65,14 +64,14 @@ class AstModalContainer extends Component {
         this.setState({
             temp_id: uuidv1(),
             setOpen: true,
-            open:true
+            open: true
         })
     };
 
     handleClose() {
         this.setState({
 
-            setOpen:false,
+            setOpen: false,
             open: false
 
         })
@@ -94,7 +93,7 @@ class AstModalContainer extends Component {
 
     }
 
-    updateState(event){
+    updateState(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -112,55 +111,55 @@ class AstModalContainer extends Component {
     }
 
     modalContent() {
-        return(
+        return (
 
             <div style={this.state.modalStyle} className={this.props.classes.paper}>
                 <div className={"astModalTitle"}>Create AST Job</div>
-                    <form>
-                        <div>
-                                <div style={{"margin-bottom": 10}}>
-                                    <div>
-                                        <label>
-                                            Select Media
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <Select name={"astMediaSelect"} styles={astMediaSelectCustomStyles}
-                                                value={this.state.file_id} onChange={this.updateMediaSelect}
-                                                options={this.state.file_select}/>
-                                    </div>
-                                </div>
-                            <div style={{"margin-bottom": 10}}>
-                                <div>
-                                    <label>Rate</label>
-                                </div>
-                                <div>
-                                    <select name="rate" value={this.state.rate} onChange={this.updateState}>
-                                        <option value="H">8 Hour</option>
-                                        <option value="R">1 Day</option>
-                                        <option value="T">2 Day</option>
-                                        <option value="L">4 Day</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <div>
-                                        <label htmlFor={"trans_notes"}>
-                                            Transcriber Notes
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <textarea onChange={this.updateState} value={this.state.transcriber_notes} name={"transcriber_notes"}/>
-                                    </div>
-
-
-
-                                </div>
+                <form>
+                    <div>
+                        <div style={{"margin-bottom": 10}}>
+                            <div>
+                                <label>
+                                    Select Media
+                                </label>
                             </div>
-                            <div style={{"margin-bottom": 30}}>
-                                <Button disabled={this.state.file_id===""} onClick={this.submitJobtoDB}>Init Job</Button>
+                            <div>
+                                <Select name={"astMediaSelect"} styles={astMediaSelectCustomStyles}
+                                        value={this.state.file_id} onChange={this.updateMediaSelect}
+                                        options={this.state.file_select}/>
                             </div>
                         </div>
-                    </form>
+                        <div style={{"margin-bottom": 10}}>
+                            <div>
+                                <label>Rate</label>
+                            </div>
+                            <div>
+                                <select name="rate" value={this.state.rate} onChange={this.updateState}>
+                                    <option value="H">8 Hour</option>
+                                    <option value="R">1 Day</option>
+                                    <option value="T">2 Day</option>
+                                    <option value="L">4 Day</option>
+                                </select>
+                            </div>
+                            <div>
+                                <div>
+                                    <label htmlFor={"trans_notes"}>
+                                        Transcriber Notes
+                                    </label>
+                                </div>
+                                <div>
+                                    <textarea onChange={this.updateState} value={this.state.transcriber_notes}
+                                              name={"transcriber_notes"}/>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div style={{"margin-bottom": 30}}>
+                            <Button disabled={this.state.file_id === ""} onClick={this.submitJobtoDB}>Init Job</Button>
+                        </div>
+                    </div>
+                </form>
                 {/*<div>*/}
                 {/*    <div>*/}
                 {/*        Are you sure you want to submit? Charges will apply.*/}
@@ -175,10 +174,10 @@ class AstModalContainer extends Component {
 
     render() {
 
-        return(
+        return (
             <React.Fragment>
                 <Button
-                    style={{maxHeight: '25px', padding:'0px 3px'}}
+                    style={{maxHeight: '25px', marginTop: "9px", padding: '0px 3px'}}
                     variant="contained"
                     name={"creatAstJob"}
                     onClick={this.handleOpen}
@@ -202,13 +201,13 @@ function mapStateToProps({mediaReducer, videosJobsReducer, loadingStatusReducer}
     if (loadingStatusReducer.videoJobsLoading === false) {
 
         media_files = mediaReducer[videosJobsReducer[job_id].media.id].media_objects.reduce((accumulator, element) => {
-            if (element.associated_files !== null)  {
+            if (element.associated_files !== null) {
 
                 accumulator.push({value: element.associated_files.id, label: element.associated_files.file_name})
 
             }
             return accumulator
-        },[])
+        }, [])
     }
 
     return {
@@ -218,7 +217,4 @@ function mapStateToProps({mediaReducer, videosJobsReducer, loadingStatusReducer}
 }
 
 
-
-
-
-export default withRouter(connect(mapStateToProps)(withStyles(useStyles, { withTheme: true })(AstModalContainer)))
+export default withRouter(connect(mapStateToProps)(withStyles(useStyles, {withTheme: true})(AstModalContainer)))

@@ -7,7 +7,7 @@ import moment from 'moment'
 import AstModalContainer from "./astConfirmModal";
 import {submitASTJobToAST} from "../../actions/ampApi/putData"
 import {astJobURL} from "../../constants";
-import Tabulator from "tabulator-tables";
+// import Tabulator from "tabulator-tables";
 
 
 const astRateFormatter = (rateCode) => ({
@@ -28,7 +28,7 @@ class AstJobControlMenu extends Component {
         this.initASTJob = this.initASTJob.bind(this)
 
         this.ref = null;
-        this.tabulator = null
+        // this.tabulator = null
         this.el = React.createRef();
 
     }
@@ -37,10 +37,13 @@ class AstJobControlMenu extends Component {
         this.props.dispatch(submitASTJobToAST(ast_job_id, job_id))
     }
 
-    astJobFormatter(props) {
+    astJobFormatter(ast_job_id, ast_status) {
 
-        let ast_job_id = props.cell._cell.row.data.id
-        let ast_status = props.cell._cell.row.data.ast_link
+
+        // let ast_job_id = props.cell._cell.row.data.id
+        // let ast_status = props.cell._cell.row.data.ast_link
+
+
         if (ast_status === null) {
 
             return (<Button style={{'padding': '0px'}}
@@ -49,6 +52,8 @@ class AstJobControlMenu extends Component {
         if (ast_status) {
             return (<Button style={{'padding': '0px'}} onClick={e => window.open(ast_status)}>Job</Button>)
         }
+
+
     }
 
 
@@ -107,7 +112,11 @@ class AstJobControlMenu extends Component {
         let columns = [{title: "Status", field: "status", formatter: "plaintext"},
             {title: "Speed", field: "speed", formatter: "plaintext"},
             {title: "Added On", field: "added_date", formatter: "plaintext"},
-            {title: "Ast Url", field: "ast_link", formatter: reactFormatter(<this.astJobFormatter/>)}]
+            {
+                title: "Ast Url",
+                field: "ast_link",
+                formatter: reactFormatter(<this.astJobFormatter/>,)
+            }]
 
 
         this.setState({
@@ -115,16 +124,16 @@ class AstJobControlMenu extends Component {
         })
 
 
-        this.tabulator = new Tabulator(this.el, {
-            columns: columns,
-            data: data,
-            reactiveData: true,
-            resizableColumns: false,
-            responsiveLayout: false,
-            layout: "fitColumns",
-            maxHeight: "80px"
-
-        })
+        // this.tabulator = new Tabulator(this.el, {
+        //     columns: columns,
+        //     data: data,
+        //     reactiveData: true,
+        //     resizableColumns: false,
+        //     responsiveLayout: false,
+        //     layout: "fitColumns",
+        //     maxHeight: "80px",
+        //
+        // })
 
 
     }
@@ -144,6 +153,7 @@ class AstJobControlMenu extends Component {
                     }
                 )
             }
+
             this.setState({
                 data: data
             })
@@ -153,17 +163,29 @@ class AstJobControlMenu extends Component {
 
 
     render() {
-        console.log(this.state.data.length)
+        // return (<div ref={el => (this.el = el)}/>)
 
-        return (<div ref={el => (this.el = el)}/>)
-
-        // if (this.state.data.length > 0) {return (
-        //         <div ref={el => (this.el = el)} />
-        // )}
-
-        // if (this.state.data.length === 0) {
-        //     return ("loading")
+        // if (this.state.data.length > 0) {
+        //     return (
+        //         <div ref={el => (this.el = el)}/>
+        //     )
         // }
+
+        if (this.state.data.length === 0) {
+            return ("loading")
+        }
+
+        //html table css is in end of tabulator.css file
+
+
+        return (<table>
+            <tr>
+                <td>{this.state.data[0].status}</td>
+                <td>{this.state.data[0].speed}</td>
+                <td>{this.state.data[0].added_date}</td>
+                <td>{this.astJobFormatter(this.state.data[0].ast_link, this.state.data[0].id)}</td>
+            </tr>
+        </table>)
 
     }
 }
