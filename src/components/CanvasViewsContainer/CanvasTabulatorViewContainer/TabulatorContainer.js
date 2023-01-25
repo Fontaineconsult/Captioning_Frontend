@@ -299,13 +299,13 @@ class CanvasTabulatorContainer extends Component {
         this.tabulator = new Tabulator(this.el, {
             columns: columns,
             layout: "fitColumns",
+            rowHeight: 37,
             data: this.props.videosList,
             cellEdited: this.dataEditedFunc,
             reactiveData: true,
             rowFormatter: function (row) {
-                console.log("TabulatorContainer: row is ", row)
+
                 if (row.getData().ignore_video === true) {
-                    //TODO: fix this: classlist.remove and add does not exist?? 
                     row.getElement().classList.remove("tabulator-selectable")
                     row.getElement().classList.add("ignore-video")
                 }
@@ -320,6 +320,7 @@ class CanvasTabulatorContainer extends Component {
             initialFilter: [{field: "invalid_link", type: "!=", value: true}]
 
         })
+        this.tabulator.redraw()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

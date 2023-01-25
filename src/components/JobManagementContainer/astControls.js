@@ -42,7 +42,7 @@ class AstJobControlMenu extends Component {
 
         // let ast_job_id = props.cell._cell.row.data.id
         // let ast_status = props.cell._cell.row.data.ast_link
-        console.log("ZZZZ", ast_job_uri, ast_job_id)
+
         if (ast_job_uri === null) {
 
             return (<Button style={{'padding': '0px'}}

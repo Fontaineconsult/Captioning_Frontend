@@ -232,6 +232,7 @@ class TabulatorContainer extends Component {
             initialFilter: [{field:"invalid_link", type:"!=", value:true}]
 
         })
+        this.tabulator.redraw()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
