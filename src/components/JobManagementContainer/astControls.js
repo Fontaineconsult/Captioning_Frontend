@@ -37,19 +37,19 @@ class AstJobControlMenu extends Component {
         this.props.dispatch(submitASTJobToAST(ast_job_id, job_id))
     }
 
-    astJobFormatter(ast_job_id, ast_status) {
+    astJobFormatter(ast_job_uri, ast_job_id) {
 
 
         // let ast_job_id = props.cell._cell.row.data.id
         // let ast_status = props.cell._cell.row.data.ast_link
-
-        if (ast_status === null) {
+        console.log("ZZZZ", ast_job_uri, ast_job_id)
+        if (ast_job_uri === null) {
 
             return (<Button style={{'padding': '0px'}}
                             onClick={e => this.initASTJob(ast_job_id, this.props.job_id)}>Init</Button>)
         }
-        if (ast_status) {
-            return (<Button style={{'padding': '0px'}} onClick={e => window.open(ast_status)}>Job</Button>)
+        if (ast_job_uri) {
+            return (<Button style={{'padding': '0px'}} onClick={e => window.open(ast_job_uri)}>Job</Button>)
         }
 
 

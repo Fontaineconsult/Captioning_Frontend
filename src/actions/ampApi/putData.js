@@ -285,7 +285,7 @@ export function updateCanvasVideoBatch(video_ids, column, value) {
 
 
 export function submitASTJobToAST(ast_job_id, job_id, file_id) {
-    console.log(ast_job_id)
+    console.log(ast_job_id, job_id, file_id)
     let data_object = {"ast-job-id": ast_job_id, "file_id": file_id};
 
     let put_object = {
