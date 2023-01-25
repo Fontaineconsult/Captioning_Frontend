@@ -43,7 +43,6 @@ class AstJobControlMenu extends Component {
         // let ast_job_id = props.cell._cell.row.data.id
         // let ast_status = props.cell._cell.row.data.ast_link
 
-
         if (ast_status === null) {
 
             return (<Button style={{'padding': '0px'}}
@@ -177,7 +176,7 @@ class AstJobControlMenu extends Component {
 
         //html table css is in end of tabulator.css file
 
-
+        console.log(this.state, "STAATEE")
         return (<table>
             <tr>
                 <td>{this.state.data[0].status}</td>
