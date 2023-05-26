@@ -221,6 +221,16 @@ class NewMediaContainer extends Component {
                 required={true}
                 disabled={this.props.inputsDisabled}
             />
+        } else if (this.state.type === "DVD") {
+            SourceInput = <Input
+                className="addJobInput"
+                accept="video/*,audio/*"
+                name="videoFile"
+                type="file"
+                onChange={this.checkIfFileExists}
+                required={false}
+                disabled={this.props.inputsDisabled}
+            />
         }
 
         return (
@@ -240,6 +250,7 @@ class NewMediaContainer extends Component {
                                     >
                                         <MenuItem value={'URL'}>URL</MenuItem>
                                         <MenuItem value={"File"}>File</MenuItem>
+                                        <MenuItem value={"DVD"}>DVD</MenuItem>
                                     </Select>
                                 </label>
 
@@ -306,6 +317,19 @@ class NewMediaContainer extends Component {
                                                 onClick={this.uploadVideoAndAddToTempJob}>Upload File</Button>}
                                     {/* File Uploaded and Video info complete*/}
                                     {this.state.type === 'File' && this.props.fileUploaded && this.props.videoSelected &&
+                                        <Button size="small" color="primary" variant="contained" name="submit"
+                                                type="submit" disabled={true}>Video Selected</Button>}
+
+
+                                    {/* DVD Uploaded and Video info complete */}
+                                    {this.state.type === 'DVD' && this.props.inMedia && !this.props.videoSelected && !this.props.filePresent &&
+                                        <Button size="small" color="secondary" variant="contained" name="submit"
+                                                type="submit" disabled={false}
+                                                onClick={this.uploadVideoAndAddToTempJob}>- Upload File</Button>}
+
+
+
+                                    {this.state.type === 'DVD' && this.props.fileUploaded && this.props.videoSelected &&
                                         <Button size="small" color="primary" variant="contained" name="submit"
                                                 type="submit" disabled={true}>Video Selected</Button>}
                                 </div>
