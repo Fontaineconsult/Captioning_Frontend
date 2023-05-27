@@ -8,6 +8,7 @@ export const devServerUrl = () => ("http://localhost:5000")
 export const deployURL = () => ("http://app.dprc-captioning.services/")
 export const currentSemester = () => ("su23")
 
+
 function environment(value) {
     if (value === 'production') {
         return deployServerApiURL()
