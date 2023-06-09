@@ -8,6 +8,9 @@ import {v1 as uuidv1} from "uuid";
 import {addJobInfoToTempJob, addListTempJob, completeTempJob} from "../../actions/tempJobsForm"
 import {updateiLearnVideo} from "../../actions/ampApi/putData";
 import {emptyVideoList} from "../../actions/videoLists"
+import {currentSemester} from "../../constants";
+
+
 
 class VideoListToolBar extends Component {
 
@@ -34,7 +37,7 @@ class VideoListToolBar extends Component {
                     delivery_format: row._row.data.delivery_format,
                     requester_id: this.props.requesterId.requester_id,
                     ilearn_auto_caption: this.props.auto_caption,
-                    semester: 'sp22',
+                    semester: currentSemester(),
                     comments: "",
                 },
                 meta: {
