@@ -61,7 +61,7 @@
 
 
 .ContentManagementMasterContainer {
-
+    overflow:auto;
     height: 100%
 }
 
