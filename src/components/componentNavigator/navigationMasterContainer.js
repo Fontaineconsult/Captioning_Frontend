@@ -136,6 +136,7 @@ class NavigationMasterContainer extends Component {
                                         <option value={"sp23"}>Spring 2023</option>
                                         <option value={"su23"}>Summer 2023</option>
                                         <option value={"fa23"}>Fall 2023</option>
+                                        <option value={"sp24"}>Spring 2024</option>
                                     </select>
                                 </label>
                             </form>
