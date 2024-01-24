@@ -18,8 +18,8 @@ const statusColor = (status) => ({
     "Ready": "linear-gradient(to left, rgba(172, 143, 57, 0), rgb(172, 143, 573))",
     "Delivered": "linear-gradient(to left, rgba(114, 172, 57, 0), rgb(114, 172, 57))",
     "On Hold": "linear-gradient(to left, rgba(257, 172, 139, 0), rgb(57, 172, 139))",
-    "Cancelled": "linear-gradient(to left, rgba(17, 18, 38, 0), rgb(17, 18, 38))"
-
+    "Cancelled": "linear-gradient(to left, rgba(17, 18, 38, 0), rgb(17, 18, 38))",
+    "Export": "linear-gradient(to left, rgba(17, 18, 38, 0), rgb(154, 118, 0))"
 
 })[status]
 
@@ -199,13 +199,17 @@ class JobContainer extends Component {
                                             <div className="upperJobContainerLeftContent">
                                                 <label className="upperJobContainerLeftLabel">
                                                     <div>Job Status</div>
-                                                    <select className="upperJobContainerLeftContentInput" name="job_status" onChange={this.updateState} onBlur={this.dispatchInput} onFocus={this.saveCurrentValue} value={this.state.job_status}>
+                                                    <select className="upperJobContainerLeftContentInput"
+                                                            name="job_status" onChange={this.updateState}
+                                                            onBlur={this.dispatchInput} onFocus={this.saveCurrentValue}
+                                                            value={this.state.job_status}>
                                                         <option value="Queued">Queued</option>
                                                         <option value="Captioning">Captioning</option>
                                                         <option value="Ready">Ready</option>
                                                         <option value="Delivered">Delivered</option>
                                                         <option value="On Hold">On Hold</option>
                                                         <option value="Cancelled">Cancelled</option>
+                                                        <option value="Export">Export</option>
                                                     </select>
                                                 </label>
                                             </div>
