@@ -213,10 +213,14 @@ class JobContainer extends Component {
                                                 <label className="upperJobContainerLeftLabel">
                                                     <div>Output Format</div>
 
-                                                    <select className="upperJobContainerLeftContentInput" name="output_format" onFocus={this.saveCurrentValue} onChange={this.updateState} onBlur={this.dispatchInput} value={this.state.output_format}>
+                                                    <select className="upperJobContainerLeftContentInput"
+                                                            name="output_format" onFocus={this.saveCurrentValue}
+                                                            onChange={this.updateState} onBlur={this.dispatchInput}
+                                                            value={this.state.output_format}>
                                                         <option value="Amara">Amara</option>
                                                         <option value="SRT">.SRT</option>
                                                         <option value="File">File</option>
+                                                        <option value="DVD">DVD</option>
                                                         <option value="Open Caption">Open Cap</option>
                                                         <option value="Described Video">Described Video</option>
                                                     </select>
