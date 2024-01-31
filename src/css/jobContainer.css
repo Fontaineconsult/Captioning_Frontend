@@ -444,6 +444,10 @@ lowerUpperJobContainer {
 
 }
 
+.exportBtn {
+    background: #fafafb;
+    background: linear-gradient(to left, rgba(17, 18, 38, 0), rgb(154, 118, 0));
 
+}
 
 
