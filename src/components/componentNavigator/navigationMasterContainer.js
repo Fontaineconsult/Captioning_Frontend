@@ -23,7 +23,7 @@ class NavigationMasterContainer extends Component {
         this.state = {
             jobManagerActive: true,
             addJobActive: false,
-            iLearnScraperActive: false,
+            // iLearnScraperActive: false,
             semester: ""
 
         };
@@ -50,7 +50,7 @@ class NavigationMasterContainer extends Component {
         this.setState({
             jobManagerActive: event.target.id === "JobManager",
             addJobActive: event.target.id === "addJob",
-            iLearnScraperActive: event.target.id === "iLearnScraper"
+            // iLearnScraperActive: event.target.id === "iLearnScraper"
 
         })
 
@@ -77,15 +77,15 @@ class NavigationMasterContainer extends Component {
 
                                     }}>Add Job</NavLink>
                             </div>
-                            <div id="iLearnScraper" role="button" className="navButton" onClick={this.selectNavigator}>
-                                <NavLink
-                                    to={{
-                                        pathname: "/captioning/ilearn-scraper/active-courses",
-                                        search: this.props.location.search,
+                            {/*<div id="iLearnScraper" role="button" className="navButton" onClick={this.selectNavigator}>*/}
+                            {/*    <NavLink*/}
+                            {/*        to={{*/}
+                            {/*            pathname: "/captioning/ilearn-scraper/active-courses",*/}
+                            {/*            search: this.props.location.search,*/}
 
-                                    }}>iLearn Scraper</NavLink>
+                            {/*        }}>iLearn Scraper</NavLink>*/}
 
-                            </div>
+                            {/*</div>*/}
                             <div id="canvasScraper" role="button" className="navButton" onClick={this.selectNavigator}>
                                 <NavLink
                                     to={{
@@ -154,7 +154,7 @@ class NavigationMasterContainer extends Component {
                         <Route path="/captioning/job-manager">{this.props.isLoaded &&
                             <JobManagementMasterContainer query={this.props.query}/>}</Route>
                         <Route path="/captioning/add-job">{<AddJobControlContainer query={this.props.query}/>}</Route>
-                        <Route path="/captioning/ilearn-scraper">{<IlearnManagementControlContainer/>}</Route>
+                        {/*<Route path="/captioning/ilearn-scraper">{<IlearnManagementControlContainer/>}</Route>*/}
                         <Route path="/captioning/canvas-scraper">{<CanvasManagementControlContainer/>}</Route>
                         <Route path="/captioning/content-explorer">{<ContentManagerMasterContainer/>}</Route>
                         <Route path="/captioning/users">{<UserManagementMasterContainer/>}</Route>
@@ -173,7 +173,7 @@ class NavigationMasterContainer extends Component {
 function mapStateToProps({requesterReducer, userPermissionReducer, loadingStatusReducer, globalsReducer}, {query}) {
 
     let displayLoader = loadingStatusReducer.coursesLoading ||
-        loadingStatusReducer.iLearnVideosLoading ||
+        // loadingStatusReducer.iLearnVideosLoading ||
         loadingStatusReducer.mediaLoading ||
         loadingStatusReducer.videoJobsLoading ||
         loadingStatusReducer.astRequestsLoading
