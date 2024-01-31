@@ -206,6 +206,15 @@ class JobManagementControlContainer extends Component {
                             Delivered <span className={"jobCount"}>{this.props.completeJobsCount}</span>
                         </div>
                         <span style={{width: '30px'}}/>
+                        <div tabIndex={0} role={'button'} className="navButton exportBtn"
+                             onClick={() => this.updateJobStatusFilter("exportJobs")}
+                             onKeyPress={event => {
+                                 if (event.key === 'Enter') {
+                                     this.updateJobStatusFilter("onHoldJobs")
+                                 }
+                             }}>
+                            Export <span className={"jobCount"}>{this.props.exportJobsCount}</span>
+                        </div>
                         <div tabIndex={0} role={'button'} className="navButton onHoldBtn"
                              onClick={() => this.updateJobStatusFilter("onHoldJobs")}
                              onKeyPress={event => {
@@ -242,6 +251,7 @@ class JobManagementControlContainer extends Component {
                                                 {value: "Delivered", label: "Delivered", job_status: "Delivered"},
                                                 {value: "Cancelled", label: "Cancelled", job_status: "Cancelled"},
                                                 {value: "On Hold", label: "On Hold", job_status: "On Hold"},
+                                                {value: "Export", label: "Export", job_status: "Export"},
                                             ]}
                                             value={this.state.job_status_value}
                                             onChange={(value) => this.reductionFilter(value, 'job_status')}/>
@@ -345,6 +355,10 @@ function mapStateToProps({
         return videosJobsReducer[videoJobId].job_status === 'Queued'
     })
 
+    let exportJobs = Object.keys(videosJobsReducer).filter((videoJobId) => {
+        return videosJobsReducer[videoJobId].job_status === 'Export'
+    })
+
     if (Object.keys(requesterReducer).length > 0 && Object.keys(videosJobsReducer).length > 0) {
 
         let requester_ids = Object.keys(videosJobsReducer).map(x => {
@@ -397,6 +411,7 @@ function mapStateToProps({
         onHoldJobs,
         cancelledJobs,
         queuedJobs,
+        exportJobs,
         queuedJobsCount: queuedJobs.length,
         captioningJobsCount: captioningJobs.length,
         readyJobsCount: readyJobs.length,
@@ -404,7 +419,8 @@ function mapStateToProps({
         cancelledJobsCount: cancelledJobs.length,
         semesterJobsCount: semesterJobs.length,
         activeJobsCount: activeJobs.length,
-        completeJobsCount: completeJobs.length
+        completeJobsCount: completeJobs.length,
+        exportJobsCount: exportJobs.length
 
     }
 }
