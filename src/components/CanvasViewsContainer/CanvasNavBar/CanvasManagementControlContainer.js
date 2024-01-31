@@ -41,7 +41,7 @@ class CanvasManagementControlContainer extends Component {
 
 
     render() {
-        console.log("RECEMTS", this.recentVideos())
+
         return (
             <div className="ContentManagementMasterContainer">
                 <div className="control-bar">
@@ -51,7 +51,14 @@ class CanvasManagementControlContainer extends Component {
                                 to={{
                                     pathname: "/captioning/canvas-scraper/active-courses",
                                     search: this.props.location.search,
-                                }}>Active Courses </NavLink><span className={"jobCount"}>{this.props.capActive}</span>
+                                }}>Active Courses</NavLink><span className={"jobCount"}>{this.props.capActive}</span>
+                        </div>
+                        <div id="jobManager" role="button" className="navButton">
+                            <NavLink
+                                to={{
+                                    pathname: "/captioning/canvas-scraper/described-courses",
+                                    search: this.props.location.search,
+                                }}>Described Courses</NavLink><span className={"jobCount"}>{this.props.describedActive}</span>
                         </div>
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
@@ -82,6 +89,8 @@ class CanvasManagementControlContainer extends Component {
                     <Switch>
                         <Route path="/captioning/canvas-scraper/active-courses"
                                render={(props) => <CanvasAllCoursesView {...props} studentActive={true}/>}/>
+                        <Route path="/captioning/canvas-scraper/described-courses"
+                               render={(props) => <CanvasAllCoursesView {...props} studentActive={true}/>}/>
                         <Route path="/captioning/canvas-scraper/inactive-courses"
                                render={(props) => <CanvasAllCoursesView {...props} studentActive={false}/>}/>
                         <Route path="/captioning/canvas-scraper/new-videos"
@@ -102,12 +111,16 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
 
     let capActive = 0;
     let capInactive = 0;
-
+    let describedActive = 0;
 
     function capActiveFunc(element, index, array) {
         return element.student_requests_captioning === true
     }
 
+
+    function describedActiveFunc(element, index, array) {
+        return element.student_requests_described_video === true
+    }
 
     Object.keys(coursesReducer).forEach(function (key) {
 
@@ -115,6 +128,17 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
             capActive += 1
         } else {
             capInactive += 1
+        }
+
+    });
+
+
+    Object.keys(coursesReducer).forEach(function (key) {
+
+        if (coursesReducer[key].students_enrolled.some(describedActiveFunc) === true) {
+            describedActive += 1
+        } else {
+            describedActive += 1
         }
 
     });
@@ -144,7 +168,8 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
         jobsLoading,
         capActive,
         capInactive,
-        canvasVideoReducer
+        canvasVideoReducer,
+        describedActive
 
     }
 }
