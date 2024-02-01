@@ -87,11 +87,17 @@ class CanvasCourseContainer extends Component {
                     <div className={"courseUpperContainerRight"}>
                         <div className={"infoContainerLeft"}>
                             <div>Students Enrolled: {this.props.numStudentsEnrolled}</div>
-                            <div>Captioning Requested: {this.props.studentRequestsCaptioning === true ? "Yes":"No" }</div>
-                            <div><form>
-                                <label htmlFor={"ignore_course_check"}>Ignore Course</label>
-                                <input checked={this.state.ignore_course_check} onChange={this.handleInputChange} name={"ignore_course_check"} id={"ignore_course_check" + this.props.course_id} type="checkbox"/>
-                            </form></div>
+                            <div>Captioning
+                                Requested: {this.props.studentRequestsCaptioning === true ? "Yes" : "No"}</div>
+                            <div>Audio Described Video Requested: {this.props.studentRequestsDescribed === true ? "Yes" : "No"}</div>
+                            <div>
+                                <form>
+                                    <label htmlFor={"ignore_course_check"}>Ignore Course</label>
+                                    <input checked={this.state.ignore_course_check} onChange={this.handleInputChange}
+                                           name={"ignore_course_check"}
+                                           id={"ignore_course_check" + this.props.course_id} type="checkbox"/>
+                                </form>
+                            </div>
                         </div>
                         <div className={"infoContainerRight"}>
                             <div className={"infoContainerRight"}>
@@ -122,10 +128,11 @@ class CanvasCourseContainer extends Component {
 }
 
 
-function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, canvasvideos}) {
+function mapStateToProps({loadingStatusReducer, coursesReducer, requesterReducer}, {course_id, canvasvideos}) {
 
     let numStudentsEnrolled = 0;
     let studentRequestsCaptioning = false;
+    let studentRequestsDescribed = false;
     let instructor = ""
     let email = ""
     let courseCanvasVideos = {}
@@ -134,7 +141,12 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, can
     let semester = ''
     let canvasID = ''
 
-    if (loadingStatusReducer.coursesLoading === false && loadingStatusReducer.iLearnVideosLoading === false) {
+
+
+
+
+
+    if (loadingStatusReducer.coursesLoading === false) {
         if (Object.keys(coursesReducer).length > 0) {
             Object.keys(coursesReducer[course_id].students_enrolled).forEach(enroll => {
                 if (coursesReducer[course_id].students_enrolled[enroll].student_enrolled === true){
@@ -142,8 +154,10 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, can
                     if (coursesReducer[course_id].students_enrolled[enroll].student_requests_captioning === true){
                         studentRequestsCaptioning = true
                     }
-                }
-            });
+                    if (coursesReducer[course_id].students_enrolled[enroll].student_requests_described_video === true){
+                        studentRequestsDescribed = true
+                    }
+            }});
             courseCanvasVideos = canvasvideos[course_id]
             course_name = coursesReducer[course_id].course_name
             courseSection = coursesReducer[course_id].course_section
@@ -151,6 +165,7 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, can
             canvasID = coursesReducer[course_id].canvas_page_id == null ? "No Canvas ID" : coursesReducer[course_id].canvas_page_id.canvas_page_id
             instructor = coursesReducer[course_id].course_instructor.employee_first_name + " " + coursesReducer[course_id].course_instructor.employee_last_name
             email = coursesReducer[course_id].course_instructor.employee_email
+
         }
 
     }
@@ -173,6 +188,7 @@ function mapStateToProps({loadingStatusReducer, coursesReducer}, {course_id, can
         numStudentsEnrolled,
         studentRequestsCaptioning,
         courseCanvasVideos,
+        studentRequestsDescribed,
         course_comments: coursesReducer[course_id].course_comments
 
     }

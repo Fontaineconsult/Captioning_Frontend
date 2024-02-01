@@ -60,14 +60,14 @@ class CanvasManagementControlContainer extends Component {
                                     search: this.props.location.search,
                                 }}>Described Courses</NavLink><span className={"jobCount"}>{this.props.describedActive}</span>
                         </div>
-                        <div id="jobManager" role="button" className="navButton">
-                            <NavLink
-                                to={{
-                                    pathname: "/captioning/canvas-scraper/inactive-courses",
-                                    search: this.props.location.search,
-                                }}>Inactive Courses </NavLink><span
-                            className={"jobCount"}>{this.props.capInactive}</span>
-                        </div>
+                        {/*<div id="jobManager" role="button" className="navButton">*/}
+                        {/*    <NavLink*/}
+                        {/*        to={{*/}
+                        {/*            pathname: "/captioning/canvas-scraper/inactive-courses",*/}
+                        {/*            search: this.props.location.search,*/}
+                        {/*        }}>Inactive Courses </NavLink><span*/}
+                        {/*    className={"jobCount"}>{this.props.capInactive}</span>*/}
+                        {/*</div>*/}
 
                         <div id="jobManager" role="button" className="navButton">
                             <NavLink
@@ -88,11 +88,11 @@ class CanvasManagementControlContainer extends Component {
                 <div>
                     <Switch>
                         <Route path="/captioning/canvas-scraper/active-courses"
-                               render={(props) => <CanvasAllCoursesView {...props} studentActive={true}/>}/>
+                               render={(props) => <CanvasAllCoursesView {...props}  described={false} studentActive={true}/>}/>
                         <Route path="/captioning/canvas-scraper/described-courses"
-                               render={(props) => <CanvasAllCoursesView {...props} studentActive={true}/>}/>
-                        <Route path="/captioning/canvas-scraper/inactive-courses"
-                               render={(props) => <CanvasAllCoursesView {...props} studentActive={false}/>}/>
+                               render={(props) => <CanvasAllCoursesView {...props} described={true} studentActive={true}/>}/>
+                        {/*<Route path="/captioning/canvas-scraper/inactive-courses"*/}
+                        {/*       render={(props) => <CanvasAllCoursesView {...props} studentActive={false}/>}/>*/}
                         <Route path="/captioning/canvas-scraper/new-videos"
                                render={(props) => <CanvasNewJobView {...props} recent_videos={this.recentVideos()} studentActive={true}/>}/>
                     </Switch>
@@ -136,8 +136,6 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, videosJobsReducer
     Object.keys(coursesReducer).forEach(function (key) {
 
         if (coursesReducer[key].students_enrolled.some(describedActiveFunc) === true) {
-            describedActive += 1
-        } else {
             describedActive += 1
         }
 

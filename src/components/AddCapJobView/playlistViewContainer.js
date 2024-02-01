@@ -92,7 +92,9 @@ class PlayListViewContainer extends Component {
             {title: "Delivery Format", width:80, field: "delivery_format", editor:"select",
                 editorParams:{"Amara": "Amara",
                     "SRT":"SRT",
-                    "Video File":"Video File"}},
+                    "Video File":"Video File",
+                    "Described Video":"Described Video",
+                    "Open Cap":"Open Cap"}},
             { title: "Select", width:60, hozAlign :"center", formatter:reactFormatter(<this.IsChecked/>)},
         ];
 

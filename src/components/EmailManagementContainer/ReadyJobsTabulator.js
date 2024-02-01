@@ -129,6 +129,12 @@ function mapStateToProps({videosJobsReducer,
 
                 }
 
+                if (job.output_format === 'Described Video') {
+                    template = "NotifyCourseCaptionsReadyDescribedVideo"
+                    block_send = job.media.primary_caption_resource_id == null
+
+                }
+
 
             }
 
@@ -154,6 +160,12 @@ function mapStateToProps({videosJobsReducer,
 
                 if (job.output_format === 'Amara') {
                     template = "NotifyCourseCaptionsReadyAmara"
+                    block_send = job.media.primary_caption_resource_id == null
+
+                }
+
+                if (job.output_format === 'Described Video') {
+                    template = "NotifyCourseCaptionsReadyDescribedVideo"
                     block_send = job.media.primary_caption_resource_id == null
 
                 }
