@@ -1,120 +1,95 @@
+/* Container Styles */
 .newJobOuterConainer {
-
     width: 1100px;
-    margin-left: auto;
-    margin-right: auto;
-
+    margin: 0 auto;
 }
 
-
 .newJobMasterContainer {
-    margin-top: 3%;
-    margin-right: 2%;
-    margin-left: 2%;
-
+    margin: 3% 2%;
 }
 
 .jobPrepContainer {
     display: flex;
-
 }
 
 .jobPrepContainerLeft {
     width: 70%;
-
 }
 
 .jobPrepContainerRight {
     width: 30%;
-
-
 }
 
+/* Selector Styles */
 .requesterSelector {
     width: 100%;
     display: flex;
-
 }
 
 .requesterSelectorForm {
     width: 50%;
 }
 
-.jobPrepButton {
-
+/* Button Styles */
+.jobPrepButton, .mediaSubmitButton, .submitJobsButton {
     margin-right: 15px;
 }
 
-.videoInputsSubmit {
-
-    margin-right: 5px;
-    margin-left: auto;
+/* Animation Styles (Example Animations) */
+.videoInputsSubmit, .mediaSubmitButton, .submitJobsButton {
+    transition: transform 0.3s ease-in-out;
 }
 
+.videoInputsSubmit:hover, .mediaSubmitButton:hover, .submitJobsButton:hover {
+    transform: scale(1.1);
+}
 
-
+/* Label Styles */
 .newJobLabel {
     display: flex;
     margin-bottom: 5px;
-
-
 }
 
-.selector {
-
-width:100%
+/* Input Styles */
+.selector, .addJobInput {
+    width: 100%;
 }
-
 
 .addJobInput {
-
     width: 80%;
-    margin-left: auto;
     margin-right: 5px;
-
 }
 
+/* Container Styles */
 .inputsLower {
-
     display: flex;
 }
 
-
-.enterVideoSlug{
+.enterVideoSlug {
     height: 100%;
     vertical-align: center;
     text-align: center;
     background-color: #eae6e5;
     display: inline-block;
     width: 100%;
-
-
 }
 
 .jobPrepButtons {
     display: flex;
     margin-bottom: 15px;
     margin-top: 10px;
-
 }
 
-.mediaSubmitButton{
-
-    margin-left: auto;
-    margin-right: 5px;
-
-}
+/* Form Styles */
 .jobForm {
-    margin-right: 5px ;
+    margin-right: 5px;
     margin-top: 10px;
     height: 100px;
     display: flex;
-
 }
 
 .jobFormLeft {
-
-    width: 60%
+    width: 60%;
 }
 
 .jobFormRight {
@@ -126,20 +101,14 @@ width:100%
     resize: none;
     height: 100%;
     width: 97%;
-
 }
 
-.videoSearchFeedbackContainer {
-
+/* Feedback Container Styles */
+.videoSearchFeedbackContainer, .preparedJobsContainer {
     height: 100%;
 }
 
-.preparedJobsContainer{
-
-    margin-top: 20px;
-
-}
-
+/* Empty Jobs Container Styles */
 .emptyCreatedJobsContainer {
     display: flex;
     justify-content: center;
@@ -147,23 +116,29 @@ width:100%
     height: 75px;
     background-color: #eae6e5;
     border-radius: 4px;
-
-
 }
 
 .emptyCreatedJobsContainerText {
     margin: auto;
 }
 
-.submitJobsButton {
-
-    margin-top: 15px;
-
-}
-
-.videoType{
+/* Video Type Styles */
+.videoType {
     width: 10%;
     margin-left: 9%;
     margin-right: auto;
+}
+/* Button Styles with Colors */
+.jobPrepButton, .mediaSubmitButton, .submitJobsButton {
+    margin-right: 15px;
+    background-color: #3498db; /* Blue color, change as needed */
+    color: #fff; /* White text color, change as needed */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
+.jobPrepButton:hover, .mediaSubmitButton:hover, .submitJobsButton:hover {
+    background-color: #2980b9; /* Darker blue on hover, change as needed */
 }

@@ -66,3 +66,11 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+## Use the following command for testing
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom react-redux
+npm install react@next react-dom@next
+npm install react@^18.0.0 react-dom@^18.0.0
+npm install typescript
+npm install @babel/core@^7.11.0

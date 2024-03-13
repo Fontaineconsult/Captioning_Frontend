@@ -8,6 +8,8 @@ import {AddVideoJobBatch} from '../../actions/ampApi/postData'
 import {clearTempCapJobs} from '../../actions/tempJobsForm';
 import Button from "@material-ui/core/Button";
 import {addTempFormValue, clearFormData} from "../../actions/tempFormData";
+import { jobSubmissionCompleted } from '../../actions/asyncActions'; // Import the action creator for job submission completion
+
 
 
 class NewJobMasterContainer extends Component {
@@ -21,8 +23,8 @@ class NewJobMasterContainer extends Component {
 
         this.applyRequesterId = this.applyRequesterId.bind(this)
         this.submitJobs = this.submitJobs.bind(this)
-
-
+        this.applyRequesterId = this.applyRequesterId.bind(this);
+        this.submitJobs = this.submitJobs.bind(this); // Bind submitJobs function to this context
     }
 
     applyRequesterId(value) {
@@ -70,6 +72,11 @@ class NewJobMasterContainer extends Component {
 
 }
 
+submitJobs()
+{
+    // Dispatch the action for job submission completion
+    this.props.dispatch(jobSubmissionCompleted());
+}
 function mapStateToProps({
                              mediaSearchReducer,
                              errorsReducer,

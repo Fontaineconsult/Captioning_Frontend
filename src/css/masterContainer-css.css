@@ -1,28 +1,56 @@
-.master-container {
+/* Facebook and Instagram-like theme and animations for .master-container and related elements */
 
-    height: 100vh;
-    font-size: 15px;
-
+/* Overall container */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0; /* Remove default body margin */
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
 }
 
+/* Master container styles */
+.master-container {
+    height: 100vh;
+    font-size: 15px;
+    background-color: #f0f2f5; /* Facebook-like background color */
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards; /* Fade-in animation */
+}
+
+/* Top bar styles */
 .top-bar {
     position: relative;
     height: 5px;
     display: flex;
-    background-color: #41187d;
-
+    background-color: #4267B2; /* Facebook blue color */
+    transform: translateY(-20px);
+    opacity: 0;
+    animation: slideUp 0.8s ease-in-out 0.2s forwards; /* Slide-up animation */
 }
 
-.developement-version {
+/* Development version styles */
+.development-version {
     text-align: center;
     background-color: darkorange;
-
-
 }
 
+/* Master list item styles */
 .masterListItem {
     width: 1300px;
     margin-left: auto;
     margin-right: auto;
 }
 
+/* Fade-in animation keyframes */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Slide-up animation keyframes */
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

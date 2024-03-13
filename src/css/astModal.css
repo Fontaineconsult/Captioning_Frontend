@@ -1,20 +1,58 @@
-.astModalTitle {
-text-align: center;
+/* Facebook-like theme styles */
 
+/* Overall container */
+body {
+    font-family: 'Arial', sans-serif;
 }
 
+/* Container for the content */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
+/* Header styles */
+.header {
+    background-color: #4267B2; /* Facebook blue color */
+    color: #fff; /* White text on blue background */
+    padding: 15px;
+    text-align: center;
+}
+
+/* Tabulator cell styles */
 .tabulator-cell {
-
-    height: 40px;
+    border-bottom: 1px solid #ddd; /* Light gray border between cells */
+    padding: 10px;
 }
 
-.tabulator-cell:nth-child(2) {
-    padding-top: 10px !important;
-
+/* Alternate row background color for better readability */
+.tabulator-row:nth-child(even) {
+    background-color: #f9f9f9; /* Light gray background for even rows */
 }
 
+/* Styling for modal title */
+.astModalTitle {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+/* Padding for specific tabulator cells */
+.tabulator-cell:nth-child(2),
 .tabulator-cell:nth-child(3) {
     padding-top: 10px !important;
+}
 
+/* Button styles */
+.button {
+    background-color: #4267B2; /* Facebook blue color */
+    color: #fff; /* White text on blue background */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #3a5a9b; /* Slightly darker blue on hover */
 }
