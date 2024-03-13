@@ -1,5 +1,18 @@
-.courseContainer {
+/* Custom theme for .courseContainer and related elements */
 
+/* Overall container */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Container for the content */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Course container styles */
+.courseContainer {
     background-color: #f0eeee;
     margin-top: 10px;
     margin-bottom: 30px;
@@ -11,82 +24,70 @@
     border-width: 1px;
     border-radius: 2px;
     box-shadow: 3px 3px 3px #bebbbb;
-
 }
 
-.courseUpperContainer{
+/* Upper container styles */
+.courseUpperContainer {
     display: flex;
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 15px;
-
 }
 
-
-
+/* Info container left styles */
 .infoContainerLeft {
     margin-right: 20px;
-
-
-
 }
 
+/* Course upper container right styles */
 .courseUpperContainerRight {
     margin-left: auto;
     display: flex;
     padding-top: 5px;
-
-
 }
 
-textarea{
+/* Textarea styles */
+textarea {
     margin-right: 5px;
     resize: none;
-
 }
 
-
+/* Info container right styles */
 .infoContainerRight {
-
     display: flex;
-
 }
 
+/* Course upper container left styles */
 .courseUpperContainerLeft {
-
     padding-top: 5px;
 }
 
+/* iLearn content container styles */
 .iLearnContentContainer {
-
     border-width: 1px;
     overflow-y: auto;
-
 }
 
+/* Canvas content container styles */
 .canvasContentContainer {
-
     border-width: 1px;
     overflow-y: scroll;
     height: 90vh;
 }
 
-
+/* Course no videos styles */
 .courseNoVideos {
-
     margin-left: auto;
     margin-right: auto;
 }
 
+/* Course lower container styles */
 .courseLowerContainer {
-
-
     display: flex;
 }
 
-
+/* List styles */
 .list {
-
-height: calc(100vh - 108px)
+    height: calc(100vh - 108px);
 }

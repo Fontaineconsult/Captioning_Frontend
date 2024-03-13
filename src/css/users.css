@@ -1,115 +1,92 @@
+/* Enhanced theme with additional colors for .addEmployeeContainer, .emp-display-container, .stu-display-container, and related elements */
+
+/* Add Employee Container styles */
 .addEmployeeContainer {
     padding-top: 10px;
     padding-bottom: 10px;
     width: 50%;
     margin-left: auto;
     margin-right: auto;
-
-
+    background-color: #ffffff; /* Background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+    border-radius: 5px;
 }
 
+/* Master List User styles */
 .masterListUser {
     margin-top: 10px;
     display: block;
-
 }
 
-/*.emp-top {*/
-/*    margin-top: 50px;*/
-/*    margin-bottom: 50px;*/
-
-
-/*}*/
-
+/* Employee Display Title styles */
 .emp-display-title {
-    background-color: #e5e5e5;
+    background-color: #e5e5e5; /* Background color */
     box-sizing: content-box;
     padding: 5px;
-
 }
 
+/* Employee Display Container styles */
 .emp-display-container {
-    /*padding-top: 5px;*/
-    /*padding-bottom: 5px;*/
     margin-left: 10%;
     margin-right: 10%;
-    background-color: #fafafb;
-    border-color: #282c34;
+    background-color: #fafafb; /* Background color */
+    border-color: #282c34; /* Border color */
     border-style: solid;
     border-width: 1px;
     border-radius: 2px;
 }
 
-
+/* Employee Input styles */
 .emp-input {
-    -webkit-align-items: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    background-color: hsl(0, 0%, 100%);
-    border-color: hsl(0, 0%, 80%);
+    background-color: #ffffff; /* Background color */
+    border-color: #cccccc; /* Border color */
     border-radius: 4px;
     border-style: solid;
     border-width: 1px;
-    cursor: default;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
-    min-height: 38px;
-    outline: 0 !important;
-    position: relative;
-    -webkit-transition: all 100ms;
-    transition: all 100ms;
-    box-sizing: border-box;
     font-family: 'Ubuntu', sans-serif;
     font-size: 15px;
-    width: 100%;
     margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
 }
 
-
+/* Employee Checkbox styles */
 .emp-checkbox {
     width: 40px;
     height: 40px;
 }
 
+/* Student Checkbox styles */
 .stu-checkbox {
     width: 20px;
     height: 20px;
 }
 
+/* Student Display Container styles */
 .stu-display-container {
     margin-bottom: 10px;
     margin-left: 20%;
     margin-right: 20%;
-    background-color: #fafafb;
-    border-color: #282c34;
+    background-color: #fafafb; /* Background color */
+    border-color: #282c34; /* Border color */
     border-style: solid;
     border-width: 1px;
     border-radius: 2px;
     height: 550px;
 }
 
+/* Student Scroll Container styles */
 .stu-scroll-container {
-    /*height: 650px;*/
-    /*overflow-y: scroll;*/
     scroll-behavior: smooth;
 }
 
+/* Scroll Inside Div styles */
 .scroll-inside-div {
     overflow-y: scroll;
     height: 95%;
-
 }
 
+/* Scroll Container styles */
 .scroll-container {
     height: 86vh;
 }

@@ -1,3 +1,17 @@
+/* Facebook-like theme for .job-container and related elements */
+
+/* Overall container */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Container for the content */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Job container styles */
 .job-container {
     margin-right: 10px;
     margin-left: 10px;
@@ -13,27 +27,25 @@
     background-color: #fafafa;
 }
 
+/* First child margin top */
 .job-container:first-child {
     margin-top: 3px;
-
 }
 
-
+/* Job container right styles */
 .job-container-right {
     margin-left: 8px;
     width: 98%;
-
 }
 
+/* Job container left styles */
 .job-container-left {
     width: 20px;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
-
-
 }
 
-
+/* Job container selected styles */
 .job-container-selected {
     background: rgb(255, 255, 255);
     background: radial-gradient(circle,
@@ -42,149 +54,132 @@
     rgba(237, 235, 235, 1) 95%,
     rgba(207, 207, 207, 1) 98%,
     rgba(148, 148, 148, 1) 100%);
-
 }
 
+/* Upper job container styles */
 .upperJobContainer {
-
     display: flex;
     margin-top: 5px;
-
 }
 
-
+/* Filters outer container styles */
 .filtersOuterContainer {
     display: flex;
     margin-top: 3px;
     margin-bottom: 3px;
     margin-right: 13%;
     margin-left: 60%;
-
 }
 
-
+/* Control bar nav buttons styles */
 .controlBarNavButtons {
     margin-left: auto;
     margin-right: auto;
     display: flex;
-
 }
 
+/* Job management filters styles */
 .jobManagementFilters {
-
     margin-top: auto;
     margin-bottom: auto;
     margin-left: auto;
     margin-right: 10px;
     display: flex;
-
 }
 
+/* Lower job container styles */
 .lowerJobContainer {
-
     height: 170px;
-
     margin-bottom: 10px;
 }
 
-.jobMediaContainer {
+/* Job media container styles */
+.jobMediaContainer {}
 
-
-}
-
+/* Media content descriptor styles */
 .mediaContentDescriptor {
     margin-right: 10px;
     display: flex;
-
-
 }
 
+/* Plugin controls container styles */
 .pluginControlsContainer {
-
     display: flex;
     margin-bottom: 10px;
     height: 70px;
-
 }
 
+/* Job content container styles */
 .jobContentContainer {
-
     /*height: 100% !important;*/
-
 }
 
-
+/* Capital job media content container styles */
 .capJobMediaContentContainer {
-
     display: flex;
     margin-bottom: 5px;
     padding-right: 10px;
-
 }
 
+/* Plugin container styles */
 .pluginContainer {
-
     width: 50%;
-
 }
 
+/* Upper job container right styles */
 .upperJobContainerRight {
     display: flex;
     margin-left: auto;
-
 }
 
+/* Job controls bar styles */
 .jobControlsBar {
-
     margin-bottom: 10px;
     margin-top: 10px;
-
 }
 
-
+/* Delete job icon styles */
 .deleteJobIcon {
     margin-left: 10px;
-
 }
 
+/* Upper job container left content styles */
 .upperJobContainerLeftContent {
     margin-bottom: 5px;
-
 }
 
+/* Upper job container left label styles */
 .upperJobContainerLeftLabel {
     display: inline-flex;
     width: 100%;
 }
 
+/* Upper job container right content styles */
 .upperJobContainerRightContent {
-
     margin-left: 10px;
-
 }
 
-
+/* Upper job container left styles */
 .upperJobContainerLeft {
     display: inline-flex;
-
 }
 
+/* Comments container styles */
 .commentsContainer {
     width: 15%;
     margin-right: 5px;
     margin-left: auto;
-
 }
 
+/* Comments input styles */
 .commentsInput {
     height: 145px;
     resize: none;
     width: 100%;
-
 }
 
+/* Filters main container styles */
 .filtersMainContainer {
-
     border-top: #463077;
     border-top-style: solid;
     border-top-width: 2px;
@@ -192,26 +187,22 @@
     border-bottom: #463077;
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    box-shadow: 0px 1px 4px #808385a1
-
+    box-shadow: 0px 1px 4px #808385a1;
 }
 
-
+/* Filter selectors styles */
 .filterSelectors {
-
-    height: 30px
-
+    height: 30px;
 }
 
+/* Filter titles styles */
 .filterTitles {
     font-size: 13px !important;
     margin-top: 3px;
-
-
 }
 
+/* Lower job container styles */
 .lowerJobContainer {
-
     display: flex;
     border-top-color: #acacac;
     border-top-width: 1px;
@@ -221,14 +212,15 @@
     border-bottom-width: 1px;
     border-bottom-style: solid;
     padding-bottom: 5px;
-
 }
 
+/* Lower job container left styles */
 .lowerJobContainerLeft {
     margin-right: 5px;
-    width: 28%
+    width: 28%;
 }
 
+/* Lower job container right styles */
 .lowerJobContainerRight {
     border-left-color: #acacac;
     border-left-style: solid;
@@ -237,20 +229,20 @@
     padding-left: 5px;
 }
 
-
+/* Upper job container left content input styles */
 .upperJobContainerLeftContentInput {
     width: 100px;
     margin-left: auto;
     font-size: 14px !important;
     background-color: white;
-
 }
 
+/* Requester filter container styles */
 .requesterFilterContainer {
     margin-right: 5px;
-
 }
 
+/* Item enter and exit styles */
 .item-enter {
     opacity: 0;
 }
@@ -269,76 +261,73 @@
     transition: opacity 200ms ease-in;
 }
 
+/* AST controls styles */
 .astControls {
-    display: flex
-
+    display: flex;
 }
 
+/* Tabulator header styles */
 .tabulator-header {
     /*height: 0;*/
 }
 
+/* Media content container styles */
 .mediaContentContainer {
     display: flex;
-
-
 }
 
+/* Media content selectors styles */
 .mediaContentSelectors {
     width: 50%;
     display: flex;
 }
 
+/* Amara controls styles */
 .amaraControls {
     display: flex;
     height: 2.2rem;
-
-
 }
 
+/* Extractor buttons container styles */
 .extractorButtonsContainer {
     display: flex;
     margin-right: 0;
     margin-left: auto;
-
 }
 
+/* Extractor button styles */
 .extractorButton {
     display: flex;
     margin-right: 10px;
-
 }
 
+/* Extractor label styles */
 .extractorLabel {
     margin-right: 5px;
     text-align: center;
     vertical-align: middle;
-
-
 }
 
+/* Caption resource container styles */
 .caption_resource_container {
     display: flex;
-
 }
 
+/* Add caption resource styles */
 .addCapResource {
-
     margin-right: 0;
     margin-left: auto;
-
 }
 
+/* AST controls container styles */
 .astControlsContainer {
     height: 60px;
     width: 520px;
     margin-right: auto;
     margin-left: 10px;
-
-
 }
 
-
+/* No job slug styles */
 .noJobSlug {
     color: #6f6f6f;
     display: flex;
@@ -354,18 +343,17 @@
     border-style: solid;
     border-width: 0.5px;
     border-color: #8d8d8d;
-
 }
 
+/* Source URL link styles */
 .sourceUrlLink {
     width: 430px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
-
 }
 
+/* Video file controls container styles */
 .videoFileControlsContainer {
     padding-top: 1px;
     padding-bottom: 1px;
@@ -374,31 +362,29 @@
     border-left-style: solid;
     border-left-width: 1px;
     border-left-color: #acacac;
-
-
 }
 
+/* Caption media container left styles */
 .captionMediaContainerLeft {
-    width: 95%
-
+    width: 95%;
 }
 
+/* Lower upper job container styles */
 lowerUpperJobContainer {
     display: flex;
     width: 82%;
-
 }
 
-
+/* Content title styles */
 .contentTitle {
     width: 430px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     font-weight: bold;
-
 }
 
+/* No student enrolled styles */
 .noStudentEnrolled {
     margin-bottom: 3px;
     background-color: orange;
@@ -409,41 +395,38 @@ lowerUpperJobContainer {
     margin-top: auto;
 }
 
-
+/* Queued button styles */
 .queuedBtn {
     background: #fafafb;
     background: linear-gradient(180deg, rgba(63, 123, 191, 0) 84%, rgb(63, 123, 191) 100%);
 }
 
+/* Captioning button styles */
 .captioningBtn {
     background: #fafafb;
     background: linear-gradient(180deg, rgba(172, 57, 91, 0) 84%, rgb(172, 57, 91) 100%);
 }
 
+/* Ready button styles */
 .readyBtn {
     background: #fafafb;
     background: linear-gradient(180deg, rgba(172, 143, 57, 0) 84%, rgb(172, 143, 573) 100%);
-
 }
 
+/* Delivered button styles */
 .deliveredBtn {
     background: #fafafb;
     background: linear-gradient(180deg, rgba(114, 172, 57, 0) 84%, rgb(114, 172, 57) 100%);
-
 }
 
+/* On hold button styles */
 .onHoldBtn {
     background: #fafafb;
     background: linear-gradient(180deg, rgba(257, 172, 139, 0) 84%, rgb(57, 172, 139) 100%);
-
 }
 
+/* Cancelled button styles */
 .cancelledBtn {
     background: #fafafb;
     background: linear-gradient(180deg, rgba(17, 18, 38, 0) 84%, rgb(17, 18, 38) 100%);
-
 }
-
-
-
-

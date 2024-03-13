@@ -1,20 +1,184 @@
 body {
   margin: 0;
   padding: 0;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f2f5; /* Background color for the entire body */
 }
 
+/* Facebook and Instagram-like theme and animations for .NavControlContainer and related elements */
 
+/* NavControlContainer styles */
+.NavControlContainer {
+  background-color: #ffffff; /* Instagram-like background color */
+  display: flex;
+  margin-right: 10vw;
+  position: relative;
+  animation: fadeIn 1s ease-in-out forwards; /* Fade-in animation */
+}
 
+/* NavContent styles */
+.navContent {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Logout container styles */
+.logout-container {
+  margin-top: 11px;
+  margin-right: 3px;
+  margin-left: auto;
+}
+
+/* NavUpperInnerContainer styles */
+.NavUpperInnerContainer {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* NavigationMasterContainer styles */
+.NavigationMasterContainer {
+  margin-left: auto;
+  margin-right: auto;
+  height: 97%;
+}
+
+/* NavUpperContainer styles */
+.NavUpperContainer {
+  position: relative;
+  max-height: 40px;
+  min-height: 40px;
+  display: flex;
+  background-color: #4267B2; /* Facebook blue color */
+  box-shadow: 0px 3px 2px #808385;
+  animation: slideDown 0.8s ease-in-out forwards; /* Slide-down animation */
+}
+
+/* SemesterSelectContainer styles */
+.semesterSelectContainer {
+  margin-right: 5vw;
+  margin-top: 11px;
+}
+
+/* JobManagementControlContainer styles */
+.JobManagementControlContainer {
+  height: 100%;
+}
+
+/* ContentManagementMasterContainer styles */
+.ContentManagementMasterContainer {
+  overflow: auto;
+  height: 100%;
+}
+
+/* ContentContainer styles */
+.contentContainer {
+  height: 92%;
+  overflow-x: hidden;
+}
+
+/* NavButton styles */
+.navButton {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-color: #dcdcdc;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  transition: background-color 0.3s ease-in-out; /* Smooth background color transition */
+}
+
+.navButton:first-child {
+  border-left-style: none;
+}
+
+.navButton:hover {
+  background-color: #d4d4d4;
+  color: #000000; /* Text color on hover */
+}
+
+.navButton:active {
+  background-color: #acacac;
+}
+
+/* JobCount styles */
+.jobCount {
+  background: #ecc386;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-left: 3px;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ca9941;
+  text-decoration: none !important;
+}
+
+/* ControlBar styles */
+.control-bar {
+  display: flex;
+  margin-top: 3px;
+  background-color: #ffffff; /* Instagram-like background color */
+  border-color: #282c34;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
+
+/* ControlButton styles */
+.controlButton {
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: auto;
+  margin-bottom: auto;
+  color: #4267B2; /* Facebook blue color */
+}
+
+/* GlobalLoadingContainer styles */
+.globalLoadingContainer {
+  padding-top: 5px;
+  margin-left: 5vw;
+}
+
+/* Fade-in animation keyframes */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Slide-down animation keyframes */
+@keyframes slideDown {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Your existing styles */
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f2f5; /* Background color for the entire body */
+}
 
 * {
   font-family: 'Ubuntu', sans-serif;
-
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

@@ -1,42 +1,48 @@
+/* Enhanced Facebook and Instagram-like theme and animations for .tabulator-row, .tabulator-cell, and related elements */
+
+/* Tabulator cell styles */
 .tabulator-row .tabulator-cell {
     padding: 10px 4px;
-
+    background-color: #f8f9fa; /* Facebook-like background color */
+    border-bottom: 1px solid #dce3e8; /* Separator between rows */
 }
 
-
+/* Tabulator cell nth-child(2) styles */
 .tabulator-cell:nth-child(2) {
     padding-top: 4px;
-
 }
 
-
+/* Tabulator cell nth-child(7) styles */
 .tabulator-cell:nth-child(7) {
-
     padding-top: 4px;
 }
 
+/* Tabulator cell nth-child(3) styles */
 .tabulator-cell:nth-child(3) {
-
     padding-top: 4px;
 }
 
+/* Tabulator cell nth-child(9) styles */
 .tabulator-cell:nth-child(9) {
-
     padding-top: 4px;
 }
 
+/* Tabulator table holder styles */
 .tabulator-tableHolder {
     width: 100%;
-
 }
 
+/* Tabulator styles */
 .tabulator {
-    /*width: 100%; */
     margin-left: 10px;
     margin-right: 10px;
     border-radius: 5px;
+    background-color: #ffffff; /* Facebook-like background color */
+    box-shadow: 0px 3px 2px #dadce0; /* Facebook-like box shadow */
+    animation: fadeIn 1s ease-in-out forwards; /* Fade-in animation */
 }
 
+/* TabulatorAst styles */
 .tabulatorAst {
     height: 0;
     margin-left: 100px;
@@ -44,64 +50,75 @@
     border-radius: 5px;
 }
 
+/* Tabulator header styles */
 .tabulator-header {
     /*height: 0;*/
-
 }
 
-
+/* Tab main container styles */
 .tabMainContainer {
-
     width: 100%;
 }
 
+/* Ignore video styles */
 .ignore-video {
-
-    background-color: #808385 !important;;
-
+    background-color: #d6d8db !important; /* Facebook-like background color */
+    animation: pulseBackground 1s infinite; /* Pulse animation */
 }
 
+/* Video passed styles */
 .video-passed {
-
-    background-color: #6f9c7a !important;;
-
+    background-color: #8ab4f8 !important; /* Facebook-like background color */
+    animation: pulseBackground 1s infinite; /* Pulse animation */
 }
 
-
+/* Unselectable styles */
 .unselectable {
     -moz-user-select: -moz-none;
     -webkit-user-select: none;
     user-select: none;
 }
 
+/* Video hidden styles */
 .video-hidden {
-    color: #b5b5b5;
-    background-color: #444445 !important;;
-
+    color: #6f6f6f;
+    background-color: #e8e8e8 !important; /* Facebook-like background color */
+    animation: pulseBackground 1s infinite; /* Pulse animation */
 }
 
-
-/*html table css*/
-
+/* HTML table styles */
 table {
-    border: solid rgb(168, 168, 168) 2px;
+    border: solid #d6d8db 2px; /* Facebook-like border color */
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 5px;
     width: 520px;
-
+    background-color: #ffffff; /* Facebook-like background color */
+    box-shadow: 0px 3px 2px #dadce0; /* Facebook-like box shadow */
+    animation: fadeIn 1s ease-in-out forwards; /* Fade-in animation */
 }
 
+/* Table data styles */
 td {
     padding: 10px;
-    border-left: solid rgb(168, 168, 168) 2px;
-
+    border-left: solid #d6d8db 2px; /* Facebook-like border color */
     text-align: center;
-
-
 }
 
+/* First-child styles */
 td:first-child {
     border-left: 0;
 }
 
+/* Pulse animation keyframes */
+@keyframes pulseBackground {
+    0% {
+        background-color: inherit;
+    }
+    50% {
+        background-color: #e0e0e0;
+    }
+    100% {
+        background-color: inherit;
+    }
+}
