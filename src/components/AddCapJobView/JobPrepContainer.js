@@ -61,20 +61,31 @@ class JobPrepContainer extends Component {
 
     createTransaction() {
         //single request button clicked
+
+
+        // aaron: Start here. The transaction ID directs ever action the job creation process takes.
+
         let transaction_id = uuidv1()
         this.setState({
             transaction_id: transaction_id,
             listItemsView: false,
         });
+
+
+        // aaron: This is the action that adds the transaction to the tempJobsFormReducer
         this.props.dispatch(addTempJob(transaction_id, this.props.requesterId.requester_id))
         this.props.dispatch(updateBtnClickedInTempFormValue("single", this.props.requesterId))
-        this.props.dispatch(updateTransactionId(transaction_id))
 
+        // aaron: This is the action that adds the transaction ID to the tempFormDataReducer
+        this.props.dispatch(updateTransactionId(transaction_id))
+        // aaron: make sure to watch the tempFormDataReducer. You will see the transaction ID created when these functions are called
     }
 
 
     createListTransaction() {
         //Playlist btn clicked
+
+        // aaron: DON'T LOOK HERE!!!!!!
         let transaction_id = uuidv1()
         this.setState({
             listItemsView: true,
@@ -99,14 +110,14 @@ class JobPrepContainer extends Component {
 
 
     finalizeTransaction() {
-
+        // aaron: This is the action that completes the transaction and sets the meta.created to true. This is likely where the wrong logic is happening.
         this.props.dispatch(completeTempJob(this.props.transaction_id, true))
 
     }
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-
+        //aaron: This is where the transaction ID is being set to null. This is likely where a problem is happening.
         if (this.props.tempJobsFormReducer[this.state.transaction_id]) {
             if (this.props.tempJobsFormReducer[this.state.transaction_id].meta.created === true) {
                 this.setState({
@@ -135,8 +146,9 @@ class JobPrepContainer extends Component {
             formDisabled = false
         }
 
-
+        // aaron: DEF CHECK HERE!!!! There is probably a way to add more logic to this in order to fix the problem.
         let isLocked = this.state.transaction_id === '';
+
         return (
 
             <div className="jobPrepMasterContainer">
@@ -212,6 +224,8 @@ function mapStateToProps({
     let btn_clicked = '';
     let listItemView = false;
 
+
+    //aaron: maybe here?
     let clearDisabled = Object.keys(tempJobsFormReducer).filter(job => {
         return tempJobsFormReducer[job].meta.created === false
 
