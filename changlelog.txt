@@ -1,0 +1,27 @@
+-AddMediaContainer.js
+-JobPrepContainer.js
+-AddJobControlContainer.js
+
+files render function changed
+
+
+
+Transaction ID Handling:
+
+The createTransaction() and createListTransaction() methods are responsible for generating transaction IDs when the "Add Single Request" and "Add From Playlist" buttons are clicked, respectively. These methods set the transaction_id state, which is crucial for managing the job creation process.
+Completion and Clearing of Transactions:
+
+The finalizeTransaction() method marks a transaction as completed. However, there may be issues related to how transaction completion is handled, especially regarding the logic for resetting the transaction_id state.
+The clearTransaction() method resets the transaction state and clears related data structures when the "Clear" button is clicked.
+Component Lifecycle and State Updates:
+
+The componentDidUpdate() method is used to monitor changes in the Redux store, particularly related to transaction states. It resets the transaction_id state when a job is successfully submitted. Any issues with state management or updates could potentially lead to unexpected behavior.
+Button and Input Disabling Logic:
+
+The render() method contains logic for disabling buttons and inputs based on various conditions, including the state of the job creation process (formDisabled, newJobInputsDisabled, etc.). Ensuring that the correct conditions are applied for enabling/disabling these elements is crucial.
+Based on these comments and code sections, you can focus on debugging and testing the following aspects:
+
+Transaction ID generation and handling.
+Transaction completion and clearing logic.
+Component lifecycle and state updates, especially in response to Redux store changes.
+Button and input disabling logic to ensure proper user interaction flow.
