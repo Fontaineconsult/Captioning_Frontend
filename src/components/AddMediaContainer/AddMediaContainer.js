@@ -197,40 +197,47 @@ class NewMediaContainer extends Component {
     }
 
     render() {
-        let SourceInput
+        let SourceInput;
         if (this.state.type === "URL") {
-            SourceInput = <Input
-                placeholder="e.x., https://www.youtube.com/watch?v=AAssk2N_oPk"
-                className="addJobInput"
-                name="source_location"
-                type='text'
-                size="50"
-                maxLength="150"
-                required={true}
-                disabled={this.props.inputsDisabled}
-                value={this.state.source_location}
-                onChange={this.handleInputChange}
-                onBlur={this.checkSourceUrl}/>
+            SourceInput = (
+                <Input
+                    placeholder="e.x., https://www.youtube.com/watch?v=AAssk2N_oPk"
+                    className="addJobInput"
+                    name="source_location"
+                    type='text'
+                    size="50"
+                    maxLength="150"
+                    required={true}
+                    disabled={this.props.inputsDisabled}
+                    value={this.state.source_location}
+                    onChange={this.handleInputChange}
+                    onBlur={this.checkSourceUrl}
+                />
+            );
         } else if (this.state.type === "File") {
-            SourceInput = <Input
-                className="addJobInput"
-                accept="video/*,audio/*"
-                name="videoFile"
-                type="file"
-                onChange={this.checkIfFileExists}
-                required={true}
-                disabled={this.props.inputsDisabled}
-            />
+            SourceInput = (
+                <Input
+                    className="addJobInput"
+                    accept="video/*,audio/*"
+                    name="videoFile"
+                    type="file"
+                    onChange={this.checkIfFileExists}
+                    required={true}
+                    disabled={this.props.inputsDisabled}
+                />
+            );
         } else if (this.state.type === "DVD") {
-            SourceInput = <Input
-                className="addJobInput"
-                accept="video/*,audio/*"
-                name="videoFile"
-                type="file"
-                onChange={this.checkIfFileExists}
-                required={false}
-                disabled={this.props.inputsDisabled}
-            />
+            SourceInput = (
+                <Input
+                    className="addJobInput"
+                    accept="video/*,audio/*"
+                    name="videoFile"
+                    type="file"
+                    onChange={this.checkIfFileExists}
+                    required={false}
+                    disabled={this.props.inputsDisabled}
+                />
+            );
         }
 
         return (

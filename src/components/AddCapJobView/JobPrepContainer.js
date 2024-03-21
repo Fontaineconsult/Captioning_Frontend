@@ -130,87 +130,115 @@ class JobPrepContainer extends Component {
 
     }
 
-
+// error handling located in here with render error function
     render() {
-        let formDisabled = (this.props.requesterId === "" || this.props.tempJobsFormReducer.hasOwnProperty(this.state.transaction_id))
+        // Check if the job has been submitted
+        const jobSubmitted = this.props.tempJobsFormReducer.hasOwnProperty(this.state.transaction_id) &&
+            this.props.tempJobsFormReducer[this.state.transaction_id].meta.created;
+        // Check if any job is currently active in the container
+        const jobActive = Object.keys(this.props.tempJobsFormReducer).some(job =>
+            this.props.tempJobsFormReducer[job].meta.created === false
+        );
 
-        //form disabled has to be true when changing page and coming back
-        //problem is transaction id is getting null on page change
+        // Determine if the input fields for new jobs should be disabled
+        const newJobInputsDisabled = jobActive;
+        // Determine if the inputs should be disabled
 
-        //The above problem is solved
-        // console.log("transaction id is ", this.state.transaction_id)
-        // console.log("JopPrepContainer: tempJobsFormReducer has property", this.props.tempJobsFormReducer.hasOwnProperty(this.state.transaction_id))
-        // console.log("JopPrepContainer: Requester ID", this.props.requesterId)
+        const {requesterId, tempJobsFormReducer} = this.props;
+        const {transaction_id, listItemsView} = this.state;
+        const formDisabled = requesterId === "" || tempJobsFormReducer.hasOwnProperty(transaction_id);
+        const isLocked = transaction_id === '';
 
-        if (this.props.listItemView) {
-            formDisabled = false
-        }
-
-        // aaron: DEF CHECK HERE!!!! There is probably a way to add more logic to this in order to fix the problem.
-        let isLocked = this.state.transaction_id === '';
+        // Determine if inputs should be disabled based on button state
+        const inputsDisabled = formDisabled || listItemsView;
 
         return (
-
             <div className="jobPrepMasterContainer">
+                {/* Job preparation buttons */}
                 <div className="jobPrepButtons">
+                    {/* Add Single Request button */}
                     <div className="jobPrepButton">
-                        <Button name="add_single" size="small" variant="contained"
-                                onClick={e => this.createTransaction(e)} disabled={formDisabled}>Add Single
-                            Request</Button>
+                        <Button
+                            name="add_single"
+                            size="small"
+                            variant="contained"
+                            onClick={e => this.createTransaction(e)}
+                            disabled={formDisabled || newJobInputsDisabled}
+                        >
+                            Add Single Request
+                        </Button>
                     </div>
+                    {/* Add From Playlist button */}
                     <div className="jobPrepButton">
-                        <Button name="add_list" size="small" variant="contained"
-                                onClick={e => this.createListTransaction(e)} disabled={formDisabled}>Add From
-                            Playlist</Button>
+                        <Button
+                            name="add_list"
+                            size="small"
+                            variant="contained"
+                            onClick={e => this.createListTransaction(e)}
+                            disabled={formDisabled || newJobInputsDisabled}
+                        >
+                            Add From Playlist
+                        </Button>
                     </div>
+                    {/* Clear button */}
                     <div className="jobPrepButton">
-                        <Button name="clear" size='small' variant="contained" onClick={e => this.clearTransaction(e)}
-                                disabled={this.props.clearDisabled}>Clear</Button>
+                        <Button
+                            name="clear"
+                            size="small"
+                            variant="contained"
+                            onClick={e => this.clearTransaction(e)}
+                            disabled={this.props.clearDisabled}
+                        >
+                            Clear
+                        </Button>
                     </div>
-
-
                 </div>
+                {/* Job preparation container */}
                 <div className="jobPrepContainer">
-
-                    <div className="jobPrepContainerLeft"
-                         style={{width: this.state.listItemsView === true ? '100%' : '70%'}}>
-
-
-                        {!this.state.listItemsView &&
-                            <NewMediaContainer transaction_id={this.state.transaction_id} isLocked={isLocked}/>
-                        }
-
-                        {!this.state.listItemsView && <NewJobFormContainer requesterId={this.props.requesterId}
-                                                                           transaction_id={this.state.transaction_id}
-                                                                           isLocked={isLocked}/>
-                        }
-
-                        {this.state.listItemsView && <ListItemsMasterContainer isLocked={isLocked}
-                                                                               requesterId={this.props.requesterId}
-                                                                               transaction_id={this.state.transaction_id}/>}
-
-
+                    {/* Left container */}
+                    <div className="jobPrepContainerLeft" style={{ width: this.state.listItemsView ? '100%' : '70%' }}>
+                        {/* Render NewMediaContainer if not in listItemsView */}
+                        {!this.state.listItemsView && (
+                            <NewMediaContainer
+                                transaction_id={this.state.transaction_id}
+                                isLocked={isLocked}
+                                disabled={newJobInputsDisabled}
+                            />
+                        )}
+                        {/* Render NewJobFormContainer if not in listItemsView */}
+                        {!this.state.listItemsView && (
+                            <NewJobFormContainer
+                                requesterId={this.props.requesterId}
+                                transaction_id={this.state.transaction_id}
+                                isLocked={isLocked}
+                                disabled={newJobInputsDisabled}
+                            />
+                        )}
+                        {/* Render ListItemsMasterContainer if in listItemsView */}
+                        {this.state.listItemsView && (
+                            <ListItemsMasterContainer
+                                isLocked={isLocked}
+                                requesterId={this.props.requesterId}
+                                transaction_id={this.state.transaction_id}
+                                disabled={newJobInputsDisabled}
+                            />
+                        )}
                     </div>
-
-                    <div className="jobPrepContainerRight"
-                         style={{width: this.state.listItemsView === true ? '0%' : '30%'}}>
-                        {this.state.listItemsView === false ?
-                            <MediaSearcher mediaSearchLoading={this.props.mediaSearchLoading}
-                                           transaction_id={this.state.transaction_id}/> : <div></div>}
-
-
+                    {/* Right container */}
+                    <div className="jobPrepContainerRight" style={{ width: this.state.listItemsView ? '0%' : '30%' }}>
+                        {/* Render MediaSearcher if not in listItemsView */}
+                        {!this.state.listItemsView && (
+                            <MediaSearcher
+                                mediaSearchLoading={this.props.mediaSearchLoading}
+                                transaction_id={this.state.transaction_id}
+                            />
+                        )}
                     </div>
-
                 </div>
-
             </div>
-
-        )
+        );
     }
-
 }
-
-
 function mapStateToProps({
                              mediaSearchReducer,
                              errorsReducer,
