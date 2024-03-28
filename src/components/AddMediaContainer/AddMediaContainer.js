@@ -198,7 +198,7 @@ class NewMediaContainer extends Component {
 
     render() {
         let SourceInput;
-        if (this.state.type === "URL") {
+        if (this.state.type === 'URL') {
             SourceInput = (
                 <Input
                     placeholder="e.x., https://www.youtube.com/watch?v=AAssk2N_oPk"
@@ -208,13 +208,13 @@ class NewMediaContainer extends Component {
                     size="50"
                     maxLength="150"
                     required={true}
-                    disabled={this.props.inputsDisabled}
+                    disabled={this.props.inputsDisabled || this.props.isLocked} // Updated to include isLocked
                     value={this.state.source_location}
                     onChange={this.handleInputChange}
                     onBlur={this.checkSourceUrl}
                 />
             );
-        } else if (this.state.type === "File") {
+        } else if (this.state.type === 'File' || this.state.type === 'DVD') {
             SourceInput = (
                 <Input
                     className="addJobInput"
@@ -223,19 +223,7 @@ class NewMediaContainer extends Component {
                     type="file"
                     onChange={this.checkIfFileExists}
                     required={true}
-                    disabled={this.props.inputsDisabled}
-                />
-            );
-        } else if (this.state.type === "DVD") {
-            SourceInput = (
-                <Input
-                    className="addJobInput"
-                    accept="video/*,audio/*"
-                    name="videoFile"
-                    type="file"
-                    onChange={this.checkIfFileExists}
-                    required={false}
-                    disabled={this.props.inputsDisabled}
+                    disabled={this.props.inputsDisabled || this.props.isLocked} // Updated to include isLocked
                 />
             );
         }
@@ -249,7 +237,7 @@ class NewMediaContainer extends Component {
                                 <label className="newJobLabel">
                                     Video Type:
                                     <Select
-                                        disabled={this.props.inputsDisabled}
+                                        disabled={this.props.inputsDisabled || this.props.isLocked} // Updated to include isLocked
                                         className="videoType"
                                         name="type"
                                         onChange={this.handleInputChange}
@@ -273,7 +261,7 @@ class NewMediaContainer extends Component {
                                         type='text'
                                         size="50"
                                         required={true}
-                                        disabled={this.props.inputsDisabled}
+                                        disabled={this.props.inputsDisabled || this.props.isLocked} // Updated to include isLocked
                                         maxLength="128"
                                         value={this.state.title}
                                         onChange={this.handleInputChange}
@@ -331,7 +319,7 @@ class NewMediaContainer extends Component {
                                     {/* DVD Uploaded and Video info complete */}
                                     {this.state.type === 'DVD' && this.props.inMedia && !this.props.videoSelected && !this.props.filePresent &&
                                         <Button size="small" color="secondary" variant="contained" name="submit"
-                                                type="submit" disabled={false}
+                                                type="submit"
                                                 onClick={this.uploadVideoAndAddToTempJob}>- Upload File</Button>}
 
 
@@ -351,7 +339,6 @@ class NewMediaContainer extends Component {
         )
     }
 
-
     componentDidUpdate(prevProps, prevState, snapshot) {
 
         if (prevProps.transaction_id !== this.props.transaction_id) {
@@ -369,60 +356,51 @@ class NewMediaContainer extends Component {
     }
 
 }
-
-
-function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer, tempFormDataReducer}, {
-    transaction_id,
-    transaction_link,
-    isLocked
-}) {
+function mapStateToProps({ mediaSearchReducer, errorsReducer, tempJobsFormReducer, tempFormDataReducer }, { transaction_id, transaction_link }) {
     let videoSelected = false;
-    let inputsDisabled = transaction_id === ''
-    let filePresent = false
-    let fileUploaded = false
-
+    let inputsDisabled = transaction_id === '';
+    let filePresent = false;
+    let fileUploaded = false;
     let source_location = '';
     let video_title = '';
+    let submitDisabled = mediaSearchReducer.hasOwnProperty(transaction_id) || errorsReducer.hasOwnProperty(transaction_id);
+    let btnClicked = ''; // Add btnClicked state variable
 
-    let submitDisabled = mediaSearchReducer.hasOwnProperty(transaction_id) || errorsReducer.hasOwnProperty(transaction_id)
-
-    if (tempJobsFormReducer[transaction_id]) {
-
-        videoSelected = tempJobsFormReducer[transaction_id].video.hasOwnProperty("id")
-        fileUploaded = tempJobsFormReducer[transaction_id].meta.uploaded
-
+    if (tempJobsFormReducer.length > 0) {
+        // Check if all temporary jobs meet the specified conditions and return true/false
+        const allTempJobsValid = tempJobsFormReducer.every(job => job === true && job > 0);
+        // Update inputsDisabled state based on the condition check
+        if (allTempJobsValid) {
+            inputsDisabled = true;
+        } else {
+            inputsDisabled = false;
+        }
     }
 
+    if (tempJobsFormReducer[transaction_id]) {
+        videoSelected = tempJobsFormReducer[transaction_id].video.hasOwnProperty('id');
+        fileUploaded = tempJobsFormReducer[transaction_id].meta.uploaded;
+    }
 
     if (mediaSearchReducer[transaction_id]) {
         filePresent = mediaSearchReducer[transaction_id].media_objects.some(item => {
-
-                return item.associated_files.sha_256_hash === mediaSearchReducer[transaction_id].sha_256_hash
-            }
-        )
-
+            return item.associated_files.sha_256_hash === mediaSearchReducer[transaction_id].sha_256_hash;
+        });
     }
 
-
     if (Object.keys(tempFormDataReducer).length > 0) {
-        //checking if formvalue exists
-
+        // Check if form value exists
         if (tempFormDataReducer.data.single_source_location != null) {
             source_location = tempFormDataReducer.data.single_source_location;
         }
-
 
         if (tempFormDataReducer.data.single_video_title != null) {
             video_title = tempFormDataReducer.data.single_video_title;
         }
 
-
-        if (tempFormDataReducer.data.btn_clicked === "single") {
-            inputsDisabled = false;
-            isLocked = false;
+        if (tempFormDataReducer.data.btn_clicked === 'single' || tempFormDataReducer.data.btn_clicked === 'add') {
+            btnClicked = tempFormDataReducer.data.btn_clicked; // Set btnClicked based on the button click event
         }
-
-
     }
 
     let inError = errorsReducer.hasOwnProperty(transaction_id);
@@ -434,7 +412,7 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
         tempJobsFormReducer,
         transaction_id,
         transaction_link,
-        isLocked,
+        isLocked: inputsDisabled, // Update isLocked based on inputsDisabled
         submitDisabled,
         inError,
         inMedia,
@@ -443,9 +421,9 @@ function mapStateToProps({mediaSearchReducer, errorsReducer, tempJobsFormReducer
         filePresent,
         fileUploaded,
         source_location,
-        video_title
-
-    }
+        video_title,
+        btnClicked, // Add btnClicked to the returned props
+    };
 }
 
 export default withRouter(connect(mapStateToProps)(NewMediaContainer))

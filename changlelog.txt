@@ -25,3 +25,28 @@ Transaction ID generation and handling.
 Transaction completion and clearing logic.
 Component lifecycle and state updates, especially in response to Redux store changes.
 Button and input disabling logic to ensure proper user interaction flow.
+\
+
+
+work with props ranther then render
+
+dont mess with the main components
+
+
+verfiy if all temp jobs are true and gret than 1 and 0 inorer to disable the form
+dicitoonary keys loops t/f
+arch derive and state ovjects and in component react and childen in maptostate
+
+
+js function that return meet conditions
+
+array.prototype js
+
+prep it go go into find object.key
+
+
+true should lock the inputs false should keep it open in that state find is the way
+
+
+
+wokring on is locked state in mapstateotprops
