@@ -30,14 +30,7 @@ class AddJobControlContainer extends Component {
     render() {
         return (
             <div className="ContentManagementMasterContainer">
-                <div className="control-bar">
-                    <div className="controlBarNavButtons">
-                        <div id="jobManager" role="button" className="navButton">
-                            <button onClick={this.handleSingleRequestClick}>Add Single Request</button>
-                            <button onClick={this.handlePlaylistClick}>Add From Playlist</button>
-                        </div>
-                    </div>
-                </div>
+
                 <div className={"newJobOuterConainer"}>
                     <NewJobMasterContainer
                         singleRequestEnabled={this.state.singleRequestEnabled}
