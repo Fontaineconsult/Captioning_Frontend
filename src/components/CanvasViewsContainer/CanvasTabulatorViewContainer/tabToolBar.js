@@ -107,7 +107,7 @@ class TabToolBar extends Component {
 
                 }
                 {this.selectable() && !this.noTitle() ?
-                    <AddJobModal disabled={false} selected_rows={this.props.selected_rows}
+                    <AddJobModal disabled={false} selected_rows={this.props.selected_rows} // ADD JOB MODAL IS HERE
                                  course_gen_id={this.props.course_gen_id}/> :
                     <AddJobModal disabled={true} selected_rows={this.props.selected_rows}
                                  course_gen_id={this.props.course_gen_id}/>

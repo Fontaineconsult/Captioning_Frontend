@@ -103,6 +103,9 @@ function mapStateToProps({
     let data = []
     let columns = []
 
+    // Aaron, check the data coming in from
+    // videojobsreducer and make sure jobs with a CanvasStudioID are not added to the tabulator.
+    // This uses Tabulator.js, please review documentation.
 
     let formatData = (job) => {
 
