@@ -1,0 +1,4 @@
+.tabulator-container {
+    max-height: 400px; /* Adjust height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
