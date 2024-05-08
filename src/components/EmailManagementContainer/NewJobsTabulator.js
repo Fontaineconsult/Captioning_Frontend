@@ -159,7 +159,7 @@ function mapStateToProps({
             if (videosJobsReducer[job].job_status === "Queued" || videosJobsReducer[job].job_status === "Captioning") {
 
                 if (videosJobsReducer[job].job_added_confirmation_email_sent === false) {
-                    data.push(formatData(videosJobsReducer[job]))
+                    data.push(formatData(videosJobsReducer[job])) // Aaron, check this line. This is where data is pushed into the tabulator list
                 }
 
             }
