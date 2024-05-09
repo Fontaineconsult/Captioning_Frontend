@@ -24,10 +24,10 @@ const useStyles = theme => ({
     },
     buttonContainer: {
         display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: '10px',
+        marginBottom: '10px', // Remove marginBottom to eliminate spacing
     },
 });
+
 
 class AddJobModal extends Component {
     constructor(props) {
