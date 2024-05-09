@@ -21,6 +21,7 @@ import {downloadMediaFile} from "../../actions/ampApi/fetchData";
 import CryptoJS from "crypto-js";
 import {v1 as uuidv1} from "uuid";
 import Modal from "@material-ui/core/Modal";
+import TextField from '@material-ui/core/TextField';
 
 
 const useStyles = theme => ({
@@ -59,6 +60,8 @@ class VideoFileControlsContainer extends Component {
             sha_256_hash: "",
             setOpen: false,
             open: false,
+            customModalOpen: false,
+            customUrl: "",
             modalStyle: this.getModalStyle(),
             audioConvertDisabled: true,
             videoConvertDisabled: true,
@@ -70,35 +73,37 @@ class VideoFileControlsContainer extends Component {
 
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.extractAudioFromVideo = this.extractAudioFromVideo.bind(this)
-        this.extractVideoYTDL = this.extractVideoYTDL.bind(this)
-        this.convertVideoToMp4 = this.convertVideoToMp4.bind(this)
-        this.convertAudioToM4a = this.convertAudioToM4a.bind(this)
-        this.getS3Link = this.getS3Link.bind(this)
-        this.createOpenCaption = this.createOpenCaption.bind(this)
-        this.extractAudioYTDL = this.extractAudioYTDL.bind(this)
-        this.updateMediaSelectState = this.updateMediaSelectState.bind(this)
-        this.updateCaptionSelectState = this.updateCaptionSelectState.bind(this)
-        this.downloadMedia = this.downloadMedia.bind(this)
-        this.setMediaFile = this.setMediaFile.bind(this)
-        this.uploadMediaFile = this.uploadMediaFile.bind(this)
-        this.openCaptionModalContent = this.openCaptionModalContent.bind(this)
-        this.getModalStyle = this.getModalStyle.bind(this)
-        this.setConverterButtons = this.setConverterButtons(this)
+        this.handleCustomModalOpen = this.handleCustomModalOpen.bind(this);
+        this.handleCustomModalClose = this.handleCustomModalClose.bind(this);
+        this.handleUrlChange = this.handleUrlChange.bind(this);
+        this.handleCustomSubmit = this.handleCustomSubmit.bind(this);
+        this.extractAudioFromVideo = this.extractAudioFromVideo.bind(this);
+        this.extractVideoYTDL = this.extractVideoYTDL.bind(this);
+        this.convertVideoToMp4 = this.convertVideoToMp4.bind(this);
+        this.convertAudioToM4a = this.convertAudioToM4a.bind(this);
+        this.getS3Link = this.getS3Link.bind(this);
+        this.createOpenCaption = this.createOpenCaption.bind(this);
+        this.extractAudioYTDL = this.extractAudioYTDL.bind(this);
+        this.updateMediaSelectState = this.updateMediaSelectState.bind(this);
+        this.updateCaptionSelectState = this.updateCaptionSelectState.bind(this);
+        this.downloadMedia = this.downloadMedia.bind(this);
+        this.setMediaFile = this.setMediaFile.bind(this);
+        this.uploadMediaFile = this.uploadMediaFile.bind(this);
+        this.openCaptionModalContent = this.openCaptionModalContent.bind(this);
+        this.getModalStyle = this.getModalStyle.bind(this);
+        this.setConverterButtons = this.setConverterButtons(this);
     }
-
 
     componentDidMount() {
         this.setState({
             ytdlConvertDisabled: this.props.media_type
 
-        })
-
+        });
     }
 
     getModalStyle() {
-        const top = 50
-        const left = 50
+        const top = 50;
+        const left = 50;
         return {
             top: `${top}%`,
             left: `${left}%`,
@@ -107,21 +112,47 @@ class VideoFileControlsContainer extends Component {
     }
 
     handleOpen() {
-
         this.setState({
             temp_id: uuidv1(),
             setOpen: true,
             open: true
-        })
+        });
     };
 
     handleClose() {
         this.setState({
             setOpen: false,
             open: false
-        })
-
+        });
     };
+
+    handleCustomModalOpen() {
+        this.setState({
+            customModalOpen: true
+        });
+    }
+
+    handleCustomModalClose() {
+        this.setState({
+            customModalOpen: false
+        });
+    }
+
+    handleUrlChange(event) {
+        this.setState({customUrl: event.target.value});
+    }
+
+    handleCustomSubmit(format) {
+        const {customUrl} = this.state;
+        if (customUrl) {
+
+            this.props.dispatch(sendVideoExtractRequestDeferred(this.props.mediaId, customUrl, format));
+            this.setState({
+                customModalOpen: false,
+                customUrl: ""
+            });
+        }
+    }
 
     updateMediaSelectState(event) {
         let file_type = event.label.split('.').pop();
@@ -141,31 +172,26 @@ class VideoFileControlsContainer extends Component {
                 audioConvertDisabled: false,
                 OcDisabled: true,
                 s3linkDisabled: false
-            })
+            });
 
             if (Object.keys(this.props.captionFiles).length > 0) {
                 this.setState({
                     OcDisabled: false,
-                })
-
+                });
             }
-
         }
 
         if (file_type === 'm4a' || file_type === 'mp3' || file_type === 'wav' || file_type === 'wma') {
-
             this.setState({
                 audioConvertDisabled: false,
                 videoConvertDisabled: true,
                 OcDisabled: true,
                 s3linkDisabled: false
-
-            })
+            });
         }
     }
 
     updateCaptionSelectState(event) {
-
         this.setState({
             captionSelect: event
         });
@@ -173,36 +199,27 @@ class VideoFileControlsContainer extends Component {
 
     // Convert
     convertVideoToMp4() {
-        //media_file_id media_id task
-
-        this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'convert-video'))
-
+        this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'convert-video'));
     }
 
     extractAudioFromVideo() {
-        console.log("START", this.state.media_select.value, this.props.mediaId,)
-        this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'extract-audio'))
-
+        this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'extract-audio'));
     }
 
     convertAudioToM4a() {
-
-
-        this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'extract-audio'))
-
+        this.props.dispatch(sendVideoConversionRequestDeferred(this.state.media_select.value, this.props.mediaId, 'extract-audio'));
     }
 
     // YouTubeDL
     extractVideoYTDL() {
         if (this.props.media.media_type === 'URL') {
-            this.props.dispatch(sendVideoExtractRequestDeferred(this.props.mediaId, this.props.media.source_url, 'mp4'))
+            this.props.dispatch(sendVideoExtractRequestDeferred(this.props.mediaId, this.props.media.source_url, 'mp4'));
         }
     }
 
-
     extractAudioYTDL() {
         if (this.props.media.media_type === 'URL') {
-            this.props.dispatch(sendVideoExtractRequestDeferred(this.props.mediaId, this.props.media.source_url, 'm4a'))
+            this.props.dispatch(sendVideoExtractRequestDeferred(this.props.mediaId, this.props.media.source_url, 'm4a'));
         }
     }
 
@@ -211,76 +228,61 @@ class VideoFileControlsContainer extends Component {
         this.setState({
             s3Resources: event
         });
-        this.props.dispatch(getS3Link(this.state.media_select.value))
-
+        this.props.dispatch(getS3Link(this.state.media_select.value));
     }
 
     // Open Caption
     createOpenCaption() {
-
         this.props.dispatch(sendOpenCaptionRequestDeferred(this.props.mediaId,
-            this.state.media_select.value, this.state.captionSelect.caption_id))
-
+            this.state.media_select.value, this.state.captionSelect.caption_id));
     }
 
     // Download / Upload
     downloadMedia() {
-
-        this.props.dispatch(downloadMediaFile(this.state.media_select.value, this.props.mediaId))
+        this.props.dispatch(downloadMediaFile(this.state.media_select.value, this.props.mediaId));
     }
 
     setMediaFile(event) {
-
         document.getElementById('mediaFileUpload').click();
         document.getElementById('mediaFileUpload').onchange = () => {
-
-            let fileReader = new FileReader()
+            let fileReader = new FileReader();
 
             fileReader.onload = (completionEvent) => {
-                let slicedFile = fileReader.result.slice(0, 1024)
-                let wordArray = CryptoJS.lib.WordArray.create(slicedFile)
-                let fileHash = CryptoJS.SHA256(wordArray).toString()
+                let slicedFile = fileReader.result.slice(0, 1024);
+                let wordArray = CryptoJS.lib.WordArray.create(slicedFile);
+                let fileHash = CryptoJS.SHA256(wordArray).toString();
 
-                // this.props.dispatch(removeErrorState(this.props.transaction_id));
-                // this.props.dispatch(clearMediaSearch(this.props.transaction_id));
-                // this.props.dispatch(fetchMediaByShaHash(fileHash, this.props.transaction_id))
                 this.setState({
                     sha_256_hash: fileHash,
-                })
+                });
+            };
 
-            }
-
-
-            fileReader.readAsArrayBuffer(document.getElementById('mediaFileUpload').files[0])
-            let type = document.getElementById('mediaFileUpload').files[0].type
-            let blobFile = new Blob([document.getElementById('mediaFileUpload').files[0]], {type: type})
+            fileReader.readAsArrayBuffer(document.getElementById('mediaFileUpload').files[0]);
+            let type = document.getElementById('mediaFileUpload').files[0].type;
+            let blobFile = new Blob([document.getElementById('mediaFileUpload').files[0]], {type: type});
             this.setState({
                 mediaFileUpload: blobFile,
                 content_type: type,
                 media_temp_id: uuidv1()
             });
         }
-
     }
 
     uploadMediaFile(event) {
-
-        this.props.dispatch(uploadMediaFromJobView(this.state.mediaFileUpload, this.props.mediaId, this.state.cap_temp_id, this.state.content_type, this.state.sha_256_hash))
+        this.props.dispatch(uploadMediaFromJobView(this.state.mediaFileUpload, this.props.mediaId, this.state.cap_temp_id, this.state.content_type, this.state.sha_256_hash));
         this.setState({
             mediaFileUpload: "",
             content_type: ""
-        })
-
+        });
     }
 
     setConverterButtons() {
         if (this.state.media_select !== '') {
             this.setState({
                 videoConvertDisabled: false
-            })
+            });
         }
     }
-
 
     openCaptionModalContent() {
         return (<div style={this.state.modalStyle} className={this.props.classes.paper}>
@@ -289,15 +291,13 @@ class VideoFileControlsContainer extends Component {
             </Select>
             <Button disabled={false} name={"extract_video"} size={"small"} onClick={this.createOpenCaption}>Create Open
                 Caption</Button>
-        </div>)
+        </div>);
     }
 
-
     render() {
-        let downloadMediaDisabled = this.state.media_select === ''
+        let downloadMediaDisabled = this.state.media_select === '';
 
         return (
-
             <div className={"videoFileControlsContainer"}>
                 <label className="capJobMediaContentContainer">
                     <div className="mediaContentDescriptor">
@@ -333,7 +333,23 @@ class VideoFileControlsContainer extends Component {
                     </div>
                     <div><Button disabled={this.state.ytdlConvertDisabled} name={"extract_video_ytl"} size={"small"}
                                  onClick={this.extractVideoYTDL}>mp4</Button></div>
-
+                    <div><Button name={"custom"} size={"small"} onClick={this.handleCustomModalOpen}>Custom</Button>
+                        <Modal open={this.state.customModalOpen} onClose={this.handleCustomModalClose}>
+                            <div style={this.getModalStyle()} className={this.props.classes.paper}>
+                                <h2>Enter Video URL</h2>
+                                <TextField
+                                    label="Video URL"
+                                    value={this.state.customUrl}
+                                    onChange={this.handleUrlChange}
+                                    fullWidth
+                                />
+                                <div style={{marginTop: '20px'}}>
+                                    <Button onClick={() => this.handleCustomSubmit('m4a')}>Extract Audio (m4a)</Button>
+                                    <Button onClick={() => this.handleCustomSubmit('mp4')}>Extract Video (mp4)</Button>
+                                </div>
+                            </div>
+                        </Modal>
+                    </div>
                 </div>
                 <div className={"extractorButtonsContainer"}>
                     <label style={{'margin-right': '37px'}}>Links:</label>
@@ -361,56 +377,50 @@ class VideoFileControlsContainer extends Component {
                     </div>
                 </div>
             </div>
-
         )
     }
 }
 
-
 function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer,}, {mediaId}) {
-
-    let media = mediaReducer[mediaId]
-    let fileObject = null
-    let download_url = null
-    let s3Resources
-    let captionFiles
-    let media_type = true
+    let media = mediaReducer[mediaId];
+    let fileObject = null;
+    let download_url = null;
+    let s3Resources;
+    let captionFiles;
+    let media_type = true;
 
     if (media !== undefined) {
         if (media.media_type === 'File') {
             fileObject = media.media_objects.find(item => {
-                return item.associated_files.sha_256_hash === media.sha_256_hash
-            })
+                return item.associated_files.sha_256_hash === media.sha_256_hash;
+            });
         }
 
         if (media.media_type === 'URL') {
-            media_type = false
+            media_type = false;
         }
 
         if (fileObject) {
-            let endpoint = fileDownloadUrl()
-            download_url = `${endpoint}?media_id=${media.id}`
+            let endpoint = fileDownloadUrl();
+            download_url = `${endpoint}?media_id=${media.id}`;
         }
 
         if (Object.keys(mediaReducer).length > 0) {
-            media = mediaReducer[mediaId]
+            media = mediaReducer[mediaId];
 
             s3Resources = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
                 if (currentValue.associated_files !== null) {
-
                     accumulator.push({
                         value: currentValue.associated_files.id,
                         label: currentValue.associated_files.file_name,
-                    })
+                    });
                 }
-
-
-                return accumulator
-            }, [])
+                return accumulator;
+            }, []);
         }
 
         if (Object.keys(mediaReducer).length > 0) {
-            media = mediaReducer[mediaId]
+            media = mediaReducer[mediaId];
 
             captionFiles = mediaReducer[mediaId].media_objects.reduce((accumulator, currentValue) => {
                 if (currentValue.associated_captions !== null) {
@@ -419,14 +429,13 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer,}, {
                         value: currentValue.associated_captions.file_name,
                         label: currentValue.associated_captions.file_name,
                         association_id: currentValue.id
-                    })
+                    });
                 }
-                return accumulator
-            }, [])
+                return accumulator;
+            }, []);
         }
 
-        console.log("s3 resources ", s3Resources)
-
+        console.log("s3 resources ", s3Resources);
     }
 
     return {
@@ -440,5 +449,4 @@ function mapStateToProps({loadingStatusReducer, errorsReducer, mediaReducer,}, {
     }
 }
 
-
-export default withRouter(connect(mapStateToProps)(withStyles(useStyles, {withTheme: true})(VideoFileControlsContainer)))
+export default withRouter(connect(mapStateToProps)(withStyles(useStyles, {withTheme: true})(VideoFileControlsContainer)));
