@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {withRouter} from "react-router";
-import {connect} from "react-redux";
+import React, { Component } from 'react';
+import { withRouter } from "react-router";
+import { connect } from "react-redux";
 import "../../css/users.css"
 import EmailTemplatesContainer from "./EmailTemplatesContainer";
 import ReadyJobsEmailContainer from "./ReadyJobsEmailContainer";
@@ -13,47 +13,36 @@ class SendEmailsContainer extends Component {
         this.state = {};
     }
 
-
     render() {
-
         return (
-            <div style={{height: "82vh"}}>
-                <div className={"scroll-inside-div"}>
-                    <div className="masterListItem masterListUser">
-                        <div style={{"marginBottom": "10px"}} className={"emp-display-container"}>
-                            <div className={"emp-display-title"}>
-                                <div style={{"fontWeight": "600"}}>
-                                    Templates
-                                </div>
-                            </div>
-                            <EmailTemplatesContainer/>
+            <div style={{ height: "100%", overflowY: "auto" }}>
+                <div className="masterListItem masterListUser">
+                    <div style={{ marginBottom: "20px" }} className="emp-display-container">
+                        <div className="emp-display-title" style={{ fontWeight: "600" }}>
+                            Templates
                         </div>
-                        <div className={"emp-display-container"}>
-                            <div className={"emp-display-title"}>
-                                <div style={{"fontWeight": "600"}}>Current Queues</div>
-                            </div>
-                            <NewJobsContainer/>
+                        <EmailTemplatesContainer />
+                    </div>
+                    <div style={{ marginBottom: "20px" }} className="emp-display-container">
+                        <div className="emp-display-title" style={{ fontWeight: "600" }}>
+                            Current Queues
                         </div>
-                        <div className={"emp-display-container"}>
-                            <div className={"emp-display-title"}>
-                                <div style={{"fontWeight": "600"}}>Current Queues</div>
-                            </div>
-                            <ReadyJobsEmailContainer/>
+                        <NewJobsContainer />
+                    </div>
+                    <div className="emp-display-container">
+                        <div className="emp-display-title" style={{ fontWeight: "600" }}>
+                            Current Queues
                         </div>
-
+                        <ReadyJobsEmailContainer />
                     </div>
                 </div>
             </div>
         )
     }
-
 }
 
-
-function mapStateToProps({employeesReducer, requesterReducer, campusOrgReducer}, {props}) {
-
-
+function mapStateToProps({ employeesReducer, requesterReducer, campusOrgReducer }, { props }) {
     return {}
 }
 
-export default withRouter(connect(mapStateToProps)(SendEmailsContainer))
+export default withRouter(connect(mapStateToProps)(SendEmailsContainer));

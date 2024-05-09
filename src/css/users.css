@@ -113,3 +113,21 @@
 .scroll-container {
     height: 86vh;
 }
+.emp-display-container {
+    margin: 20px auto; /* Center the container */
+    width: 80%; /* Adjust width to occupy 80% of the viewport width */
+    max-width: 1200px; /* Set maximum width */
+    background-color: #fafafb;
+    border: 1px solid #282c34;
+    border-radius: 2px;
+}
+
+.stu-display-container {
+    margin: 20px auto; /* Center the container */
+    width: 80%; /* Adjust width to occupy 80% of the viewport width */
+    max-width: 1200px; /* Set maximum width */
+    background-color: #fafafb;
+    border: 1px solid #282c34;
+    border-radius: 2px;
+    height: auto; /* Remove fixed height */
+}
