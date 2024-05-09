@@ -57,7 +57,7 @@ class NewJobsTabulator extends Component {
         this.tabulator = new Tabulator(this.el, {
             columns: columns,
             layout: "fitColumns",
-            data: this.props.data,
+            data: this.props.data.filter(job => !job.CanvasStudioID), // Filter out Canvas Studio jobs
             reactiveData: true,
         });
     }
@@ -65,7 +65,7 @@ class NewJobsTabulator extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         // Replace Tabulator data when there's an update in Redux state
         if (JSON.stringify(prevProps.videosJobsReducer) !== JSON.stringify(this.props.videosJobsReducer)) {
-            this.tabulator.replaceData(this.props.data);
+            this.tabulator.replaceData(this.props.data.filter(job => !job.CanvasStudioID)); // Filter out Canvas Studio jobs
         }
     }
 
@@ -122,6 +122,7 @@ function mapStateToProps({
             employee_name: employeesReducer[employee_id].employee_first_name + " " + employeesReducer[employee_id].employee_last_name,
             employee_email: employeesReducer[employee_id].employee_email,
             media_title: job.media.title,
+            CanvasStudioID: job.CanvasStudioID // Include Canvas Studio ID in data
         };
     };
 
