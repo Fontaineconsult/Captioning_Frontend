@@ -6,7 +6,7 @@ export const fileDownloadUrl = () => ("http://localhost:5000/api/v2/captioning/s
 export const astJobURL = () =>  ("https://web.automaticsync.com/show_details.php?show_id=")
 export const devServerUrl = () => ("http://localhost:5000")
 export const deployURL = () => ("https://amp.sfsu.edu")
-export const currentSemester = () => ("sp24")
+export const currentSemester = () => ("su24")
 
 
 function environment(value) {
