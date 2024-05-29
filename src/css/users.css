@@ -81,3 +81,9 @@
     height: auto; /* Remove fixed height */
     overflow-y: auto; /* Enable vertical scrolling */
 }
+body::-webkit-scrollbar {
+    display: none;
+}
+.element {
+     margin: 10px;
+ }

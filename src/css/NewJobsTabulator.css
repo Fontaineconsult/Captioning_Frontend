@@ -2,3 +2,14 @@
     max-height: 400px; /* Adjust height as needed */
     overflow-y: auto; /* Enable vertical scrolling */
 }
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.element {
+    margin: 10px;
+}
+
+body {
+    padding-bottom: 10px; /* Adjust this value according to the height of your footer */
+}

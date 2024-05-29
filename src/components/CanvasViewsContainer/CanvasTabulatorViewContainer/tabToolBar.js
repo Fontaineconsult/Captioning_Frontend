@@ -11,7 +11,6 @@ import clipboardCopy from "clipboard-copy";
 const styles = {
     toolbarContainer: {
         display: 'flex',
-        justifyContent: 'space-between',
         alignItems: 'center',
         overflowX: 'auto',
         padding: '10px',

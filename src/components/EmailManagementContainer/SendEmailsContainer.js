@@ -15,33 +15,37 @@ class SendEmailsContainer extends Component {
 
     render() {
         return (
-            <div style={{ height: "100%", overflowY: "auto" }}>
+            <div style={{height: "100%", overflowY: "auto"}}>
                 <div className="masterListItem masterListUser">
-                    <div style={{ marginBottom: "20px" }} className="emp-display-container">
-                        <div className="emp-display-title" style={{ fontWeight: "600" }}>
+                    <div style={{marginBottom: "20px"}} className="emp-display-container">
+                        <div className="emp-display-title" style={{fontWeight: "600"}}>
                             Templates
                         </div>
-                        <EmailTemplatesContainer />
+                        <EmailTemplatesContainer/>
                     </div>
-                    <div style={{ marginBottom: "20px" }} className="emp-display-container">
-                        <div className="emp-display-title" style={{ fontWeight: "600" }}>
+                    <div style={{marginBottom: "20px"}} className="emp-display-container">
+                        <div className="emp-display-title" style={{fontWeight: "600"}}>
                             Current Queues
                         </div>
-                        <NewJobsContainer />
+                        <NewJobsContainer/>
                     </div>
                     <div className="emp-display-container">
-                        <div className="emp-display-title" style={{ fontWeight: "600" }}>
+                        <div className="emp-display-title" style={{fontWeight: "600"}}>
                             Current Queues
                         </div>
-                        <ReadyJobsEmailContainer />
+                        <ReadyJobsEmailContainer/>
+
                     </div>
                 </div>
+                <footer className="footer">
+                    <p>Copyright</p>
+                </footer>
             </div>
         )
     }
 }
 
-function mapStateToProps({ employeesReducer, requesterReducer, campusOrgReducer }, { props }) {
+function mapStateToProps({employeesReducer, requesterReducer, campusOrgReducer }, { props }) {
     return {}
 }
 
