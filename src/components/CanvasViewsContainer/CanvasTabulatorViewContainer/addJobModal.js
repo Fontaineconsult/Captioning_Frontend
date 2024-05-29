@@ -22,11 +22,9 @@ const useStyles = theme => ({
         overflowY: 'auto', //  overflow property to handle vertical overflow
         maxHeight: '80vh', // Set max height to manage vertical overflow
     },
-    buttonContainer: {
-        display: 'flex',
-        marginBottom: '10px', // Remove marginBottom to eliminate spacing
-    },
+
 });
+
 
 
 class AddJobModal extends Component {

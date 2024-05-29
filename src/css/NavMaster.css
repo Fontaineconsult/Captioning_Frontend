@@ -34,7 +34,9 @@
     height: 97%
 
 }
-
+.element {
+    margin: 10px;
+}
 .NavUpperContainer {
     position: relative;
     max-height: 40px;
@@ -149,4 +151,7 @@
     padding-top: 5px;
     margin-left: 5vw;
 
+}
+.navbar {
+    z-index: 1000;
 }
