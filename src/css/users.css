@@ -4,42 +4,28 @@
     width: 50%;
     margin-left: auto;
     margin-right: auto;
-
-
 }
 
 .masterListUser {
     margin-top: 10px;
     display: block;
-
 }
-
-/*.emp-top {*/
-/*    margin-top: 50px;*/
-/*    margin-bottom: 50px;*/
-
-
-/*}*/
 
 .emp-display-title {
     background-color: #e5e5e5;
     box-sizing: content-box;
     padding: 5px;
-
 }
 
 .emp-display-container {
-    /*padding-top: 5px;*/
-    /*padding-bottom: 5px;*/
-    margin-left: 10%;
-    margin-right: 10%;
+    margin: 20px auto; /* Center the container */
+    width: 80%; /* Adjust width to occupy 80% of the viewport width */
+    max-width: 1200px; /* Set maximum width */
     background-color: #fafafb;
-    border-color: #282c34;
-    border-style: solid;
-    border-width: 1px;
+    border: 1px solid #282c34;
     border-radius: 2px;
+    overflow-y: auto; /* Enable vertical scrolling */
 }
-
 
 .emp-input {
     -webkit-align-items: center;
@@ -75,7 +61,6 @@
     margin-bottom: 10px;
 }
 
-
 .emp-checkbox {
     width: 40px;
     height: 40px;
@@ -87,29 +72,16 @@
 }
 
 .stu-display-container {
-    margin-bottom: 10px;
-    margin-left: 20%;
-    margin-right: 20%;
-    background-color: #fafafb;
-    border-color: #282c34;
-    border-style: solid;
-    border-width: 1px;
+    margin: 20px auto; /* Center the container */
+    width: 80%; /* Adjust width to occupy 80% of the viewport width */
+    max-width: 1200px; /* Set maximum width */
     border-radius: 2px;
-    height: 550px;
+    height: auto; /* Remove fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
-
-.stu-scroll-container {
-    /*height: 650px;*/
-    /*overflow-y: scroll;*/
-    scroll-behavior: smooth;
+body::-webkit-scrollbar {
+    display: none;
 }
-
-.scroll-inside-div {
-    overflow-y: scroll;
-    height: 95%;
-
-}
-
-.scroll-container {
-    height: 86vh;
-}
+.element {
+     margin: 10px;
+ }
