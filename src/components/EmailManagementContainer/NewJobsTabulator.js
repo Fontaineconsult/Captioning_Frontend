@@ -162,5 +162,3 @@ function mapStateToProps({
 }
 
 export default withRouter(connect(mapStateToProps)(NewJobsTabulator));
-
-export default withRouter(connect(mapStateToProps)(NewJobsTabulator))
