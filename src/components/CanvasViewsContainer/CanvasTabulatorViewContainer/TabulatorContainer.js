@@ -25,7 +25,6 @@ class CanvasTabulatorContainer extends Component {
             selected_rows: []
         };
 
-
         this.SubmitButton = this.SubmitButton.bind(this);
         this.ClosedCaptionLink = this.ClosedCaptionLink.bind(this);
         this.IsCaptionedButton = this.IsCaptionedButton.bind(this);
@@ -34,9 +33,7 @@ class CanvasTabulatorContainer extends Component {
         this.submitCap = this.submitCap.bind(this);
         this.submitCapStatus = this.submitCapStatus.bind(this);
         this.checkBoxFunction = this.checkBoxFunction.bind(this);
-        this.cellClick = this.cellClick.bind(this)
-        this.IsChecked = this.IsChecked.bind(this)
-
+        this.IsChecked = this.IsChecked.bind(this);
 
         this.el = React.createRef();
         this.tabulator = null;
@@ -90,65 +87,39 @@ class CanvasTabulatorContainer extends Component {
     };
 
     checkBoxFunction(e, cellData) {
-
-
         if (e.type === "click") {
-
             if (cellData.cell._cell.row.modules.select.selected === false) {
                 cellData.cell._cell.table.selectRow(cellData.cell._cell.row.data.id);
-
-                let test = cellData.cell._cell.table.getSelectedRows();
-
-                this.setState({selected_rows: test})
-
             } else {
                 cellData.cell._cell.table.deselectRow(cellData.cell._cell.row.data.id);
-
-                let test = cellData.cell._cell.table.getSelectedRows();
-
-                this.setState({selected_rows: test})
-
             }
-
+            let selectedRows = cellData.cell._cell.table.getSelectedRows();
+            this.setState({ selected_rows: selectedRows });
         }
-
     };
 
-    IsCaptionedButton(props) {
+    // Method to submit captioning status
+    submitCapStatus(e, cellData) {
+        e.preventDefault();
+        let captionStatus = tabFuncs.capStatToggle2(cellData._cell.value);
+        this.props.dispatch(updateCanvasVideo(cellData._cell.row.data.id, cellData._cell.column.field, captionStatus))
+            .then(() => {
+                // Update selected rows state and force re-render
+                let selectedRows = this.tabulator.getSelectedRows();
+                this.setState({ selected_rows: selectedRows });
+            });
+    };
 
-        const cellData = props.cell;
-        let disabled = this.state.selected_rows.length > 0 // broken not sure why ,switch back to this.state.selected_rows
-
-        if (cellData._cell.value === false) {
-            if (disabled) {
-                return <Button size="small" color="secondary" disabled>Unavailable</Button>;
-            } else {
-                return <Button size="small" color="secondary"
-                               onClick={e => this.submitCapStatus(e, cellData)}>Unavailable</Button>;
-            }
-        }
-
-        if (cellData._cell.value === true) {
-
-            if (disabled) {
-                return <Button size="small" color="primary" disabled>Available</Button>;
-            } else {
-                return <Button size="small" color="primary"
-                               onClick={e => this.submitCapStatus(e, cellData)}>Available</Button>;
-            }
-        }
-
-        if (cellData._cell.value === null) {
-
-            if (disabled) {
-                return <Button size="small" color="tertiary" disabled>Unknown</Button>;
-            } else {
-                return <Button size="small" color="tertiary"
-                               onClick={e => this.submitCapStatus(e, cellData)}>Unknown</Button>;
-            }
-        }
-
-
+    // Method to submit captioning
+    submitCap(e, cellData) {
+        e.preventDefault();
+        let submitCapStatus = tabFuncs.capSubmitToggle(cellData._cell.value);
+        this.props.dispatch(updateCanvasVideo(cellData._cell.row.data.id, cellData._cell.column.field, submitCapStatus))
+            .then(() => {
+                // Update selected rows state and force re-render
+                let selectedRows = this.tabulator.getSelectedRows();
+                this.setState({ selected_rows: selectedRows });
+            });
     };
 
     dataEditedFunc(cellData) {
@@ -354,7 +325,6 @@ class CanvasTabulatorContainer extends Component {
     }
 
     render() {
-
         return (
             <div className={"tabMainContainer"}>
                 <div className={"tabUpperContainer"}>
@@ -365,10 +335,10 @@ class CanvasTabulatorContainer extends Component {
                 <div className={"tabLowerContainer"}>
                     <div ref={el => (this.el = el)}/>
                 </div>
-
             </div>
-        )
+        );
     }
+
 
 }
 
