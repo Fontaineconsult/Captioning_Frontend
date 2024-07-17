@@ -140,13 +140,14 @@ class CanvasTabulatorContainer extends Component {
                 hozAlign: "center",
                 formatter: reactFormatter(<this.IsCaptionedButton/>)
             },
-            {
-                title: "CC",
-                width: 75,
-                field: "captioned_link",
-                hozAlign: "center",
-                formatter: reactFormatter(<this.ClosedCaptionLink/>)
-            },
+            // Removing because we are not using this feature
+            // {
+            //     title: "CC",
+            //     width: 75,
+            //     field: "captioned_link",
+            //     hozAlign: "center",
+            //     formatter: reactFormatter(<this.ClosedCaptionLink/>)
+            // },
             {
                 title: "Parent",
                 width: 95,
