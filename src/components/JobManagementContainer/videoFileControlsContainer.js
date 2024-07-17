@@ -145,8 +145,8 @@ class VideoFileControlsContainer extends Component {
     handleCustomSubmit(format) {
         const {customUrl} = this.state;
         if (customUrl) {
-
-            this.props.dispatch(sendVideoExtractRequestDeferred(this.props.mediaId, customUrl, format));
+            const media_id = uuidv1(); // Generate or get the appropriate media_id
+            this.props.dispatch(sendVideoExtractRequestDeferred(media_id, customUrl, format));
             this.setState({
                 customModalOpen: false,
                 customUrl: ""
