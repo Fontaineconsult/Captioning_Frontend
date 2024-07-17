@@ -24,7 +24,7 @@
     background-color: #fafafb;
     border: 1px solid #282c34;
     border-radius: 2px;
-    overflow-y: auto; /* Enable vertical scrolling */
+    /* overflow-y: auto;  Remove this property to fix the "Assign Employee" feature */
 }
 
 .emp-input {
