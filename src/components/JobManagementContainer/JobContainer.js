@@ -380,7 +380,7 @@ function mapStateToProps({errorsReducer, videosJobsReducer, mediaReducer, reques
     }
 
     function capActiveFunc(element, index, array) {
-        return element.student_requests_captioning === true
+        return element.student_requests_captioning === true || element.student_requests_described_video === true
     }
 
     let student_active = 1
