@@ -152,7 +152,7 @@ class JobContainer extends Component {
             this.setState({
                 comments: r.comments,
                 job_status: r.job_status,
-                captioning_job_id: r.jobId,
+                captioning_job_id: this.props.jobId,
                 output_format: r.output_format,
                 priority: r.priority,
                 request_date: r.request_date,
