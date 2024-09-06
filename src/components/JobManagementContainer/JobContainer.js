@@ -45,7 +45,8 @@ class JobContainer extends Component {
             employee_first_name:'',
             employee_last_name:'',
             ast_job_id: 'Not Used',
-            isFocused: false
+            isFocused: false,
+            captioning_job_id: '',
 
         };
 
@@ -151,6 +152,7 @@ class JobContainer extends Component {
             this.setState({
                 comments: r.comments,
                 job_status: r.job_status,
+                captioning_job_id: r.jobId,
                 output_format: r.output_format,
                 priority: r.priority,
                 request_date: r.request_date,
@@ -184,9 +186,12 @@ class JobContainer extends Component {
                             {this.props.student_active === false && (<div className={"noStudentEnrolled"}><b>NO STUDENT ENROLLED</b></div>)}
                         </div>
                         <div className="upperJobContainerRight">
-                            <div tabIndex={0} className="upperJobContainerRightContent">Requester: {this.state.employee_first_name} {this.state.employee_last_name} </div>
-                            <div tabIndex={0} className="upperJobContainerRightContent">Email: {this.state.employee_email}</div>
+                            <div tabIndex={0}
+                                 className="upperJobContainerRightContent">Requester: {this.state.employee_first_name} {this.state.employee_last_name} </div>
+                            <div tabIndex={0}
+                                 className="upperJobContainerRightContent">Email: {this.state.employee_email}</div>
                             <div className="upperJobContainerRightContent">RID: {this.state.requester_id}</div>
+                            <div className="upperJobContainerRightContent">Job ID: {this.state.captioning_job_id}</div>
                             <div className={'deleteJobIcon'}><ClearIcon onClick={this.deleteRecord}/></div>
                         </div>
                     </div>
